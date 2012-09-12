@@ -1,0 +1,9 @@
+!SESSION 2012-09-12 10:10:53.722 -----------------------------------------------
+eclipse.buildId=M20100211-1343
+java.version=1.7.0_07
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data D:\mis documen\JAVI\UNGS\Tecnicatura Superior en Informática\Laboratorio de Construccion de Software- 2°S.2012\Proyecto\laboratorio-ungs\maGESTIc
+
+!ENTRY org.eclipse.osgi 2 1 2012-09-12 10:12:42.501
+!MESSAGE NLS unused message: LaunchConfigurationTabGroupViewer_9 in: org.eclipse.debug.internal.ui.launchConfigurations.LaunchConfigurationsMessages
