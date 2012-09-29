@@ -10,6 +10,22 @@ public class Main_BD {
 	public static void main(String[] args) {
         MySQLBD baseDatos = new MySQLBD().conectar();
         
+        ResultSet resultados = baseDatos.consultar("select * from orden_trabajo");
+        
+        if (resultados != null) {
+            try {
+                System.out.println("ATRIBUTOSSSSSSSSS");
+                System.out.println("--------------------------------");
+                while (resultados.next()) {
+                    System.out.println(""+resultados.getBigDecimal("id_orden_trabajo")+"       "+resultados.getString("nombre_trabajo"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
+        /*
         if (baseDatos.ejecutar("INSERT INTO TEST(IDENTIFICADOR,DESCRIPCION) VALUES(3,'TRES')")) {
             System.out.println("Ejecucion correcta!");
         } else {
@@ -52,7 +68,7 @@ public class Main_BD {
         
         
         //baseDatos.consultar("select * from persona");
-        
+        */
     }
 
 }
