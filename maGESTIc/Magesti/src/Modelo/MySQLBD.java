@@ -14,10 +14,11 @@ public class MySQLBD {
         this.conexion = conexion;
     }
 
+    //baseDatos: Magesti - User: tp_labo - pass: laboratorio
     public MySQLBD conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String BaseDeDatos = "jdbc:mysql://localhost/javi?user=javi&password=12345";
+            String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=tp_labo&password=laboratorio";
             setConexion(DriverManager.getConnection(BaseDeDatos));
             if(getConexion() != null){
                 System.out.println("Conexion Exitosa!");
