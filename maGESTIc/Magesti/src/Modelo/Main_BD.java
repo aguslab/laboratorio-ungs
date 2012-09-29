@@ -6,11 +6,16 @@ public class Main_BD {
 
 	/**
 	 * @param args
+	 * @return 
 	 */
+	
+	
+	
 	public static void main(String[] args) {
         MySQLBD baseDatos = new MySQLBD().conectar();
         
-        ResultSet resultados = baseDatos.consultar("select * from orden_trabajo");
+        
+        /*ResultSet resultados = baseDatos.consultar("select * from orden_trabajo");
         
         if (resultados != null) {
             try {
