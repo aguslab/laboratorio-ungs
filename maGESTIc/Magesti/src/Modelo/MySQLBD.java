@@ -36,7 +36,6 @@ public class MySQLBD
         } 
         catch (Exception e) 
         {
-        	System.out.println("adasdasdasd");
             e.printStackTrace();
         }
         return this;
