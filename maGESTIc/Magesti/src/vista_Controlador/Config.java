@@ -1,4 +1,4 @@
-package vista_Controlador.Magesti;
+package vista_Controlador;
 
 public interface Config 
 {

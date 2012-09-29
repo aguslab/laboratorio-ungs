@@ -1,4 +1,4 @@
-package vista_Controlador.Magesti;
+package vista_Controlador;
 import java.beans.*;
 import javax.swing.*;
 
