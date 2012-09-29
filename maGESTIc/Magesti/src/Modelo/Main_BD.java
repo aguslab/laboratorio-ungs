@@ -2,7 +2,8 @@ package Modelo;
 
 import java.sql.ResultSet;
 
-public class Main_BD {
+public class Main_BD 
+{
 
 	/**
 	 * @param args
@@ -11,20 +12,26 @@ public class Main_BD {
 	
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
         MySQLBD baseDatos = new MySQLBD().conectar();
         
         
         /*ResultSet resultados = baseDatos.consultar("select * from orden_trabajo");
         
-        if (resultados != null) {
-            try {
+        if (resultados != null) 
+        {
+            try 
+            {
                 System.out.println("ATRIBUTOSSSSSSSSS");
                 System.out.println("--------------------------------");
-                while (resultados.next()) {
+                while (resultados.next()) 
+                {
                     System.out.println(""+resultados.getBigDecimal("id_orden_trabajo")+"       "+resultados.getString("nombre_trabajo"));
                 }
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 e.printStackTrace();
             }
         }
@@ -39,14 +46,19 @@ public class Main_BD {
 
         ResultSet resultados = baseDatos.consultar("SELECT * FROM TEST where descripcion='tres'");
 
-        if (resultados != null) {
-            try {
+        if (resultados != null) 
+        {
+            try 
+            {
                 System.out.println("IDENTIFICADOR       DESCRIPCION");
                 System.out.println("--------------------------------");
-                while (resultados.next()) {
+                while (resultados.next()) 
+                {
                     System.out.println(""+resultados.getBigDecimal("IDENTIFICADOR")+"       "+resultados.getString("DESCRIPCION"));
                 }
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 e.printStackTrace();
             }
         }
