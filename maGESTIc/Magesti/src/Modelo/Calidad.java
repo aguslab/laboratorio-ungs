@@ -7,8 +7,6 @@ public class Calidad
 	private Integer id_calidad;
 	private String nombre;
 	
-	static MySQLBD baseDatos = new MySQLBD().conectar();
-	
 	public Calidad(String nombre) 
 	{
 		super();
@@ -44,17 +42,17 @@ public class Calidad
 	
 	public boolean Alta()
 	{
-		//Integer id_cal = calidad.getId_calidad();
-		String nom = getNombre();
-		
-		if (baseDatos.ejecutar("INSERT INTO calidad VALUES(DEFAULT,"+ "'"+nom+"'"+ ");"))
+		String nom = this.getNombre();
+
+		if (ConexionDB.baseDatos
+				.ejecutar("INSERT INTO formato_papel VALUES(default," + nom + ");")) 
 		{
-            return true;
-        } 
+			return true;
+		} 
 		else 
-        {
-            return false;
-        }
+		{
+			return false;
+		}
 	}
 	/*public boolean editar() 
 	{
@@ -72,21 +70,21 @@ public class Calidad
 	{
 		Integer id_cal = c.getId_calidad();
 		String nom = getNombre();
-		
-		if (baseDatos.ejecutar("DELETE FROM calidad where id_calidad = id_cal,"+ "'"+ ");"))
+		if (ConexionDB.baseDatos
+					.ejecutar("DELETE FROM calidad where id_calidad = id_cal,"+ "'"+ ");")) 
 		{
-            return true;
-        } 
+			return true;
+		} 
 		else 
-        {
-            return false;
-        }
+		{
+			return false;
+		}
 	}
 	
 	public ArrayList<Calidad> Buscar()
 	{
 		
-		ResultSet resultado= this.getBaseDatos().consultar("SELECT * FROM calidad");
+		ResultSet resultado= ConexionDB.baseDatos.consultar("SELECT * FROM calidad");
 		ArrayList<Calidad> list_calidad= new ArrayList<Calidad>();
 		if (resultado != null) 
         {
@@ -105,10 +103,4 @@ public class Calidad
         }
 		return list_calidad;
 	}
-
-	private MySQLBD getBaseDatos() 
-	{
-		return baseDatos;
-	}
-
 }
