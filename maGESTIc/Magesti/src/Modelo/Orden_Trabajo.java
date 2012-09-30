@@ -246,8 +246,6 @@ public class Orden_Trabajo {
 
 		return list_OT;
 	}
-
-
 	
 		
 		
