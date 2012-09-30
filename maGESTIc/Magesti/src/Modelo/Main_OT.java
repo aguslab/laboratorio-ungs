@@ -24,7 +24,7 @@ public class Main_OT {
 	
 	Proceso p= new Proceso("nombreProc");
 	System.out.println(p.Alta());
-	ArrayList<Proceso> lot=p.Buscar();
+	ArrayList<Proceso> lproc=p.Buscar();
 
 		
 	}
