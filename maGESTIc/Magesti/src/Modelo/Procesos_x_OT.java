@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Procesos_x_OT {
@@ -8,16 +9,18 @@ public class Procesos_x_OT {
 	private Integer id_proceso;
 	private Integer id_orden_trabajo;
 	private Integer id_proveedor;
+	private boolean cumplida;
 	private String observacion;
 	
 	
 	
 	public Procesos_x_OT(Integer id_proceso, Integer id_orden_trabajo,
-			Integer id_proveedor, String observacion) {
+			Integer id_proveedor,boolean estado, String observacion) {
 		super();
 		this.id_proceso = id_proceso;
 		this.id_orden_trabajo = id_orden_trabajo;
 		this.id_proveedor = id_proveedor;
+		this.cumplida=estado;
 		this.observacion = observacion;
 	}
 	
@@ -61,6 +64,15 @@ public class Procesos_x_OT {
 	}
 
 
+		
+	public boolean isCumplida() {
+		return cumplida;
+	}
+
+	public void setCumplida(boolean cumplida) {
+		this.cumplida = cumplida;
+	}
+
 	public String getObservacion() {
 		return observacion;
 	}
@@ -75,12 +87,13 @@ public class Procesos_x_OT {
 		Integer id_proc=this.getId_proceso();
 		Integer id_ot=this.getId_orden_trabajo();
 		Integer id_prov=this.getId_proveedor();
+		boolean status=this.isCumplida();
 		String obser="'"+this.getObservacion()+"'";
 		
 
 		if (ConexionDB.baseDatos
 				.ejecutar("INSERT INTO procesos_x_orden_trabajo VALUES("+id_proc+"," + id_ot+"," + id_prov+","
-						+ obser + ");")) {
+						+ status+","+obser + ");")) {
 			return true;
 		} else {
 			return false;
@@ -103,6 +116,7 @@ public class Procesos_x_OT {
 							resultado.getInt("id_proceso")), new Integer(
 							resultado.getInt("id_orden_trabajo")), new Integer(
 							resultado.getInt("id_proveedor")),
+							resultado.getBoolean("cumplida"),
 							resultado.getString("observacion"));
 					list_prox_x_orden.add(proc_x_ot);
 				}
@@ -114,6 +128,40 @@ public class Procesos_x_OT {
 		return list_prox_x_orden;
 	}
 	
+	
+	public static ArrayList<String> BuscarProc_x_OT(Integer id_OT) {
+
+		ResultSet resultado = ConexionDB.baseDatos
+				.consultar("SELECT id_proceso FROM procesos_x_orden_trabajo where id_orden_trabajo="
+						+ id_OT);
+		
+		ArrayList<String> list_proc = new ArrayList<String>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Integer id_proc = resultado.getInt("id_proceso");
+					ResultSet process=ConexionDB.baseDatos.consultar("SELECT nombre from proceso where id_proceso="+id_proc);
+					
+					if(process != null){
+						try {
+							while(process.next()){
+								String nomb=process.getString("nombre");
+								list_proc.add(nomb);
+							}
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list_proc;
+	}
 	
 	
 

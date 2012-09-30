@@ -57,13 +57,19 @@ public class Main_OT {
 	ArrayList<Cliente> lcli=cli.Buscar();
 	*/
 		
-		
-		Procesos_x_OT pro_ot= new Procesos_x_OT(1, 1, 3, "holaa");
+	
+		Procesos_x_OT pro_ot= new Procesos_x_OT(3, 4, 1,true, "probando");
 		System.out.println(pro_ot.Alta());
 		ArrayList<Procesos_x_OT> lp_ot=pro_ot.Buscar();
-	
+		ArrayList<String> lpro_x_OT=Procesos_x_OT.BuscarProc_x_OT(2);
+		Integer a= lpro_x_OT.size();
+		Integer i=0;
+		while(i<a){
+			System.out.println(lpro_x_OT.get(i));
+			i++;
+		}
 		
-		
+
 		
 		
 	}

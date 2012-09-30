@@ -181,6 +181,9 @@ public class Materiales {
 	}
 	
 	
+
+	/*
+	
 	
 	public boolean Alta() {
 		
@@ -232,7 +235,7 @@ public class Materiales {
 	}
 	
 	
-	
+	*/
 	
 	
 	
