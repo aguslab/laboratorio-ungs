@@ -2,7 +2,6 @@ package Modelo;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class Orden_Trabajo {
@@ -22,7 +21,7 @@ public class Orden_Trabajo {
 
 
 
-		static MySQLBD baseDatos = new MySQLBD().conectar();
+		//static MySQLBD baseDatos = new MySQLBD().conectar();
 
 		public Orden_Trabajo(Integer id_orden_trabajo, Integer id_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
@@ -151,13 +150,6 @@ public class Orden_Trabajo {
 			this.apaisado = apaisado;
 		}
 
-		public MySQLBD getBaseDatos() {
-			return baseDatos;
-		}
-
-		public static void setBaseDatos(MySQLBD baseDatos) {
-			Orden_Trabajo.baseDatos = baseDatos;
-		}
 
 		public String getEstado() {
 			return estado;
@@ -167,9 +159,15 @@ public class Orden_Trabajo {
 			this.estado = estado;
 		}
 
-		
+		//metodo trucho que solo muestra unos datos para ver que anda xD
 		public void mostrarDatos(){
-		
+			System.out.println();
+			System.out.print(this.getId_orden_trabajo()+"    ");
+			System.out.print(this.getId_Producto()+"     ");
+			System.out.print(this.getF_prometida()+"     ");
+			System.out.print(this.getNombre_trabajo()+"     ");
+			System.out.print(this.getEstado()+"     ");
+			
 		}
 		
 		
@@ -202,7 +200,7 @@ public class Orden_Trabajo {
 			
 			*/
 			
-		if (baseDatos.ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
+		if (ConexionDB.baseDatos.ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
 				+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + "," + "'"
 				+ descr + "'" + "," + cant_preimpr + "," + ancho + "," + alto
 				+ "," + apaisado +","+"'"+status+"'"+ ");")) {
@@ -217,7 +215,7 @@ public class Orden_Trabajo {
 		
 	public ArrayList<Orden_Trabajo> Buscar() {
 
-		ResultSet resultado = this.getBaseDatos().consultar(
+		ResultSet resultado = ConexionDB.baseDatos.consultar(
 				"SELECT * FROM orden_trabajo WHERE estado != 'cerrado'");
 
 		ArrayList<Orden_Trabajo> list_OT = new ArrayList<Orden_Trabajo>();
