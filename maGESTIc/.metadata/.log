@@ -422,3 +422,31 @@ java.util.zip.ZipException: error in opening zip file
 	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:445)
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:220)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:330)
+!SESSION 2012-09-29 23:35:11.993 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.7.0_07
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY com.google.gdt.eclipse.suite 1 0 2012-09-29 23:41:55.653
+!MESSAGE Registering: com.google.gwt.eclipse.sdkbundle_2.4.0.v201208080120-rel-r37
+
+!ENTRY org.eclipse.scout.sdk 1 0 2012-09-29 23:51:52.096
+!MESSAGE org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	Starting SCOUT SDK Plugin.
+
+!ENTRY org.eclipse.scout.sdk 4 0 2012-09-30 00:04:26.134
+!MESSAGE org.eclipse.scout.sdk.internal.workspace.typecache.TypeCache.getType(TypeCache.java:92)
+	could not resolve type 'org.eclipse.scout.rt.client.ui.form.fields.IFormField'.
+
+!ENTRY org.eclipse.scout.sdk 4 0 2012-09-30 00:04:26.140
+!MESSAGE org.eclipse.scout.sdk.internal.workspace.typecache.TypeCache.getType(TypeCache.java:92)
+	could not resolve type 'org.eclipse.scout.rt.client.ui.form.fields.IValueField'.
+
+!ENTRY org.eclipse.scout.sdk 4 0 2012-09-30 00:04:26.146
+!MESSAGE org.eclipse.scout.sdk.internal.workspace.typecache.TypeCache.getType(TypeCache.java:92)
+	could not resolve type 'org.eclipse.scout.rt.client.ui.form.fields.ICompositeField'.
+
+!ENTRY org.eclipse.ui 4 4 2012-09-30 01:04:13.585
+!MESSAGE Invalid preference page path: XML Syntax
