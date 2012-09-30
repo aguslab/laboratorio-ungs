@@ -2,11 +2,12 @@ package Modelo;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Orden_Trabajo {
 
-
+		private Integer id_orden_trabajo;
 		private Integer id_Producto;
 		private Integer id_cliente;
 		private String f_confeccion;
@@ -22,6 +23,25 @@ public class Orden_Trabajo {
 
 
 		static MySQLBD baseDatos = new MySQLBD().conectar();
+
+		public Orden_Trabajo(Integer id_orden_trabajo, Integer id_Producto, Integer id_cliente,
+				String f_confeccion, String f_prometida, String nombre_trabajo,
+				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
+				boolean apaisado,String estado) {
+			super();
+			this.id_orden_trabajo= id_orden_trabajo;
+			this.id_Producto = id_Producto;
+			this.id_cliente = id_cliente;
+			this.f_confeccion = f_confeccion;
+			this.f_prometida = f_prometida;
+			this.nombre_trabajo = nombre_trabajo;
+			this.descripcion = descripcion;
+			this.cantidad_preimpresion = cantidad_preimpresion;
+			this.ancho= ancho;
+			this.alto= alto;
+			this.apaisado = apaisado;
+			this.estado= estado;
+		}
 
 		public Orden_Trabajo(Integer id_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
@@ -39,6 +59,16 @@ public class Orden_Trabajo {
 			this.alto= alto;
 			this.apaisado = apaisado;
 			this.estado= estado;
+		}
+		
+		
+		
+		public Integer getId_orden_trabajo() {
+			return id_orden_trabajo;
+		}
+
+		public void setId_orden_trabajo(Integer id_orden_trabajo) {
+			this.id_orden_trabajo = id_orden_trabajo;
 		}
 
 		public Integer getId_Producto() {
@@ -138,6 +168,11 @@ public class Orden_Trabajo {
 		}
 
 		
+		public void mostrarDatos(){
+		
+		}
+		
+		
 		
 		// R: una orden de trabajo
 		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
@@ -154,7 +189,7 @@ public class Orden_Trabajo {
 			Integer ancho = getAncho();
 			Integer alto = getAlto();
 			boolean apaisado = isApaisado();
-			String status= estado;
+			String status= getEstado();
 			
 
 			/*	
@@ -167,8 +202,7 @@ public class Orden_Trabajo {
 			
 			*/
 			
-		if (baseDatos.ejecutar("INSERT INTO orden_trabajo VALUES(default,"
-				+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
+		if (baseDatos.ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
 				+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + "," + "'"
 				+ descr + "'" + "," + cant_preimpr + "," + ancho + "," + alto
 				+ "," + apaisado +","+"'"+status+"'"+ ");")) {
@@ -181,31 +215,42 @@ public class Orden_Trabajo {
 		
 		
 		
-		public ArrayList<Orden_Trabajo> Buscar(Integer id_Ot){
-			
-			ResultSet resultado= this.getBaseDatos().consultar("SELECT * FROM orden_trabajo WHERE estado != cerrado");
-			
-			ArrayList<Orden_Trabajo> list_OT= new ArrayList<Orden_Trabajo>();
-			if (resultado != null) 
-	        {
-				
-	            try 
-	            {
-	         	            	
-	                while (resultado.next()) 
-	                {
-	                    Orden_Trabajo ot= new Orden_Trabajo(new Integer(resultado.getInt("id_producto")), new Integer(resultado.getInt("id_cliente")),resultado.getString("f_confeccion"), resultado.getString("f_prometida"), resultado.getString("nombre_trabajo"), resultado.getString("descripcion"), new Integer(resultado.getInt("cantidad_preimpresion")), new Integer(resultado.getInt("ancho")), new Integer(resultado.getInt("alto")), resultado.getBoolean("apaisado"), resultado.getString("estado"));
-	                }
-	            } 
-	            catch (Exception e) 
-	            {
-	                e.printStackTrace();
-	            }
-	        }
+	public ArrayList<Orden_Trabajo> Buscar() {
 
-			return list_OT;
+		ResultSet resultado = this.getBaseDatos().consultar(
+				"SELECT * FROM orden_trabajo WHERE estado != 'cerrado'");
+
+		ArrayList<Orden_Trabajo> list_OT = new ArrayList<Orden_Trabajo>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Orden_Trabajo ot = new Orden_Trabajo(new Integer(
+							resultado.getInt("id_orden_trabajo")), new Integer(
+							resultado.getInt("id_producto")), new Integer(
+							resultado.getInt("id_cliente")),
+							resultado.getString("f_confeccion"),
+							resultado.getString("f_prometida"),
+							resultado.getString("nombre_trabajo"),
+							resultado.getString("descripcion"), new Integer(
+									resultado.getInt("cantidad_preimpresion")),
+							new Integer(resultado.getInt("ancho")),
+							new Integer(resultado.getInt("alto")),
+							resultado.getBoolean("apaisado"),
+							resultado.getString("estado"));
+					list_OT.add(ot);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
+		return list_OT;
+	}
 
 
+	
+		
+		
 }
