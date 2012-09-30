@@ -113,8 +113,6 @@ public class Orden_Trabajo
 		this.cantidad_preimpresion = cantidad_preimpresion;
 	}
 	
-	 
-	
 	public boolean alta_OT(Integer id_ordenTrabajo, Integer id_Producto,
 			Integer id_cliente, Date f_confeccion, Date f_prometida,
 			String nombre_trabajo, String descripcion,
@@ -131,76 +129,47 @@ public class Orden_Trabajo
         }
 		
 		return false;
-		
 	}
-
-
-
-
-
-	public void setAncho(Integer ancho) 
-	{
-		this.ancho = ancho;
-	}
-
 
 	public Integer getAncho()
 	{
 		return ancho;
 	}
 
+	public void setAncho(Integer ancho) 
+	{
+		this.ancho = ancho;
+	}
 
 	public Integer getAlto() 
 	{
 		return alto;
 	}
 
-
-
-
-
 	public void setAlto(Integer alto) 
 	{
 		this.alto = alto;
 	}
-
-
-
-
 
 	public boolean isApaisado() 
 	{
 		return apaisado;
 	}
 
-
-
-
-
 	public void setApaisado(boolean apaisado) 
 	{
 		this.apaisado = apaisado;
 	}
-
-
-
-
 
 	public static MySQLBD getBaseDatos() 
 	{
 		return baseDatos;
 	}
 
-
-
-
-
 	public static void setBaseDatos(MySQLBD baseDatos) 
 	{
 		Orden_Trabajo.baseDatos = baseDatos;
 	}
-
-
 
 	//R: una orden de trabajo
 	//A: devuelve true si se inserto la orden de trabajo en la tabla.False lo contrario. 
