@@ -1,4 +1,4 @@
-#Sun Sep 30 03:14:57 ART 2012
+#Sun Sep 30 03:40:59 ART 2012
 content_assist_proposals_foreground=0,0,0
 spelling_locale_initialized=true
 org.eclipse.jdt.ui.text.templates_migrated=true
@@ -16,5 +16,5 @@ content_assist_proposals_background=255,255,255
 content_assist_number_of_computers=17
 useQuickDiffPrefPage=true
 org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="Modelo.Formato_Papel"><rhs name\="Modelo.Formato_Papel"/></lhs><lhs name\="Modelo.Variante"><rhs name\="Modelo.Variante"/></lhs></history>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="Modelo.Formato_Papel"><rhs name\="Modelo.Formato_Papel"/></lhs><lhs name\="Modelo.Variante"><rhs name\="Modelo.Variante"/></lhs><lhs name\="Modelo.Proceso"><rhs name\="Modelo.Proceso"/></lhs><lhs name\="Modelo.Elemento_Producto"><rhs name\="Modelo.Elemento_Producto"/></lhs><lhs name\="java.lang.Number"><rhs name\="java.lang.Integer"/></lhs></history>
 org.eclipse.jdt.ui.text.code_templates_migrated=true

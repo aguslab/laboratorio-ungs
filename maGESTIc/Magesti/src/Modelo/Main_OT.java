@@ -58,6 +58,9 @@ public class Main_OT {
 	*/
 		
 		
+		Procesos_x_OT pro_ot= new Procesos_x_OT(1, 1, 3, "holaa");
+		System.out.println(pro_ot.Alta());
+		ArrayList<Procesos_x_OT> lp_ot=pro_ot.Buscar();
 	
 		
 		
