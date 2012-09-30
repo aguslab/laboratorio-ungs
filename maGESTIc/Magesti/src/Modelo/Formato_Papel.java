@@ -49,13 +49,12 @@ public class Formato_Papel {
 	
 	
 	public boolean Alta() {
-		Integer ancho= this.getAncho();
-		Integer alto= this.getAlto();
-	
+		Integer ancho = this.getAncho();
+		Integer alto = this.getAlto();
 
 		if (ConexionDB.baseDatos
-				.ejecutar("INSERT INTO formatos_papel VALUES(default," + ancho + alto
-						+ ");")) {
+				.ejecutar("INSERT INTO formato_papel VALUES(default," + ancho
+						+ "," + alto + ");")) {
 			return true;
 		} else {
 			return false;

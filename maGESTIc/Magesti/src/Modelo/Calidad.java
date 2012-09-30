@@ -42,7 +42,7 @@ public class Calidad
 		this.nombre = nombre;
 	}
 	
-	public boolean alta()
+	public boolean Alta()
 	{
 		//Integer id_cal = calidad.getId_calidad();
 		String nom = getNombre();
@@ -68,7 +68,7 @@ public class Calidad
 		}
 	}*/
 	
-	public boolean baja(Calidad c)
+	public boolean Baja(Calidad c)
 	{
 		Integer id_cal = c.getId_calidad();
 		String nom = getNombre();
