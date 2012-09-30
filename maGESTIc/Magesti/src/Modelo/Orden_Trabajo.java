@@ -151,14 +151,15 @@ public class Orden_Trabajo {
 		}
 
 
-		public String getEstado() {
+		public String getEstado() 
+		{
 			return estado;
 		}
 
-		public void setEstado(String estado) {
+		public void setEstado(String estado) 
+		{
 			this.estado = estado;
 		}
-
 		//metodo trucho que solo muestra unos datos para ver que anda xD
 		public void mostrarDatos(){
 			System.out.println();
@@ -171,11 +172,11 @@ public class Orden_Trabajo {
 		}
 		
 		
-		
 		// R: una orden de trabajo
 		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
 		// lo contrario.
-		public boolean Alta() {
+		public boolean Alta() 
+		{
 			
 			Integer id_prod = getId_Producto();
 			Integer id_cli = getId_cliente();
@@ -205,7 +206,9 @@ public class Orden_Trabajo {
 				+ descr + "'" + "," + cant_preimpr + "," + ancho + "," + alto
 				+ "," + apaisado +","+"'"+status+"'"+ ");")) {
 			return true;
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 			 
