@@ -475,3 +475,12 @@ Command-line arguments:  -os win32 -ws win32 -arch x86
 !ENTRY org.eclipse.scout.sdk 4 0 2012-09-30 02:25:27.886
 !MESSAGE org.eclipse.scout.sdk.internal.workspace.typecache.TypeCache.getType(TypeCache.java:92)
 	could not resolve type 'org.eclipse.scout.rt.client.ui.form.fields.ICompositeField'.
+!SESSION 2012-09-30 03:16:44.567 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.7.0_07
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 4 4 2012-09-30 03:19:31.518
+!MESSAGE Invalid preference page path: XML Syntax
