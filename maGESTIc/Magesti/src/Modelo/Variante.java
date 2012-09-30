@@ -1,5 +1,8 @@
 package Modelo;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class Variante {
 	
 	private Integer id_variante;
@@ -48,6 +51,31 @@ public class Variante {
 		} else {
 			return false;
 		}
+	}
+	
+	
+	public ArrayList<Variante> Buscar() {
+
+		ResultSet resultado = ConexionDB.baseDatos.consultar(
+				"SELECT * FROM variante");
+
+		ArrayList<Variante> list_Var = new ArrayList<Variante>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Variante variante = new Variante(new Integer(
+							resultado.getInt("id_variante")),
+							resultado.getString("nombre"));
+					list_Var.add(variante);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list_Var;
 	}
 	
 	
