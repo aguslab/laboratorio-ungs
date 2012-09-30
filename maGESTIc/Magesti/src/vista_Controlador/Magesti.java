@@ -305,6 +305,8 @@ implements
 		Object obj = ae.getSource();
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
+			
+			
 			/*
 			 * Código para ingresar la Orden de Trabajo
 			 */
