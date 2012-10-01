@@ -7,11 +7,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import Modelo.Cliente;
+import Modelo.Orden_Trabajo;
+import Modelo.Tipo_producto;
 
 
 @SuppressWarnings("serial")
@@ -82,13 +87,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	private DefaultTableModel dtmMateriales;
 	
-	String Clientes[] = 
-	{
+	
+	//ArrayList<String> Clientes= Cliente.getClientes();
+	
+	String Clientes[] = Cliente.getClientes(); 
+	
+	/*{ PLAN B 
 		"Cosméticos Avon S.A.C.I.", 
 		"Garbarino S.A.", 
 		"Fravega S.A.C.I.", 
 		"Cablevisión S.A.", 
-	};
+	};*/
 	
 	String Meses[] = 
 	{
@@ -113,17 +122,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		"Cerrado" 
 	};
 	
-	String TipoDeProducto[] = 
-	{
+	String TipoDeProducto[] = Tipo_producto.getTiposProd();
+	/*{  PLAN B
 		"Block de facturas", 
 		"Revista", 
 		"Calendario",
 		"Cuaderno"
-	};
+	};*/
 
 	OrdenDeTrabajo()
-	{
-		
+	{	
 		
 		
 		super ("Orden de Trabajo (OT)", false, true, false, true);
@@ -164,10 +172,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbDescripcion.setBounds(15, 125, 80, 25);
 		lbDescripcion.setForeground (Color.black);
 
-		txtNro = new JTextField ("0");
+		String maxIdOT=Orden_Trabajo.getUltOT()+"";
+		txtNro = new JTextField (maxIdOT);
+		txtNro.setEditable(false);
 		txtNro.setForeground(Color.RED);
 		txtNro.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtNro.setEditable(false);
 		txtNro.setFocusable(false);
 		txtNro.setBounds(105, 20, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
@@ -314,8 +323,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.setBounds(250, 55, 65, 25);
 		
 		cboEstado = new JComboBox<String> (Estados);	//Comentar esta línea si quieren utilizar el WB
-		//cboEstado = new JComboBox<String> ();			//Descomentar esta línea para utilizar el WB
+		cboEstado = new JComboBox<String> ();
+		cboEstado.setToolTipText("Pendiente");
 		cboEstado.setBounds(445, 90, 210, 25);
+		cboEstado.setEnabled(false);
 		
 		cboTipoDeProducto = new JComboBox<String> (TipoDeProducto); //Comentar esta línea si quieren utilizar el WB
 		//cboTipoDeProducto = new JComboBox<String> ();				//Descomentar esta línea para utilizar el WB
@@ -333,8 +344,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio.addItem (anios);
 		}
 		
-		cboMes2 = new JComboBox<String> (Meses);
-		//cboMes2 = new JComboBox<String> ();
+		//cboMes2 = new JComboBox<String> (Meses);
+		cboMes2 = new JComboBox<String> ();
 		cboMes2.setBounds(445, 55, 97, 25);
 		
 		cboDia2 = new JComboBox<String> ();
@@ -474,7 +485,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		try
 		{
 		   Class.forName("com.mysql.jdbc.Driver");
-           Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","root", "laboratorio");
+           Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","tp_labo", "laboratorio");
           
            Statement s = conexion.createStatement();
            ResultSet rs = s.executeQuery ("select * from materiales");
@@ -528,6 +539,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 		   e.printStackTrace();
 		}
+      
+      
       
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -724,6 +737,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	void cargarTablas() 
 	{
+		txtNro.getText();
 		/*
 		 * 	Aquí colocaríamos el código para cargar la tabla
 		 */
