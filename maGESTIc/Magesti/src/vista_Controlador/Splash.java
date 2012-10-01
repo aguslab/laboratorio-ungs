@@ -36,7 +36,7 @@ public class Splash extends JWindow implements Config
 		
 		try 
 		{
-			Thread.sleep(4000);
+			Thread.sleep(500);
 		} 
 		catch (InterruptedException e) 
 		{
