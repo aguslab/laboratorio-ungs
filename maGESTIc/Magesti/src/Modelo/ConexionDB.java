@@ -1,6 +1,7 @@
 package Modelo;
 
-public class ConexionDB {
+//clase final para que no pueda ser sobreescrita
+public final class ConexionDB {
 	
 	private static MySQLBD baseDatos = new MySQLBD().conectar();
 	
