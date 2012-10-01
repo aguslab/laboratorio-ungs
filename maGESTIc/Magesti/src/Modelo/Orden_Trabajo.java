@@ -79,7 +79,7 @@ public class Orden_Trabajo {
 			}
 
 		}
-		return maxId;
+		return maxId+1;
 	}
 		
 		
