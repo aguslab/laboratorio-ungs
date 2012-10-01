@@ -85,6 +85,27 @@ public class Cliente {
 		return clientes;
 	}
 	
+	
+	public static Integer getId_cliente(String cliente) {
+		Integer id_cliente=null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_cliente FROM cliente");
+		
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					id_cliente=resultado.getInt("razon_social");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		return id_cliente;
+	}
+	
+	
 	public Integer getId_cliente() {
 		return id_cliente;
 	}
