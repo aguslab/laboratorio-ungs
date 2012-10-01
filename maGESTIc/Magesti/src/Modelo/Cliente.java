@@ -88,14 +88,15 @@ public class Cliente {
 	
 	public static Integer getId_cliente(String cliente) {
 		Integer id_cliente=null;
-		
+		cliente="'"+cliente+"'";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_cliente FROM cliente");
+				"SELECT id_cliente FROM cliente where razon_social="+cliente);
 		
 		if (resultado != null) {
-			try {
+			try {//por si llega a haber mas de un cliente con = RazonSocial
 				while (resultado.next()) {
-					id_cliente=resultado.getInt("razon_social");
+					id_cliente=resultado.getInt(1);
+					break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
