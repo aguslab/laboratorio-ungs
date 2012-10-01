@@ -47,6 +47,7 @@ public class Orden_Trabajo {
 				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
 				boolean apaisado,String estado) {
 			super();
+			this.id_orden_trabajo=getUltOT();//ver si va, es posible q cause problemas
 			this.id_Producto = id_Producto;
 			this.id_cliente = id_cliente;
 			this.f_confeccion = f_confeccion;

@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Modelo.Cliente;
 import Modelo.Orden_Trabajo;
+import Modelo.Procesos_x_OT;
 import Modelo.Tipo_producto;
 
 
@@ -754,6 +755,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 		Orden_Trabajo ot1= new Orden_Trabajo(1, 2, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantImp,ancho,alto,apaisado,"Pendiente");
 		ot1.Alta();
+		
+		//para cuando este el resto de la GUI
+		//Procesos_x_OT p_x_ot= new Procesos_x_OT(id_proceso, ot1.getId_orden_trabajo(), null, "Pendiente", observacion);
 		
 	}
 	

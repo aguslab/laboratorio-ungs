@@ -20,6 +20,28 @@ public class Proceso {
 		super();
 		this.nombre = nombre;
 	}
+	
+	
+	public static Integer getIdProceso(String nombre) {
+		Integer id_proces = null;
+
+		nombre = "'" + nombre + "'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_proceso FROM proceso where nombre=" + nombre);
+
+		if (resultado != null) {
+			try {// por si llega a haber mas de un proceso con = nombre
+				while (resultado.next()) {
+					id_proces = resultado.getInt(1);
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return id_proces;
+	}
 
 
 	public Integer getId_proceso() {
