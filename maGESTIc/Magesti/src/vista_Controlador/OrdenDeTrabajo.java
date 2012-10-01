@@ -344,8 +344,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio.addItem (anios);
 		}
 		
-		//cboMes2 = new JComboBox<String> (Meses);
-		cboMes2 = new JComboBox<String> ();
+		cboMes2 = new JComboBox<String> (Meses);
+		//cboMes2 = new JComboBox<String> ();
 		cboMes2.setBounds(445, 55, 97, 25);
 		
 		cboDia2 = new JComboBox<String> ();
@@ -718,8 +718,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				
 			}
 			else 
-			{
-				cargarTablas ();	//Cargaría la tabla en memoria
+ {
+
+				cargarTablas(); // Cargaría la tabla en memoria
+				obj = btnCancelar;
+
 			}
 		}
 		if (obj == btnCancelar) 
@@ -737,12 +740,77 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	void cargarTablas() 
 	{
-		txtNro.getText();
 		/*
 		 * 	Aquí colocaríamos el código para cargar la tabla
 		 */
-	}
+		
+		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
+		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
+		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
+		Integer ancho = Integer.parseInt(txtAncho.getText());
+		Integer alto = Integer.parseInt(txtAlto.getText());
+		
+		boolean apaisado=chbApaisado.isSelected();
 
+		Orden_Trabajo ot1= new Orden_Trabajo(1, 2, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantImp,ancho,alto,apaisado,"Pendiente");
+		ot1.Alta();
+		
+	}
+	
+	static String dameNumeroMes(String mes)
+	{
+		if(mes == "Enero")
+		{
+			return "01";
+		}
+		else if(mes == "Febrero")
+		{
+			return "02";
+		}
+		else if(mes == "Marzo")
+		{
+			return "03";
+		}
+		else if(mes == "Abril")
+		{
+			return "04";
+		}else if(mes == "Mayo")
+		{
+			return "05";
+		}
+		else if(mes=="Junio")
+		{
+			return "06";
+		}
+		else if(mes=="Julio")
+		{
+			return "07";
+		}
+		else if(mes=="Agosto")
+		{
+			return "08";
+		}
+		else if(mes=="Septiembre")
+		{
+			return "09";
+		}
+		else if(mes=="Octubre")
+		{
+			return "10";
+		}
+		else if(mes=="Noviembre")
+		{
+			return "11";
+		}
+		else
+		{
+			return "12";
+		}
+
+	}
+	
+	
+	
 	void txtClear () 
 	{
 		txtNombreOT.setText ("");
