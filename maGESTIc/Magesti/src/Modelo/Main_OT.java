@@ -82,6 +82,7 @@ public class Main_OT {
 	*/
 		
 		
+		System.out.println(Orden_Trabajo.getUltOT());
 		
 		
 		
