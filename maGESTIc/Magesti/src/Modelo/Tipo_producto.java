@@ -24,6 +24,35 @@ public class Tipo_producto
 		this.id_materiales = id_materiales;
 	}
 
+	
+	public static String[] getTiposProd(){
+		ArrayList<String> Prod=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT nombre FROM tipo_producto");
+		
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					Prod.add(resultado.getString("nombre"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String [] productos= new String[Prod.size()];
+		
+		for(int i=0;i<Prod.size();i++){
+			productos[i]=Prod.get(i);
+		}
+		
+		return productos;
+	}
+	
+	
+	
+	
 	public Integer getId_producto() 
 	{
 		return id_producto;
