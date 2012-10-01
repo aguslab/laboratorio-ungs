@@ -505,7 +505,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
            	while (rs.next())
         	{
-        	   Object [] fila = new Object[500];
+        	   Object [] fila = new Object[numeroColumnas];
         	   for (int i=0;i<10;i++)
         	      fila[i] = rs.getObject(i+1);
         	   dtmMateriales.addRow(fila); 
