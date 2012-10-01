@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 
+
 @SuppressWarnings("serial")
 public class Splash extends JWindow implements Config
 {
@@ -13,7 +14,7 @@ public class Splash extends JWindow implements Config
 	public Splash () 
 	{
 
-		JLabel lbImage    = new JLabel (new ImageIcon ("D:/mis documen/JAVI/UNGS/Tecnicatura Superior en Informática/Laboratorio de Construccion de Software- 2°S.2012/Proyecto_Labo/maGESTIc/Magesti/src/vista_Controlador/Splash.PNG"));
+		JLabel lbImage    = new JLabel (new ImageIcon ("Imagenes/Splash.PNG"));
 		JLabel lblVersion = new JLabel (qVERSION);
 		JLabel lblDerechos = new JLabel("<html>Copyright ©2012 De Napoli, Godoy, Jiménez y asociados. Todos los derechos reservados. MAGESTI es propiedad intelectual de los autores mencionados. MySQL y Java son marcas registradas\n de Oracle Corporation.</html>");
 		Color cl = new Color (0, 0, 0);
