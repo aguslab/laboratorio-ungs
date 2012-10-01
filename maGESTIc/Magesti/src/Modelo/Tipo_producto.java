@@ -133,4 +133,24 @@ public class Tipo_producto
 		System.out.print(this.getNombre()+"     ");
 		System.out.print(this.getId_materiales()+"     ");
 	}
+
+	public static Integer dameIDProducto(String tipoProducto) {
+		Integer id_Producto=null;
+		tipoProducto="'"+tipoProducto+"'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_producto FROM tipo_producto where nombre="+tipoProducto);
+		
+		if (resultado != null) {
+			try {//por si llega a haber mas de un cliente con = nombreDeProducto
+				while (resultado.next()) {
+					id_Producto=resultado.getInt(1);
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		return id_Producto;
+	}
 }
