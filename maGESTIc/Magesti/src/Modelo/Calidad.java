@@ -44,8 +44,7 @@ public class Calidad
 	{
 		String nom = this.getNombre();
 
-		if (ConexionDB.baseDatos
-				.ejecutar("INSERT INTO formato_papel VALUES(default," + nom + ");")) 
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO formato_papel VALUES(default," + nom + ");")) 
 		{
 			return true;
 		} 
@@ -70,8 +69,7 @@ public class Calidad
 	{
 		Integer id_cal = c.getId_calidad();
 		String nom = getNombre();
-		if (ConexionDB.baseDatos
-					.ejecutar("DELETE FROM calidad where id_calidad = id_cal,"+ "'"+ ");")) 
+		if (ConexionDB.getbaseDatos().ejecutar("DELETE FROM calidad where id_calidad = id_cal,"+ "'"+ ");")) 
 		{
 			return true;
 		} 
@@ -84,7 +82,7 @@ public class Calidad
 	public ArrayList<Calidad> Buscar()
 	{
 		
-		ResultSet resultado= ConexionDB.baseDatos.consultar("SELECT * FROM calidad");
+		ResultSet resultado= ConexionDB.getbaseDatos().consultar("SELECT * FROM calidad");
 		ArrayList<Calidad> list_calidad= new ArrayList<Calidad>();
 		if (resultado != null) 
         {

@@ -201,7 +201,7 @@ public class Orden_Trabajo {
 			
 			*/
 			
-		if (ConexionDB.baseDatos.ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
 				+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + "," + "'"
 				+ descr + "'" + "," + cant_preimpr + "," + ancho + "," + alto
 				+ "," + apaisado +","+"'"+status+"'"+ ");")) {
@@ -218,7 +218,7 @@ public class Orden_Trabajo {
 		
 	public ArrayList<Orden_Trabajo> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar(
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT * FROM orden_trabajo WHERE estado != 'cerrado'");
 
 		ArrayList<Orden_Trabajo> list_OT = new ArrayList<Orden_Trabajo>();

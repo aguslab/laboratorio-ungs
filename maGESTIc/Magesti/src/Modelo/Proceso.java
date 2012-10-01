@@ -45,7 +45,7 @@ public class Proceso {
 	public boolean Alta() {
 		String nombre = this.getNombre();
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO proceso VALUES(default," + "'"+nombre+"'"+");")) {
 			return true;
 		} else {
@@ -56,7 +56,7 @@ public class Proceso {
 	
 	public ArrayList<Proceso> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar(
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT * FROM proceso");
 
 		ArrayList<Proceso> list_Proc = new ArrayList<Proceso>();

@@ -44,7 +44,7 @@ public class Variante {
 	public boolean Alta() {
 		String nombre = this.getNombre();
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO variante VALUES(default," + "'" + nombre
 						+ "'" + ");")) {
 			return true;
@@ -56,7 +56,7 @@ public class Variante {
 	
 	public ArrayList<Variante> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar(
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT * FROM variante");
 
 		ArrayList<Variante> list_Var = new ArrayList<Variante>();

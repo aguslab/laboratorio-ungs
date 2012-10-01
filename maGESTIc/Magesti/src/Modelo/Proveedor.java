@@ -181,7 +181,7 @@ public class Proveedor
 		String mail_contacto = "'" + this.getMail_contacto() + "'";
 		String dir_retiro = "'" + this.getDireccion_retiro() + "'";
 
-		if (ConexionDB.baseDatos.ejecutar("INSERT INTO proveedor VALUES(DEFAULT,"
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO proveedor VALUES(DEFAULT,"
 				+ razon_soc + "," + cuit + "," + c_iva + "," + direc + ","
 				+ tel + "," + email+"," + nom_cont + "," + tel_cont + ","
 				+ mail_contacto + "," + dir_retiro + ");")) 
@@ -197,7 +197,7 @@ public class Proveedor
 	public ArrayList<Proveedor> Buscar() 
 	{
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar("SELECT * FROM proveedor");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT * FROM proveedor");
 
 		ArrayList<Proveedor> list_proveedores = new ArrayList<Proveedor>();
 		if (resultado != null) 

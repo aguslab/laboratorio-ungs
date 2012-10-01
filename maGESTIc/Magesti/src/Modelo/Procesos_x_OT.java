@@ -91,7 +91,7 @@ public class Procesos_x_OT {
 		String obser="'"+this.getObservacion()+"'";
 		
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO procesos_x_orden_trabajo VALUES("+id_proc+"," + id_ot+"," + id_prov+","
 						+ status+","+obser + ");")) {
 			return true;
@@ -103,7 +103,7 @@ public class Procesos_x_OT {
 	
 	public ArrayList<Procesos_x_OT> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos
+		ResultSet resultado = ConexionDB.getbaseDatos()
 				.consultar("SELECT * FROM procesos_x_orden_trabajo");
 
 		ArrayList<Procesos_x_OT> list_prox_x_orden = new ArrayList<Procesos_x_OT>();
@@ -131,7 +131,7 @@ public class Procesos_x_OT {
 	
 	public static ArrayList<String> BuscarProc_x_OT(Integer id_OT) {
 
-		ResultSet resultado = ConexionDB.baseDatos
+		ResultSet resultado = ConexionDB.getbaseDatos()
 				.consultar("SELECT id_proceso FROM procesos_x_orden_trabajo where id_orden_trabajo="
 						+ id_OT);
 		
@@ -142,7 +142,7 @@ public class Procesos_x_OT {
 
 				while (resultado.next()) {
 					Integer id_proc = resultado.getInt("id_proceso");
-					ResultSet process=ConexionDB.baseDatos.consultar("SELECT nombre from proceso where id_proceso="+id_proc);
+					ResultSet process=ConexionDB.getbaseDatos().consultar("SELECT nombre from proceso where id_proceso="+id_proc);
 					
 					if(process != null){
 						try {

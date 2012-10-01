@@ -10,13 +10,16 @@ public class Main_OT {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+	
 		/* ORDEN DE TRABAJO
-		Orden_Trabajo ot1= new Orden_Trabajo(1, 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
+		Orden_Trabajo ot1= new Orden_Trabajo(2, 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
 		System.out.println(ot1.Alta());
 		ArrayList<Orden_Trabajo> lot=ot1.Buscar();
 		lot.get(0).mostrarDatos();
 		lot.get(1).mostrarDatos();
-	*/
+	
+		
+	*/	
 		/*
 		 * 		VARIANTE
 		Variante v1= new Variante("hola");
@@ -57,7 +60,7 @@ public class Main_OT {
 	ArrayList<Cliente> lcli=cli.Buscar();
 	*/
 		
-	
+	/* Proceso_x_OT
 		Procesos_x_OT pro_ot= new Procesos_x_OT(3, 4, 1,true, "probando");
 		System.out.println(pro_ot.Alta());
 		ArrayList<Procesos_x_OT> lp_ot=pro_ot.Buscar();
@@ -68,8 +71,18 @@ public class Main_OT {
 			System.out.println(lpro_x_OT.get(i));
 			i++;
 		}
+	*/	
 		
+		
+	/* Tipo_Producto	
+		Tipo_producto tp= new Tipo_producto("asd", 1);
+		System.out.println(tp.Alta());
+		ArrayList<Tipo_producto> ltp=tp.Buscar();
 
+	*/
+		
+		
+		
 		
 		
 	}

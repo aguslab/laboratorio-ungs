@@ -157,7 +157,7 @@ public class Cliente {
 		String mail_contacto = "'" + this.getMail_contacto() + "'";
 		String dir_entrega = "'" + this.direccion_entrega + "'";
 
-		if (ConexionDB.baseDatos.ejecutar("INSERT INTO cliente VALUES(default,"
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO cliente VALUES(default,"
 				+ razon_soc + "," + cuit + "," + c_iva + "," + direc + ","
 				+ tel + "," + email+"," + nom_cont + "," + tel_cont + ","
 				+ mail_contacto + "," + dir_entrega + ");")) {
@@ -170,8 +170,7 @@ public class Cliente {
 
 	public ArrayList<Cliente> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos
-				.consultar("SELECT * FROM cliente");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT * FROM cliente");
 
 		ArrayList<Cliente> list_clientes = new ArrayList<Cliente>();
 		if (resultado != null) {

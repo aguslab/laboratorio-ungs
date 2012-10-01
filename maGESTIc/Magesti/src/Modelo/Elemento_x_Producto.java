@@ -47,7 +47,7 @@ public class Elemento_x_Producto {
 		Integer id_elProd=this.getId_elementoProducto();
 		
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO elemento_x_producto VALUES("+id_prod+"," + id_elProd + ");")) {
 			return true;
 		} else {
@@ -58,7 +58,7 @@ public class Elemento_x_Producto {
 	
 	public ArrayList<Elemento_x_Producto> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos
+		ResultSet resultado = ConexionDB.getbaseDatos()
 				.consultar("SELECT * FROM elementos_x_producto");
 
 		ArrayList<Elemento_x_Producto> list_elem_x_prod = new ArrayList<Elemento_x_Producto>();

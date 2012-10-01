@@ -60,7 +60,7 @@ public class Tipo_producto
 		String nombre = this.getNombre();
 		Integer id_materiales = this.getId_materiales();
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO tipo_producto VALUES(DEFAULT," + "'" + nombre + "'"+"," + id_materiales + ");"))
 
 		{
@@ -76,7 +76,7 @@ public class Tipo_producto
 	public ArrayList<Tipo_producto> Buscar() 
 	{
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar("SELECT * FROM tipo_producto");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT * FROM tipo_producto");
 
 		ArrayList<Tipo_producto> list_productos = new ArrayList<Tipo_producto>();
 		if (resultado != null) 

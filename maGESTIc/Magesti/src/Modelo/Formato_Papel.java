@@ -52,7 +52,7 @@ public class Formato_Papel {
 		Integer ancho = this.getAncho();
 		Integer alto = this.getAlto();
 
-		if (ConexionDB.baseDatos
+		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO formato_papel VALUES(default," + ancho
 						+ "," + alto + ");")) {
 			return true;
@@ -64,7 +64,7 @@ public class Formato_Papel {
 	
 	public ArrayList<Formato_Papel> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar(
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT * FROM formato_papel");
 
 		ArrayList<Formato_Papel> list_formato = new ArrayList<Formato_Papel>();

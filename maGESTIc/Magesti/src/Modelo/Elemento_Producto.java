@@ -61,7 +61,7 @@ public class Elemento_Producto {
 			String tipoElement= this.getTipo_elemento();
 			Integer cant= this.getCantidad();
 
-			if (ConexionDB.baseDatos
+			if (ConexionDB.getbaseDatos()
 					.ejecutar("INSERT INTO elemento_producto VALUES(default," + "'"+tipoElement+"'"+","+cant+");")) {
 				return true;
 			} else {
@@ -72,7 +72,7 @@ public class Elemento_Producto {
 		
 		public ArrayList<Elemento_Producto> Buscar() {
 
-			ResultSet resultado = ConexionDB.baseDatos.consultar(
+			ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 					"SELECT * FROM elemento_producto");
 
 			ArrayList<Elemento_Producto> list_ElementProd = new ArrayList<Elemento_Producto>();
