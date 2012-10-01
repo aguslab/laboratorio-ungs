@@ -1,11 +1,7 @@
 package vista_Controlador;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
-
 import java.util.*;
 import java.text.*;
 
@@ -305,11 +301,13 @@ implements
 		Object obj = ae.getSource();
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
-			
-			
-			/*
-			 * Código para ingresar la Orden de Trabajo
-			 */
+			boolean b = openChildWindow ("Nueva Orden de Trabajo");
+			if (b == false) 
+			{
+				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
+				escritorio.add (nuevaOT);
+				nuevaOT.show ();
+			}
 		}
 		else if (obj == consultarOrdenDeTrabajo || obj == btnBuscarSolicitudDeCompra) 
 		{
@@ -371,6 +369,22 @@ implements
 			 * Código para mostrar la Ventana "Acerca de..."
 			 */
 		}
+	}
+	
+	private boolean openChildWindow (String title) 
+	{
+
+		JInternalFrame[] childs = escritorio.getAllFrames ();
+		for (int i = 0; i < childs.length; i++) 
+		{
+			if (childs[i].getTitle().equalsIgnoreCase (title)) 
+			{
+				childs[i].show ();
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	private void salirDelPrograma() 
