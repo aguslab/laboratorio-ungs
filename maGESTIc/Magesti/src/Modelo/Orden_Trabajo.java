@@ -60,6 +60,27 @@ public class Orden_Trabajo {
 			this.estado= estado;
 		}
 		
+	
+	public static Integer getUltOT() {
+		Integer maxId=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT MAX(id_orden_trabajo) FROM orden_trabajo");
+
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					//como solo devuelve un valor, le pido el del registro (1)
+					maxId = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		return maxId;
+	}
 		
 		
 		public Integer getId_orden_trabajo() {
