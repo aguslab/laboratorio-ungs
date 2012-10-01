@@ -20,11 +20,10 @@ public class ConexionDB {
 		return baseDatos;
 	}
 
-	//El método "clone" es sobreescrito por el siguiente que arroja una excepción:
+	//El método "clone" es sobreescrito por el siguiente que arroja una excepción para evitar
+	// que se clone esta clase y todo sea al pedo, igual nadie va a hacer eso xD
 	public Object clone() throws CloneNotSupportedException {
 	        throw new CloneNotSupportedException(); 
 	}
 	
-	
-	//static final MySQLBD baseDatos = new MySQLBD().conectar();
 }
