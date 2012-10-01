@@ -474,13 +474,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		try
 		{
 		   Class.forName("com.mysql.jdbc.Driver");
-           Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","root", "magesti2012");
+           Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","root", "laboratorio");
+          
            Statement s = conexion.createStatement();
            ResultSet rs = s.executeQuery ("select * from materiales");
            ResultSetMetaData metaDatos = rs.getMetaData();
            dtmMateriales  = new DefaultTableModel ();
 
-   			JPanel panMateriales = new JPanel();
+   		   JPanel panMateriales = new JPanel();
            panMateriales.setBorder(new EmptyBorder(5, 5, 5, 5));
            panMateriales.setLayout(null);
            
