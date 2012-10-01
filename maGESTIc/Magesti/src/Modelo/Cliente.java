@@ -56,6 +56,35 @@ public class Cliente {
 		this.direccion_entrega = direccion_entrega;
 	}
 
+	
+	
+	
+	
+	public static  String[] getClientes(){
+		ArrayList<String> clien=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT razon_social FROM cliente");
+		
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					clien.add(resultado.getString("razon_social"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String [] clientes= new String[clien.size()];
+		
+		for(int i=0;i<clien.size();i++){
+			clientes[i]=clien.get(i);
+		}
+		
+		return clientes;
+	}
+	
 	public Integer getId_cliente() {
 		return id_cliente;
 	}
@@ -201,3 +230,4 @@ public class Cliente {
 	}
 
 }
+
