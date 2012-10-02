@@ -1,15 +1,15 @@
 package Modelo;
 
 import java.math.BigInteger;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class Main_OT {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+		public static void main(String[] args) throws SQLException {
 	
 		/* ORDEN DE TRABAJO
 		Orden_Trabajo ot1= new Orden_Trabajo(2, 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
@@ -83,14 +83,19 @@ public class Main_OT {
 			
 		//System.out.println(Orden_Trabajo.getUltOT());
 		
+	/*	
 		Materiales m= new Materiales(12, 43, 12, 4, 1, 12, 1, 2, 2);
 		System.out.println(m.Alta());
 		ArrayList<Materiales> l_m=m.Buscar();
 		
+	*/
+		
+		
+		 }
 		
 	}
 
-}
+
 
 
 
