@@ -2,21 +2,19 @@ package vista_Controlador;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
+import Modelo.Calidad;
 import Modelo.Cliente;
+import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
+import Modelo.Variante;
 
 @SuppressWarnings("serial")
 
@@ -121,17 +119,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	};
 	private JTextField txtTipoProducto;
 	private JTable tablaElementos;
-	private JTable table;
+	private JTable tablaOrdenEjecucion;
 
 	OrdenDeTrabajo()
 	{	
 		
 		
 		super ("Orden de Trabajo (OT)", false, true, false, true);
-		
-		
-		
-		
 		
 		setSize (680, 680);
 		
@@ -558,6 +552,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableMateriales.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
 				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
@@ -569,6 +564,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, true, true, true, true, true, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
 		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
@@ -577,7 +578,20 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		spMateriales.setViewportView(tableMateriales);
 		
 		
+		// Valores para el combo
+		String calidades[] = Calidad.getCalidades();
+		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
 		
+		// Valores para el combo
+		String variantes[] = Variante.getVariantes(); 
+		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+		
+		// Valores para el combo
+		String formatos[] = Formato_Papel.getFormatos();
+		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 		
 		
 		
@@ -641,8 +655,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		spOrdenEjecucion.setBounds(10, 11, 615, 228);
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		tablaOrdenEjecucion = new JTable();
+		tablaOrdenEjecucion.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -656,11 +670,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return columnTypes[columnIndex];
 			}
 		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(197);
-		table.getColumnModel().getColumn(1).setPreferredWidth(71);
-		table.getColumnModel().getColumn(2).setPreferredWidth(135);
-		table.getColumnModel().getColumn(3).setPreferredWidth(149);
-		spOrdenEjecucion.setViewportView(table);
+		tablaOrdenEjecucion.getColumnModel().getColumn(0).setPreferredWidth(197);
+		tablaOrdenEjecucion.getColumnModel().getColumn(1).setPreferredWidth(71);
+		tablaOrdenEjecucion.getColumnModel().getColumn(2).setPreferredWidth(135);
+		tablaOrdenEjecucion.getColumnModel().getColumn(3).setPreferredWidth(149);
+		spOrdenEjecucion.setViewportView(tablaOrdenEjecucion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
 		
