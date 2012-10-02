@@ -504,12 +504,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 								//System.out.println(b);//sacar
 								// el_prod.Alta();//agregar
 							}else{
-								System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
 								//a="hola!";
 								elementos.add(a);
-								System.out.println("BBBBBBBBBBBBBBBBB");
 								cantidad.add(Integer.parseInt(b));
-								System.out.println("CCCCCCCCCCCCCCCC");
 								System.out.println(a);//sacar
 								System.out.println(b);//sacar
 							}

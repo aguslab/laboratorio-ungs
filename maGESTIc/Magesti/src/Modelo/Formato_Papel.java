@@ -47,7 +47,7 @@ public class Formato_Papel {
 	{
 		ArrayList<String> fmt=new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT tamanio_formato FROM formato_papel");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT tamanio FROM formato_papel");
 		
 		if (resultado != null) 
 		{
@@ -55,7 +55,7 @@ public class Formato_Papel {
 			{
 				while (resultado.next()) 
 				{
-					fmt.add(resultado.getString("tamanio_formato"));
+					fmt.add(resultado.getString("tamanio"));
 				}
 			} 
 			catch (Exception e) 
