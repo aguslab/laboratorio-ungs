@@ -80,10 +80,12 @@ public class Main_OT {
 		ArrayList<Tipo_producto> ltp=tp.Buscar();
 
 	*/
+			
+		//System.out.println(Orden_Trabajo.getUltOT());
 		
-		
-		System.out.println(Orden_Trabajo.getUltOT());
-		
+		Materiales m= new Materiales(12, 43, 12, 4, 1, 12, 1, 2, 2);
+		System.out.println(m.Alta());
+		ArrayList<Materiales> l_m=m.Buscar();
 		
 		
 	}
