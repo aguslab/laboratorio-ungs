@@ -40,6 +40,36 @@ public class Variante {
 		this.nombre = nombre;
 	}
 	
+	public static  String[] getVariantes()
+	{
+		ArrayList<String> var=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM variante");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					var.add(resultado.getString("nombre"));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		String [] vars= new String[var.size()];
+		
+		for(int i=0;i<var.size();i++)
+		{
+			vars[i]=var.get(i);
+		}
+		
+		return vars;
+	}
 	
 	public boolean Alta() {
 		String nombre = this.getNombre();
