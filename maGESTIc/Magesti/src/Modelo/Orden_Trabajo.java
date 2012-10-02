@@ -81,11 +81,13 @@ public class Orden_Trabajo {
 		return maxId + 1;
 	}
 	
-		public static String [] getNomColum() {
-			String columnas[]={"Cliente", "fecha Conf", "fecha prom", "nombre trabajo", "Descripcion", "cant Preimpr", "ancho","alto", "apaisado", "Estado"};
-			
-			return columnas;
-		}
+	public static String[] getNomColum() {
+		String columnas[] = { "Nro Orden Trabajo", "Producto", "Cliente",
+				"fecha Conf", "fecha prom", "nombre trabajo", "Descripcion",
+				"cant Preimpr", "ancho", "alto", "apaisado", "Estado" };
+
+		return columnas;
+	}
 	
 	
 		public Integer getId_orden_trabajo() {
