@@ -23,6 +23,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private ArrayList<String> elementos=new ArrayList<String>();
 	private ArrayList<Integer> cantidad=new ArrayList<Integer>();
 	
+	
 	private JPanel jpOrdenDeTrabajo = new JPanel();
 	
 	private JLabel 
@@ -520,7 +521,21 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
 
 				}
-
+				Integer l=elementos.size();
+				final String[][] row_col= new String[l][l];
+				for(int k=0;k<l;k++){
+					//System.out.println("sdcsdfs"+elementos.get(k));
+					row_col[k][0]=elementos.get(k);
+					row_col[k][1]=cantidad.get(k).toString();
+				}
+				/*
+				for(int j=0;j<row_col.length;j++){
+					System.out.println();
+					for(int g=0;g<row_col.length;g++){
+						System.out.println(row_col[j][g]);
+					}
+				}
+				*/
 
 			}
 		});
@@ -549,7 +564,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableMateriales.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null, null},
+				this.getFilasC(),
+					//{null, null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
 				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
@@ -855,6 +871,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			return "12";
 		}
+	}
+	
+	private String[] getFilasC(){
+		Integer l=elementos.size();
+		String[] row_col= new String[l];
+		for(int k=0;k<l;k++){
+			//System.out.println("sdcsdfs"+elementos.get(k));
+			//row_col[k][0]=elementos.get(k);
+			row_col[k]=elementos.get(k);
+			//row_col[k][1]=cantidad.get(k).toString();
+		}
+		return row_col;		
 	}
 	
 	void txtClear () 
