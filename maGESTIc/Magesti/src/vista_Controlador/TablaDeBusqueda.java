@@ -17,8 +17,7 @@ public class TablaDeBusqueda extends JInternalFrame
 	private JTable tablaBusqueda;
 	TablaDeBusqueda(String titulo) 
 	{
-		
-		super (titulo, false, true, false, true);
+		super (titulo, true, true, true, true);
 		setSize (475, 280);
 		jpMostrar.setLayout (null);
 		jspTabla = new JScrollPane (tablaBusqueda);
@@ -30,10 +29,9 @@ public class TablaDeBusqueda extends JInternalFrame
 		jspTabla.setViewportView(tablaBusqueda);
 		getContentPane().add (jpMostrar);
 		setVisible (true);
-	}
+	
 		
-	void buscarOT()
-		{
+	
 			// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 
@@ -47,7 +45,8 @@ public class TablaDeBusqueda extends JInternalFrame
 			jspTabla.setViewportView(tablaBusqueda);
 
 			setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		}
+	}
+		
 
 		// Encabezados de la tabla
 		private String[] getColumnas() 
@@ -57,29 +56,28 @@ public class TablaDeBusqueda extends JInternalFrame
 		}
 
 		private void setFilas() 
-		{
-			// Conectar a PostgreSQL\\
-			ResultSet result = ConexionDB.getbaseDatos().consultar("SELECT * FROM orden_trabajo");
-			// CachedRowSet crs =
-			// cnndb.Function("SELECT deptno, dname, loc FROM dept");
+ {
+		// Conectar a MySQL\\
+		ResultSet result = ConexionDB
+				.getbaseDatos()
+				.consultar(
+						"SELECT DISTINCT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente");
+		// CachedRowSet crs =
+		// cnndb.Function("SELECT deptno, dname, loc FROM dept");
 
-			Object datos[] = new Object[12]; // Numero de columnas de la tabla
+		Object datos[] = new Object[12]; // Numero de columnas de la tabla
 
-			try 
-			{
-				while (result.next()) 
-				{
-					for (int i = 0; i < 12; i++) 
-					{
-						datos[i] = result.getObject(i + 1);
-					}
-					dtmMagesti.addRow(datos);
+		try {
+			while (result.next()) {
+				for (int i = 0; i < 12; i++) {
+					datos[i] = result.getObject(i + 1);
 				}
-				// result.close();
-			} 
-			catch (Exception e) 
-			{
+				dtmMagesti.addRow(datos);
 			}
+			// result.close();
+		} catch (Exception e) {
+		}
 	}
-
+		
+		
 }

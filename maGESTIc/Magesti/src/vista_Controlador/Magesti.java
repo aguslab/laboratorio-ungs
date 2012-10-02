@@ -318,6 +318,7 @@ implements
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo");
 					escritorio.add (tablaB);
 					tablaB.show ();
+					//tablaB.setVisible(true);
 				}
 
 		}
@@ -329,7 +330,7 @@ implements
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra");
 					escritorio.add (tablaB);
-					tablaB.show ();
+					//tablaB.show ();
 				}
 
 		}
