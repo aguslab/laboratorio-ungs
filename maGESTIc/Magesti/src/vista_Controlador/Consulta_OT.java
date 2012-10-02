@@ -9,67 +9,69 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
+import Modelo.Orden_Trabajo;
+
 /**
-*
-* @author beastieux
-*/
-public class Consulta_OT extends JFrame{
+ * 
+ * @author beastieux
+ */
+public class Consulta_OT extends JFrame {
 
-DefaultTableModel dtmEjemplo;
-JTable tblEjemplo;
-JScrollPane scpEjemplo;
-public Consulta_OT()
-{
+	DefaultTableModel dtmEjemplo;
+	JTable tblEjemplo;
+	JScrollPane scpEjemplo;
 
-tblEjemplo = new JTable();
-scpEjemplo= new JScrollPane();
+	public Consulta_OT() {
 
-//Llenamos el modelo
-dtmEjemplo = new DefaultTableModel(null,getColumnas());
+		tblEjemplo = new JTable();
+		scpEjemplo = new JScrollPane();
 
-setFilas();
+		// Llenamos el modelo
+		dtmEjemplo = new DefaultTableModel(null, getColumnas());
 
-tblEjemplo.setModel(dtmEjemplo);
-scpEjemplo.add(tblEjemplo);
-this.add(scpEjemplo);
-this.setSize(500, 200);
+		setFilas();
 
-scpEjemplo.setViewportView(tblEjemplo);
+		tblEjemplo.setModel(dtmEjemplo);
+		scpEjemplo.add(tblEjemplo);
+		this.add(scpEjemplo);
+		this.setSize(500, 200);
 
-setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-}
+		scpEjemplo.setViewportView(tblEjemplo);
 
-//Encabezados de la tabla
-private String[] getColumnas()
-{
-String columna[]=new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
-return columna;
-}
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+	}
 
-private void setFilas()
-{
-//Conectar a PostgreSQL\\
-ResultSet result=ConexionDB.getbaseDatos().consultar("SELECT * FROM orden_trabajo");
-//CachedRowSet crs = cnndb.Function("SELECT deptno, dname, loc FROM dept");
+	// Encabezados de la tabla
+	private String[] getColumnas() {
+		String columna[] = Orden_Trabajo.getNomColum();
+		return columna;
+	}
 
-Object datos[]=new Object[12]; //Numero de columnas de la tabla
+	private void setFilas() {
+		// Conectar a PostgreSQL\\
+		ResultSet result = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM orden_trabajo");
+		// CachedRowSet crs =
+		// cnndb.Function("SELECT deptno, dname, loc FROM dept");
 
-try {
-while (result.next()) {
-for (int i = 0; i < 12; i++) {
-datos[i] = result.getObject(i + 1);
-}
-dtmEjemplo.addRow(datos);
-}
+		Object datos[] = new Object[12]; // Numero de columnas de la tabla
 
-//result.close();
-} catch (Exception e) {
-}
-}
+		try {
+			while (result.next()) {
+				for (int i = 0; i < 12; i++) {
+					datos[i] = result.getObject(i + 1);
+				}
+				dtmEjemplo.addRow(datos);
+			}
 
-public static void main(String args[]) {
-Consulta_OT obj1 = new Consulta_OT();
-obj1.setVisible(true);
-}
+			// result.close();
+		} catch (Exception e) {
+		}
+	}
+
+	public static void main(String args[]) {
+		Consulta_OT obj1 = new Consulta_OT();
+		obj1.setVisible(true);
+	}
 
 }

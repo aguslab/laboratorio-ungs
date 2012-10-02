@@ -1,6 +1,9 @@
 package Modelo;
 
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -61,9 +64,8 @@ public class Orden_Trabajo {
 			this.estado= estado;
 		}
 		
-	
 	public static Integer getUltOT() {
-		Integer maxId=null;
+		Integer maxId = null;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT MAX(id_orden_trabajo) FROM orden_trabajo");
 
@@ -72,7 +74,7 @@ public class Orden_Trabajo {
 			try {
 
 				while (resultado.next()) {
-					//como solo devuelve un valor, le pido el del registro (1)
+					// como solo devuelve un valor, le pido el del registro (1)
 					maxId = resultado.getInt(1);
 				}
 			} catch (Exception e) {
@@ -80,10 +82,16 @@ public class Orden_Trabajo {
 			}
 
 		}
-		return maxId+1;
+		return maxId + 1;
 	}
-		
-		
+	
+		public static String [] getNomColum() {
+			String columnas[]={"Cliente", "fecha Conf", "fecha prom", "nombre trabajo", "Descripcion", "cant Preimpr", "ancho","alto", "apaisado", "Estado"};
+			
+			return columnas;
+		}
+	
+	
 		public Integer getId_orden_trabajo() {
 			return id_orden_trabajo;
 		}
