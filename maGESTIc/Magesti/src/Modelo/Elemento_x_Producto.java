@@ -3,7 +3,7 @@ package Modelo;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Elemento_x_Producto {
+public class Elemento_x_Producto {// ya no se usa esta clase!!!!!!! queda por las dudas nomas
 
 	private Integer id_producto;
 	private Integer id_elementoProducto;
