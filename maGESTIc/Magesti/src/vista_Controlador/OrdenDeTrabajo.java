@@ -174,6 +174,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbDescripcion.setForeground (Color.black);
 
 		String maxIdOT=Orden_Trabajo.getUltOT()+"";
+		
 		txtNro = new JTextField (maxIdOT);
 		txtNro.setEditable(false);
 		txtNro.setForeground(Color.RED);
@@ -651,6 +652,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		txtClear();
+		
 
 	}
 
@@ -812,6 +814,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 
 	}
+	
 	
 	
 	
