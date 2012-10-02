@@ -309,27 +309,61 @@ implements
 				nuevaOT.show ();
 			}
 		}
-		else if (obj == consultarOrdenDeTrabajo || obj == btnBuscarSolicitudDeCompra) 
+		else if (obj == consultarOrdenDeTrabajo)
 		{
-			/*
-			 * Código para consultar la Orden de Trabajo
-			 */
+
+				boolean b = openChildWindow ("Buscador");
+				if (b == false) 
+				{
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo");
+					escritorio.add (tablaB);
+					tablaB.show ();
+				}
+
+		}
+		else if (obj == btnBuscarSolicitudDeCompra) 
+		{
+
+				boolean b = openChildWindow ("Buscador");
+				if (b == false) 
+				{
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra");
+					escritorio.add (tablaB);
+					tablaB.show ();
+				}
+
 		}
 		else if (obj == cerrarAplicacion || obj== btnSalir) 
 		{
 			salirDelPrograma();
 		}
-		else if (obj == ingresarSolicitudDeCompra || obj == btnBuscarOrdenDeTrabajo) 
+		else if (obj == ingresarSolicitudDeCompra) 
 		{
 			/*
 			 * Código para ingresar la Solicitud de Compra
 			 */
 		}
+		else if (obj == btnBuscarOrdenDeTrabajo) 
+		{
+
+				boolean b = openChildWindow ("Buscador");
+				if (b == false) 
+				{
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo");
+					escritorio.add (tablaB);
+					tablaB.show ();
+				}
+
+		}
 		else if (obj == consultarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
 		{		
-			/*
-			 * Código para consultar la Solicitud de Compra
-			 */
+			boolean b = openChildWindow ("Buscador");
+			if (b == false) 
+			{
+				TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Solicitud de Compra");
+				escritorio.add (tablaB);
+				tablaB.show ();
+			}
 		}
 		else if (obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido)  
 		{
