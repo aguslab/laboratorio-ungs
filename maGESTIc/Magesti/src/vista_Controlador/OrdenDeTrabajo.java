@@ -22,8 +22,8 @@ import Modelo.Orden_Trabajo;
 
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
-	private ArrayList<String> elementos;
-	private ArrayList<Integer> cantidad;
+	private ArrayList<String> elementos=new ArrayList<String>();
+	private ArrayList<Integer> cantidad=new ArrayList<Integer>();
 	
 	private JPanel jpOrdenDeTrabajo = new JPanel();
 	
@@ -493,31 +493,36 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				try {
 					Integer cantFilas = tablaElementos.getRowCount();
 					for (int i = 0; i < cantFilas; i++) {
+						//cuenta la cant de row no nullas
+						Integer c=0;
 						if (tablaElementos.getValueAt(i, 0) != null
 								&& tablaElementos.getValueAt(i, 1) != null) {
+							c++;
 							String a = tablaElementos.getValueAt(i, 0)
 									.toString();
 							String b = tablaElementos.getValueAt(i, 1)
 									.toString();
 							if (b.equals("")) {
 								System.out.println("fsjf sdf lhaf,dg sdfg ");
-								JOptionPane.showMessageDialog(null,"No se ha podido almacenar algun valor.\nIntentelo de nuevo.");
+								JOptionPane.showMessageDialog(null,"No se ha podido almacenar el valor de la fila"+i+".\nIntentelo de nuevo.");
 								//Elemento_Producto el_prod = new Elemento_Producto(a, Integer.parseInt(b));
 								//System.out.println(a);//sacar
 								//System.out.println(b);//sacar
 								// el_prod.Alta();//agregar
 							}else{
 								System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
-								a="hola!";
+								//a="hola!";
 								elementos.add(a);
 								System.out.println("BBBBBBBBBBBBBBBBB");
 								cantidad.add(Integer.parseInt(b));
 								System.out.println("CCCCCCCCCCCCCCCC");
 								System.out.println(a);//sacar
 								System.out.println(b);//sacar
-								JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
 							}
 						}
+						if(c==elementos.size())
+						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
+						tablaElementos.setEnabled(false);
 					}
 
 				} catch (Exception e2) {
