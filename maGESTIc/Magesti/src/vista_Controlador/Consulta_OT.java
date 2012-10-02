@@ -15,13 +15,15 @@ import Modelo.Orden_Trabajo;
  * 
  * @author beastieux
  */
-public class Consulta_OT extends JFrame {
+public class Consulta_OT extends JFrame 
+{
 
 	DefaultTableModel dtmEjemplo;
 	JTable tblEjemplo;
 	JScrollPane scpEjemplo;
 
-	public Consulta_OT() {
+	public Consulta_OT() 
+	{
 
 		tblEjemplo = new JTable();
 		scpEjemplo = new JScrollPane();
