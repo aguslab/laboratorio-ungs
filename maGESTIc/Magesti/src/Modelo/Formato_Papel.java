@@ -43,6 +43,37 @@ public class Formato_Papel {
 		return alto;
 	}
 
+	public static  String[] getFormatos()
+	{
+		ArrayList<String> fmt=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT tamanio_formato FROM formato_papel");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					fmt.add(resultado.getString("tamanio_formato"));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		String [] fmts= new String[fmt.size()];
+		
+		for(int i=0;i<fmt.size();i++)
+		{
+			fmts[i]=fmt.get(i);
+		}
+		
+		return fmts;
+	}
+	
 	public void setAlto(Integer alto) {
 		this.alto = alto;
 	}
