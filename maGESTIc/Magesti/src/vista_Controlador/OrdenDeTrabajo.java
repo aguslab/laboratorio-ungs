@@ -503,6 +503,50 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones.setDisabledIconAt(0, null);
 		tabSecciones.setMnemonicAt(0, KeyEvent.VK_E);
 		
+		
+		
+		JPanel panMateriales = new JPanel();
+		panMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tabSecciones.addTab("Materiales", new ImageIcon ("Imagenes/registrar.png"), panMateriales, "Materiales");
+		panMateriales.setLayout(null);
+		
+		JScrollPane spMateriales = new JScrollPane();
+		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spMateriales.setBounds(10, 11, 615, 228);
+		panMateriales.add(spMateriales);
+		
+		JTable tableMateriales = new JTable();
+		tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableMateriales.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
+		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
+		tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
+		tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
+		spMateriales.setViewportView(tableMateriales);
+		
+		
+		
+		
+		
+		
+		/*
+		
 		try
 		{
 		Class.forName("com.mysql.jdbc.Driver");
@@ -541,6 +585,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		e.printStackTrace();
 		}
 
+		*/
       
       
       
