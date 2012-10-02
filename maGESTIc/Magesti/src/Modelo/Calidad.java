@@ -40,6 +40,37 @@ public class Calidad
 		this.nombre = nombre;
 	}
 	
+	public static  String[] getCalidades()
+	{
+		ArrayList<String> cal=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM calidad");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cal.add(resultado.getString("nombre"));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		String [] cals= new String[cal.size()];
+		
+		for(int i=0;i<cal.size();i++)
+		{
+			cals[i]=cal.get(i);
+		}
+		
+		return cals;
+	}
+	
 	public boolean Alta()
 	{
 		String nom = this.getNombre();
