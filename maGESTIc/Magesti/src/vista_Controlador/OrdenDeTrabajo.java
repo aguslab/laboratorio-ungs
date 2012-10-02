@@ -6,8 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,10 +15,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.Cliente;
+import Modelo.Elemento_Producto;
 import Modelo.Orden_Trabajo;
-import Modelo.Procesos_x_OT;
-import Modelo.Tipo_producto;
-
 
 @SuppressWarnings("serial")
 
@@ -40,11 +38,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbTipoDeProducto,
 		lbCantidadAEntregar,
 		lbPreimpresion,
-		lbOriginal,
-		lbDuplicado,
-		lbTriplicado,
-		lbTapa,
-		lbPaginasInteriores,
 		lbCantidadDeHojasUtilizadas;
 	
 	private JTextField 
@@ -55,14 +48,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtAlto,
 		txtCantidadAEntregar,
 		txtPreimpresion,
-		txtOriginal,
-		txtDuplicado,
-		txtTriplicado,
-		txtTapas,
-		txtPaginasInteriores,
 		txtCantidadDeHojasUtilizadas;
 	
-	private JComboBox<String> 
+	private JComboBox 
 		cboCliente,
 		cboMes, 
 		cboDia, 
@@ -70,8 +58,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboMes2, 
 		cboDia2, 
 		cboAnio2,
-		cboEstado,
-		cboTipoDeProducto;
+		cboEstado;
 	
 	private JButton
 		btnLimpiarOT,
@@ -123,13 +110,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		"Cerrado" 
 	};
 	
-	String TipoDeProducto[] = Tipo_producto.getTiposProd();
-	/*{  PLAN B
+	String TipoDeProducto[] = /*Tipo_producto.getTiposProd();*/
+	{ // PLAN B
 		"Block de facturas", 
 		"Revista", 
 		"Calendario",
 		"Cuaderno"
-	};*/
+	};
+	private JTextField txtTipoProducto;
+	private JTable tablaElementos;
 
 	OrdenDeTrabajo()
 	{	
@@ -183,7 +172,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setBounds(105, 20, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
-		cboCliente = new JComboBox<String> (Clientes);
+		cboCliente = new JComboBox (Clientes);
 		cboCliente.setBounds(445, 20, 210, 25);
 		
 		txtNombreOT = new JTextField ();
@@ -243,6 +232,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbCantidadDeHojasUtilizadas.setForeground (Color.black);
 		
 		txtCantidadDeHojasUtilizadas = new JTextField ("0");
+		txtCantidadDeHojasUtilizadas.setEnabled(false);
 		txtCantidadDeHojasUtilizadas.setBounds(105,554, 100, 25);
 		txtCantidadDeHojasUtilizadas.setHorizontalAlignment (JTextField.LEFT);
 		
@@ -314,25 +304,21 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 		);
 
-		cboMes = new JComboBox<String> (Meses); //Comentar esta línea si quieren utilizar el WB
+		cboMes = new JComboBox (Meses); //Comentar esta línea si quieren utilizar el WB
 		//cboMes = new JComboBox<String> ();	//Descomentar esta línea para utilizar el WB
 		cboMes.setBounds(105, 55, 97, 25);
 		
-		cboDia = new JComboBox<String> ();
+		cboDia = new JComboBox ();
 		cboDia.setBounds(202, 55, 48, 25);
 		
-		cboAnio = new JComboBox<String> ();
+		cboAnio = new JComboBox ();
 		cboAnio.setBounds(250, 55, 65, 25);
 		
-		cboEstado = new JComboBox<String> (Estados);	//Comentar esta línea si quieren utilizar el WB
-		cboEstado = new JComboBox<String> ();
+		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
+		cboEstado = new JComboBox ();
 		cboEstado.setToolTipText("Pendiente");
 		cboEstado.setBounds(445, 90, 210, 25);
 		cboEstado.setEnabled(false);
-		
-		cboTipoDeProducto = new JComboBox<String> (TipoDeProducto); //Comentar esta línea si quieren utilizar el WB
-		//cboTipoDeProducto = new JComboBox<String> ();				//Descomentar esta línea para utilizar el WB
-		cboTipoDeProducto.setBounds(105, 195, 210, 25);
 		
 		for (int i = 1; i <= 31; i++) 
 		{
@@ -346,14 +332,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio.addItem (anios);
 		}
 		
-		cboMes2 = new JComboBox<String> (Meses);
+		cboMes2 = new JComboBox (Meses);
 		//cboMes2 = new JComboBox<String> ();
+		
 		cboMes2.setBounds(445, 55, 97, 25);
 		
-		cboDia2 = new JComboBox<String> ();
+		cboDia2 = new JComboBox ();
 		cboDia2.setBounds(542, 55, 48, 25);
 		
-		cboAnio2 = new JComboBox<String> ();
+		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(590, 55, 65, 25);
 		
 		for (int i = 1; i <= 31; i++) 
@@ -411,7 +398,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtPreimpresion);
-		jpOrdenDeTrabajo.add (cboTipoDeProducto);
 		jpOrdenDeTrabajo.add (txtCantidadAEntregar);
 		jpOrdenDeTrabajo.add (tabSecciones);
 		jpOrdenDeTrabajo.add (btnLimpiarOT);
@@ -427,49 +413,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		panElementos.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panElementos.setBounds(0, 0, 640, 250);
-		
-			lbOriginal = new JLabel("Original: ");
-			lbOriginal.setBounds(15, 10, 100, 25);
-			
-			lbDuplicado = new JLabel("Duplicado: ");
-			lbDuplicado.setBounds(15, 45, 100, 25);
-			
-			lbTriplicado = new JLabel("Triplicado: ");
-			lbTriplicado.setBounds(15, 80, 100, 25);
-			
-			txtOriginal = new JTextField("0");
-			txtOriginal.setBounds(115, 10, 100, 25);
-			
-			txtDuplicado = new JTextField("0");
-			txtDuplicado.setBounds(115, 45, 100, 25);
-			
-			txtTriplicado = new JTextField("0");
-			txtTriplicado.setBounds(115, 80, 100, 25);
-			
-			lbTapa = new JLabel("Tapa: ");
-			lbTapa.setBounds(15, 115, 100, 25);
-			
-			lbPaginasInteriores = new JLabel("Páginas. Int.: ");
-			lbPaginasInteriores.setBounds(15, 150, 100, 25);
-			
-			txtTapas = new JTextField("0");
-			txtTapas.setBounds(115, 115, 100, 25);
-			
-			txtPaginasInteriores = new JTextField("0");
-			txtPaginasInteriores.setBounds(115, 150, 100, 25);
 			
 		panElementos.setLayout(null);
-
-		panElementos.add(lbOriginal);
-		panElementos.add(lbDuplicado);
-		panElementos.add(lbTriplicado);
-		panElementos.add(lbTapa);
-		panElementos.add(lbPaginasInteriores);
-		panElementos.add(txtOriginal);
-		panElementos.add(txtDuplicado);
-		panElementos.add(txtTriplicado);
-		panElementos.add(txtTapas);
-		panElementos.add(txtPaginasInteriores);
 		
 		tabSecciones.addTab
 		(
@@ -479,68 +424,123 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	        "Elementos del producto"
 		);
 		
+		JScrollPane spElementos = new JScrollPane();
+		spElementos.setBounds(10, 11, 615, 193);
+		panElementos.add(spElementos);
+		
+		tablaElementos = new JTable();
+		tablaElementos.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Original", null},
+				{"Duplicado", null},
+				{"Triplicado", null},
+				{"Tapa", null},
+				{"Cant. Hojas", null},
+			},
+			new String[] {
+				"Elemento del producto", "Cantidad"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
+		spElementos.setViewportView(tablaElementos);
+		
+		JButton btnAgregarFila = new JButton("Agregar Fila");
+		btnAgregarFila.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
+				Object nuevo[]= {"",""};
+				temp.addRow(nuevo);
+			}
+		});
+		btnAgregarFila.setBounds(10, 215, 96, 23);
+		panElementos.add(btnAgregarFila);
+		
+		JButton btnNewButton_1 = new JButton("Borrar Fila");
+		btnNewButton_1.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				try
+				{	
+				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
+				temp.removeRow(temp.getRowCount()-1);
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_1.setBounds(116, 215, 96, 23);
+		panElementos.add(btnNewButton_1);
+		
+		JButton btnAlmacenar = new JButton("Almacenar");
+		btnAlmacenar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Elemento_Producto el_prod= new Elemento_Producto(tipo_elemento, cantidad)
+				Integer cantFilas=tablaElementos.getRowCount();
+				for(int i=0;i<cantFilas;i++){
+					String a=tablaElementos.getValueAt(i, 0).toString();
+					String b=tablaElementos.getValueAt(i, 1).toString();
+					Elemento_Producto el_prod= new Elemento_Producto(a, Integer.parseInt(b));
+					el_prod.Alta();
+				}
+			}
+		});
+		btnAlmacenar.setBounds(310, 215, 96, 23);
+		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
 		tabSecciones.setDisabledIconAt(0, null);
 		tabSecciones.setMnemonicAt(0, KeyEvent.VK_E);
 		
-		
 		try
 		{
-		   Class.forName("com.mysql.jdbc.Driver");
-           Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","tp_labo", "laboratorio");
-          
-           Statement s = conexion.createStatement();
-           ResultSet rs = s.executeQuery ("select * from materiales");
-           ResultSetMetaData metaDatos = rs.getMetaData();
-           dtmMateriales  = new DefaultTableModel ();
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","tp_labo", "laboratorio");
 
-   		   JPanel panMateriales = new JPanel();
-           panMateriales.setBorder(new EmptyBorder(5, 5, 5, 5));
-           panMateriales.setLayout(null);
-           
-           int numeroColumnas = metaDatos.getColumnCount();
-           Object[] etiquetas = new Object[numeroColumnas];
+		Statement s = conexion.createStatement();
 
-           for (int i = 0; i < numeroColumnas; i++)
-           {
-              etiquetas[i] = metaDatos.getColumnLabel(i + 1); 
-           }
-          
-           
-           	tablaMateriales = new JTable(dtmMateriales);
-           	tablaMateriales.setBounds(0, 0, 640, 248);
-           	tablaMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-           	tablaMateriales.setEnabled(true);
-           	
-           	
-           	dtmMateriales.setColumnIdentifiers(etiquetas);
- 
 
-           	while (rs.next())
-        	{
-        	   Object [] fila = new Object[numeroColumnas];
-        	   for (int i=0;i<10;i++)
-        	      fila[i] = rs.getObject(i+1);
-        	   dtmMateriales.addRow(fila); 
-        	   
-        	}
-            panMateriales.add(tablaMateriales);
-
-    		tabSecciones.addTab
-    		(
-    			"Materiales",
-    			new ImageIcon ("Imagenes/registrar.png"), 
-    			panMateriales,
-    		    "Materiales involucrados"
-    		);
-    		
-    		tabSecciones.setMnemonicAt(1, KeyEvent.VK_M);
-           conexion.close();
-		} 
-		catch (Exception e)
+		ResultSet rsMateriales = s.executeQuery ("select * from materiales");
+		ResultSetMetaData metaDatos = rsMateriales.getMetaData();
+		int numeroColumnas = metaDatos.getColumnCount();
+		Object[] etiquetas = new Object[numeroColumnas];
+		for (int i = 0; i < numeroColumnas; i++)
 		{
-		   e.printStackTrace();
+		etiquetas[i] = metaDatos.getColumnLabel(i + 1);
 		}
+		dtmMateriales = new DefaultTableModel ();
+		tablaMateriales = new JTable(dtmMateriales);
+		tablaMateriales.setBounds(0, 0, 640, 248);
+		tablaMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tablaMateriales.setEnabled(true);
+		dtmMateriales.setColumnIdentifiers(etiquetas);
+		while (rsMateriales.next())
+		{
+		Object [] fila = new Object[numeroColumnas];
+		for (int i=0;i<10;i++)
+		fila[i] = rsMateriales.getObject(i+1);
+		dtmMateriales.addRow(fila);
+		}
+
+		}
+		catch (SQLException e)
+		{
+		e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+		}
+
       
       
       
@@ -564,92 +564,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	        "Listado de tareas o procesos"
 		);
 		
-		tabSecciones.setMnemonicAt(2, KeyEvent.VK_O);
+		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
 		
 		JLabel lblMedidaFinal = new JLabel("Medida Final");
 		lblMedidaFinal.setBounds(15, 166, 80, 14);
 		jpOrdenDeTrabajo.add(lblMedidaFinal);
 		
-		//Verificar que lo ingresado sea sólo numérico
-		txtOriginal.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		
-		txtDuplicado.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		
-		txtTriplicado.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		
-		txtTapas.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		
-		txtPaginasInteriores.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
+		txtTipoProducto = new JTextField("");
+		txtTipoProducto.setHorizontalAlignment(SwingConstants.LEFT);
+		txtTipoProducto.setBounds(105, 195, 210, 25);
+		jpOrdenDeTrabajo.add(txtTipoProducto);
 		
 		txtClear();
 		
@@ -661,7 +585,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 
 		Object obj = ae.getSource();
-
+		
 		if (obj == btnGuardar) 
 		{
 			
@@ -706,6 +630,20 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				txtDescripcion.requestFocus ();
 				
 			}
+			else if (txtTipoProducto.getText().equals("")) 
+			{
+				
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Ingrese Tipo de producto",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.PLAIN_MESSAGE
+				);
+				
+				txtTipoProducto.requestFocus ();
+				
+			}
 			else if (txtCantidadAEntregar.getText().equals("") || txtCantidadAEntregar.getText().equals("0")) 
 			{
 				
@@ -742,11 +680,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 	
 	void cargarTablas() 
-	{
-		/*
-		 * 	Aquí colocaríamos el código para cargar la tabla
-		 */
-		
+	{	
 		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
 		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
@@ -812,28 +746,19 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			return "12";
 		}
-
 	}
-	
-	
-	
 	
 	void txtClear () 
 	{
 		txtNombreOT.setText ("");
 		txtDescripcion.setText ("");
+		txtTipoProducto.setText ("");
 		txtCantidadDeHojasUtilizadas.setText ("0");
 		txtAncho.setText("0");
 		txtAlto.setText("0");
 		txtCantidadAEntregar.setText("1");
 		txtPreimpresion.setText("0");
-		txtOriginal.setText("0");
-		txtDuplicado.setText("0");
-		txtTriplicado.setText("0");
-		txtTapas.setText("0");
-		txtPaginasInteriores.setText("0");
 		txtCantidadDeHojasUtilizadas.setText("0");
 		chbApaisado.setSelected(false);
 	}
-	
 }	
