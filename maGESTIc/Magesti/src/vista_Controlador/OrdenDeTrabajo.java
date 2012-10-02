@@ -71,7 +71,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JTabbedPane
 		tabSecciones;
 	
-	private JTable tablaOE, tablaMateriales;
+	private JTable tablaMateriales;
 	
 	private DefaultTableModel dtmMateriales;
 	
@@ -119,6 +119,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	};
 	private JTextField txtTipoProducto;
 	private JTable tablaElementos;
+	private JTable table;
 
 	OrdenDeTrabajo()
 	{	
@@ -592,14 +593,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panOrdenEjecucion.setLayout(null);
-		
-			//Acá hay una tabla que se llenaría con la tabla de Orden de Ejecución
-        	tablaOE = new JTable();
-        	tablaOE.setBounds(0, 0, 640, 248);
-        	tablaOE.setBorder(new LineBorder(new Color(0, 0, 0)));
-        	tablaOE.setEnabled(false);
-        	
-        panOrdenEjecucion.add(tablaOE);
         
 		tabSecciones.addTab
 		(
@@ -608,6 +601,31 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			panOrdenEjecucion,
 	        "Listado de tareas o procesos"
 		);
+		
+		JScrollPane spOrdenEjecucion = new JScrollPane();
+		spOrdenEjecucion.setBounds(10, 11, 615, 228);
+		panOrdenEjecucion.add(spOrdenEjecucion);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Proceso", "Tercerizada", "Proveedor", "Observaciones"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Object.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(197);
+		table.getColumnModel().getColumn(1).setPreferredWidth(71);
+		table.getColumnModel().getColumn(2).setPreferredWidth(135);
+		table.getColumnModel().getColumn(3).setPreferredWidth(149);
+		spOrdenEjecucion.setViewportView(table);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
 		
