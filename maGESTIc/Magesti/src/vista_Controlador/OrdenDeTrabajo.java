@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.Cliente;
-import Modelo.Elemento_Producto;
 import Modelo.Orden_Trabajo;
 
 @SuppressWarnings("serial")
@@ -780,10 +779,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
 		Integer ancho = Integer.parseInt(txtAncho.getText());
 		Integer alto = Integer.parseInt(txtAlto.getText());
-		
+		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 
-		Orden_Trabajo ot1= new Orden_Trabajo(1, 2, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantImp,ancho,alto,apaisado,"Pendiente");
+		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, 1, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantImp,ancho,alto,apaisado,"Pendiente");
 		ot1.Alta();
 		
 		//para cuando este el resto de la GUI
