@@ -248,7 +248,8 @@ public class Orden_Trabajo {
 
 			try {
 
-				while (resultado.next()) {
+				while (resultado.next()) 
+				{
 					Orden_Trabajo ot = new Orden_Trabajo(new Integer(
 							resultado.getInt("id_orden_trabajo")), new Integer(
 							resultado.getInt("id_producto")), new Integer(

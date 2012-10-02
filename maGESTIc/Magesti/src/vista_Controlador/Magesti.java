@@ -387,21 +387,30 @@ implements
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{
-			/*
-			 * Código para mostrar Contenido de Ayuda
-			 */
+			boolean b = openChildWindow ("Ayuda Magesti");
+			if (b == false) 
+			{
+				MagestiHelp hlpMagesti = new MagestiHelp ("Contenido de Ayuda", "Ayuda/Magesti.htm");
+				escritorio.add (hlpMagesti);
+				hlpMagesti.show ();
+			}
 		}
-		else if (obj == ayudaAtajos || obj == btnSalir) 
+		else if (obj == ayudaAtajos) 
 		{
-			/*
-			 * Código para mostrar las teclas de Atajos
-			 */
+			boolean b = openChildWindow ("Atajos Magesti");
+			if (b == false) 
+			{
+				MagestiHelp hlpAtajos = new MagestiHelp ("Atajos / Combinaciones de teclas", "Ayuda/Atajos.htm");
+				escritorio.add (hlpAtajos);
+				hlpAtajos.show ();
+			}
+
 		}
 		else if (obj == acercaDe) 
 		{
-			/*
-			 * Código para mostrar la Ventana "Acerca de..."
-			 */
+			String msg = qTITULO + "\n\n" + "Creado y diseñado por:\n" + 
+					"©2012 - De Napoli, Godoy, Jiménez y asociados.";
+				JOptionPane.showMessageDialog (this, msg, "Acerca de...", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
