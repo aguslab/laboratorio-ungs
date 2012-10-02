@@ -11,15 +11,16 @@ public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 	
-		/* ORDEN DE TRABAJO
-		Orden_Trabajo ot1= new Orden_Trabajo(2, 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
+		/*
+			// ORDEN DE TRABAJO
+		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
 		System.out.println(ot1.Alta());
 		ArrayList<Orden_Trabajo> lot=ot1.Buscar();
 		lot.get(0).mostrarDatos();
 		lot.get(1).mostrarDatos();
 	
-		
-	*/	
+		*/
+	
 		/*
 		 * 		VARIANTE
 		Variante v1= new Variante("hola");
@@ -40,11 +41,15 @@ public class Main_OT {
 	ArrayList<Calidad> lcal=cal.Buscar();
 	*/
 		
-	/*	ELEMENTO_PRODUCTO
-		Elemento_Producto elem= new Elemento_Producto("Revista", 12);
+	
+	/*
+			//ELEMENTO
+		Elemento elem= new Elemento(1, "Revista", 12);
 		System.out.println(elem.Alta());
-		ArrayList<Elemento_Producto> lelem=elem.Buscar();
+		ArrayList<Elemento> lelem=elem.Buscar();
+
 	*/
+
 		
 	/*	FORMATO_PAPEL
 		
@@ -83,12 +88,12 @@ public class Main_OT {
 			
 		//System.out.println(Orden_Trabajo.getUltOT());
 		
-	/*	
-		Materiales m= new Materiales(12, 43, 12, 4, 1, 12, 1, 2, 2);
+	/*
+		Materiales m= new Materiales(1,12, 43, 12, 4, 1, 12, 1, 2, 2);
 		System.out.println(m.Alta());
 		ArrayList<Materiales> l_m=m.Buscar();
-		
-	*/
+	*/	
+	
 		
 		
 		 }

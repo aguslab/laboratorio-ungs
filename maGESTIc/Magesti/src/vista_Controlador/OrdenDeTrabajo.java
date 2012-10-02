@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,6 +23,8 @@ import Modelo.Orden_Trabajo;
 
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
+	private ArrayList<String> elementos;
+	private ArrayList<Integer> cantidad;
 	
 	private JPanel jpOrdenDeTrabajo = new JPanel();
 	
@@ -487,15 +490,43 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		JButton btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//Elemento_Producto el_prod= new Elemento_Producto(tipo_elemento, cantidad)
-				Integer cantFilas=tablaElementos.getRowCount();
-				for(int i=0;i<cantFilas;i++){
-					String a=tablaElementos.getValueAt(i, 0).toString();
-					String b=tablaElementos.getValueAt(i, 1).toString();
-					Elemento_Producto el_prod= new Elemento_Producto(a, Integer.parseInt(b));
-					el_prod.Alta();
+
+				try {
+					Integer cantFilas = tablaElementos.getRowCount();
+					for (int i = 0; i < cantFilas; i++) {
+						if (tablaElementos.getValueAt(i, 0) != null
+								&& tablaElementos.getValueAt(i, 1) != null) {
+							String a = tablaElementos.getValueAt(i, 0)
+									.toString();
+							String b = tablaElementos.getValueAt(i, 1)
+									.toString();
+							if (b.equals("")) {
+								System.out.println("fsjf sdf lhaf,dg sdfg ");
+								JOptionPane.showMessageDialog(null,"No se ha podido almacenar algun valor.\nIntentelo de nuevo.");
+								//Elemento_Producto el_prod = new Elemento_Producto(a, Integer.parseInt(b));
+								//System.out.println(a);//sacar
+								//System.out.println(b);//sacar
+								// el_prod.Alta();//agregar
+							}else{
+								System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
+								a="hola!";
+								elementos.add(a);
+								System.out.println("BBBBBBBBBBBBBBBBB");
+								cantidad.add(Integer.parseInt(b));
+								System.out.println("CCCCCCCCCCCCCCCC");
+								System.out.println(a);//sacar
+								System.out.println(b);//sacar
+								JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
+							}
+						}
+					}
+
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
+
 				}
+
+
 			}
 		});
 		btnAlmacenar.setBounds(310, 215, 96, 23);

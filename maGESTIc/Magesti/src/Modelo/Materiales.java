@@ -7,6 +7,7 @@ public class Materiales {
 
 
 	private Integer id_materiales;
+	private Integer id_elemento;
 	private Integer gramaje;
 	private Integer poses_x_pliego;
 	private Integer pliegos_netos;
@@ -19,29 +20,16 @@ public class Materiales {
 	
 	
 	
-	public Materiales(Integer id_materiales, Integer gramaje,
-			Integer poses_x_pliego, Integer pliegos_netos,
+	
+
+
+	public Materiales(Integer id_materiales, Integer id_elemento,
+			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
 			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
 			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
 		super();
 		this.id_materiales = id_materiales;
-		this.gramaje = gramaje;
-		this.poses_x_pliego = poses_x_pliego;
-		this.pliegos_netos = pliegos_netos;
-		this.pliegos_en_demasia = pliegos_en_demasia;
-		this.pliegos_x_hoja = pliegos_x_hoja;
-		this.hojas = hojas;
-		this.id_calidad = id_calidad;
-		this.id_variante = id_variante;
-		this.id_formato_papel = id_formato_papel;
-	}
-	
-	
-	public Materiales(Integer gramaje,
-			Integer poses_x_pliego, Integer pliegos_netos,
-			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
-			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
-		super();
+		this.id_elemento = id_elemento;
 		this.gramaje = gramaje;
 		this.poses_x_pliego = poses_x_pliego;
 		this.pliegos_netos = pliegos_netos;
@@ -53,6 +41,32 @@ public class Materiales {
 		this.id_formato_papel = id_formato_papel;
 	}
 
+	public Materiales(Integer id_elemento,
+			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
+			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
+			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
+		super();
+		this.id_elemento = id_elemento;
+		this.gramaje = gramaje;
+		this.poses_x_pliego = poses_x_pliego;
+		this.pliegos_netos = pliegos_netos;
+		this.pliegos_en_demasia = pliegos_en_demasia;
+		this.pliegos_x_hoja = pliegos_x_hoja;
+		this.hojas = hojas;
+		this.id_calidad = id_calidad;
+		this.id_variante = id_variante;
+		this.id_formato_papel = id_formato_papel;
+	}
+	
+	
+
+	public Integer getId_elemento() {
+		return id_elemento;
+	}
+
+	public void setId_elemento(Integer id_elemento) {
+		this.id_elemento = id_elemento;
+	}
 
 	public Integer getId_materiales() {
 		return id_materiales;
@@ -161,6 +175,7 @@ public class Materiales {
 	public boolean Alta() {
 
 		Integer gram = this.getGramaje();
+		Integer id_elem = this.getId_elemento();
 		Integer poses_x_plie = this.getPoses_x_pliego();
 		Integer plie_netos = this.getPliegos_netos();
 		Integer plie_en_demasia = this.getPliegos_en_demasia();
@@ -171,8 +186,8 @@ public class Materiales {
 		Integer id_formato_papel = this.getId_formato_papel();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
-				"INSERT INTO materiales VALUES(default," + gram + ","
-						+ poses_x_plie + "," + plie_netos + ","
+				"INSERT INTO materiales VALUES(default," + id_elem + "," + gram
+						+ "," + poses_x_plie + "," + plie_netos + ","
 						+ plie_en_demasia + "," + plie_x_hoja + "," + hojaS
 						+ "," + id_calidad + "," + id_variante + ","
 						+ id_formato_papel + ");")) {
@@ -196,6 +211,7 @@ public class Materiales {
 				while (resultado.next()) {
 					Materiales mater = new Materiales(new Integer(
 							resultado.getInt("id_materiales")), new Integer(
+							resultado.getInt("id_elemento")), new Integer(
 							resultado.getInt("gramaje")), new Integer(
 							resultado.getInt("poses_x_pliego")), new Integer(
 							resultado.getInt("pliegos_netos")), new Integer(

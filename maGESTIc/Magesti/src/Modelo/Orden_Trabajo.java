@@ -1,16 +1,14 @@
 package Modelo;
 
-import java.sql.DatabaseMetaData;
+
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class Orden_Trabajo {
 
 		private Integer id_orden_trabajo;
-		private Integer id_Producto;
+		private String nombre_producto;
 		private Integer id_cliente;
 		private String f_confeccion;
 		private String f_prometida;
@@ -24,15 +22,13 @@ public class Orden_Trabajo {
 
 
 
-		//static MySQLBD baseDatos = new MySQLBD().conectar();
-
-		public Orden_Trabajo(Integer id_orden_trabajo, Integer id_Producto, Integer id_cliente,
+		public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
 				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
 				boolean apaisado,String estado) {
 			super();
 			this.id_orden_trabajo= id_orden_trabajo;
-			this.id_Producto = id_Producto;
+			this.nombre_producto = nombre_Producto;
 			this.id_cliente = id_cliente;
 			this.f_confeccion = f_confeccion;
 			this.f_prometida = f_prometida;
@@ -45,13 +41,13 @@ public class Orden_Trabajo {
 			this.estado= estado;
 		}
 
-		public Orden_Trabajo(Integer id_Producto, Integer id_cliente,
+		public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
 				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
 				boolean apaisado,String estado) {
 			super();
 			this.id_orden_trabajo=getUltOT();//ver si va, es posible q cause problemas
-			this.id_Producto = id_Producto;
+			this.nombre_producto = nombre_Producto;
 			this.id_cliente = id_cliente;
 			this.f_confeccion = f_confeccion;
 			this.f_prometida = f_prometida;
@@ -100,12 +96,12 @@ public class Orden_Trabajo {
 			this.id_orden_trabajo = id_orden_trabajo;
 		}
 
-		public Integer getId_Producto() {
-			return id_Producto;
+		public String getNombre_Producto() {
+			return nombre_producto;
 		}
 
-		public void setId_Producto(Integer id_Producto) {
-			this.id_Producto = id_Producto;
+		public void setNombre_Producto(String nombre_Producto) {
+			this.nombre_producto = nombre_Producto;
 		}
 
 		public Integer getId_cliente() {
@@ -194,7 +190,7 @@ public class Orden_Trabajo {
 		public void mostrarDatos(){
 			System.out.println();
 			System.out.print(this.getId_orden_trabajo()+"    ");
-			System.out.print(this.getId_Producto()+"     ");
+			System.out.print(this.getNombre_Producto()+"     ");
 			System.out.print(this.getF_prometida()+"     ");
 			System.out.print(this.getNombre_trabajo()+"     ");
 			System.out.print(this.getEstado()+"     ");
@@ -206,43 +202,33 @@ public class Orden_Trabajo {
 		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
 		// lo contrario.
 		public boolean Alta() 
-		{
-			
-			Integer id_prod = getId_Producto();
-			Integer id_cli = getId_cliente();
-			String f_conf = getF_confeccion();
-			String f_prom = getF_prometida();
-			String nom_trabajo = getNombre_trabajo();
-			String descr = getDescripcion();
-			Integer cant_preimpr = getCantidad_preimpresion();
-			Integer ancho = getAncho();
-			Integer alto = getAlto();
-			boolean apaisado = isApaisado();
-			String status= getEstado();
-			
+ {
 
-			/*	
-			if (baseDatos
-					.ejecutar("insert into orden_trabajo VALUES(DEFAULT,2,1,'2012/09/01','2012/10/11 08:00:34','Revista Ofertas','Orden de trabajo para la Palelera Lorenzo',5,600,700,true);")) {
-				return true;
-			} else {
-				return false;
-			}
-			
-			*/
-			
-		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO orden_trabajo VALUES(default,"+ id_prod + "," + id_cli + "," + "'" + f_conf + "'" + "," + "'"
-				+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + "," + "'"
-				+ descr + "'" + "," + cant_preimpr + "," + ancho + "," + alto
-				+ "," + apaisado +","+"'"+status+"'"+ ");")) {
+		String nombre_prod = getNombre_Producto();
+		Integer id_cli = getId_cliente();
+		String f_conf = getF_confeccion();
+		String f_prom = getF_prometida();
+		String nom_trabajo = getNombre_trabajo();
+		String descr = getDescripcion();
+		Integer cant_preimpr = getCantidad_preimpresion();
+		Integer ancho = getAncho();
+		Integer alto = getAlto();
+		boolean apaisado = isApaisado();
+		String status = getEstado();
+
+		if (ConexionDB.getbaseDatos().ejecutar(
+				"INSERT INTO orden_trabajo VALUES(default," + "'"+nombre_prod+"'" + ","
+						+ id_cli + "," + "'" + f_conf + "'" + "," + "'"
+						+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + ","
+						+ "'" + descr + "'" + "," + cant_preimpr + "," + ancho
+						+ "," + alto + "," + apaisado + "," + "'" + status
+						+ "'" + ");")) {
 			return true;
-		} 
-		else 
-		{
+		} else {
 			return false;
 		}
-			 
-		}
+
+	}
 		
 		
 		
@@ -256,12 +242,11 @@ public class Orden_Trabajo {
 
 			try {
 
-				while (resultado.next()) 
-				{
+				while (resultado.next()) {
 					Orden_Trabajo ot = new Orden_Trabajo(new Integer(
-							resultado.getInt("id_orden_trabajo")), new Integer(
-							resultado.getInt("id_producto")), new Integer(
-							resultado.getInt("id_cliente")),
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getString("nombre_producto"),
+							new Integer(resultado.getInt("id_cliente")),
 							resultado.getString("f_confeccion"),
 							resultado.getString("f_prometida"),
 							resultado.getString("nombre_trabajo"),
