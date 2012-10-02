@@ -6,33 +6,6 @@ import java.util.ArrayList;
 public class Materiales {
 
 
-	
-	/*
-	 * 
-	 * 
-	 * 
-	 * DEJO ESTA CLASE PARA DESPUES PORQUE ACA HABRIA QUE
-	 * AUTOCALCULAR HOJAS Y PLIEGOS_NETOS, PERO NO SE COMO
-	 * HAY QUE HACER PARA CALCULARLOS, NO SE CON QUE DATOS SE SACA
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private Integer id_materiales;
 	private Integer gramaje;
 	private Integer poses_x_pliego;
@@ -182,26 +155,27 @@ public class Materiales {
 	
 	
 
-	/*
+	
 	
 	
 	public boolean Alta() {
-		
-		private Integer gramaje= this.getGramaje();
-		private Integer poses_x_pliego=this.getPoses_x_pliego();
-		private Integer pliegos_netos=this.getPliegos_netos();
-		private Integer pliegos_en_demasia=this.getPliegos_en_demasia();
-		private Integer pliegos_x_hoja=this.getpli;
-		private Integer hojas;
-		private Integer id_calidad;
-		private Integer id_variante;
-		private Integer id_formato_papel;
-		
-		
-		
-		if (ConexionDB.baseDatos
-				.ejecutar("INSERT INTO formato_papel VALUES(default," + ancho
-						+ "," + alto + ");")) {
+
+		Integer gram = this.getGramaje();
+		Integer poses_x_plie = this.getPoses_x_pliego();
+		Integer plie_netos = this.getPliegos_netos();
+		Integer plie_en_demasia = this.getPliegos_en_demasia();
+		Integer plie_x_hoja = this.getPliegos_x_hoja();
+		Integer hojaS = this.getHojas();
+		Integer id_calidad = this.getId_calidad();
+		Integer id_variante = this.getId_variante();
+		Integer id_formato_papel = this.getId_formato_papel();
+
+		if (ConexionDB.getbaseDatos().ejecutar(
+				"INSERT INTO materiales VALUES(default," + gram + ","
+						+ poses_x_plie + "," + plie_netos + ","
+						+ plie_en_demasia + "," + plie_x_hoja + "," + hojaS
+						+ "," + id_calidad + "," + id_variante + ","
+						+ id_formato_papel + ");")) {
 			return true;
 		} else {
 			return false;
@@ -209,33 +183,40 @@ public class Materiales {
 	}
 	
 	
-	public ArrayList<Formato_Papel> Buscar() {
+	public ArrayList<Materiales> Buscar() {
 
-		ResultSet resultado = ConexionDB.baseDatos.consultar(
-				"SELECT * FROM formato_papel");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM materiales");
 
-		ArrayList<Formato_Papel> list_formato = new ArrayList<Formato_Papel>();
+		ArrayList<Materiales> list_Materiales = new ArrayList<Materiales>();
 		if (resultado != null) {
 
 			try {
 
 				while (resultado.next()) {
-					Formato_Papel for_papel= new Formato_Papel(new Integer(
-							resultado.getInt("id_formato_papel")),new Integer(
-									resultado.getInt("ancho")), new Integer(
-											resultado.getInt("alto")));
-					list_formato.add(for_papel);
+					Materiales mater = new Materiales(new Integer(
+							resultado.getInt("id_materiales")), new Integer(
+							resultado.getInt("gramaje")), new Integer(
+							resultado.getInt("poses_x_pliego")), new Integer(
+							resultado.getInt("pliegos_netos")), new Integer(
+							resultado.getInt("pliegos_en_demasia")),
+							new Integer(resultado.getInt("pliegos_x_hoja")),
+							new Integer(resultado.getInt("hojas")),
+							new Integer(resultado.getInt("id_calidad")),
+							new Integer(resultado.getInt("id_variante")),
+							new Integer(resultado.getInt("id_formato_papel")));
+					list_Materiales.add(mater);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
-		return list_formato;
+		return list_Materiales;
 	}
 	
 	
-	*/
+	
 	
 	
 	
