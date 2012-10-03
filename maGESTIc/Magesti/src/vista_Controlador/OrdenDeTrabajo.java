@@ -406,7 +406,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		getContentPane().add (jpOrdenDeTrabajo);
 
-		setVisible (true);
+		//setVisible (true);
 		
 		//Para la pestaña de la Seccion Elementos
 		JPanel panElementos = new JPanel();

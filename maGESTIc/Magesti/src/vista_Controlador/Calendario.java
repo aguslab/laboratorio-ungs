@@ -87,11 +87,13 @@ implements ItemListener,ActionListener, Config
 	private SimpleDateFormat fechaDiaHoy = new SimpleDateFormat ("dd", Locale.getDefault());
 	private SimpleDateFormat fechaMesHoy = new SimpleDateFormat ("MM", Locale.getDefault());
 	private SimpleDateFormat fechaAnioHoy = new SimpleDateFormat ("yy", Locale.getDefault());
-	
+	private SimpleDateFormat fechaAnio4Hoy = new SimpleDateFormat ("yyyy", Locale.getDefault());
+	private SimpleDateFormat fechaMesNombreHoy = new SimpleDateFormat ("MMMM", Locale.getDefault());
 	private String diaHoy = fechaDiaHoy.format (fechaHoy);
 	private String mesHoy = fechaMesHoy.format (fechaHoy);
 	private String anioHoy = fechaAnioHoy.format (fechaHoy);
-	
+	private String mesNHoy = fechaMesNombreHoy.format (fechaHoy);
+	private String anio4Hoy = fechaAnio4Hoy.format (fechaHoy);
 	Calendario()
 	{
 		super("Calendario");
@@ -176,19 +178,30 @@ chAnio.select(Integer.valueOf(anioHoy));
 			btnMatriz[i]=new JButton(" "+btn_tag);
 			btn_tag++;
 			btnMatriz[i].addActionListener(this);
+			
+			// Ejemplo de como marcar las hojas como pendientes
+			// fecha1, fecha2 son fechas de do OT para octubre
+			int fecha1 = 20, fecha2 = 29; 
+			String mesOT = "OCTUBRE";
+			
+
 			if (i == Integer.valueOf(diaHoy))
-				{System.out.println("SIPI");
-				btnMatriz[i-1].setForeground(Color.BLUE);
-				btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/hoy.png"));
 				
-				//btnMatriz[i-1].
-				}
-			else if (i == 20 || i ==29)
 			{
-				btnMatriz[i-1].setForeground(Color.RED);
-				btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/tarea.png"));
+
+				if (chMes.getSelectedItem().toLowerCase().equals(mesNHoy.toLowerCase()))
+						{
+							btnMatriz[i-1].setForeground(Color.BLUE);
+							btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/hoy.png"));
+						}
+				}
+				//falta verifcar que corresponde al año
+				else if ((i == fecha1 || i ==fecha2) && mesOT.toLowerCase().equals(chMes.getSelectedItem().toLowerCase()))
+				{
+					btnMatriz[i-1].setForeground(Color.RED);
+					btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/tarea.png"));
+				}
 			}
-		}
 		
 		
 	sketch();
@@ -225,7 +238,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 		
 		filaUno=true;	
 		btn_tag=1;
-		System.out.println(anioHoy + " " + mesHoy);
+		//System.out.println(anioHoy + " " + mesHoy);
 		getContentPane().add(pan1, BorderLayout.NORTH);
 		getContentPane().add(panel, BorderLayout.WEST);
 		panel.setLayout(new GridLayout(4, 0, 0,8));
@@ -265,7 +278,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 	{
 		
 		
-		String msg = "En lugar de este cartel debería estar la OT\n de la fecha: " + diaSeleccionado+ "/" + mm + "/" + anio +"\n hoy es:";
+		String msg = "En lugar de este cartel debería estar la OT\n de la fecha: " + diaSeleccionado+ "/" + mm + "/" + anio;
 		JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
 		calculosNecesarios();
 		setVisible(false);

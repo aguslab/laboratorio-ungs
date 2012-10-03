@@ -21,7 +21,7 @@ public class MagestiHelp extends JInternalFrame
 		HtmlPane html = new HtmlPane (filename);
 		setContentPane (html);
 
-		setVisible (true);
+		//setVisible (true);
 
 	}
 

@@ -28,7 +28,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		tablaBusqueda.setModel(new DefaultTableModel(new Object[][] {},new String[] {}));
 		jspTabla.setViewportView(tablaBusqueda);
 		getContentPane().add (jpMostrar);
-		setVisible (true);
+		//setVisible (true);
 	
 		
 	
