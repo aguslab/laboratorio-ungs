@@ -20,13 +20,14 @@ public class Orden_Trabajo {
 		private Integer alto;
 		private boolean apaisado;
 		private String estado;
+		private Integer hojas_utilizadas;
 
 
 
 		public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
 				String descripcion,Integer cantidad_a_entregar, Integer cantidad_preimpresion,Integer ancho,Integer alto,
-				boolean apaisado,String estado) {
+				boolean apaisado,String estado,Integer hojas_utilizadas) {
 			super();
 			this.id_orden_trabajo= id_orden_trabajo;
 			this.nombre_producto = nombre_Producto;
@@ -41,13 +42,14 @@ public class Orden_Trabajo {
 			this.alto= alto;
 			this.apaisado = apaisado;
 			this.estado= estado;
+			this.hojas_utilizadas=hojas_utilizadas;
 		}
 
 	public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
 			String f_confeccion, String f_prometida, String nombre_trabajo,
 			String descripcion, Integer cantidad_a_entregar,
 			Integer cantidad_preimpresion, Integer ancho, Integer alto,
-			boolean apaisado, String estado) {
+			boolean apaisado, String estado,Integer hojas_utilizadas) {
 		super();
 		this.id_orden_trabajo = getUltOT();// ver si va, es posible q cause
 											// problemas
@@ -63,6 +65,7 @@ public class Orden_Trabajo {
 		this.alto = alto;
 		this.apaisado = apaisado;
 		this.estado = estado;
+		this.hojas_utilizadas=hojas_utilizadas;
 	}
 		
 	public static Integer getUltOT() {
@@ -214,6 +217,16 @@ public class Orden_Trabajo {
 		}
 		
 		
+		public Integer getHojas_utilizadas() {
+			return hojas_utilizadas;
+		}
+
+		public void setHojas_utilizadas(Integer hojas_utilizadas) {
+			this.hojas_utilizadas = hojas_utilizadas;
+		}
+
+		
+		
 		//metodo trucho que solo muestra unos datos para ver que anda xD
 		public void mostrarDatos(){
 			System.out.println();
@@ -242,16 +255,17 @@ public class Orden_Trabajo {
 		Integer cant_preimpr = getCantidad_preimpresion();
 		Integer ancho = getAncho();
 		Integer alto = getAlto();
-		boolean apaisado = isApaisado();
+		boolean apaisa = isApaisado();
 		String status = getEstado();
+		Integer hojas_utiliz=this.getHojas_utilizadas();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO orden_trabajo VALUES(default," + "'"+nombre_prod+"'" + ","
 						+ id_cli + "," + "'" + f_conf + "'" + "," + "'"
 						+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + ","
 						+ "'" + descr + "'" + "," +cant_a_ent+","+ cant_preimpr + "," + ancho
-						+ "," + alto + "," + apaisado + "," + "'" + status
-						+ "'" + ");")) {
+						+ "," + alto + "," + apaisa + "," + "'" + status
+						+ "'" + ","+hojas_utiliz+");")) {
 			return true;
 		} else {
 			return false;
@@ -286,7 +300,8 @@ public class Orden_Trabajo {
 							new Integer(resultado.getInt("ancho")),
 							new Integer(resultado.getInt("alto")),
 							resultado.getBoolean("apaisado"),
-							resultado.getString("estado"));
+							resultado.getString("estado"),new Integer(
+									resultado.getInt("hojas_utilizadas")));
 					list_OT.add(ot);
 				}
 			} catch (Exception e) {
