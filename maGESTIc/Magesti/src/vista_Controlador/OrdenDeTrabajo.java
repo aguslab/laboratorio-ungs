@@ -415,7 +415,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		//Para la pestaña de la Seccion Elementos
 		JPanel panElementos = new JPanel();
-		
 		panElementos.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panElementos.setBounds(0, 0, 640, 250);
 			
@@ -432,29 +431,42 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		JScrollPane spElementos = new JScrollPane();
 		spElementos.setBounds(10, 11, 615, 193);
 		panElementos.add(spElementos);
-		
+		/*{null, "Original", null},
+				{null, "Duplicado", null},
+				{null, "Triplicado", null},
+				{null, "Tapa", null},
+				{null, "Cant. Hojas", null},*/
 		tablaElementos = new JTable();
-		tablaElementos.setModel(new DefaultTableModel(
+		tablaElementos.setModel(new DefaultTableModel
+				(
 			new Object[][] {
-				{"Original", null},
-				{"Duplicado", null},
-				{"Triplicado", null},
-				{"Tapa", null},
-				{"Cant. Hojas", null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
 			},
 			new String[] {
-				"Elemento del producto", "Cantidad"
+				"Nro", "Elemento del producto", "Cantidad"
 			}
-		) {
+		) 
+		{
 			Class[] columnTypes = new Class[] {
-				String.class, Integer.class
+				Integer.class, String.class, Integer.class
 			};
-			public Class getColumnClass(int columnIndex) 
-			{
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
-		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(36);
+		tablaElementos.getColumnModel().getColumn(0).setMaxWidth(36);
+		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(124);
 		spElementos.setViewportView(tablaElementos);
 		
 		JButton btnAgregarFila = new JButton("Agregar Fila");
@@ -1267,4 +1279,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtPreimpresion;
 	}
 	
+	JTextField getTxtCantidadDeHojasUtilizadas()
+	{
+		return this.txtCantidadDeHojasUtilizadas;
+	}
+	
+	JTable getTablaElementos()
+	{
+		return this.tablaElementos;
+	}
 }	
