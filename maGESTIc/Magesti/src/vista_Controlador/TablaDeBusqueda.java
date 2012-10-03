@@ -1,12 +1,16 @@
 package vista_Controlador;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
 import Modelo.Orden_Trabajo;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda extends JInternalFrame 
@@ -15,6 +19,7 @@ public class TablaDeBusqueda extends JInternalFrame
 	private DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
 	private JTable tablaBusqueda;
+	
 	TablaDeBusqueda(String titulo) 
 	{
 		super (titulo, true, true, true, true);
@@ -25,6 +30,34 @@ public class TablaDeBusqueda extends JInternalFrame
 		jpMostrar.add (jspTabla);
 		
 		tablaBusqueda = new JTable();
+		tablaBusqueda.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.out.println("a ver");
+				int filaElegida =tablaBusqueda.rowAtPoint(arg0.getPoint());
+				Magesti m= new Magesti();
+				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
+				m.getEscritorio().add (nuevaOT);
+				nuevaOT.show ();
+				nuevaOT.getEstado().setEnabled(true);
+				
+				//Cargo en la ventana de OT los valores de la fila elegida
+				//nuevaOT.getTxtNro().setText((String) tablaBusqueda.getValueAt(filaElegida, 0)); // Tendria que funcionar, muestra el Id de la fila, en el campo Nro OT
+				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
+				//nuevaOT.getCboMes().getModel().setSelectedItem((String) tablaBusqueda.getValueAt(filaElegida, 3));
+				nuevaOT.getTxtNombreOT().setText((String) tablaBusqueda.getValueAt(filaElegida, 5));
+				nuevaOT.getTxtDescripcion().setText((String) tablaBusqueda.getValueAt(filaElegida, 6));
+				nuevaOT.getTxtCantidadAEntregar().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 7)));
+				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
+				nuevaOT.getTxtAncho().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 9)));
+				nuevaOT.getTxtAlto().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 10)));
+				nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
+				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
+				
+			}
+		});
+		tablaBusqueda.setEnabled(false);
 		tablaBusqueda.setModel(new DefaultTableModel(new Object[][] {},new String[] {}));
 		jspTabla.setViewportView(tablaBusqueda);
 		getContentPane().add (jpMostrar);
@@ -39,7 +72,7 @@ public class TablaDeBusqueda extends JInternalFrame
 
 			tablaBusqueda.setModel(dtmMagesti);
 			jspTabla.add(tablaBusqueda);
-			this.add(jspTabla);
+			//this.add(jspTabla);
 			this.setSize(500, 200);
 
 			jspTabla.setViewportView(tablaBusqueda);
@@ -78,7 +111,41 @@ public class TablaDeBusqueda extends JInternalFrame
 			// result.close();
 		} catch (Exception e) {
 		}
+		
+		DefaultTableModel modelo = new DefaultTableModel()
+		 {@Override
+		     public boolean isCellEditable (int fila, int columna) 
+		 	{
+		         return false;
+		    }
+		 };
 	}
+		
+		static String separar(String fecha, int numero)
+		{
+			StringTokenizer s = new StringTokenizer(fecha);
+			int cantidadChars = 0;
+			int numeroIdentificador = numero;
+			String parte = "";
+			while(s.hasMoreTokens())
+			{
+				String elemento = s.nextToken();
+				if (!elemento.equals("-") && cantidadChars < 4 && numeroIdentificador == 0 )
+				{
+					parte+=elemento;
+				}
+				else if(!elemento.equals("-") && (cantidadChars > 4 && cantidadChars < 7) && numeroIdentificador == 1)
+				{
+					parte+=elemento;
+				}
+				else
+				{
+					parte+=elemento;
+				}
+				cantidadChars++;
+			}
+			return parte;
+		}
 		
 		
 }
