@@ -22,8 +22,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 {
 	private ArrayList<String> elementos=new ArrayList<String>();
 	private ArrayList<Integer> cantidad=new ArrayList<Integer>();
-	
-	
+	private boolean almaceno=false;
+	private ArrayList<String[]> FilasElementos=new ArrayList<String[]>();
+	private String[] row_elem;
 	private JPanel jpOrdenDeTrabajo = new JPanel();
 	
 	private JLabel 
@@ -111,16 +112,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		"Cerrado" 
 	};
 	
-	String TipoDeProducto[] = /*Tipo_producto.getTiposProd();*/
-	{ // PLAN B
+	/*String TipoDeProducto[] = Tipo_producto.getTiposProd();
+	//{ // PLAN B
 		"Block de facturas", 
 		"Revista", 
 		"Calendario",
 		"Cuaderno"
-	};
+	};*/
 	private JTextField txtTipoProducto;
 	private JTable tablaElementos;
 	private JTable tablaOrdenEjecucion;
+	private JPanel panMateriales;
 
 	OrdenDeTrabajo()
 	{	
@@ -487,9 +489,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 				try {
 					Integer cantFilas = tablaElementos.getRowCount();
+					//c: cuenta la cant de row no nullas
+					Integer c=0;
 					for (int i = 0; i < cantFilas; i++) {
-						//cuenta la cant de row no nullas
-						Integer c=0;
 						if (tablaElementos.getValueAt(i, 0) != null
 								&& tablaElementos.getValueAt(i, 1) != null) {
 							c++;
@@ -498,47 +500,64 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							String b = tablaElementos.getValueAt(i, 1)
 									.toString();
 							if (b.equals("")) {
-								System.out.println("fsjf sdf lhaf,dg sdfg ");
-								JOptionPane.showMessageDialog(null,"No se ha podido almacenar el valor de la fila"+i+".\nIntentelo de nuevo.");
-								//Elemento_Producto el_prod = new Elemento_Producto(a, Integer.parseInt(b));
-								//System.out.println(a);//sacar
-								//System.out.println(b);//sacar
-								// el_prod.Alta();//agregar
+								JOptionPane.showMessageDialog(null,"No se ha podido almacenar el valor de la fila"+a+".\nIntentelo de nuevo.");
 							}else{
-								//a="hola!";
 								elementos.add(a);
 								cantidad.add(Integer.parseInt(b));
-								System.out.println(a);//sacar
-								System.out.println(b);//sacar
+								//System.out.println(a);//sacar
+								//System.out.println(b);//sacar
 							}
 						}
-						if(c==elementos.size())
+					}
+					if(c==elementos.size())
 						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
 						tablaElementos.setEnabled(false);
-					}
 
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
 
 				}
 				Integer l=elementos.size();
-				final String[][] row_col= new String[l][l];
+				/*String[][] row_col= new String[l][l];
 				for(int k=0;k<l;k++){
+					ArrayList<String[]> a= new ArrayList<String[]>();
 					//System.out.println("sdcsdfs"+elementos.get(k));
 					row_col[k][0]=elementos.get(k);
 					row_col[k][1]=cantidad.get(k).toString();
-				}
-				/*
-				for(int j=0;j<row_col.length;j++){
-					System.out.println();
-					for(int g=0;g<row_col.length;g++){
-						System.out.println(row_col[j][g]);
-					}
-				}
-				*/
+				}*/
+				almaceno=true;
+				this.setFilasElementos();
+				//this.llenarMateriales();
 
 			}
+
+			
+			//
+			private void setFilasElementos() {
+				// TODO Auto-generated method stub
+				Integer l = elementos.size();
+				
+					int cont = 0;
+					for (int k = 0; k < l; k++) {
+						// System.out.println("sdcsdfs"+elementos.get(k));
+						// row_col[k][0]=elementos.get(k);
+						String[] row_col = new String[12];
+						row_col[0] = elementos.get(k);
+						System.out.print(elementos.get(k)+"     ");
+						row_col[1] = cantidad.get(k).toString();
+						System.out.println(cantidad.get(k).toString());
+						cont = k;
+						FilasElementos.add(row_col);
+					}
+					// while(cont<12){
+					// row_col[cont]=null;
+					// }
+				//row_elem=row_col;
+			}
+
+			
 		});
+		
 		btnAlmacenar.setBounds(310, 215, 96, 23);
 		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
@@ -547,11 +566,98 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		
-		JPanel panMateriales = new JPanel();
+		panMateriales = new JPanel();
+		
+		panMateriales.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				if(!almaceno){
+					JOptionPane.showMessageDialog(null,"Antes de ingresar en la Seccion Materiales,\nPrimero debe almacenar los Elementos!");
+				}else{
+					JScrollPane spMateriales = new JScrollPane();
+					spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+					spMateriales.setBounds(10, 11, 615, 228);
+					panMateriales.add(spMateriales);
+					
+					JTable tableMateriales = new JTable();
+					tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+					tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+					tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+					
+					DefaultTableModel model= new DefaultTableModel();
+					model.addColumn("Elemento");
+					model.addColumn("Cantidad");
+					model.addColumn("Calidad");
+					model.addColumn("Variante");
+					model.addColumn("Gramaje");
+					model.addColumn("Formato");
+					model.addColumn("Poses x Pliego");
+					model.addColumn("Pliegos en Demasia");
+					model.addColumn("Pliegos x Hoja");
+					model.addColumn("Hojas");
+					model.addColumn("Pliegos Netos");
+					
+					for(int i=0;i<FilasElementos.size();i++){
+						model.addRow(FilasElementos.get(i));
+					}
+					
+					
+					tableMateriales.setModel(model);
+					/*tableMateriales.setModel(new DefaultTableModel(
+						new Object[][] {
+							this.getFilasC(),
+								//{null, null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
+						},
+						new String[] {
+							"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
+						}
+					) {
+						Class[] columnTypes = new Class[] {
+							String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
+						};
+						public Class getColumnClass(int columnIndex) {
+							return columnTypes[columnIndex];
+						}
+						boolean[] columnEditables = new boolean[] {
+							true, true, true, true, true, true, true, true, true, false, false
+						};
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					});*/
+					tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
+					tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
+					tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
+					tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
+					spMateriales.setViewportView(tableMateriales);
+					
+					
+					// Valores para el combo
+					String calidades[] = Calidad.getCalidades();
+					TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
+					columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
+					
+					// Valores para el combo
+					String variantes[] = Variante.getVariantes(); 
+					TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+					columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+					
+					// Valores para el combo
+					String formatos[] = Formato_Papel.getFormatos();
+					TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+					columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+				}
+			}
+		});
+		
+		
 		panMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tabSecciones.addTab("Materiales", new ImageIcon ("Imagenes/registrar.png"), panMateriales, "Materiales");
+		tabSecciones.setEnabledAt(1, true);
 		panMateriales.setLayout(null);
 		
+			/*
 		JScrollPane spMateriales = new JScrollPane();
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		spMateriales.setBounds(10, 11, 615, 228);
@@ -562,7 +668,24 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableMateriales.setModel(new DefaultTableModel(
+		
+		DefaultTableModel model= new DefaultTableModel();
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		model.addColumn("Elemento");
+		//model.addRow(this.getFilasC());
+		tableMateriales.setModel(model);
+		
+		/*tableMateriales.setModel(new DefaultTableModel(
 			new Object[][] {
 				this.getFilasC(),
 					//{null, null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
@@ -583,7 +706,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
-		});
+		});*/
+		
+		/*
 		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
 		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
 		tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
@@ -605,6 +730,22 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		String formatos[] = Formato_Papel.getFormatos();
 		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
 		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+		
+		panMateriales.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				System.out.println("sfsdfsdfsdffffffffffffffffffffffffffffffffff");
+				
+			}
+		});
+		
+		
+		*/
+		
+		
+		
+		
+		
 		
 		
 		
@@ -705,6 +846,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	}
 
+	
 	//Chequear un poco lo ingresado antes de guardar
 	public void actionPerformed (ActionEvent ae) 
 	{
@@ -873,18 +1015,83 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 	}
 	
-	private String[] getFilasC(){
-		Integer l=elementos.size();
-		String[] row_col= new String[l];
-		for(int k=0;k<l;k++){
-			//System.out.println("sdcsdfs"+elementos.get(k));
-			//row_col[k][0]=elementos.get(k);
-			row_col[k]=elementos.get(k);
-			//row_col[k][1]=cantidad.get(k).toString();
-		}
-		return row_col;		
+	private void setFilasElementos() {
+		Integer l = elementos.size();
+		String[] row_col = new String[12];
+			int cont = 0;
+			for (int k = 0; k < l; k++) {
+				// System.out.println("sdcsdfs"+elementos.get(k));
+				// row_col[k][0]=elementos.get(k);
+				row_col[k] = elementos.get(k);
+				System.out.println(elementos.get(k));
+				row_col[k + 1] = cantidad.get(k).toString();
+				System.out.println(cantidad.get(k).toString());
+				cont = k;
+			}
+			// while(cont<12){
+			// row_col[cont]=null;
+			// }
+		row_elem=row_col;
 	}
 	
+	
+	private void llenarMateriales(){
+		JScrollPane spMateriales = new JScrollPane();
+		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spMateriales.setBounds(10, 11, 615, 228);
+		panMateriales.add(spMateriales);
+		
+		JTable tableMateriales = new JTable();
+		tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableMateriales.setModel(new DefaultTableModel(
+			new Object[][] {
+				
+					{"asldaskl", null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, true, true, true, true, true, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
+		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
+		tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
+		tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
+		spMateriales.setViewportView(tableMateriales);
+		
+		
+		// Valores para el combo
+		String calidades[] = Calidad.getCalidades();
+		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
+		
+		// Valores para el combo
+		String variantes[] = Variante.getVariantes(); 
+		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+		
+		// Valores para el combo
+		String formatos[] = Formato_Papel.getFormatos();
+		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+	}
+	
+
 	void txtClear () 
 	{
 		txtNombreOT.setText ("");
