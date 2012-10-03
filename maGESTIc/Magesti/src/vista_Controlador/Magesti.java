@@ -1,6 +1,10 @@
 package vista_Controlador;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.EOFException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
+
 import javax.swing.*;
 import java.util.*;
 import java.text.*;
@@ -385,9 +389,11 @@ implements
 		
 		else if (obj == clientes) 
 		{
-			/*
-			 * Código para registrar Clientes
-			 */
+			boolean b = openChildWindow ("Calendario");
+			if (b == false) 
+			{
+				imprimir (fabricaReporte(1020));
+			}
 		}
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
@@ -471,6 +477,78 @@ implements
 		return escritorio;
 	}
 	
+
+		String fabricaReporte (int OT) 
+		{
+
+			String data;
+			String margen = "        ";
+			String data0 = "                        "+qCLIENTE+"                   \n";
+			String data1 = "           Reporte de Orden de Trabajo          \n\n";
+			String data2 = "   Orden No.: " + OT +"\n"; 
+			String data3 = "   Cliente: \n"; 
+			String data4 = "   Desc. Trabajo:  \n"; 
+			String data5 = "   Otro dato:   \n"; 
+			String data6 = "   Y otro dato:   \n"; 
+			String data7 = "   ... :   \n"; 
+			String data8 = "   Copyright © 2012 De Napoli, Godoy, Jiménez y Asociados   \n";	
+			 String sep0 = " -----------------------------------------------------------\n";
+			 String sep1 = " -----------------------------------------------------------\n\n";
+
+			data = margen + data0 + margen +sep0 + margen +data1 + margen +data2 + margen +data3 + margen +data4 + margen +data5 + margen +data6 + margen +data7 + margen +sep1 + margen +data8;
+			return data;
+
+		}
+
+
+		void imprimir (String rec) 
+		{
+
+			StringReader sr = new StringReader (rec);
+			LineNumberReader lnr = new LineNumberReader (sr);
+			Font typeface = new Font ("Courier", Font.PLAIN, 12);
+			Properties p = new Properties ();
+			PrintJob pJob = getToolkit().getPrintJob (this, "Imprime reporte", p);
+
+			if (pJob != null) {
+				Graphics gr = pJob.getGraphics ();
+				if (gr != null) {
+					FontMetrics fm = gr.getFontMetrics (typeface);
+					int margin = 20;
+					int pageHeight = pJob.getPageDimension().height - margin;
+	    				int fontHeight = fm.getHeight();
+		    			int fontDescent = fm.getDescent();
+	    				int curHeight = margin;
+					String nextLine;
+					gr.setFont (typeface);
+
+					try {
+						do {
+							nextLine = lnr.readLine ();
+							if (nextLine != null) {         
+								if ((curHeight + fontHeight) > pageHeight) {	//New Page.
+									gr.dispose();
+									gr = pJob.getGraphics ();
+									curHeight = margin;
+								}							
+								curHeight += fontHeight;
+								if (gr != null) {
+									gr.setFont (typeface);
+									gr.drawString (nextLine, margin, curHeight - fontDescent);
+								}
+							}
+						}
+						while (nextLine != null);					
+					}
+					catch (EOFException eof) { }
+					catch (Throwable t) { }
+				}
+				gr.dispose();
+			}
+			if (pJob != null)
+				pJob.end ();
+		}
+
 	
 	@Override
 	public void itemStateChanged(ItemEvent arg0) 
