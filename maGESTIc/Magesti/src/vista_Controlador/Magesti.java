@@ -462,6 +462,12 @@ implements
 			
 		}
 	}
+	
+	public JDesktopPane getEscritorio(){
+		return escritorio;
+	}
+	
+	
 	@Override
 	public void itemStateChanged(ItemEvent arg0) 
 	{
