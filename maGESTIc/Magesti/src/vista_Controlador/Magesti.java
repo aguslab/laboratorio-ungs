@@ -330,7 +330,7 @@ implements
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra");
 					escritorio.add (tablaB);
-					//tablaB.show ();
+					tablaB.show ();
 				}
 
 		}
@@ -374,9 +374,13 @@ implements
 		}
 		else if (obj == btnCalendario) 
 		{
-			/*
-			 * Código para mostrar el Calendario
-			 */
+			boolean b = openChildWindow ("Calendario");
+			if (b == false) 
+			{
+				Calendario cal = new Calendario();
+				escritorio.add (cal);
+				cal.show ();
+			}
 		}
 		
 		else if (obj == clientes) 
