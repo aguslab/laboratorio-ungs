@@ -14,6 +14,7 @@ public class Orden_Trabajo {
 		private String f_prometida;
 		private String nombre_trabajo;
 		private String descripcion;
+		private Integer cantidad_a_entregar;
 		private Integer cantidad_preimpresion;
 		private Integer ancho;
 		private Integer alto;
@@ -24,7 +25,7 @@ public class Orden_Trabajo {
 
 		public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
-				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
+				String descripcion,Integer cantidad_a_entregar, Integer cantidad_preimpresion,Integer ancho,Integer alto,
 				boolean apaisado,String estado) {
 			super();
 			this.id_orden_trabajo= id_orden_trabajo;
@@ -34,6 +35,7 @@ public class Orden_Trabajo {
 			this.f_prometida = f_prometida;
 			this.nombre_trabajo = nombre_trabajo;
 			this.descripcion = descripcion;
+			this.cantidad_a_entregar=cantidad_a_entregar;
 			this.cantidad_preimpresion = cantidad_preimpresion;
 			this.ancho= ancho;
 			this.alto= alto;
@@ -41,24 +43,27 @@ public class Orden_Trabajo {
 			this.estado= estado;
 		}
 
-		public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
-				String f_confeccion, String f_prometida, String nombre_trabajo,
-				String descripcion, Integer cantidad_preimpresion,Integer ancho,Integer alto,
-				boolean apaisado,String estado) {
-			super();
-			this.id_orden_trabajo=getUltOT();//ver si va, es posible q cause problemas
-			this.nombre_producto = nombre_Producto;
-			this.id_cliente = id_cliente;
-			this.f_confeccion = f_confeccion;
-			this.f_prometida = f_prometida;
-			this.nombre_trabajo = nombre_trabajo;
-			this.descripcion = descripcion;
-			this.cantidad_preimpresion = cantidad_preimpresion;
-			this.ancho= ancho;
-			this.alto= alto;
-			this.apaisado = apaisado;
-			this.estado= estado;
-		}
+	public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
+			String f_confeccion, String f_prometida, String nombre_trabajo,
+			String descripcion, Integer cantidad_a_entregar,
+			Integer cantidad_preimpresion, Integer ancho, Integer alto,
+			boolean apaisado, String estado) {
+		super();
+		this.id_orden_trabajo = getUltOT();// ver si va, es posible q cause
+											// problemas
+		this.nombre_producto = nombre_Producto;
+		this.id_cliente = id_cliente;
+		this.f_confeccion = f_confeccion;
+		this.f_prometida = f_prometida;
+		this.nombre_trabajo = nombre_trabajo;
+		this.descripcion = descripcion;
+		this.cantidad_a_entregar = cantidad_a_entregar;
+		this.cantidad_preimpresion = cantidad_preimpresion;
+		this.ancho = ancho;
+		this.alto = alto;
+		this.apaisado = apaisado;
+		this.estado = estado;
+	}
 		
 	public static Integer getUltOT() {
 		Integer maxId = null;
@@ -83,13 +88,32 @@ public class Orden_Trabajo {
 	
 	public static String[] getNomColum() {
 		String columnas[] = { "Nro Orden Trabajo", "Producto", "Cliente",
-				"fecha Conf", "fecha prom", "nombre trabajo", "Descripcion",
+				"fecha Conf", "fecha prom", "nombre trabajo", "Descripcion","Cant a Entregar",
 				"cant Preimpr", "ancho", "alto", "apaisado", "Estado" };
 
 		return columnas;
 	}
 	
 	
+	
+	
+	
+		public String getNombre_producto() {
+		return nombre_producto;
+	}
+
+	public void setNombre_producto(String nombre_producto) {
+		this.nombre_producto = nombre_producto;
+	}
+
+	public Integer getCantidad_a_entregar() {
+		return cantidad_a_entregar;
+	}
+
+	public void setCantidad_a_entregar(Integer cantidad_a_entregar) {
+		this.cantidad_a_entregar = cantidad_a_entregar;
+	}
+
 		public Integer getId_orden_trabajo() {
 			return id_orden_trabajo;
 		}
@@ -188,6 +212,8 @@ public class Orden_Trabajo {
 		{
 			this.estado = estado;
 		}
+		
+		
 		//metodo trucho que solo muestra unos datos para ver que anda xD
 		public void mostrarDatos(){
 			System.out.println();
@@ -212,6 +238,7 @@ public class Orden_Trabajo {
 		String f_prom = getF_prometida();
 		String nom_trabajo = getNombre_trabajo();
 		String descr = getDescripcion();
+		Integer cant_a_ent = getCantidad_a_entregar();
 		Integer cant_preimpr = getCantidad_preimpresion();
 		Integer ancho = getAncho();
 		Integer alto = getAlto();
@@ -222,7 +249,7 @@ public class Orden_Trabajo {
 				"INSERT INTO orden_trabajo VALUES(default," + "'"+nombre_prod+"'" + ","
 						+ id_cli + "," + "'" + f_conf + "'" + "," + "'"
 						+ f_prom + "'" + "," + "'" + nom_trabajo + "'" + ","
-						+ "'" + descr + "'" + "," + cant_preimpr + "," + ancho
+						+ "'" + descr + "'" + "," +cant_a_ent+","+ cant_preimpr + "," + ancho
 						+ "," + alto + "," + apaisado + "," + "'" + status
 						+ "'" + ");")) {
 			return true;
@@ -253,7 +280,9 @@ public class Orden_Trabajo {
 							resultado.getString("f_prometida"),
 							resultado.getString("nombre_trabajo"),
 							resultado.getString("descripcion"), new Integer(
-									resultado.getInt("cantidad_preimpresion")),
+									resultado.getInt("cantidad_a_entregar")),
+							new Integer(resultado
+									.getInt("cantidad_preimpresion")),
 							new Integer(resultado.getInt("ancho")),
 							new Integer(resultado.getInt("alto")),
 							resultado.getBoolean("apaisado"),
