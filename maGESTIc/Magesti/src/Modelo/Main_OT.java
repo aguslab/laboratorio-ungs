@@ -11,15 +11,15 @@ public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 	
-		/*
+		
 			// ORDEN DE TRABAJO
-		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion", 9,12,34,false,"pendiente");
+		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12,34,false,"pendiente");
 		System.out.println(ot1.Alta());
 		ArrayList<Orden_Trabajo> lot=ot1.Buscar();
 		lot.get(0).mostrarDatos();
 		lot.get(1).mostrarDatos();
 	
-		*/
+		
 	
 		/*
 		 * 		VARIANTE

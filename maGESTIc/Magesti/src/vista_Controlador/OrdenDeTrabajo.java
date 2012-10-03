@@ -12,6 +12,7 @@ import javax.swing.table.TableColumn;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
+import Modelo.ElementosMaterialesTmp;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Variante;
@@ -24,7 +25,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private ArrayList<Integer> cantidad=new ArrayList<Integer>();
 	private boolean almaceno=false;
 	private ArrayList<String[]> FilasElementos=new ArrayList<String[]>();
-	private String[] row_elem;
+	//private String[] row_elem;
+	private ElementosMaterialesTmp elem_mat;
 	private JPanel jpOrdenDeTrabajo = new JPanel();
 	
 	private JLabel 
@@ -509,9 +511,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							}
 						}
 					}
-					if(c==elementos.size())
+					if(c==elementos.size()){
 						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
 						tablaElementos.setEnabled(false);
+					}
 
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
@@ -539,20 +542,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				
 					int cont = 0;
 					for (int k = 0; k < l; k++) {
-						// System.out.println("sdcsdfs"+elementos.get(k));
-						// row_col[k][0]=elementos.get(k);
 						String[] row_col = new String[12];
 						row_col[0] = elementos.get(k);
-						System.out.print(elementos.get(k)+"     ");
 						row_col[1] = cantidad.get(k).toString();
-						System.out.println(cantidad.get(k).toString());
 						cont = k;
 						FilasElementos.add(row_col);
 					}
-					// while(cont<12){
-					// row_col[cont]=null;
-					// }
-				//row_elem=row_col;
 			}
 
 			
@@ -576,7 +571,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}else{
 					JScrollPane spMateriales = new JScrollPane();
 					spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-					spMateriales.setBounds(10, 11, 615, 228);
+					spMateriales.setBounds(10, 11, 615, 193);
 					panMateriales.add(spMateriales);
 					
 					JTable tableMateriales = new JTable();
@@ -656,6 +651,69 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones.addTab("Materiales", new ImageIcon ("Imagenes/registrar.png"), panMateriales, "Materiales");
 		tabSecciones.setEnabledAt(1, true);
 		panMateriales.setLayout(null);
+		
+		JButton button = new JButton("Almacenar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//se deben guardar todas las filas en algun lado, despues de confirmar, se guardan en la bd
+				
+				try {
+					Integer cantFilas = tablaMateriales.getRowCount();
+					Integer cantCol= tablaMateriales.getColumnCount();
+					for (int i = 0; i < cantFilas; i++) {
+						// for(int j=0;j<cantCol;j++) {
+						// if (tablaMateriales.getValueAt(i, j) != null) {
+						
+						try {
+							String nomb_Producto=tablaMateriales.getValueAt(i, 0).toString();
+							Integer cant_Producto=Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
+							String calidad=tablaMateriales.getValueAt(i, 2).toString();
+							String variante=tablaMateriales.getValueAt(i, 3).toString();
+							Integer gramaje=Integer.parseInt(tablaMateriales.getValueAt(i, 4).toString());
+							String tamanio_hoja=tablaMateriales.getValueAt(i, 5).toString();
+							Integer poses_x_pliego=Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
+							Integer pliegos_demasia=Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());
+							Integer pliegos_x_hoja=Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString());
+							Integer hojas=Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString());
+							Integer pliegos_netos=Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
+						} catch (NullPointerException e2) {
+							JOptionPane.showMessageDialog(null,
+									"ERROR. TODOS LOS CAMPOS DEBEN ESTAR COMPLETOS.\nIntentelo de nuevo, por favor.");
+						}
+						
+						//String a = tablaMateriales.getValueAt(i, j).toString();
+						/*if (a.equals("")) {
+							JOptionPane.showMessageDialog(null,
+									"No se ha podido almacenar el valor de la fila"
+											+ a + ".\nIntentelo de nuevo.");
+						} else {
+							elementos.add(a);
+							cantidad.add(Integer.parseInt(b));
+							// System.out.println(a);//sacar
+							// System.out.println(b);//sacar
+						}*/
+						// }
+						// }
+					}
+					/*if(c==elementos.size())
+						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
+						tablaElementos.setEnabled(false);*/
+
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
+
+				}
+
+			}
+				
+				
+				
+				
+			
+		});
+		button.setBounds(278, 216, 96, 23);
+		panMateriales.add(button);
 		
 			/*
 		JScrollPane spMateriales = new JScrollPane();
@@ -956,8 +1014,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 
-		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, 1, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantImp,ancho,alto,apaisado,"Pendiente");
-		ot1.Alta();
+		
+		//
+		// cambiar el valor anterior de cantpreimpresion.es el de cantidad a entregar 
+		//
+		//Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, 1, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),12,cantImp,ancho,alto,apaisado,"Pendiente");
+		//ot1.Alta();
 		
 		//para cuando este el resto de la GUI
 		//Procesos_x_OT p_x_ot= new Procesos_x_OT(id_proceso, ot1.getId_orden_trabajo(), null, "Pendiente", observacion);
@@ -1015,6 +1077,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 	}
 	
+	/*
 	private void setFilasElementos() {
 		Integer l = elementos.size();
 		String[] row_col = new String[12];
@@ -1032,7 +1095,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			// row_col[cont]=null;
 			// }
 		row_elem=row_col;
-	}
+	}*/
 	
 	
 	private void llenarMateriales(){

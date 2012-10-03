@@ -61,15 +61,16 @@ public class TablaDeBusqueda extends JInternalFrame
 		ResultSet result = ConexionDB
 				.getbaseDatos()
 				.consultar(
-						"SELECT DISTINCT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente");
+						"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente");
 		// CachedRowSet crs =
 		// cnndb.Function("SELECT deptno, dname, loc FROM dept");
-
-		Object datos[] = new Object[12]; // Numero de columnas de la tabla
+		Integer CantColumnas=13;
+		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
 
 		try {
 			while (result.next()) {
-				for (int i = 0; i < 12; i++) {
+				
+				for (int i = 0; i < CantColumnas; i++) {
 					datos[i] = result.getObject(i + 1);
 				}
 				dtmMagesti.addRow(datos);

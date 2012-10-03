@@ -281,7 +281,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 		String msg = "En lugar de este cartel debería estar la OT\n de la fecha: " + diaSeleccionado+ "/" + mm + "/" + anio;
 		JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
 		calculosNecesarios();
-		setVisible(false);
+		setVisible(true);
 		dispose();
 	}
 
