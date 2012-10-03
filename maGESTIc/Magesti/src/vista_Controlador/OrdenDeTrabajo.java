@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -63,6 +64,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboDia2, 
 		cboAnio2,
 		cboEstado;
+	private JComboBox cboEstado_1;
 	
 	private JButton
 		btnLimpiarOT,
@@ -71,6 +73,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	private JCheckBox
 		chbApaisado;
+	
+	
 	
 	private JTabbedPane
 		tabSecciones;
@@ -128,8 +132,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	OrdenDeTrabajo()
 	{	
-		
-		
 		super ("Orden de Trabajo (OT)", false, true, false, true);
 		
 		setSize (680, 680);
@@ -317,10 +319,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.setBounds(250, 55, 65, 25);
 		
 		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
-		cboEstado = new JComboBox ();
-		cboEstado.setToolTipText("Pendiente");
-		cboEstado.setBounds(445, 90, 210, 25);
-		cboEstado.setEnabled(false);
+		cboEstado_1 = new JComboBox ();
+		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
+		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
+		cboEstado_1.setBounds(445, 90, 210, 25);
+		cboEstado_1.setEnabled(false);
 		
 		for (int i = 1; i <= 31; i++) 
 		{
@@ -383,7 +386,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (cboMes2);
 		jpOrdenDeTrabajo.add (cboDia2);
 		jpOrdenDeTrabajo.add (cboAnio2);
-		jpOrdenDeTrabajo.add (cboEstado);	
+		jpOrdenDeTrabajo.add (cboEstado_1);	
 		jpOrdenDeTrabajo.add (lbNombreOT);
 		jpOrdenDeTrabajo.add (lbEstado);
 		jpOrdenDeTrabajo.add (lbDescripcion);
@@ -446,7 +449,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Class[] columnTypes = new Class[] {
 				String.class, Integer.class
 			};
-			public Class getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) 
+			{
 				return columnTypes[columnIndex];
 			}
 		});
@@ -759,7 +763,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				true, true, true, true, true, true, true, true, true, false, false
+				false, false, true, true, true, true, true, true, true, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -776,17 +780,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		// Valores para el combo
 		String calidades[] = Calidad.getCalidades();
-		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);
 		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
 		
 		// Valores para el combo
 		String variantes[] = Variante.getVariantes(); 
-		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);
 		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
 		
 		// Valores para el combo
 		String formatos[] = Formato_Papel.getFormatos();
-		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);
 		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 		
 		panMateriales.addFocusListener(new FocusAdapter() {
@@ -808,10 +812,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		/*
-		
-		try
-		{
-		Class.forName("com.mysql.jdbc.Driver");
+		 * 		Class.forName("com.mysql.jdbc.Driver");
 		Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","tp_labo", "laboratorio");
 
 		Statement s = conexion.createStatement();
@@ -868,8 +869,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
 		tablaOrdenEjecucion = new JTable();
+		tablaOrdenEjecucion.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) 
+			{
+				
+			}
+		});
 		tablaOrdenEjecucion.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
 			},
 			new String[] {
 				"Proceso", "Tercerizada", "Proveedor", "Observaciones"
@@ -890,6 +899,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
 		
+		// Valores para el checkbox
+		TableColumn columnaTercerizada = tablaOrdenEjecucion.getColumnModel().getColumn(1);
+		columnaTercerizada.setCellEditor(new MyCheckBoxEditor());
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setVisible(true);
+		
 		JLabel lblMedidaFinal = new JLabel("Medida Final");
 		lblMedidaFinal.setBounds(15, 166, 80, 14);
 		jpOrdenDeTrabajo.add(lblMedidaFinal);
@@ -900,8 +915,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		
 		txtClear();
-		
-
 	}
 
 	
@@ -1168,4 +1181,90 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadDeHojasUtilizadas.setText("0");
 		chbApaisado.setSelected(false);
 	}
+	
+	JTextField getTxtNro()
+	{
+		return this.txtNro;
+	}
+	
+	JTextField getTipoProducto()
+	{
+		return this.txtTipoProducto;
+	}
+	
+	JComboBox getCboMes()
+	{
+		return this.cboMes;
+	}
+	
+	JComboBox getCboDia()
+	{
+		return this.cboDia;
+	}
+	
+	JComboBox getCboAnio()
+	{
+		return this.cboAnio;
+	}
+	
+	JComboBox getCboMes2()
+	{
+		return this.cboMes2;
+	}
+	
+	JComboBox getCboDia2()
+	{
+		return this.cboDia2;
+	}
+	
+	JComboBox getCboAnio2()
+	{
+		return this.cboAnio2;
+	}
+	
+	JTextField getTxtNombreOT()
+	{
+		return this.txtNombreOT;
+	}
+	
+	JComboBox getEstado()
+	{
+		return this.cboEstado_1;
+	}
+	
+	JTextField getTxtDescripcion()
+	{
+		return this.txtDescripcion;
+	}
+
+	JTextField getTxtAncho()
+	{
+		return this.txtAncho;
+	}
+	
+	JTextField getTxtAlto()
+	{
+		return this.txtAlto;
+	}
+	
+	JCheckBox getChbApaisado()
+	{
+		return this.chbApaisado;
+	}
+	
+	JTextField getTxtTipoProducto()
+	{
+		return this.txtTipoProducto;
+	}
+	
+	JTextField getTxtCantidadAEntregar()
+	{
+		return this.txtCantidadAEntregar;
+	}
+	
+	JTextField getTxtPreimpresion()
+	{
+		return this.txtPreimpresion;
+	}
+	
 }	
