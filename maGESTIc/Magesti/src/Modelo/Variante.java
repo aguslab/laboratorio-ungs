@@ -20,6 +20,31 @@ public class Variante {
 		this.nombre = nombre;
 	}
 
+	public static Integer getId_Variante(String nombreElegido)
+	{
+		Integer id_var = null;
+		nombreElegido = "'" + nombreElegido + "'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_variante FROM variante WHERE nombre ="+ nombreElegido);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					id_var = resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		
+		return id_var;
+	}
 	
 	public Integer getId_variante() {
 		return id_variante;
