@@ -86,6 +86,28 @@ public class Elemento {
 		this.cantidad = cantidad;
 	}
 
+	
+	public static Integer getMaxId_Elemento() {
+		Integer maxId = null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT MAX(id_elemento) FROM elemento");
+
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					maxId = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		return maxId + 1;
+	}
+	
 	public boolean Alta() {
 		Integer id_ot = this.getId_orden_trabajo();
 		String tipo_elem = "'" + this.getTipo_elemento() + "'";
