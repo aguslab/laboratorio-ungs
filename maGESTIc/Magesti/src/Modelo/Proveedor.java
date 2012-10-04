@@ -58,6 +58,32 @@ public class Proveedor
 		this.direccion_retiro = direccion_retiro;
 	}
 
+	public static Integer getId_Proveedor(String razonSocial)
+	{
+		Integer id_pro = null;
+		razonSocial = "'" + razonSocial + "'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_proveedor FROM proveedor WHERE razon_social ="+ razonSocial);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					id_pro = resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		
+		return id_pro;
+	}
+	
 	public Integer getId_proveedor() 
 	{
 		return id_proveedor;

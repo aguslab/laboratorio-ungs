@@ -67,6 +67,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
 				
 				
+				
 				//Esto agrega la tabla llena al OT creado.
 				nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));
 			}

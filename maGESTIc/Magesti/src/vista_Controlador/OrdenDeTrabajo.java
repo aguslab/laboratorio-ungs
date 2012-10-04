@@ -20,6 +20,8 @@ import Modelo.ElementosMaterialesTmp;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
+import Modelo.Procesos_x_OT;
+import Modelo.Proveedor;
 import Modelo.Variante;
 
 @SuppressWarnings("serial")
@@ -131,10 +133,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	};*/
 	private JTextField txtTipoProducto;
 	private JTable tablaElementos;
-	private JTable tablaOrdenEjecucion;
 	private JPanel panMateriales;
 	private JScrollPane spMateriales;
 	private JTable tablaMateriales;
+	private JLabel label_11;
+	private JLabel lblProceso2;
+	private JLabel lblCtp;
+	private JLabel lblProceso10;
+	private JScrollPane scrollPane;
 
 	OrdenDeTrabajo()
 	{	
@@ -238,16 +244,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		
 		lbCantidadDeHojasUtilizadas = new JLabel ("Hojas utilizadas:");
-		lbCantidadDeHojasUtilizadas.setBounds(15, 554, 100, 25);
+		lbCantidadDeHojasUtilizadas.setBounds(15, 563, 100, 25);
 		lbCantidadDeHojasUtilizadas.setForeground (Color.black);
 		
 		txtCantidadDeHojasUtilizadas = new JTextField ("0");
 		txtCantidadDeHojasUtilizadas.setEnabled(false);
-		txtCantidadDeHojasUtilizadas.setBounds(105,554, 100, 25);
+		txtCantidadDeHojasUtilizadas.setBounds(105,563, 100, 25);
 		txtCantidadDeHojasUtilizadas.setHorizontalAlignment (JTextField.LEFT);
 		
 		tabSecciones = new JTabbedPane();
-		tabSecciones.setBounds(15, 265, 640, 278);
+		tabSecciones.setBounds(15, 265, 640, 290);
 
 		//Restriccion para que el usuario solo ingrese número.
 		txtAncho.addKeyListener 
@@ -494,7 +500,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		JButton btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() {
-//Evento que ocurre cuando se preiona el boton almacenar en la seccion elementos
+//Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
 				tablaMateriales.removeAll();
@@ -506,6 +512,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
 					temp.addRow(nuevaFila);
 				}
+				
+				
 				
 				
 				// Valores para el combo
@@ -522,7 +530,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				String formatos[] = Formato_Papel.getFormatos();
 				TableColumn columnaFormato = tablaMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
 				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
-				secMateriales=tablaMateriales;
 			}
 		});
 		
@@ -563,6 +570,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, true, true, true, true, true, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaMateriales.getColumnModel().getColumn(0).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(0).setPreferredWidth(95);
@@ -598,7 +611,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
-		
       
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -612,44 +624,98 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	        "Listado de tareas o procesos"
 		);
 		
-		JScrollPane spOrdenEjecucion = new JScrollPane();
-		spOrdenEjecucion.setBounds(10, 11, 615, 228);
-		panOrdenEjecucion.add(spOrdenEjecucion);
+		JLabel lblProceso3 = new JLabel("Copia de chapas");
+		lblProceso3.setBounds(25, 62, 84, 14);
+		panOrdenEjecucion.add(lblProceso3);
 		
-		tablaOrdenEjecucion = new JTable();
-		tablaOrdenEjecucion.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent arg0) 
-			{
-				
-			}
-		});
-		tablaOrdenEjecucion.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"Proceso", "Tercerizada", "Proveedor", "Observaciones"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, Object.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		tablaOrdenEjecucion.getColumnModel().getColumn(0).setPreferredWidth(197);
-		tablaOrdenEjecucion.getColumnModel().getColumn(1).setPreferredWidth(71);
-		tablaOrdenEjecucion.getColumnModel().getColumn(2).setPreferredWidth(135);
-		tablaOrdenEjecucion.getColumnModel().getColumn(3).setPreferredWidth(149);
-		spOrdenEjecucion.setViewportView(tablaOrdenEjecucion);
+		JLabel lblProceso4 = new JLabel("Corte inicial");
+		lblProceso4.setBounds(25, 87, 67, 14);
+		panOrdenEjecucion.add(lblProceso4);
+		
+		JLabel lblProceso5 = new JLabel("Impresi\u00F3n");
+		lblProceso5.setBounds(25, 112, 67, 14);
+		panOrdenEjecucion.add(lblProceso5);
+		
+		JLabel lblProceso6 = new JLabel("Barniz");
+		lblProceso6.setBounds(25, 137, 67, 14);
+		panOrdenEjecucion.add(lblProceso6);
+		
+		JLabel lblProceso7 = new JLabel("Laminado");
+		lblProceso7.setBounds(25, 162, 67, 14);
+		panOrdenEjecucion.add(lblProceso7);
+		
+		JLabel lblProceso8 = new JLabel("Trazado");
+		lblProceso8.setBounds(25, 187, 67, 14);
+		panOrdenEjecucion.add(lblProceso8);
+		
+		JLabel lblProceso9 = new JLabel("Puntillado");
+		lblProceso9.setBounds(25, 212, 67, 14);
+		panOrdenEjecucion.add(lblProceso9);
+		
+		label_11 = new JLabel("Agujereado");
+		label_11.setBounds(347, 182, 67, 14);
+		panOrdenEjecucion.add(label_11);
+		
+		lblProceso2 = new JLabel("Pel\u00EDculas");
+		lblProceso2.setBounds(25, 37, 67, 14);
+		panOrdenEjecucion.add(lblProceso2);
+		
+		lblCtp = new JLabel("CTP");
+		lblCtp.setBounds(25, 12, 67, 14);
+		panOrdenEjecucion.add(lblCtp);
+		
+		lblProceso10 = new JLabel("Medio corte");
+		lblProceso10.setBounds(25, 237, 67, 14);
+		panOrdenEjecucion.add(lblProceso10);
+		
+		JCheckBox checkBox = new JCheckBox("");
+		checkBox.setBounds(128, 8, 21, 23);
+		panOrdenEjecucion.add(checkBox);
+		
+		JCheckBox checkBox_1 = new JCheckBox("");
+		checkBox_1.setBounds(128, 33, 21, 23);
+		panOrdenEjecucion.add(checkBox_1);
+		
+		JCheckBox checkBox_2 = new JCheckBox("");
+		checkBox_2.setBounds(128, 58, 21, 23);
+		panOrdenEjecucion.add(checkBox_2);
+		
+		JCheckBox checkBox_3 = new JCheckBox("");
+		checkBox_3.setBounds(128, 83, 21, 23);
+		panOrdenEjecucion.add(checkBox_3);
+		
+		JCheckBox checkBox_4 = new JCheckBox("");
+		checkBox_4.setBounds(128, 108, 21, 23);
+		panOrdenEjecucion.add(checkBox_4);
+		
+		JCheckBox checkBox_5 = new JCheckBox("");
+		checkBox_5.setBounds(128, 133, 21, 23);
+		panOrdenEjecucion.add(checkBox_5);
+		
+		JCheckBox checkBox_6 = new JCheckBox("");
+		checkBox_6.setBounds(128, 158, 21, 23);
+		panOrdenEjecucion.add(checkBox_6);
+		
+		JCheckBox checkBox_7 = new JCheckBox("");
+		checkBox_7.setBounds(128, 183, 21, 23);
+		panOrdenEjecucion.add(checkBox_7);
+		
+		JCheckBox checkBox_8 = new JCheckBox("");
+		checkBox_8.setBounds(128, 208, 21, 23);
+		panOrdenEjecucion.add(checkBox_8);
+		
+		JCheckBox checkBox_9 = new JCheckBox("");
+		checkBox_9.setBounds(128, 233, 21, 23);
+		panOrdenEjecucion.add(checkBox_9);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(10, 8, 615, 243);
+		panOrdenEjecucion.add(scrollPane);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
-		
-		// Valores para el checkbox
-		TableColumn columnaTercerizada = tablaOrdenEjecucion.getColumnModel().getColumn(1);
-		columnaTercerizada.setCellEditor(new MyCheckBoxEditor());
+		//columnaTercerizada.setCellEditor(new MyCheckBoxEditor());
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setVisible(true);
 		
@@ -769,6 +835,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
 		ot1.Alta();
 		
+		/*//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
+		Integer cantFilas = tablaOrdenEjecucion.getRowCount();
+		Integer id_OT = Integer.parseInt(this.txtNro.getText());
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			Integer id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenEjecucion.getValueAt(i, 2).toString()); ;
+			Procesos_x_OT e = new Procesos_x_OT(id_OT,false,id_Proveedor,tablaElementos.getValueAt(i, 3).toString());
+			e.Alta();
+		}*/
+		
 		//Se obtienen los valores guardados en la tabla Elementos para crear filas en la tabla Elemento de la BD
 		Integer cantFilas = tablaElementos.getRowCount();
 		Integer id_OT = Integer.parseInt(this.txtNro.getText());
@@ -782,15 +858,29 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer id_Elem = Elemento.getMaxId_elemento();
 		for (int i = 0; i < cantFilas; i++) 
 		{
-			System.out.println(tablaMateriales.getValueAt(i, 3).toString());
+			//Busco los FK para la tabla materiales de BD
 			Integer id_for = Formato_Papel.getId_Formato(tablaMateriales.getValueAt(i, 3).toString());
 			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 4).toString());
 			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
 			
+			//Obtengo los datos de lal tabla materiales necesarios para calcular los Pliegos Netos 
+			Integer cantElemento = Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
+			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());
+			Integer totalPliegosNetos = (cantEntr * cantElemento) / posesXpliego; 
+			tablaMateriales.setValueAt(totalPliegosNetos, i, 10); 
+			
+			//Obtengo los datos de lal tabla materiales necesarios para calcular la cantidad de hojas
+			Integer pliegosNetos = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
+			Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
+			Integer pliegosXhoja = Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString());
+			
+			Integer hojas = (pliegosEnDemasia + pliegosNetos) / pliegosXhoja;
+			tablaMateriales.setValueAt(hojas, i, 9); 
+			
+			//Se da de alta la tabla de materiales con todos los datos ingresados por el usuario.
 			Materiales m = new Materiales(id_Elem,Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString()), 
-					id_for,id_var,id_cal,Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString()),
-					Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString()),Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString()),
-					Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString()),Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString()));
+					id_for,id_var,id_cal,pliegosEnDemasia,posesXpliego,pliegosXhoja,
+					Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString()),pliegosNetos);
 			m.Alta();
 		}
 		

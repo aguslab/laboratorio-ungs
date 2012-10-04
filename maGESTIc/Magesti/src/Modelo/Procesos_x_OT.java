@@ -24,15 +24,15 @@ public class Procesos_x_OT {
 		this.observacion = observacion;
 	}
 	
-	/* Creo que aca no va esta, despues se vera
-	public Procesos_x_OT(Integer id_orden_trabajo,
+	//Creo que aca no va esta, despues se vera
+	public Procesos_x_OT(Integer id_orden_trabajo, boolean cumplida,
 			Integer id_proveedor, String observacion) {
 		super();
 		this.id_orden_trabajo = id_orden_trabajo;
 		this.id_proveedor = id_proveedor;
 		this.observacion = observacion;
 	}
-	*/
+	
 
 	public Integer getId_proceso() {
 		return id_proceso;
