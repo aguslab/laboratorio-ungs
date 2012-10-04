@@ -132,4 +132,29 @@ public class Calidad
         }
 		return list_calidad;
 	}
+
+	public static Integer getId_Calidad(String nombreElegido)
+	{
+		Integer id_cal=null;
+		nombreElegido="'"+nombreElegido+"'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_calidad FROM calidad where nombre="+nombreElegido);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					id_cal = resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return id_cal;
+	}
 }

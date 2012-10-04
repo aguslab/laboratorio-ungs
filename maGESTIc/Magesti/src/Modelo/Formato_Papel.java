@@ -117,6 +117,29 @@ public class Formato_Papel {
 
 		return list_formato;
 	}
-	
-	
+
+	public static Integer getId_Formato(String tamanioElegido) 
+	{
+		Integer id_for=null;
+		tamanioElegido="'"+tamanioElegido+"'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_formato_papel FROM formato_papel where tamanio="+tamanioElegido);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					id_for = resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return id_for;
+	}
 }

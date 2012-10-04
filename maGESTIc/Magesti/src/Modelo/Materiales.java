@@ -41,10 +41,11 @@ public class Materiales {
 		this.id_formato_papel = id_formato_papel;
 	}
 
-	public Materiales(Integer id_elemento,
-			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
-			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
-			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
+	public Materiales(Integer id_elemento, 
+			Integer gramaje, Integer id_formato_papel, Integer id_variante,
+			Integer id_calidad,Integer pliegos_en_demasia, Integer poses_x_pliego,
+			Integer pliegos_x_hoja, Integer hojas,Integer pliegos_netos) 
+	{
 		super();
 		this.id_elemento = id_elemento;
 		this.gramaje = gramaje;

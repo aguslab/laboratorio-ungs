@@ -1,7 +1,6 @@
 package vista_Controlador;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
@@ -9,20 +8,13 @@ import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
 import Modelo.Orden_Trabajo;
-<<<<<<< .mine
-
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-=======
 
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.GridLayout;
->>>>>>> .r121
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda extends JInternalFrame 
@@ -39,25 +31,24 @@ public class TablaDeBusqueda extends JInternalFrame
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusqueda);
-		jspTabla.setBounds (10, 11, 445, 223);
 		jpMostrar.add (jspTabla);
-
 		tablaBusqueda = new JTable();
-
+		
 		tablaBusqueda.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
 				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
-				Magesti m= new Magesti();
 				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-				m.getEscritorio().add(nuevaOT);
+				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				//nuevaOT.getTxtNro().setText((String) tablaBusqueda.getValueAt(filaElegida, 0)); // Tendria que funcionar, muestra el Id de la fila, en el campo Nro OT
+				nuevaOT.getTxtNro().setText(tablaBusqueda.getValueAt(filaElegida, 0)+"");
+				/*nuevaOT.id_OT=(Integer) tablaBusqueda.getValueAt(filaElegida, 0);
+				nuevaOT.getTxtNro().setText(id_OT+"");*/
 				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
 				nuevaOT.getCboMes().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
 				nuevaOT.getCboDia().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
@@ -73,6 +64,8 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtAlto().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 10)));
 				nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
 				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
+				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
+				
 				
 				//Esto agrega la tabla llena al OT creado.
 				nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));

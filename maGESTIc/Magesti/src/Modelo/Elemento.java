@@ -30,6 +30,29 @@ public class Elemento {
 		this.cantidad = cantidad;
 	}
 		
+	public static Integer getMaxId_elemento()
+	{
+		Integer maxId = null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar
+				("SELECT MAX(id_elemento) FROM elemento");
+
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next())
+				{
+					// como solo devuelve un valor, le pido el del registro (1)
+					maxId = resultado.getInt(1);
+				}
+			} 
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return maxId;
+	}
 		
 	public Integer getId_elemento() {
 		return id_elemento;
@@ -69,7 +92,7 @@ public class Elemento {
 		Integer cant = this.getCantidad();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
-				"INSERT INTO elemento VALUES(default," + id_ot + ","
+				"INSERT INTO elemento VALUES(DEFAULT," + id_ot + ","
 						+ tipo_elem + "," + cant + ");")) {
 			return true;
 		} else {

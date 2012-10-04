@@ -2,6 +2,7 @@ package vista_Controlador;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,8 +14,11 @@ import javax.swing.table.TableColumn;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
+import Modelo.ConexionDB;
+import Modelo.Elemento;
 import Modelo.ElementosMaterialesTmp;
 import Modelo.Formato_Papel;
+import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Variante;
 
@@ -80,7 +84,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JTabbedPane
 		tabSecciones;
 	
-	private JTable tablaMateriales;
 	
 	private DefaultTableModel dtmMateriales;
 	
@@ -130,6 +133,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JTable tablaElementos;
 	private JTable tablaOrdenEjecucion;
 	private JPanel panMateriales;
+	private JScrollPane spMateriales;
+	private JTable tablaMateriales;
 
 	OrdenDeTrabajo()
 	{	
@@ -438,36 +443,21 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				{null, "Tapa", null},
 				{null, "Cant. Hojas", null},*/
 		tablaElementos = new JTable();
-		tablaElementos.setModel(new DefaultTableModel
-				(
-			new Object[][] {//filas que aparecen por defecto en la seccion elementos
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
+		tablaElementos.setModel(new DefaultTableModel(
+			new Object[][] {
 			},
-			new String[] {//filas que aparecen por defecto en la seccion elementos
-				"Nro", "Elemento del producto", "Cantidad"
+			new String[] {
+				"Elemento del producto", "Cantidad"
 			}
-		) 
-		{
+		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Integer.class
+				String.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
 		});
-		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(36);
-		tablaElementos.getColumnModel().getColumn(0).setMaxWidth(36);
-		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(124);
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
 		spElementos.setViewportView(tablaElementos);
 		
 		JButton btnAgregarFila = new JButton("Agregar Fila");
@@ -505,70 +495,35 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		JButton btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() {
 //Evento que ocurre cuando se preiona el boton almacenar en la seccion elementos
-			public void actionPerformed(ActionEvent e) {
-
-				try {
-					Integer cantFilas = tablaElementos.getRowCount();
-					//c: cuenta la cant de row no nullas
-					Integer c=0;
-					for (int i = 0; i < cantFilas; i++) {
-						if (tablaElementos.getValueAt(i, 0) != null
-								&& tablaElementos.getValueAt(i, 1) != null) {
-							c++;
-							String a = tablaElementos.getValueAt(i, 0)
-									.toString();
-							String b = tablaElementos.getValueAt(i, 1)
-									.toString();
-							if (b.equals("")) {
-								JOptionPane.showMessageDialog(null,"No se ha podido almacenar el valor de la fila"+a+".\nIntentelo de nuevo.");
-							}else{
-								elementos.add(a);
-								cantidad.add(Integer.parseInt(b));
-								//System.out.println(a);//sacar
-								//System.out.println(b);//sacar
-							}
-						}
-					}
-					if(c==elementos.size()){
-						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
-						tablaElementos.setEnabled(false);
-					}
-
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
-
-				}
-				Integer l=elementos.size();
-				/*String[][] row_col= new String[l][l];
-				for(int k=0;k<l;k++){
-					ArrayList<String[]> a= new ArrayList<String[]>();
-					//System.out.println("sdcsdfs"+elementos.get(k));
-					row_col[k][0]=elementos.get(k);
-					row_col[k][1]=cantidad.get(k).toString();
-				}*/
-				almaceno=true;
-				this.setFilasElementos();
-				//this.llenarMateriales();
-
-			}
-
-			
-			//
-			private void setFilasElementos() {
-				// TODO Auto-generated method stub
-				Integer l = elementos.size();
+			public void actionPerformed(ActionEvent e) 
+			{
+				tablaMateriales.removeAll();
 				
-					int cont = 0;
-					for (int k = 0; k < l; k++) {
-						String[] row_col = new String[12];
-						row_col[0] = elementos.get(k);
-						row_col[1] = cantidad.get(k).toString();
-						cont = k;
-						FilasElementos.add(row_col);
-					}
+				Integer cantFilas = tablaElementos.getRowCount();
+				DefaultTableModel temp = (DefaultTableModel) tablaMateriales.getModel();
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
+					temp.addRow(nuevaFila);
+				}
+				
+				
+				// Valores para el combo
+				String calidades[] = Calidad.getCalidades();
+				TableColumn columnaCalidad = tablaMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
+				
+				// Valores para el combo
+				String variantes[] = Variante.getVariantes(); 
+				TableColumn columnaVariante = tablaMateriales.getColumnModel().getColumn(4);//table es la JTable, ponele que la col 0 es la del combo.
+				columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+				
+				// Valores para el combo
+				String formatos[] = Formato_Papel.getFormatos();
+				TableColumn columnaFormato = tablaMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+				secMateriales=tablaMateriales;
 			}
-
-			
 		});
 		
 		btnAlmacenar.setBounds(310, 215, 96, 23);
@@ -581,328 +536,69 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		panMateriales = new JPanel();
 		
-		panMateriales.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				if(!almaceno){//si todavia no se presiono el boton almacena en elemento
-					JOptionPane.showMessageDialog(null,"Antes de ingresar en la Seccion Materiales,\nPrimero debe almacenar los Elementos!");
-				}else{//si ya se presiono, entonces se accede a la seccion Materiales y creo esto
-					JScrollPane spMateriales = new JScrollPane();
-					spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-					spMateriales.setBounds(10, 11, 615, 193);
-					panMateriales.add(spMateriales);
-					
-					JTable tableMateriales = new JTable();
-					tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
-					tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-					tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-					
-					//nombre de las columnas en la seccion materiales
-					DefaultTableModel model= new DefaultTableModel();
-					model.addColumn("Elemento");
-					model.addColumn("Cantidad");
-					model.addColumn("Calidad");
-					model.addColumn("Variante");
-					model.addColumn("Gramaje");
-					model.addColumn("Formato");
-					model.addColumn("Poses x Pliego");
-					model.addColumn("Pliegos en Demasia");
-					model.addColumn("Pliegos x Hoja");
-					model.addColumn("Hojas");
-					model.addColumn("Pliegos Netos");
-					
-					//llenar las filas necesarias segun la cantidad de filas que se ingresaron en 
-					//la seccion elementos
-					for(int i=0;i<FilasElementos.size();i++){
-						model.addRow(FilasElementos.get(i));
-					}
-					
-					
-					tableMateriales.setModel(model);
-					//esto para que es??????????????????????????????????????????????????????????????????????????
-					//lo comente y no cambio nada parece
-					//tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
-					//tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
-					//tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
-					//tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
-					spMateriales.setViewportView(tableMateriales);
-					
-					
-					
-					// Valores para el combo
-					String calidades[] = Calidad.getCalidades();
-					TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
-					columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
-					
-					// Valores para el combo
-					String variantes[] = Variante.getVariantes(); 
-					TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
-					columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
-					
-					// Valores para el combo
-					String formatos[] = Formato_Papel.getFormatos();
-					TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
-					columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
-					
-					secMateriales=tableMateriales;
-					
-				}
-			}
-
-			
-		});
 		
 		
 		panMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tabSecciones.addTab("Materiales", new ImageIcon ("Imagenes/registrar.png"), panMateriales, "Materiales");
 		tabSecciones.setEnabledAt(1, true);
+		
 		panMateriales.setLayout(null);
 		
-		JButton button = new JButton("Almacenar");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//se deben guardar todas las filas en algun lado, despues de confirmar, se guardan en la bd
-				
-				
-				
-				/*
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * ESTO ES LO QUE QIUERO QUE VEAS, LA IDEA ES GUARDAR TODOS LOS VALORES DE CADA CELDA
-				 * DE CADA FILA EN UNA VARIABLE DIFERENTE (DESPUES GUARDO ESO EN UN OBJETO).
-				 * 
-				 * PERO NO PUEDO OBTENER LOS VALORES DE LAS CELDAS DEL COMBO BOX(CALIDAD, POR EJEMPLO)
-				 *  
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 */				
-				
-				
-				try {
-					Integer cantFilas = secMateriales.getRowCount();
-					
-					DefaultTableModel temp = (DefaultTableModel) secMateriales.getModel();
-					//Integer cantCol= secMateriales.getColumnCount();
-					for (int i = 0; i < cantFilas; i++) {
-						// for(int j=0;j<cantCol;j++) {
-						// if (tablaMateriales.getValueAt(i, j) != null) {
-						
-						try {
-							String nomb_Producto=temp.getValueAt(i, 0).toString();
-							System.out.println(nomb_Producto);
-							Integer cant_Producto=Integer.parseInt(temp.getValueAt(i, 1).toString());
-							System.out.println(cant_Producto);
-							//HASTA ACA ESTA BIEN, CALIDAD DE ACA ABAJO ES LA QUE NO PUEDO ACCEDER Y TIRA NULLPOINTER
-							//COMO VERAS INTENTE HACER UN CASTEO DESPUES DE INTENTAR MUCHAS COSAS XD
-							
-							Calidad a=(Calidad) temp.getValueAt(i, 2);
-							System.out.println(a.getNombre());
-							//System.out.println(calidad.getCellEditorValue().toString());
-							String variante=temp.getValueAt(i, 3).toString();
-							Integer gramaje=Integer.parseInt(temp.getValueAt(i, 4).toString());
-							String tamanio_hoja=temp.getValueAt(i, 5).toString();
-							Integer poses_x_pliego=Integer.parseInt(temp.getValueAt(i, 6).toString());
-							Integer pliegos_demasia=Integer.parseInt(secMateriales.getValueAt(i, 7).toString());
-							Integer pliegos_x_hoja=Integer.parseInt(secMateriales.getValueAt(i, 8).toString());
-							Integer hojas=Integer.parseInt(secMateriales.getValueAt(i, 9).toString());
-							Integer pliegos_netos=Integer.parseInt(secMateriales.getValueAt(i, 10).toString());
-							System.out.println(pliegos_demasia);
-							//ElementosMaterialesTmp tmp=new ElementosMaterialesTmp(nomb_Producto, cant_Producto, calidad, variante, gramaje, tamanio_hoja, poses_x_pliego, pliegos_demasia, pliegos_x_hoja, hojas, pliegos_netos);
-							//elem_mat.add(tmp);
-							System.out.println(elem_mat.get(7).getVariante());
-							
-						} catch (NullPointerException e2) {
-							e2.printStackTrace();
-							JOptionPane.showMessageDialog(null,
-									"ERROR. TODOS LOS CAMPOS DEBEN ESTAR COMPLETOS.\nIntentelo de nuevo, por favor.");
-						}
-						
-						//String a = tablaMateriales.getValueAt(i, j).toString();
-						/*if (a.equals("")) {
-							JOptionPane.showMessageDialog(null,
-									"No se ha podido almacenar el valor de la fila"
-											+ a + ".\nIntentelo de nuevo.");
-						} else {
-							elementos.add(a);
-							cantidad.add(Integer.parseInt(b));
-							// System.out.println(a);//sacar
-							// System.out.println(b);//sacar
-						}*/
-						// }
-						// }
-					}
-					/*if(c==elementos.size())
-						JOptionPane.showMessageDialog(null,"Se ha almacenado correctamente.Vaya a la seccion MATERIALES.");
-						tablaElementos.setEnabled(false);*/
-
-				} catch (Exception e2) {
-					e2.printStackTrace();
-					//JOptionPane.showMessageDialog(null,"OCURRIO UN ERROR. CIERRE LA VENTANA\nY VUELVA A INTENTARLO,POR FAVOR");
-
-				}
-
-			}
-				
-				
-				
-				
-			
-		});
-		button.setBounds(278, 216, 96, 23);
-		panMateriales.add(button);
-		
-			/*
-		JScrollPane spMateriales = new JScrollPane();
+		spMateriales = new JScrollPane();
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		spMateriales.setBounds(10, 11, 615, 228);
 		panMateriales.add(spMateriales);
 		
-		JTable tableMateriales = new JTable();
-		tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
-		tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
-		DefaultTableModel model= new DefaultTableModel();
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		model.addColumn("Elemento");
-		//model.addRow(this.getFilasC());
-		tableMateriales.setModel(model);
-		
-		/*tableMateriales.setModel(new DefaultTableModel(
+		tablaMateriales = new JTable();
+		tablaMateriales.setModel(new DefaultTableModel(
 			new Object[][] {
-				this.getFilasC(),
-					//{null, null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
+				"Elemento", "Cantidad", "Gramaje", "Formato", "Variante", "Calidad", "Pliegos en demasia", "Poses x Pliego", "Pliegos x Hoja", "Hojas", "Pliegos Netos"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
+				String.class, Integer.class, Integer.class, Object.class, Object.class, Object.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, false, true, true, true, true, true, true, true, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});*/
-		
-		/*
-		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
-		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
-		tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
-		tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
-		spMateriales.setViewportView(tableMateriales);
-		
-		
-		// Valores para el combo
-		String calidades[] = Calidad.getCalidades();
-		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);
-		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
-		
-		// Valores para el combo
-		String variantes[] = Variante.getVariantes(); 
-		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);
-		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
-		
-		// Valores para el combo
-		String formatos[] = Formato_Papel.getFormatos();
-		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);
-		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
-		
-		panMateriales.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				System.out.println("sfsdfsdfsdffffffffffffffffffffffffffffffffff");
-				
-			}
 		});
+		tablaMateriales.getColumnModel().getColumn(0).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(0).setPreferredWidth(95);
+		tablaMateriales.getColumnModel().getColumn(0).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(1).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(1).setPreferredWidth(63);
+		tablaMateriales.getColumnModel().getColumn(1).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(2).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(2).setPreferredWidth(59);
+		tablaMateriales.getColumnModel().getColumn(2).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(3).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(3).setPreferredWidth(77);
+		tablaMateriales.getColumnModel().getColumn(3).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(4).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(4).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(5).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(5).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(6).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(6).setPreferredWidth(114);
+		tablaMateriales.getColumnModel().getColumn(6).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(7).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(7).setPreferredWidth(90);
+		tablaMateriales.getColumnModel().getColumn(7).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(8).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(8).setPreferredWidth(90);
+		tablaMateriales.getColumnModel().getColumn(8).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(56);
+		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
+		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
+		spMateriales.setViewportView(tablaMateriales);
 		
-		
-		*/
-		
-		
-		
-		
-		
-		
-		
-		
-		/*
-		 * 		Class.forName("com.mysql.jdbc.Driver");
-		Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost/Magesti","tp_labo", "laboratorio");
-
-		Statement s = conexion.createStatement();
-
-
-		ResultSet rsMateriales = s.executeQuery ("select * from materiales");
-		ResultSetMetaData metaDatos = rsMateriales.getMetaData();
-		int numeroColumnas = metaDatos.getColumnCount();
-		Object[] etiquetas = new Object[numeroColumnas];
-		for (int i = 0; i < numeroColumnas; i++)
-		{
-		etiquetas[i] = metaDatos.getColumnLabel(i + 1);
-		}
-		dtmMateriales = new DefaultTableModel ();
-		tablaMateriales = new JTable(dtmMateriales);
-		tablaMateriales.setBounds(0, 0, 640, 248);
-		tablaMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaMateriales.setEnabled(true);
-		dtmMateriales.setColumnIdentifiers(etiquetas);
-		while (rsMateriales.next())
-		{
-		Object [] fila = new Object[numeroColumnas];
-		for (int i=0;i<10;i++)
-		fila[i] = rsMateriales.getObject(i+1);
-		dtmMateriales.addRow(fila);
-		}
-
-		}
-		catch (SQLException e)
-		{
-		e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-		e.printStackTrace();
-		}
-
-		*/
-      
-      
       
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -978,21 +674,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		if (obj == btnGuardar) 
 		{
-			
-			if (txtCantidadDeHojasUtilizadas.getText().equals("0")) 
-			{
-				
-				JOptionPane.showMessageDialog 
-				(
-					this,
-					"Debe declarar la cantidad de Hojas Utilizadas",
-					qTITULO + " - Campo vacío",
-					JOptionPane.PLAIN_MESSAGE
-				);
-				
-				txtCantidadDeHojasUtilizadas.requestFocus();
-			}
-			else if (txtNombreOT.getText().equals("")) 
+			if (txtNombreOT.getText().equals("")) 
 			{
 				
 				JOptionPane.showMessageDialog 
@@ -1071,6 +753,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	void cargarTablas() 
 	{	
+		//Se obtienen las variables para crear una nueva OT
 		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
 		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
@@ -1078,17 +761,38 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer alto = Integer.parseInt(txtAlto.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
-
-		cboCliente.getSelectedItem();
+		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
+		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
+		Integer cliente = Cliente.getId_cliente((String) cboCliente.getSelectedItem());
 		
-		//
-		// cambiar el valor anterior de cantpreimpresion.es el de cantidad a entregar 
-		//
-		//Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, 1, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),12,cantImp,ancho,alto,apaisado,"Pendiente");
-		//ot1.Alta();
+		//Se da de alta una nueva OT
+		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
+		ot1.Alta();
 		
-		//para cuando este el resto de la GUI
-		//Procesos_x_OT p_x_ot= new Procesos_x_OT(id_proceso, ot1.getId_orden_trabajo(), null, "Pendiente", observacion);
+		//Se obtienen los valores guardados en la tabla Elementos para crear filas en la tabla Elemento de la BD
+		Integer cantFilas = tablaElementos.getRowCount();
+		Integer id_OT = Integer.parseInt(this.txtNro.getText());
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			Elemento e = new Elemento(id_OT,tablaElementos.getValueAt(i, 0).toString(),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()));
+			e.Alta();
+		}
+		
+		//Se obtienen los valores guardados en la tabla Materiales para crear filas en la tabla Materiales de la BD
+		Integer id_Elem = Elemento.getMaxId_elemento();
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			System.out.println(tablaMateriales.getValueAt(i, 3).toString());
+			Integer id_for = Formato_Papel.getId_Formato(tablaMateriales.getValueAt(i, 3).toString());
+			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 4).toString());
+			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
+			
+			Materiales m = new Materiales(id_Elem,Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString()), 
+					id_for,id_var,id_cal,Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString()),
+					Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString()),Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString()),
+					Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString()),Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString()));
+			m.Alta();
+		}
 		
 	}
 	
@@ -1143,27 +847,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 	}
 	
-	/*
-	private void setFilasElementos() {
-		Integer l = elementos.size();
-		String[] row_col = new String[12];
-			int cont = 0;
-			for (int k = 0; k < l; k++) {
-				// System.out.println("sdcsdfs"+elementos.get(k));
-				// row_col[k][0]=elementos.get(k);
-				row_col[k] = elementos.get(k);
-				System.out.println(elementos.get(k));
-				row_col[k + 1] = cantidad.get(k).toString();
-				System.out.println(cantidad.get(k).toString());
-				cont = k;
-			}
-			// while(cont<12){
-			// row_col[cont]=null;
-			// }
-		row_elem=row_col;
-	}*/
-	
-	
 	private void llenarMateriales(){
 		JScrollPane spMateriales = new JScrollPane();
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -1176,24 +859,30 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableMateriales.setModel(new DefaultTableModel(
-			new Object[][] {
+			new Object[][] 
+					{
 				
 					{"asldaskl", null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
 			},
-			new String[] {
+			new String[] 
+					{
 				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
 			}
 		) {
-			Class[] columnTypes = new Class[] {
+			Class[] columnTypes = new Class[] 
+					{
 				String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
 			};
-			public Class getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) 
+			{
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
+			boolean[] columnEditables = new boolean[] 
+					{
 				true, true, true, true, true, true, true, true, true, false, false
 			};
-			public boolean isCellEditable(int row, int column) {
+			public boolean isCellEditable(int row, int column) 
+			{
 				return columnEditables[column];
 			}
 		});
@@ -1206,17 +895,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		// Valores para el combo
 		String calidades[] = Calidad.getCalidades();
-		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);
 		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
 		
 		// Valores para el combo
 		String variantes[] = Variante.getVariantes(); 
-		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);
 		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
 		
 		// Valores para el combo
 		String formatos[] = Formato_Papel.getFormatos();
-		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
+		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);
 		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 	}
 	
@@ -1319,11 +1008,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		return this.txtPreimpresion;
 	}
-
 	
-<<<<<<< .mine
-	
-=======
 	JTextField getTxtCantidadDeHojasUtilizadas()
 	{
 		return this.txtCantidadDeHojasUtilizadas;
@@ -1333,5 +1018,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		return this.tablaElementos;
 	}
->>>>>>> .r121
+
+
+	public JComboBox getCliente() 
+	{
+		return this.cboCliente;
+	}
 }	
