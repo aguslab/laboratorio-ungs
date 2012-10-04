@@ -86,6 +86,30 @@ public class Elemento {
 		this.cantidad = cantidad;
 	}
 
+	public static ArrayList<String> cosasDeElemento(String id_OT)
+	{
+		ArrayList<String> valores = null;
+		id_OT = "'" + id_OT + "'";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_elemento, cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					valores.add(resultado.getString(0));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		
+		return valores;
+	}
 	
 	public static Integer getMaxId_Elemento() {
 		Integer maxId = null;
