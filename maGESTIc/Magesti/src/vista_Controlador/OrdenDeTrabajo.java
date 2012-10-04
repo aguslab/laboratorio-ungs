@@ -136,11 +136,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JPanel panMateriales;
 	private JScrollPane spMateriales;
 	private JTable tablaMateriales;
-	private JLabel label_11;
-	private JLabel lblProceso2;
-	private JLabel lblCtp;
-	private JLabel lblProceso10;
-	private JScrollPane scrollPane;
+	private JScrollPane spOrdenEjecucion;
+	private JTable tablaOrdenDeEjecucion;
 
 	OrdenDeTrabajo()
 	{	
@@ -624,95 +621,68 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	        "Listado de tareas o procesos"
 		);
 		
-		JLabel lblProceso3 = new JLabel("Copia de chapas");
-		lblProceso3.setBounds(25, 62, 84, 14);
-		panOrdenEjecucion.add(lblProceso3);
+		JScrollPane spListaDeProcesos = new JScrollPane();
+		spListaDeProcesos.setBounds(10, 11, 204, 207);
+		panOrdenEjecucion.add(spListaDeProcesos);
 		
-		JLabel lblProceso4 = new JLabel("Corte inicial");
-		lblProceso4.setBounds(25, 87, 67, 14);
-		panOrdenEjecucion.add(lblProceso4);
+		final JList listaProcesos = new JList();
+		spListaDeProcesos.setViewportView(listaProcesos);
+		listaProcesos.setModel(new AbstractListModel() {
+			String[] values = new String[] {"CTP", "Pel\u00EDculas", "Copia de chapas", "Corte inicial", "Impresi\u00F3n", "Barniz", "Laminado", "Trazado", "Puntillado", "Medio corte", "Troquelado", "Doblado", "Intercalado", "Emblocado", "Agujereado", "Abrochado", "Encuadernaci\u00F3n", "Confecci\u00F3n de sobres", "Corte final", "Empaque"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		
-		JLabel lblProceso5 = new JLabel("Impresi\u00F3n");
-		lblProceso5.setBounds(25, 112, 67, 14);
-		panOrdenEjecucion.add(lblProceso5);
+		spOrdenEjecucion = new JScrollPane();
+		spOrdenEjecucion.setBounds(224, 11, 401, 239);
+		panOrdenEjecucion.add(spOrdenEjecucion);
 		
-		JLabel lblProceso6 = new JLabel("Barniz");
-		lblProceso6.setBounds(25, 137, 67, 14);
-		panOrdenEjecucion.add(lblProceso6);
+		tablaOrdenDeEjecucion = new JTable();
+		tablaOrdenDeEjecucion.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Proceso", "Proveedor", "Observaciones", "Cumplida"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(0).setPreferredWidth(148);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(1).setPreferredWidth(139);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(2).setPreferredWidth(202);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(3).setPreferredWidth(62);
+		spOrdenEjecucion.setViewportView(tablaOrdenDeEjecucion);
 		
-		JLabel lblProceso7 = new JLabel("Laminado");
-		lblProceso7.setBounds(25, 162, 67, 14);
-		panOrdenEjecucion.add(lblProceso7);
-		
-		JLabel lblProceso8 = new JLabel("Trazado");
-		lblProceso8.setBounds(25, 187, 67, 14);
-		panOrdenEjecucion.add(lblProceso8);
-		
-		JLabel lblProceso9 = new JLabel("Puntillado");
-		lblProceso9.setBounds(25, 212, 67, 14);
-		panOrdenEjecucion.add(lblProceso9);
-		
-		label_11 = new JLabel("Agujereado");
-		label_11.setBounds(347, 182, 67, 14);
-		panOrdenEjecucion.add(label_11);
-		
-		lblProceso2 = new JLabel("Pel\u00EDculas");
-		lblProceso2.setBounds(25, 37, 67, 14);
-		panOrdenEjecucion.add(lblProceso2);
-		
-		lblCtp = new JLabel("CTP");
-		lblCtp.setBounds(25, 12, 67, 14);
-		panOrdenEjecucion.add(lblCtp);
-		
-		lblProceso10 = new JLabel("Medio corte");
-		lblProceso10.setBounds(25, 237, 67, 14);
-		panOrdenEjecucion.add(lblProceso10);
-		
-		JCheckBox checkBox = new JCheckBox("");
-		checkBox.setBounds(128, 8, 21, 23);
-		panOrdenEjecucion.add(checkBox);
-		
-		JCheckBox checkBox_1 = new JCheckBox("");
-		checkBox_1.setBounds(128, 33, 21, 23);
-		panOrdenEjecucion.add(checkBox_1);
-		
-		JCheckBox checkBox_2 = new JCheckBox("");
-		checkBox_2.setBounds(128, 58, 21, 23);
-		panOrdenEjecucion.add(checkBox_2);
-		
-		JCheckBox checkBox_3 = new JCheckBox("");
-		checkBox_3.setBounds(128, 83, 21, 23);
-		panOrdenEjecucion.add(checkBox_3);
-		
-		JCheckBox checkBox_4 = new JCheckBox("");
-		checkBox_4.setBounds(128, 108, 21, 23);
-		panOrdenEjecucion.add(checkBox_4);
-		
-		JCheckBox checkBox_5 = new JCheckBox("");
-		checkBox_5.setBounds(128, 133, 21, 23);
-		panOrdenEjecucion.add(checkBox_5);
-		
-		JCheckBox checkBox_6 = new JCheckBox("");
-		checkBox_6.setBounds(128, 158, 21, 23);
-		panOrdenEjecucion.add(checkBox_6);
-		
-		JCheckBox checkBox_7 = new JCheckBox("");
-		checkBox_7.setBounds(128, 183, 21, 23);
-		panOrdenEjecucion.add(checkBox_7);
-		
-		JCheckBox checkBox_8 = new JCheckBox("");
-		checkBox_8.setBounds(128, 208, 21, 23);
-		panOrdenEjecucion.add(checkBox_8);
-		
-		JCheckBox checkBox_9 = new JCheckBox("");
-		checkBox_9.setBounds(128, 233, 21, 23);
-		panOrdenEjecucion.add(checkBox_9);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 8, 615, 243);
-		panOrdenEjecucion.add(scrollPane);
+		JButton btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
+		btnConfirmarSeleccion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Integer cantFilas = tablaOrdenDeEjecucion.getRowCount();
+				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
+				System.out.println(listaProcesos.getSelectedValues());
+				for(int i = 0; i < cantFilas; i ++ )
+				{
+
+					
+					Object nuevo[]= {"","","",""};
+					temp.addRow(nuevo);
+					tablaOrdenDeEjecucion.setValueAt(listaProcesos.getSelectedValues(), i, 0);
+					
+				}
+				
+			}
+		});
+		btnConfirmarSeleccion.setBounds(36, 229, 130, 23);
+		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
 		//columnaTercerizada.setCellEditor(new MyCheckBoxEditor());
@@ -830,6 +800,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
 		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
 		Integer cliente = Cliente.getId_cliente((String) cboCliente.getSelectedItem());
+
+		
 		
 		//Se da de alta una nueva OT
 		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
@@ -1109,9 +1081,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.tablaElementos;
 	}
 
-
 	public JComboBox getCliente() 
 	{
 		return this.cboCliente;
+	}
+	
+	public JTable getTablaMateriales()
+	{
+		return this.tablaElementos;
+	}
+	
+	public JTable getTablaOrdenTrabajo()
+	{
+		return this.tablaOrdenDeEjecucion;
 	}
 }	

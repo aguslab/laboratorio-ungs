@@ -1,12 +1,14 @@
 package vista_Controlador;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
+import Modelo.Elemento;
 import Modelo.Orden_Trabajo;
 import java.awt.GridLayout;
 
@@ -40,6 +42,8 @@ public class TablaDeBusqueda extends JInternalFrame
 			{
 				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
 				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
+				
+			
 				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
@@ -66,6 +70,17 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
 				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
 				
+				JTable tablaAuxElementos = nuevaOT.getTablaElementos();
+				Integer cantFilas = tablaAuxElementos.getRowCount();
+				ArrayList<String> valores = Elemento.cosasDeElemento(nuevaOT.getTxtNro().toString());
+				DefaultTableModel temp = (DefaultTableModel) tablaAuxElementos.getModel();
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					tablaAuxElementos.setValueAt(valores.get(i), i, 1);
+					tablaAuxElementos.setValueAt(valores.get(i), i, 1);
+					Object nuevaFila[]= {tablaAuxElementos.getValueAt(i, 0),Integer.parseInt(tablaAuxElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
+					temp.addRow(nuevaFila);
+				}
 				
 				
 				//Esto agrega la tabla llena al OT creado.
