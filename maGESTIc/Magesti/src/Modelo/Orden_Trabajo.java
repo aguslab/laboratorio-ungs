@@ -20,8 +20,8 @@ public class Orden_Trabajo implements Config
 		private String descripcion;
 		private Integer cantidad_a_entregar;
 		private Integer cantidad_preimpresion;
-		private Integer ancho;
-		private Integer alto;
+		private Double ancho;
+		private Double alto;
 		private boolean apaisado;
 		private String estado;
 		private Integer hojas_utilizadas;
@@ -30,7 +30,7 @@ public class Orden_Trabajo implements Config
 
 		public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto, Integer id_cliente,
 				String f_confeccion, String f_prometida, String nombre_trabajo,
-				String descripcion,Integer cantidad_a_entregar, Integer cantidad_preimpresion,Integer ancho,Integer alto,
+				String descripcion,Integer cantidad_a_entregar, Integer cantidad_preimpresion,Double ancho,Double alto,
 				boolean apaisado,String estado,Integer hojas_utilizadas) {
 			super();
 			this.id_orden_trabajo= id_orden_trabajo;
@@ -52,7 +52,7 @@ public class Orden_Trabajo implements Config
 	public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
 			String f_confeccion, String f_prometida, String nombre_trabajo,
 			String descripcion, Integer cantidad_a_entregar,
-			Integer cantidad_preimpresion, Integer ancho, Integer alto,
+			Integer cantidad_preimpresion, Double ancho, Double alto,
 			boolean apaisado, String estado,Integer hojas_utilizadas) {
 		super();
 		this.id_orden_trabajo = getUltOT();// ver si va, es posible q cause
@@ -185,19 +185,19 @@ public class Orden_Trabajo implements Config
 			this.cantidad_preimpresion = cantidad_preimpresion;
 		}
 
-		public Integer getAncho() {
+		public Double getAncho() {
 			return ancho;
 		}
 
-		public void setAncho(Integer ancho) {
+		public void setAncho(Double ancho) {
 			this.ancho = ancho;
 		}
 
-		public Integer getAlto() {
+		public Double getAlto() {
 			return alto;
 		}
 
-		public void setAlto(Integer alto) {
+		public void setAlto(Double alto) {
 			this.alto = alto;
 		}
 
@@ -257,8 +257,8 @@ public class Orden_Trabajo implements Config
 		String descr = getDescripcion();
 		Integer cant_a_ent = getCantidad_a_entregar();
 		Integer cant_preimpr = getCantidad_preimpresion();
-		Integer ancho = getAncho();
-		Integer alto = getAlto();
+		Double ancho = getAncho();
+		Double alto = getAlto();
 		boolean apaisa = isApaisado();
 		String status = getEstado();
 		Integer hojas_utiliz=this.getHojas_utilizadas();
@@ -301,8 +301,8 @@ public class Orden_Trabajo implements Config
 									resultado.getInt("cantidad_a_entregar")),
 							new Integer(resultado
 									.getInt("cantidad_preimpresion")),
-							new Integer(resultado.getInt("ancho")),
-							new Integer(resultado.getInt("alto")),
+							new Double(resultado.getDouble("ancho")),
+							new Double(resultado.getDouble("alto")),
 							resultado.getBoolean("apaisado"),
 							resultado.getString("estado"),new Integer(
 									resultado.getInt("hojas_utilizadas")));
@@ -316,17 +316,17 @@ public class Orden_Trabajo implements Config
 		return list_OT;
 	}
 	
-    static public String DoubleAFactura(double valor ) 
+    static public String EnteroAFactura(Integer valor ) 
     {
        DecimalFormat elFormato = new DecimalFormat("00000000");
        String salida = qSUCURSAL + elFormato.format(valor);
        return salida;
     }
 	
-    static public double FacturaADouble(String valor ) 
+    static public Integer FacturaAEntero(String valor ) 
     {
        valor=valor.replaceAll("0001-","");
-       return Double.valueOf(valor);
+       return Integer.parseInt(valor);
     }
 		
 }

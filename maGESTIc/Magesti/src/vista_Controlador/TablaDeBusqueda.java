@@ -1,4 +1,3 @@
-
 package vista_Controlador;
 
 import java.sql.ResultSet;
@@ -52,41 +51,82 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				nuevaOT.getTxtNro().setText(tablaBusqueda.getValueAt(filaElegida, 0)+"");
+				nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
 				/*nuevaOT.id_OT=(Integer) tablaBusqueda.getValueAt(filaElegida, 0);
 				nuevaOT.getTxtNro().setText(id_OT+"");*/
+				
 				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
+				nuevaOT.getTipoProducto().setEnabled(false);
+				
 				nuevaOT.getCboMes().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
+				nuevaOT.getCboMes().setEnabled(false);
+				
 				nuevaOT.getCboDia().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
+				nuevaOT.getCboDia().setEnabled(false);
+				
 				nuevaOT.getCboAnio().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 0));
+				nuevaOT.getCboAnio().setEnabled(false);
+				
 				nuevaOT.getCboMes2().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 1)));
+				nuevaOT.getCboMes2().setEnabled(false);
+				
 				nuevaOT.getCboDia2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 2));
+				nuevaOT.getCboDia2().setEnabled(false);
+				
 				nuevaOT.getCboAnio2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 0));
+				nuevaOT.getCboAnio2().setEnabled(false);
+				
 				nuevaOT.getTxtNombreOT().setText((String) tablaBusqueda.getValueAt(filaElegida, 5));
+				nuevaOT.getTxtNombreOT().setEnabled(false);
+				
 				nuevaOT.getTxtDescripcion().setText((String) tablaBusqueda.getValueAt(filaElegida, 6));
+				nuevaOT.getTxtDescripcion().setEnabled(false);
+				
 				nuevaOT.getTxtCantidadAEntregar().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 7)));
+				nuevaOT.getTxtCantidadAEntregar().setEnabled(false);
+				
 				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
-				nuevaOT.getTxtAncho().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 9)));
-				nuevaOT.getTxtAlto().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 10)));
+				nuevaOT.getTxtPreimpresion().setEnabled(false);
+				
+				nuevaOT.getTxtAncho().setText((tablaBusqueda.getValueAt(filaElegida, 9)).toString());
+				nuevaOT.getTxtAncho().setEnabled(false);
+				
+				nuevaOT.getTxtAlto().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString());
+				nuevaOT.getTxtAlto().setEnabled(false);
+				
 				nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
+				nuevaOT.getChbApaisado().setEnabled(false);
+				
 				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
+				
 				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
+				nuevaOT.getCliente().setEnabled(false);
+				
+				
 				
 				JTable tablaAuxElementos = nuevaOT.getTablaElementos();
 				Integer cantFilas = tablaAuxElementos.getRowCount();
-				ArrayList<String> valores = Elemento.cosasDeElemento(nuevaOT.getTxtNro().toString());
+				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
+				ArrayList<String> valores = Elemento.cosasDeElemento(id_OT);
 				DefaultTableModel temp = (DefaultTableModel) tablaAuxElementos.getModel();
-				for (int i = 0; i < cantFilas; i++) 
-				{
-					tablaAuxElementos.setValueAt(valores.get(i), i, 1);
-					tablaAuxElementos.setValueAt(valores.get(i), i, 1);
-					Object nuevaFila[]= {tablaAuxElementos.getValueAt(i, 0),Integer.parseInt(tablaAuxElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
+				
+				for (int i = 0; i < cantFilas; i++) {
+					if (i % 2 != 0) {// si es impar
+						tablaAuxElementos.setValueAt(valores.get(i), i, 0);
+					} else {
+						tablaAuxElementos.setValueAt(valores.get(i), i, 1);
+					}
+					Object nuevaFila[] = {
+							tablaAuxElementos.getValueAt(i, 0),
+							Integer.parseInt(tablaAuxElementos.getValueAt(i, 1)
+									.toString()), "", "", "", "", "", "", "",
+							"", "" };
 					temp.addRow(nuevaFila);
 				}
 				
-				
 				//Esto agrega la tabla llena al OT creado.
-				nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));
+				//nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));
+				nuevaOT.add(llenarTablaElemento(tablaAuxElementos));
 			}
 		});
 		getContentPane().add (jpMostrar);
@@ -230,39 +270,39 @@ public class TablaDeBusqueda extends JInternalFrame
 		
 		static String dameMes(String mes)
 		{
-			if(mes.equals("01"))
+			if(mes.equals("01") | mes.equals("1"))
 			{
 				return "Enero";
 			}
-			else if(mes.equals("02"))
+			else if(mes.equals("02") | mes.equals("2"))
 			{
 				return "Febrero";
 			}
-			else if(mes.equals("03"))
+			else if(mes.equals("03") | mes.equals("3"))
 			{
 				return "Marzo";
 			}
-			else if(mes.equals("04"))
+			else if(mes.equals("04") | mes.equals("4"))
 			{
 				return "Abril";
 			}
-			else if(mes.equals("05"))
+			else if(mes.equals("05") | mes.equals("5"))
 			{
 				return "Mayo";
 			}
-			else if(mes.equals("06"))
+			else if(mes.equals("06") | mes.equals("6"))
 			{
 				return "Junio";
 			}
-			else if(mes.equals("07"))
+			else if(mes.equals("07") | mes.equals("7"))
 			{
 				return "Julio";
 			}
-			else if(mes.equals("08"))
+			else if(mes.equals("08") | mes.equals("8"))
 			{
 				return "Agosto";
 			}
-			else if(mes.equals("09"))
+			else if(mes.equals("09") | mes.equals("9"))
 			{
 				return "Septiembre";
 			}
