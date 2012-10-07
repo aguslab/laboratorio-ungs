@@ -2,10 +2,14 @@ package Modelo;
 
 
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import vista_Controlador.Config;
 
-public class Orden_Trabajo {
+
+public class Orden_Trabajo implements Config
+{
 
 		private Integer id_orden_trabajo;
 		private String nombre_producto;
@@ -312,6 +316,17 @@ public class Orden_Trabajo {
 		return list_OT;
 	}
 	
-		
+    static public String DoubleAFactura(double valor ) 
+    {
+       DecimalFormat elFormato = new DecimalFormat("00000000");
+       String salida = qSUCURSAL + elFormato.format(valor);
+       return salida;
+    }
+	
+    static public double FacturaADouble(String valor ) 
+    {
+       valor=valor.replaceAll("0001-","");
+       return Double.valueOf(valor);
+    }
 		
 }

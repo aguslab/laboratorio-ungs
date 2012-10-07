@@ -58,6 +58,40 @@ public class Proveedor
 		this.direccion_retiro = direccion_retiro;
 	}
 
+	
+	
+	
+	
+	public static String[] getProveedores()
+ {
+		ArrayList<String> pros = new ArrayList<String>();
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT razon_social FROM proveedor");
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					pros.add(resultado.getString("razon_social"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		String[] pro = new String[pros.size()];
+
+		for (int i = 0; i < pros.size(); i++) {
+			pro[i] = pros.get(i);
+		}
+
+		return pro;
+	}
+	
+	
+	
+	
+	
 	public static Integer getId_Proveedor(String razonSocial)
 	{
 		Integer id_pro = null;
