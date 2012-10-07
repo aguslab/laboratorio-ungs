@@ -17,7 +17,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	
 	private JMenuBar barra;
 	
-	private JMenu
+	private JMenu 
 		mnuOrdenDeTrabajo, 
 		mnuSolicitudDeCompra, 
 		mnuRecepcionDePedido, 
