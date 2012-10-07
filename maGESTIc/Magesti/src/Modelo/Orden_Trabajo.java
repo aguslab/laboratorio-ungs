@@ -238,7 +238,7 @@ public class Orden_Trabajo implements Config
 			System.out.print(this.getNombre_Producto()+"     ");
 			System.out.print(this.getF_prometida()+"     ");
 			System.out.print(this.getNombre_trabajo()+"     ");
-			System.out.print(this.getEstado()+"     ");
+			System.out.print(this.getEstado()+"");
 			
 		}
 		
