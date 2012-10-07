@@ -531,7 +531,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		});
 		
-		btnAlmacenar.setBounds(310, 215, 96, 23);
+		btnAlmacenar.setBounds(529, 215, 96, 23);
 		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
 		tabSecciones.setDisabledIconAt(0, null);
@@ -568,12 +568,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				true, true, true, true, true, true, true, true, true, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
 		});
 		tablaMateriales.getColumnModel().getColumn(0).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(0).setPreferredWidth(95);
@@ -588,29 +582,40 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(3).setPreferredWidth(77);
 		tablaMateriales.getColumnModel().getColumn(3).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(4).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(115);
 		tablaMateriales.getColumnModel().getColumn(4).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(5).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(140);
 		tablaMateriales.getColumnModel().getColumn(5).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(6).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(6).setPreferredWidth(114);
+		tablaMateriales.getColumnModel().getColumn(6).setPreferredWidth(128);
 		tablaMateriales.getColumnModel().getColumn(6).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(7).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(7).setPreferredWidth(90);
+		tablaMateriales.getColumnModel().getColumn(7).setPreferredWidth(100);
 		tablaMateriales.getColumnModel().getColumn(7).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(8).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(8).setPreferredWidth(90);
 		tablaMateriales.getColumnModel().getColumn(8).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(56);
+		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(45);
 		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
+		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(88);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
 		tablaMateriales.getTableHeader().setReorderingAllowed(false);
-      
+		
+		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spMateriales.setBounds(10, 11, 615, 228);
+		panMateriales.add(spMateriales);
+		
+		tablaMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tablaMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tablaMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		
+		
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panOrdenEjecucion.setLayout(null);
@@ -648,24 +653,35 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			new Object[][] {
 			},
 			new String[] {
-				"Proceso", "Proveedor", "Observaciones", "Cumplida"
+				"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, Boolean.class
+				String.class, Boolean.class, String.class, String.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaOrdenDeEjecucion.getColumnModel().getColumn(0).setPreferredWidth(148);
-		tablaOrdenDeEjecucion.getColumnModel().getColumn(1).setPreferredWidth(139);
-		tablaOrdenDeEjecucion.getColumnModel().getColumn(2).setPreferredWidth(202);
-		tablaOrdenDeEjecucion.getColumnModel().getColumn(3).setPreferredWidth(62);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(1).setPreferredWidth(77);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(2).setPreferredWidth(170);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(3).setPreferredWidth(202);
+		tablaOrdenDeEjecucion.getColumnModel().getColumn(4).setPreferredWidth(65);
 		spOrdenEjecucion.setViewportView(tablaOrdenDeEjecucion);
 		tablaOrdenDeEjecucion.getTableHeader().setReorderingAllowed(false);
-		
+		tablaOrdenDeEjecucion.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaOrdenDeEjecucion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tablaOrdenDeEjecucion.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
 		JButton btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
+		btnConfirmarSeleccion.setMaximumSize(new Dimension(135, 23));
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -674,18 +690,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
 				for (int i=0; i < selected.length; i++) 
 				{
-					Object nuevo[]= {"","","",false};
+					Object nuevo[]= {"",false,"","",false};
 					temp.addRow(nuevo);
 					tablaOrdenDeEjecucion.setValueAt(listaProcesos.getModel().getElementAt(selected[i]), i, 0);
 				}
 				
 				// Valores para el combo
 				String proveedores[] = Proveedor.getProveedores();
-				TableColumn columnaProveedor = tablaOrdenDeEjecucion.getColumnModel().getColumn(1);
+				TableColumn columnaProveedor = tablaOrdenDeEjecucion.getColumnModel().getColumn(2);
 				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
-		btnConfirmarSeleccion.setBounds(36, 229, 130, 23);
+		btnConfirmarSeleccion.setBounds(39, 229, 141, 23);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
@@ -827,9 +843,22 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				Integer id_OT = Orden_Trabajo.FacturaAEntero(this.txtNro.getText());
 				for (int i = 0; i < cantFilasProc; i++) 
 				{
-					Integer id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 1).toString());
-					Procesos_x_OT pxt = new Procesos_x_OT(aca va el id_proceso,id_OT,si es tercerizada, (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 3),id_Proveedor,si esta cumplida, tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
-					pxt.Alta();
+					boolean isTercerizada = (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 1);
+					Integer id_Proveedor;
+					String observaciones;
+					if( isTercerizada == true)
+					{
+						id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 1).toString());
+						observaciones = tablaOrdenDeEjecucion.getValueAt(i, 3).toString();
+					}
+					else
+					{
+						id_Proveedor = null;
+						observaciones = null;
+					}
+					//falta agregar los id de procesos ara dar de alta
+					//Procesos_x_OT pxt = new Procesos_x_OT(id_OT,isTercerizada,id_Proveedor, false,observaciones);
+					//pxt.Alta();
 				}	
 		
 		
@@ -1121,6 +1150,4 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		return this.tablaOrdenDeEjecucion;
 	}
-	
-	
 }	
