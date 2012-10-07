@@ -8,7 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-public class MyComboBoxEditor extends DefaultCellEditor implements TableCellEditor 
+public class MyComboBoxEditor extends DefaultCellEditor
 {
 	public MyComboBoxEditor(String[] items) 
 	{

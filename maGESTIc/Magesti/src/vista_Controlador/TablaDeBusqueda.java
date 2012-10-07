@@ -1,3 +1,4 @@
+
 package vista_Controlador;
 
 import java.sql.ResultSet;
@@ -35,6 +36,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		jspTabla = new JScrollPane (tablaBusqueda);
 		jpMostrar.add (jspTabla);
 		tablaBusqueda = new JTable();
+		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
 		
 		tablaBusqueda.addMouseListener(new MouseAdapter() {
 			@Override
@@ -87,12 +89,21 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));
 			}
 		});
+		getContentPane().add (jpMostrar);
+		dtmMagesti = new DefaultTableModel(null, getColumnas());
+		setFilas();
+		tablaBusqueda.setModel(dtmMagesti);
+		jspTabla.add(tablaBusqueda);
+		jspTabla.setViewportView(tablaBusqueda);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		
+		/*
 		tablaBusqueda.setEnabled(false);
 		tablaBusqueda.setModel(new DefaultTableModel(new Object[][] {},new String[] {}));
 		jspTabla.setViewportView(tablaBusqueda);
 		getContentPane().add (jpMostrar);
 		//setVisible (true);
-	
+		 */
 		
 	
 			// Llenamos el modelo
@@ -124,7 +135,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				ResultSet result = ConexionDB
 						.getbaseDatos()
 						.consultar(
-								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente");
+								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
 				Integer CantColumnas=13;
 				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
 

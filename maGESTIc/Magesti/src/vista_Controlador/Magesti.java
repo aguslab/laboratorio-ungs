@@ -11,13 +11,8 @@ import java.util.*;
 import java.text.*;
 
 @SuppressWarnings("serial")
-public class Magesti 
-extends JFrame 
-implements 
-	ActionListener, 
-	ItemListener, 
-	Config 
-{
+public class Magesti extends JFrame implements ActionListener, ItemListener,
+		Config {
 	private JDesktopPane escritorio = new JDesktopPane ();
 	
 	private JMenuBar barra;
@@ -43,9 +38,14 @@ implements
 		registrarRecepcionDePedido;
 	
 	private	JMenuItem 
-		clientes;
+		clientes,
+		Proveedor,
+		Calidad,
+		Formato,
+		Variante;
 	private	JMenuItem 
-		mostrarCalendario;
+		mostrarCalendario,
+		reporte;
 	
 	private	JMenuItem 
 		ayudaContenido, 
@@ -78,6 +78,7 @@ implements
 	private SimpleDateFormat fechaFormateada = new SimpleDateFormat ("dd MMMM yyyy", Locale.getDefault());
 	
 	private String fecha = fechaFormateada.format (fechaActual);
+	
 
 	public Magesti() 
 	{
@@ -89,6 +90,8 @@ implements
 		setIconImage (getToolkit().getImage ("Imagenes/icono.png"));
 		setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setJMenuBar (barra);
+		
+		
 
 		for(UIManager.LookAndFeelInfo laf:UIManager.getInstalledLookAndFeels())
 		{
@@ -171,10 +174,37 @@ implements
 		clientes.setMnemonic ((int)'G');
 		clientes.addActionListener (this);
 		
+		Calidad= new JMenuItem ("Administracion Calidad  ", new ImageIcon ("Imagenes/clientes.png"));
+		Calidad.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Calidad.setMnemonic ((int)'C');
+		Calidad.addActionListener (this);
+		
+		Formato= new JMenuItem ("Administracion Formato  ", new ImageIcon ("Imagenes/clientes.png"));
+		Formato.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Formato.setMnemonic ((int)'F');
+		Formato.addActionListener (this);
+		
+		Variante= new JMenuItem ("Administracion Variante  ", new ImageIcon ("Imagenes/clientes.png"));
+		Variante.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Variante.setMnemonic ((int)'G');
+		Variante.addActionListener (this);
+		
+		Proveedor = new JMenuItem ("Registro de Proveedores  ", new ImageIcon ("Imagenes/clientes.png"));
+		Proveedor.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Proveedor.setMnemonic ((int)'P');
+		Proveedor.addActionListener (this);
+		
 		mostrarCalendario = new JMenuItem ("Ver  ", new ImageIcon ("Imagenes/calendario2.png"));
 		mostrarCalendario.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK));
 		mostrarCalendario.setMnemonic ((int)'V');
 		mostrarCalendario.addActionListener (this);
+		
+		reporte = new JMenuItem ("Reporte  ", new ImageIcon ("Imagenes/imprimir.png"));
+		reporte.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
+		reporte.setMnemonic ((int)'R');
+		reporte.addActionListener (this);
+		mnuAdministracion.add (reporte);
+		mnuAdministracion.addSeparator ();
 
 		ayudaContenido = new JMenuItem ("Contenido de la Ayuda  ", new ImageIcon ("Imagenes/ayuda1.png"));
 		ayudaContenido.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
@@ -209,6 +239,11 @@ implements
 		mnuRecepcionDePedido.add (registrarRecepcionDePedido);
 		
 		mnuAdministracion.add (clientes);
+		mnuAdministracion.add (Proveedor);
+		mnuAdministracion.add (Calidad);
+		mnuAdministracion.add (Formato);
+		mnuAdministracion.add (Variante);
+		
 
 		mnuAyuda.add (ayudaContenido);
 		mnuAyuda.addSeparator ();
@@ -343,11 +378,20 @@ implements
 		{
 			salirDelPrograma();
 		}
-		else if (obj == ingresarSolicitudDeCompra) 
+		else if (obj == ingresarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
 		{
 			/*
 			 * Código para ingresar la Solicitud de Compra
 			 */
+			{
+				boolean b = openChildWindow ("SC");
+				if (b == false) 
+				{
+				SolicitudDeCompra nSC = new SolicitudDeCompra(false);
+				escritorio.add (nSC);
+				nSC.show ();
+				}
+				}
 		}
 		else if (obj == btnBuscarOrdenDeTrabajo) 
 		{
@@ -361,7 +405,7 @@ implements
 				}
 
 		}
-		else if (obj == consultarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
+		else if (obj == consultarSolicitudDeCompra ) 
 		{		
 			boolean b = openChildWindow ("Buscador");
 			if (b == false) 
@@ -376,8 +420,26 @@ implements
 			/*
 			 * Código para ingresar un Registro De Pedido
 			 */
+			boolean b = openChildWindow ("SC");
+			if (b == false) 
+			{
+			SolicitudDeCompra nSC = new SolicitudDeCompra(true);
+			escritorio.add (nSC);
+			nSC.show ();
+			}
+				
 		}
-		else if (obj == btnCalendario) 
+		else if (obj == reporte) 
+		{
+		boolean b = openChildWindow ("Reporte");
+		if (b == false) 
+		{
+		imprimir (fabricaReporte(1020));
+		}
+		}
+		
+		
+		else if (obj == btnCalendario || obj==mostrarCalendario)  
 		{
 			boolean b = openChildWindow ("Calendario");
 			if (b == false) 
@@ -390,12 +452,70 @@ implements
 		
 		else if (obj == clientes) 
 		{
-			boolean b = openChildWindow ("Calendario");
+			
+			boolean b = openChildWindow ("Registro de Clientes");
 			if (b == false) 
 			{
-				imprimir (fabricaReporte(1020));
+				Adm_Cliente admCli= new Adm_Cliente();
+				escritorio.add (admCli);
+				admCli.show ();
+			}
+			
+			
+		}
+		
+		else if (obj == Proveedor) 
+		{
+			
+			boolean b = openChildWindow ("Registro de Proveedor");
+			if (b == false) 
+			{
+				Adm_Proveedor admProv= new Adm_Proveedor();
+				escritorio.add (admProv);
+				admProv.show ();
+			}
+			
+			
+		}
+		
+		else if (obj == Calidad) 
+		{
+			
+			boolean b = openChildWindow ("Registro de Calidad");
+			if (b == false) 
+			{
+				Adm_Calidad admCal= new Adm_Calidad();
+				escritorio.add (admCal);
+				admCal.show ();
 			}
 		}
+		
+		else if (obj == Formato) 
+		{
+			
+			boolean b = openChildWindow ("Registro de Formato");
+			if (b == false) 
+			{
+				Adm_Formato admFor= new Adm_Formato();
+				escritorio.add (admFor);
+				admFor.show ();
+			}
+		}
+		
+		
+		else if (obj == Variante) 
+		{
+			
+			boolean b = openChildWindow ("Registro de Variante");
+			if (b == false) 
+			{
+				Adm_Variante admVar= new Adm_Variante();
+				escritorio.add (admVar);
+				admVar.show ();
+			}
+		}
+		
+		
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{

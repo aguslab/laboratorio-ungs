@@ -1,9 +1,8 @@
+
 package vista_Controlador;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,9 +13,7 @@ import javax.swing.table.TableColumn;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
-import Modelo.ConexionDB;
 import Modelo.Elemento;
-import Modelo.ElementosMaterialesTmp;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
@@ -28,14 +25,7 @@ import Modelo.Variante;
 
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
-	private ArrayList<String> elementos=new ArrayList<String>();
-	private ArrayList<Integer> cantidad=new ArrayList<Integer>();
-	private boolean almaceno=false;
-	private ArrayList<String[]> FilasElementos=new ArrayList<String[]>();
-	//private String[] row_elem;
-	private ArrayList<ElementosMaterialesTmp> elem_mat=new ArrayList<ElementosMaterialesTmp>();
 	private JPanel jpOrdenDeTrabajo = new JPanel();
-	private JTable secMateriales;
 	
 	private JLabel 
 		lbNro, 
@@ -85,9 +75,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	private JTabbedPane
 		tabSecciones;
-	
-	
-	private DefaultTableModel dtmMateriales;
 	
 	
 	//ArrayList<String> Clientes= Cliente.getClientes();
@@ -175,7 +162,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbDescripcion.setBounds(15, 125, 80, 25);
 		lbDescripcion.setForeground (Color.black);
 
-		String maxIdOT=Orden_Trabajo.getUltOT()+"";
+		String maxIdOT = Orden_Trabajo.DoubleAFactura(Orden_Trabajo.getUltOT());
 		
 		txtNro = new JTextField (maxIdOT);
 		txtNro.setEditable(false);
@@ -462,6 +449,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		});
 		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
 		spElementos.setViewportView(tablaElementos);
+		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		
 		JButton btnAgregarFila = new JButton("Agregar Fila");
 		btnAgregarFila.addActionListener(new ActionListener() 
@@ -484,7 +472,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				try
 				{	
 				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
-				temp.removeRow(temp.getRowCount()-1);
+				if(temp.getRowCount()>0){
+					temp.removeRow(temp.getRowCount()-1);	
+				}
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
@@ -504,11 +494,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				
 				Integer cantFilas = tablaElementos.getRowCount();
 				DefaultTableModel temp = (DefaultTableModel) tablaMateriales.getModel();
-				for (int i = 0; i < cantFilas; i++) 
-				{
-					Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
-					temp.addRow(nuevaFila);
+				//cuenta la cantidad de filas no vacias que se agregan
+				Integer c=0;
+				try{					
+					for (int i = 0; i < cantFilas; i++) 
+					{
+						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals("")){
+							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
+							temp.addRow(nuevaFila);	
+							c++;
+						}else{
+							JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
+						}
+					}
+				}catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 				}
+				if(c==cantFilas){
+					JOptionPane.showMessageDialog(null,"Se almaceno correctamente.Vaya a la seccion MATERIALES.");	
+				}
+				
 				
 				
 				
@@ -608,6 +613,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
+		tablaMateriales.getTableHeader().setReorderingAllowed(false);
       
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -661,24 +667,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.getColumnModel().getColumn(2).setPreferredWidth(202);
 		tablaOrdenDeEjecucion.getColumnModel().getColumn(3).setPreferredWidth(62);
 		spOrdenEjecucion.setViewportView(tablaOrdenDeEjecucion);
+		tablaOrdenDeEjecucion.getTableHeader().setReorderingAllowed(false);
 		
 		JButton btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				Integer cantFilas = tablaOrdenDeEjecucion.getRowCount();
-				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
-				System.out.println(listaProcesos.getSelectedValues());
-				for(int i = 0; i < cantFilas; i ++ )
-				{
+				int selected[] = listaProcesos.getSelectedIndices( );
 
-					
-					Object nuevo[]= {"","","",""};
+				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
+				for (int i=0; i < selected.length; i++) 
+				{
+					Object nuevo[]= {"","","",false};
 					temp.addRow(nuevo);
-					tablaOrdenDeEjecucion.setValueAt(listaProcesos.getSelectedValues(), i, 0);
-					
+					tablaOrdenDeEjecucion.setValueAt(listaProcesos.getModel().getElementAt(selected[i]), i, 0);
 				}
 				
+				// Valores para el combo
+				String proveedores[] = Proveedor.getProveedores();
+				TableColumn columnaProveedor = tablaOrdenDeEjecucion.getColumnModel().getColumn(1);
+				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
 		btnConfirmarSeleccion.setBounds(36, 229, 130, 23);
@@ -697,7 +705,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtTipoProducto.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTipoProducto.setBounds(105, 195, 210, 25);
 		jpOrdenDeTrabajo.add(txtTipoProducto);
-		
 		txtClear();
 	}
 
@@ -817,19 +824,41 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			e.Alta();
 		}*/
 		
+		
+		
+		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
+				Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
+				Integer id_OT = Integer.parseInt(this.txtNro.getText());
+				for (int i = 0; i < cantFilasProc; i++) 
+				{
+					Integer id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 1).toString());
+					Procesos_x_OT pxt = new Procesos_x_OT(id_OT,(Boolean) tablaOrdenDeEjecucion.getValueAt(i, 3),id_Proveedor,tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
+					pxt.Alta();
+				}	
+		
+		
+		
 		//Se obtienen los valores guardados en la tabla Elementos para crear filas en la tabla Elemento de la BD
+				
 		Integer cantFilas = tablaElementos.getRowCount();
-		Integer id_OT = Integer.parseInt(this.txtNro.getText());
+		//Integer id_OT = Integer.parseInt(this.txtNro.getText());
+		 /* 
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			Elemento e = new Elemento(id_OT,tablaElementos.getValueAt(i, 0).toString(),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()));
 			e.Alta();
-		}
+		}*/
 		
 		//Se obtienen los valores guardados en la tabla Materiales para crear filas en la tabla Materiales de la BD
-		Integer id_Elem = Elemento.getMaxId_elemento();
+		//Integer id_Elem = Elemento.getMaxId_elemento();
 		for (int i = 0; i < cantFilas; i++) 
 		{
+			
+			Elemento e = new Elemento(id_OT,tablaElementos.getValueAt(i, 0).toString(),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()));
+			e.Alta();
+			//id_elem tiene el ultimo elemento que se agrego
+			Integer id_Elem = Elemento.getMaxId_elemento();
+			
 			//Busco los FK para la tabla materiales de BD
 			Integer id_for = Formato_Papel.getId_Formato(tablaMateriales.getValueAt(i, 3).toString());
 			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 4).toString());
@@ -1095,4 +1124,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		return this.tablaOrdenDeEjecucion;
 	}
+	
+	
 }	
