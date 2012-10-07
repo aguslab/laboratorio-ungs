@@ -174,21 +174,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		clientes.setMnemonic ((int)'G');
 		clientes.addActionListener (this);
 		
-		Calidad= new JMenuItem ("Administracion Calidad  ", new ImageIcon ("Imagenes/clientes.png"));
-		Calidad.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Calidad.setMnemonic ((int)'C');
-		Calidad.addActionListener (this);
-		
-		Formato= new JMenuItem ("Administracion Formato  ", new ImageIcon ("Imagenes/clientes.png"));
-		Formato.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Formato.setMnemonic ((int)'F');
-		Formato.addActionListener (this);
-		
-		Variante= new JMenuItem ("Administracion Variante  ", new ImageIcon ("Imagenes/clientes.png"));
-		Variante.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Variante.setMnemonic ((int)'G');
-		Variante.addActionListener (this);
-		
 		Proveedor = new JMenuItem ("Registro de Proveedores  ", new ImageIcon ("Imagenes/clientes.png"));
 		Proveedor.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
 		Proveedor.setMnemonic ((int)'P');
@@ -240,9 +225,27 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		mnuAdministracion.add (clientes);
 		mnuAdministracion.add (Proveedor);
-		mnuAdministracion.add (Calidad);
-		mnuAdministracion.add (Formato);
-		mnuAdministracion.add (Variante);
+		
+		JMenu mnAdministracionAtributosPapel = new JMenu("Administracion Atributos de Papel");
+		mnuAdministracion.add(mnAdministracionAtributosPapel);
+		
+		Calidad= new JMenuItem ("Administracion Calidad  ", new ImageIcon ("Imagenes/clientes.png"));
+		mnAdministracionAtributosPapel.add(Calidad);
+		Calidad.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Calidad.setMnemonic ((int)'C');
+		
+		Formato= new JMenuItem ("Administracion Formato  ", new ImageIcon ("Imagenes/clientes.png"));
+		mnAdministracionAtributosPapel.add(Formato);
+		Formato.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Formato.setMnemonic ((int)'F');
+		
+		Variante= new JMenuItem ("Administracion Variante  ", new ImageIcon ("Imagenes/clientes.png"));
+		mnAdministracionAtributosPapel.add(Variante);
+		Variante.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Variante.setMnemonic ((int)'G');
+		Variante.addActionListener (this);
+		Formato.addActionListener (this);
+		Calidad.addActionListener (this);
 		
 
 		mnuAyuda.add (ayudaContenido);

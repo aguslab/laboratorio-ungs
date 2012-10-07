@@ -34,6 +34,7 @@ public class Splash extends JWindow implements Config
 
 		this.setVisible(true);
 		
+		/*
 		try 
 		{
 			Thread.sleep(4000);
@@ -43,6 +44,7 @@ public class Splash extends JWindow implements Config
 			e.printStackTrace();
 		}
 
+		*/
 		new Magesti();
 
 		toFront();

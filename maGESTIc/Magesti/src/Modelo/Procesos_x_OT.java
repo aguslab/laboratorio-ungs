@@ -7,31 +7,37 @@ public class Procesos_x_OT {
 	
 	private Integer id_proceso;
 	private Integer id_orden_trabajo;
+	private boolean tercerizada;
 	private Integer id_proveedor;
 	private boolean cumplida;
 	private String observacion;
 	
 	
 	
-	public Procesos_x_OT(Integer id_proceso, Integer id_orden_trabajo,
+	public Procesos_x_OT(Integer id_proceso, Integer id_orden_trabajo, boolean tercerizada,
 			Integer id_proveedor,boolean estado, String observacion) {
 		super();
 		this.id_proceso = id_proceso;
 		this.id_orden_trabajo = id_orden_trabajo;
+		this.tercerizada= tercerizada;
 		this.id_proveedor = id_proveedor;
 		this.cumplida=estado;
 		this.observacion = observacion;
 	}
 	
-	//Creo que aca no va esta, despues se vera
-	public Procesos_x_OT(Integer id_orden_trabajo, boolean cumplida,
-			Integer id_proveedor, String observacion) {
-		super();
-		this.id_orden_trabajo = id_orden_trabajo;
-		this.id_proveedor = id_proveedor;
-		this.observacion = observacion;
+		
+
+	public boolean isTercerizada() {
+		return tercerizada;
 	}
-	
+
+
+
+	public void setTercerizada(boolean tercerizada) {
+		this.tercerizada = tercerizada;
+	}
+
+
 
 	public Integer getId_proceso() {
 		return id_proceso;
@@ -102,8 +108,8 @@ public class Procesos_x_OT {
 	
 	public ArrayList<Procesos_x_OT> Buscar() {
 
-		ResultSet resultado = ConexionDB.getbaseDatos()
-				.consultar("SELECT * FROM procesos_x_orden_trabajo");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM procesos_x_orden_trabajo");
 
 		ArrayList<Procesos_x_OT> list_prox_x_orden = new ArrayList<Procesos_x_OT>();
 		if (resultado != null) {
@@ -113,8 +119,9 @@ public class Procesos_x_OT {
 				while (resultado.next()) {
 					Procesos_x_OT proc_x_ot = new Procesos_x_OT(new Integer(
 							resultado.getInt("id_proceso")), new Integer(
-							resultado.getInt("id_orden_trabajo")), new Integer(
-							resultado.getInt("id_proveedor")),
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getBoolean("tercerizada"), new Integer(
+									resultado.getInt("id_proveedor")),
 							resultado.getBoolean("cumplida"),
 							resultado.getString("observacion"));
 					list_prox_x_orden.add(proc_x_ot);

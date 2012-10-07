@@ -12,13 +12,13 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
-			// ORDEN DE TRABAJO
-		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12,34,false,"pendiente",null);
+	/*		// ORDEN DE TRABAJO
+		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12.2,34.7,false,"pendiente",null);
 		System.out.println(ot1.Alta());
 		ArrayList<Orden_Trabajo> lot=ot1.Buscar();
 		lot.get(0).mostrarDatos();
 		lot.get(1).mostrarDatos();
-	
+	*/
 		
 	
 		/*
@@ -94,6 +94,12 @@ public class Main_OT {
 		ArrayList<Materiales> l_m=m.Buscar();
 	*/	
 	
+		ArrayList<String> a= Elemento.cosasDeElemento(1);
+		for(int i=0;i<a.size()-2;i=i+2){
+			System.out.println();
+			System.out.print(i+ "     ");
+			System.out.print(i+1);
+		}
 		
 		
 		 }

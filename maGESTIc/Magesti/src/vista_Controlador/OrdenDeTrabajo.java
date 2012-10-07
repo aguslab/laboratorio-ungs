@@ -1,8 +1,8 @@
-
 package vista_Controlador;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -77,16 +77,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones;
 	
 	
-	//ArrayList<String> Clientes= Cliente.getClientes();
-	
 	String Clientes[] = Cliente.getClientes(); 
 	
-	/*{ PLAN B 
-		"Cosméticos Avon S.A.C.I.", 
-		"Garbarino S.A.", 
-		"Fravega S.A.C.I.", 
-		"Cablevisión S.A.", 
-	};*/
 	
 	String Meses[] = 
 	{
@@ -111,13 +103,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		"Cerrado" 
 	};
 	
-	/*String TipoDeProducto[] = Tipo_producto.getTiposProd();
-	//{ // PLAN B
-		"Block de facturas", 
-		"Revista", 
-		"Calendario",
-		"Cuaderno"
-	};*/
 	private JTextField txtTipoProducto;
 	private JTable tablaElementos;
 	private JPanel panMateriales;
@@ -145,7 +130,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbFechaC = new JLabel ("Fecha confec.:");
 		lbFechaC.setBounds(15, 55, 80, 25);
 		lbFechaC.setForeground (Color.black);
-		
+				
 		lbFechaP = new JLabel ("Fecha prom.:");
 		lbFechaP.setBounds(355, 55, 80, 25);
 		lbFechaP.setForeground (Color.black);
@@ -162,7 +147,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbDescripcion.setBounds(15, 125, 80, 25);
 		lbDescripcion.setForeground (Color.black);
 
-		String maxIdOT = Orden_Trabajo.DoubleAFactura(Orden_Trabajo.getUltOT());
+		
+		String maxIdOT = Orden_Trabajo.EnteroAFactura(Orden_Trabajo.getUltOT());
 		
 		txtNro = new JTextField (maxIdOT);
 		txtNro.setEditable(false);
@@ -219,7 +205,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar.setBounds(445, 195, 210, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		
-		lbPreimpresion = new JLabel ("Preimpresión:");
+		lbPreimpresion = new JLabel ("Preimpresión(Cant.Planchas):");
 		lbPreimpresion.setBounds(15, 230, 80, 25);
 		lbPreimpresion.setForeground (Color.black);
 		
@@ -304,21 +290,31 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 		);
 
-		cboMes = new JComboBox (Meses); //Comentar esta línea si quieren utilizar el WB
+		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		//cboMes = new JComboBox<String> ();	//Descomentar esta línea para utilizar el WB
+		Calendar fecha= Calendar.getInstance();
+		Integer mm=fecha.get(Calendar.MONTH)+1;
+		cboMes.getModel().setSelectedItem(TablaDeBusqueda.dameMes(mm.toString()));
 		cboMes.setBounds(105, 55, 97, 25);
+		cboMes.setEnabled(false);
 		
 		cboDia = new JComboBox ();
+		Integer dd=fecha.get(Calendar.DATE);
+		cboDia.getModel().setSelectedItem(dd.toString());
+		cboDia.setEnabled(false);
 		cboDia.setBounds(202, 55, 48, 25);
 		
 		cboAnio = new JComboBox ();
+		Integer aaaa=fecha.get(Calendar.YEAR);
+		cboAnio.getModel().setSelectedItem(aaaa.toString());
+		cboAnio.setEnabled(false);
 		cboAnio.setBounds(250, 55, 65, 25);
 		
 		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
 		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
-		cboEstado_1.setBounds(445, 90, 210, 25);
+		cboEstado_1.setBounds(445, 90, 300, 25);
 		cboEstado_1.setEnabled(false);
 		
 		for (int i = 1; i <= 31; i++) 
@@ -800,8 +796,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
 		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
-		Integer ancho = Integer.parseInt(txtAncho.getText());
-		Integer alto = Integer.parseInt(txtAlto.getText());
+		Double ancho = Double.parseDouble(txtAncho.getText());
+		Double alto = Double.parseDouble(txtAlto.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
@@ -828,11 +824,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
 				Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
-				Integer id_OT = Integer.parseInt(this.txtNro.getText());
+				Integer id_OT = Orden_Trabajo.FacturaAEntero(this.txtNro.getText());
 				for (int i = 0; i < cantFilasProc; i++) 
 				{
 					Integer id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 1).toString());
-					Procesos_x_OT pxt = new Procesos_x_OT(id_OT,(Boolean) tablaOrdenDeEjecucion.getValueAt(i, 3),id_Proveedor,tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
+					Procesos_x_OT pxt = new Procesos_x_OT(aca va el id_proceso,id_OT,si es tercerizada, (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 3),id_Proveedor,si esta cumplida, tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
 					pxt.Alta();
 				}	
 		
@@ -937,6 +933,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			return "12";
 		}
 	}
+	
 	
 	private void llenarMateriales(){
 		JScrollPane spMateriales = new JScrollPane();

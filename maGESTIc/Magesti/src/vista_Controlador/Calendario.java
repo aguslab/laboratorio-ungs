@@ -104,6 +104,241 @@ implements ItemListener,ActionListener, Config
 	}
 	
 
+	public Choice getChAnio() {
+		return chAnio;
+	}
+
+
+	public void setChAnio(Choice chAnio) {
+		this.chAnio = chAnio;
+	}
+
+
+	public Choice getChMes() {
+		return chMes;
+	}
+
+
+	public void setChMes(Choice chMes) {
+		this.chMes = chMes;
+	}
+
+
+	public JButton[] getBtnMatriz() {
+		return btnMatriz;
+	}
+
+
+	public void setBtnMatriz(JButton[] btnMatriz) {
+		this.btnMatriz = btnMatriz;
+	}
+
+
+	public String[] getMeses() {
+		return meses;
+	}
+
+
+	public void setMeses(String[] meses) {
+		this.meses = meses;
+	}
+
+
+	public void setAnio(String anio) {
+		this.anio = anio;
+	}
+
+
+	public String getMm() {
+		return mm;
+	}
+
+
+	public void setMm(String mm) {
+		this.mm = mm;
+	}
+
+
+	public String getDd() {
+		return dd;
+	}
+
+
+	public void setDd(String dd) {
+		this.dd = dd;
+	}
+
+
+	public int getBtn_tag() {
+		return btn_tag;
+	}
+
+
+	public void setBtn_tag(int btn_tag) {
+		this.btn_tag = btn_tag;
+	}
+
+
+	public int getAnio() {
+		return Anio;
+	}
+
+
+	public void setAnio(int anio) {
+		Anio = anio;
+	}
+
+
+	public int getDiaDeLaSemana() {
+		return DiaDeLaSemana;
+	}
+
+
+	public void setDiaDeLaSemana(int diaDeLaSemana) {
+		DiaDeLaSemana = diaDeLaSemana;
+	}
+
+
+	public int getMM() {
+		return MM;
+	}
+
+
+	public void setMM(int mM) {
+		MM = mM;
+	}
+
+
+	public JButton getBorrar() {
+		return Borrar;
+	}
+
+
+	public void setBorrar(JButton borrar) {
+		Borrar = borrar;
+	}
+
+
+	public JButton getAnterior() {
+		return Anterior;
+	}
+
+
+	public void setAnterior(JButton anterior) {
+		Anterior = anterior;
+	}
+
+
+	public java.util.Date getFechaHoy() {
+		return fechaHoy;
+	}
+
+
+	public void setFechaHoy(java.util.Date fechaHoy) {
+		this.fechaHoy = fechaHoy;
+	}
+
+
+	public SimpleDateFormat getFechaDiaHoy() {
+		return fechaDiaHoy;
+	}
+
+
+	public void setFechaDiaHoy(SimpleDateFormat fechaDiaHoy) {
+		this.fechaDiaHoy = fechaDiaHoy;
+	}
+
+
+	public SimpleDateFormat getFechaMesHoy() {
+		return fechaMesHoy;
+	}
+
+
+	public void setFechaMesHoy(SimpleDateFormat fechaMesHoy) {
+		this.fechaMesHoy = fechaMesHoy;
+	}
+
+
+	public SimpleDateFormat getFechaAnioHoy() {
+		return fechaAnioHoy;
+	}
+
+
+	public void setFechaAnioHoy(SimpleDateFormat fechaAnioHoy) {
+		this.fechaAnioHoy = fechaAnioHoy;
+	}
+
+
+	public SimpleDateFormat getFechaAnio4Hoy() {
+		return fechaAnio4Hoy;
+	}
+
+
+	public void setFechaAnio4Hoy(SimpleDateFormat fechaAnio4Hoy) {
+		this.fechaAnio4Hoy = fechaAnio4Hoy;
+	}
+
+
+	public SimpleDateFormat getFechaMesNombreHoy() {
+		return fechaMesNombreHoy;
+	}
+
+
+	public void setFechaMesNombreHoy(SimpleDateFormat fechaMesNombreHoy) {
+		this.fechaMesNombreHoy = fechaMesNombreHoy;
+	}
+
+
+	public String getDiaHoy() {
+		return diaHoy;
+	}
+
+
+	public void setDiaHoy(String diaHoy) {
+		this.diaHoy = diaHoy;
+	}
+
+
+	public String getMesHoy() {
+		return mesHoy;
+	}
+
+
+	public void setMesHoy(String mesHoy) {
+		this.mesHoy = mesHoy;
+	}
+
+
+	public String getAnioHoy() {
+		return anioHoy;
+	}
+
+
+	public void setAnioHoy(String anioHoy) {
+		this.anioHoy = anioHoy;
+	}
+
+
+	public String getMesNHoy() {
+		return mesNHoy;
+	}
+
+
+	public void setMesNHoy(String mesNHoy) {
+		this.mesNHoy = mesNHoy;
+	}
+
+
+	public String getAnio4Hoy() {
+		return anio4Hoy;
+	}
+
+
+	public void setAnio4Hoy(String anio4Hoy) {
+		this.anio4Hoy = anio4Hoy;
+	}
+
+
 	public void aplylisteners()
 	{
 		chAnio.addItemListener(this);

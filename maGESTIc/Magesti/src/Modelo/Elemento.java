@@ -86,12 +86,11 @@ public class Elemento {
 		this.cantidad = cantidad;
 	}
 
-	public static ArrayList<String> cosasDeElemento(String id_OT)
+	public static ArrayList<String> cosasDeElemento(Integer id_OT)
 	{
-		ArrayList<String> valores = null;
-		id_OT = "'" + id_OT + "'";
+		ArrayList<String> valores = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_elemento, cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT tipo_elemento, cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 		
 		if (resultado != null) 
 		{
@@ -99,7 +98,9 @@ public class Elemento {
 			{
 				while (resultado.next()) 
 				{
-					valores.add(resultado.getString(0));
+					valores.add(resultado.getString("tipo_elemento"));
+					Integer cant=resultado.getInt("cantidad");
+					valores.add(cant.toString());
 				}
 			} 
 			catch (Exception e) 
