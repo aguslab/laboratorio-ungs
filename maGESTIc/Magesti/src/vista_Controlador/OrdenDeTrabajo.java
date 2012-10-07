@@ -40,6 +40,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbTipoDeProducto,
 		lbCantidadAEntregar,
 		lbPreimpresion,
+		lbPlanchas,
 		lbCantidadDeHojasUtilizadas;
 	
 	private JTextField 
@@ -205,9 +206,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar.setBounds(445, 195, 210, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		
-		lbPreimpresion = new JLabel ("Preimpresión(Cant.Planchas):");
+		lbPreimpresion = new JLabel ("Preimpresión:");
 		lbPreimpresion.setBounds(15, 230, 80, 25);
 		lbPreimpresion.setForeground (Color.black);
+		
+		lbPlanchas = new JLabel ("(Cant.Planchas)");
+		lbPlanchas.setBounds(320, 230, 100, 25);
+		lbPlanchas.setForeground (Color.black);
 		
 		txtPreimpresion = new JTextField ("0");
 		txtPreimpresion.setBounds(105, 230, 210, 25);
@@ -392,6 +397,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbTipoDeProducto);
 		jpOrdenDeTrabajo.add (lbCantidadAEntregar);
 		jpOrdenDeTrabajo.add (lbPreimpresion);
+		jpOrdenDeTrabajo.add (lbPlanchas);
 		jpOrdenDeTrabajo.add (lbCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtPreimpresion);
