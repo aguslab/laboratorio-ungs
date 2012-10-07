@@ -489,6 +489,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		JButton btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() {
+			
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -500,12 +501,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				Integer c=0;
 				try{					
 					for (int i = 0; i < cantFilas; i++) 
-					{
+					{//si ninguna celda esta vacia...
 						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals("")){
 							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
 							temp.addRow(nuevaFila);	
 							c++;
-						}else{
+						}else{//si alguna celda esta vacia...
 							JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 						}
 					}
@@ -517,9 +518,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				
 				
-				
-				
-				
+								
 				// Valores para el combo
 				String calidades[] = Calidad.getCalidades();
 				TableColumn columnaCalidad = tablaMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
