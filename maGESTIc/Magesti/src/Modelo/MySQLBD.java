@@ -23,7 +23,7 @@ public class MySQLBD
         try 
         {
             Class.forName("com.mysql.jdbc.Driver");
-            String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=tp_labo&password=laboratorio";
+            String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=root&password=magesti2012";
             setConexion(DriverManager.getConnection(BaseDeDatos));
             if(getConexion() != null)
             {
