@@ -233,7 +233,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE) || c == '.'))) 
 						{
 							getToolkit().beep ();
 							ke.consume ();
@@ -249,7 +249,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)|| c == '.'))) 
 						{
 							getToolkit().beep ();
 							ke.consume ();
