@@ -2,6 +2,7 @@ package Modelo;
 
 import java.sql.*;
 
+
 public class MySQLBD 
 {
 
@@ -20,7 +21,7 @@ public class MySQLBD
     //baseDatos: Magesti - User: tp_labo - pass: laboratorio
     public MySQLBD conectar() 
     {
-        try 
+        try
         {
             Class.forName("com.mysql.jdbc.Driver");
             String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=root&password=magesti2012";
@@ -78,7 +79,7 @@ public class MySQLBD
         } 
         catch (SQLException e) 
         {
-            e.printStackTrace();
+        	e.printStackTrace();
             return null;
         }
 
