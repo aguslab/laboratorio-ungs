@@ -4,7 +4,10 @@ import java.math.BigInteger;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class Main_OT {
@@ -94,16 +97,14 @@ public class Main_OT {
 		ArrayList<Materiales> l_m=m.Buscar();
 	*/	
 	
-		ArrayList<String> a= Elemento.cosasDeElemento(2);
-		System.out.println("tamañ a: "+a.size());
-		
-		for(int i=0;i<a.size();i=i+2){
+
+
+		ArrayList<String> a= Elemento.cosasDeElemento(1);
+		for(int i=0;i<a.size()-2;i=i+2){
 			System.out.println();
-			System.out.print(a.get(i)+ "     ");
-			System.out.print(a.get(i+1));
+			System.out.print(i+ "     ");
+			System.out.print(i+1);
 		}
-		
-		
 		 }
 		
 	}

@@ -39,7 +39,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAlto,
 		lbTipoDeProducto,
 		lbCantidadAEntregar,
-		lbPlanchas,
 		lbPreimpresion,
 		lbCantidadDeHojasUtilizadas;
 	
@@ -206,13 +205,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar.setBounds(445, 195, 210, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		
-		lbPreimpresion = new JLabel ("Preimpresión:");
+		lbPreimpresion = new JLabel ("Preimpresión(Cant.Planchas):");
 		lbPreimpresion.setBounds(15, 230, 80, 25);
 		lbPreimpresion.setForeground (Color.black);
-		
-		lbPlanchas = new JLabel ("(Cant.Planchas)");
-		lbPlanchas.setBounds(325, 230, 100, 25);
-		lbPlanchas.setForeground (Color.black);
 		
 		txtPreimpresion = new JTextField ("0");
 		txtPreimpresion.setBounds(105, 230, 210, 25);
@@ -319,7 +314,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
-		cboEstado_1.setBounds(445, 90, 210, 25);
+		cboEstado_1.setBounds(445, 90, 300, 25);
 		cboEstado_1.setEnabled(false);
 		
 		for (int i = 1; i <= 31; i++) 
@@ -397,7 +392,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbTipoDeProducto);
 		jpOrdenDeTrabajo.add (lbCantidadAEntregar);
 		jpOrdenDeTrabajo.add (lbPreimpresion);
-		jpOrdenDeTrabajo.add (lbPlanchas);
 		jpOrdenDeTrabajo.add (lbCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtPreimpresion);
@@ -489,7 +483,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		JButton btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() {
-			
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -501,12 +494,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				Integer c=0;
 				try{					
 					for (int i = 0; i < cantFilas; i++) 
-					{//si ninguna celda esta vacia...
+					{
 						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals("")){
 							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
 							temp.addRow(nuevaFila);	
 							c++;
-						}else{//si alguna celda esta vacia...
+						}else{
 							JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 						}
 					}
@@ -518,7 +511,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				
 				
-								
+				
+				
+				
 				// Valores para el combo
 				String calidades[] = Calidad.getCalidades();
 				TableColumn columnaCalidad = tablaMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
