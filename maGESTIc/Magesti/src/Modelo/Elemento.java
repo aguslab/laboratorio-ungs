@@ -101,6 +101,7 @@ public class Elemento {
 					valores.add(resultado.getString("tipo_elemento"));
 					Integer cant=resultado.getInt("cantidad");
 					valores.add(cant.toString());
+					valores.add(resultado.getString(1));
 				}
 			} 
 			catch (Exception e) 
