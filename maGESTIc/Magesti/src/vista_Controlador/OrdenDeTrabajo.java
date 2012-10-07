@@ -296,7 +296,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
-		//cboMes = new JComboBox<String> ();	//Descomentar esta línea para utilizar el WB
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
 		cboMes.getModel().setSelectedItem(TablaDeBusqueda.dameMes(mm.toString()));
