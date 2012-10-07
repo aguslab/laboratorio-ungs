@@ -314,7 +314,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
-		cboEstado_1.setBounds(445, 90, 300, 25);
+		cboEstado_1.setBounds(445, 90, 209, 25);
 		cboEstado_1.setEnabled(false);
 		
 		for (int i = 1; i <= 31; i++) 
