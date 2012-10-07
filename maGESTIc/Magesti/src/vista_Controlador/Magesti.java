@@ -323,6 +323,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		propiedadIntelectual.setToolTipText ("Todos los derechos reservados");
 		
 		fechaPie = new JLabel ("" + fecha + " ", JLabel.RIGHT);
+		
 		fechaPie.setForeground (Color.black);
 		fechaPie.setToolTipText ("Fecha actual del sistema");
 		
