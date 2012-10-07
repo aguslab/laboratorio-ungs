@@ -231,6 +231,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones.setBounds(15, 265, 640, 290);
 
 		//Restriccion para que el usuario solo ingrese número.
+		txtAncho.getInputMap(txtAncho.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtAncho.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -246,7 +247,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					}
 				}
 		);
-		
+		txtAlto.getInputMap(txtAlto.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtAlto.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -254,6 +255,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
+						
 						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)|| c == '.'))) 
 						{
 							getToolkit().beep ();
@@ -286,6 +288,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
+						
 						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
 						{
 							getToolkit().beep ();
