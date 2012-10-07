@@ -32,7 +32,7 @@ public class Splash extends JWindow implements Config
 		setSize (getSize().width, getSize().height);
 		setLocation (pantalla.width / 2 - getWidth() / 2, pantalla.height / 2 - getHeight() / 2);
 
-		this.setVisible(true);
+		//this.setVisible(true);
 		
 		/*
 		try 
