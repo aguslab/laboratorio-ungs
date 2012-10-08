@@ -14,9 +14,6 @@ public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 	
-			
-			System.out.println(Procesos_x_OT.getIdProceso("CTP")+ "CTP");
-			
 		
 	/*		// ORDEN DE TRABAJO
 		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12.2,34.7,false,"pendiente",null);
@@ -101,29 +98,15 @@ public class Main_OT {
 	*/	
 	
 
-		/*
+
 		ArrayList<String> a= Elemento.cosasDeElemento(1);
 		for(int i=0;i<a.size()-2;i=i+2){
 			System.out.println();
 			System.out.print(i+ "     ");
 			System.out.print(i+1);
-		}		 
-		 */
-			
-			/*
-			ArrayList<String> a= Elemento.cosasDeElemento(1);
-			for(int i=0;i<a.size()-2;i=i+2){
-				System.out.println();
-				System.out.print(i+ "     ");
-				System.out.print(i+1);
-			}		 
-			 */
-			
-		
-		
-		
-		
 		}
+		 }
+		
 	}
 
 
