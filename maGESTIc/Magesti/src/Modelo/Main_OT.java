@@ -15,6 +15,18 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
+			//System.out.println(Elemento.cantidadFilas(2));
+			ArrayList<String> a= Elemento.nombreDeElemento(8);
+			ArrayList<Integer> b= Elemento.cantidadDeElemento(8);
+			if(a.size()==b.size()){
+				System.out.println("IGUALESSSSSSSSSS");
+			}
+			for(int i=0;i<a.size();i++){
+				System.out.println("pos:"+i+" "+a.get(i));
+				System.out.println("pos:"+i+" "+b.get(i));
+			}
+			
+			
 	/*		// ORDEN DE TRABAJO
 		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12.2,34.7,false,"pendiente",null);
 		System.out.println(ot1.Alta());
@@ -99,12 +111,7 @@ public class Main_OT {
 	
 
 
-		ArrayList<String> a= Elemento.cosasDeElemento(1);
-		for(int i=0;i<a.size()-2;i=i+2){
-			System.out.println();
-			System.out.print(i+ "     ");
-			System.out.print(i+1);
-		}
+		
 		 }
 		
 	}

@@ -86,11 +86,11 @@ public class Elemento {
 		this.cantidad = cantidad;
 	}
 
-	public static ArrayList<String> cosasDeElemento(Integer id_OT)
+	public static ArrayList<String> nombreDeElemento(Integer id_OT)
 	{
 		ArrayList<String> valores = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT tipo_elemento, cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT tipo_elemento FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 		
 		if (resultado != null) 
 		{
@@ -99,9 +99,6 @@ public class Elemento {
 				while (resultado.next()) 
 				{
 					valores.add(resultado.getString("tipo_elemento"));
-					Integer cant=resultado.getInt("cantidad");
-					valores.add(cant.toString());
-					valores.add(resultado.getString(1));
 				}
 			} 
 			catch (Exception e) 
@@ -111,6 +108,34 @@ public class Elemento {
 		}	
 		return valores;
 	}
+	
+	
+	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					valores.add(Integer.parseInt(resultado.getString("cantidad")));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return valores;
+	}
+	
+	
+	
+	
 	
 	public static Integer cantidadFilas(Integer id_OT)
 	{
@@ -124,7 +149,7 @@ public class Elemento {
 			{
 				while (resultado.next()) 
 				{
-					cantidad=resultado.getInt("cantidad");
+					cantidad=resultado.getInt(1);
 					break;
 				}
 			} 
