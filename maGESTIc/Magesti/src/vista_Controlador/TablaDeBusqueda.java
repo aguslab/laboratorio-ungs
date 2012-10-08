@@ -106,23 +106,20 @@ public class TablaDeBusqueda extends JInternalFrame
 
 				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
-				ArrayList<String> valores = Elemento.cosasDeElemento(id_OT);
+				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
+				ArrayList<Integer> cantidad= Elemento.cantidadDeElemento(id_OT);
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				
-				for (int i = 0; i < cantFilas; i++) 
-				{
-					Object nuevaFila[]= {"",""};
-					temp.addRow(nuevaFila);
-					if (i % 2 != 0) {// si es impar, es elemento
-						System.out.println("Else" + (String) valores.get(i));
-						temp.setValueAt(valores.get(i), i, 0);
-					} 
-					else //cantidad
-					{
-						temp.setValueAt(valores.get(i), i, 1);
-					}
-					
-				}
+				
+					 Object nuevaFila[]= {"",""};
+                     for (int i = 0; i < cantFilas; i++)
+                     {
+                    	 temp.addRow(nuevaFila);
+                    	 temp.setValueAt(elemento.get(i), i, 0);
+                    	 temp.setValueAt(cantidad.get(i), i, 1);
+                     }
+				
+
 				
 				//Esto agrega la tabla llena al OT creado.
 				//nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));

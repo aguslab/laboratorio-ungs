@@ -7,9 +7,14 @@ import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
@@ -508,15 +513,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
 							temp.addRow(nuevaFila);	
 							c++;
-						}else{
-							JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 						}
 					}
 				}catch (NumberFormatException e2) {
 					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 				}
-				if(c==cantFilas){
+				if(c==cantFilas && c!=0){
 					JOptionPane.showMessageDialog(null,"Se almaceno correctamente.Vaya a la seccion MATERIALES.");	
+				}else{
+					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
+
 				}
 				
 				
@@ -608,11 +614,87 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(45);
 		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
+		tablaMateriales.getColumnModel().setColumnSelectionAllowed(false);
 		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(88);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
 		tablaMateriales.getTableHeader().setReorderingAllowed(false);
+		
+		
+		TableColumnModel tcm = tablaMateriales.getColumnModel();
+		tcm.addColumnModelListener(new TableColumnModelListener() {
+			
+			@Override
+			public void columnSelectionChanged(ListSelectionEvent arg0) {
+				Integer cantFilas= tablaMateriales.getRowCount();
+				Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
+				for (int i = 0; i < cantFilas; i++) {
+					//solo si las columnas tiene valores
+					if (!tablaMateriales.getValueAt(i, 1).toString().equals("")
+							&& !tablaMateriales.getValueAt(i, 7).toString()
+									.equals("")
+							&& !tablaMateriales.getValueAt(i, 6).toString()
+									.equals("")
+							&& !tablaMateriales.getValueAt(i, 8).toString()
+									.equals("")) {
+						// Obtengo los datos de la tabla materiales necesarios
+						// para calcular los Pliegos Netos
+						Integer cantElemento = Integer.parseInt(tablaMateriales
+								.getValueAt(i, 1).toString());
+						Integer posesXpliego = Integer.parseInt(tablaMateriales
+								.getValueAt(i, 7).toString());
+						Integer totalPliegosNetos = (cantEntr * cantElemento)
+								/ posesXpliego;
+						tablaMateriales.setValueAt(totalPliegosNetos, i, 10);
+
+						// Obtengo los datos de la tabla materiales necesarios
+						// para calcular la cantidad de hojas
+						Integer pliegosNetos = Integer.parseInt(tablaMateriales
+								.getValueAt(i, 10).toString());
+						Integer pliegosEnDemasia = Integer
+								.parseInt(tablaMateriales.getValueAt(i, 6)
+										.toString());
+						Integer pliegosXhoja = Integer.parseInt(tablaMateriales
+								.getValueAt(i, 8).toString());
+
+						Integer hojas = (pliegosEnDemasia + pliegosNetos)
+								/ pliegosXhoja;
+						tablaMateriales.setValueAt(hojas, i, 9);
+					}
+
+				}
+				
+			}
+			
+			@Override
+			public void columnRemoved(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnMoved(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnMarginChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnAdded(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		//tablaMateriales.getColumnModel().getColumn(8)
+		
+		
 		
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		spMateriales.setBounds(10, 11, 615, 228);
@@ -636,7 +718,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			panOrdenEjecucion,
 	        "Listado de tareas o procesos"
 		);
-		
+	
+		/*
+		 * Seccion Procesos
+		 */
 		JScrollPane spListaDeProcesos = new JScrollPane();
 		spListaDeProcesos.setBounds(10, 11, 204, 207);
 		panOrdenEjecucion.add(spListaDeProcesos);
@@ -697,6 +782,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				int selected[] = listaProcesos.getSelectedIndices( );
 
 				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
+				
+				while(temp.getRowCount()>0){
+					temp.removeRow(temp.getRowCount()-1);
+				}
+				
 				for (int i=0; i < selected.length; i++) 
 				{
 					Object nuevo[]= {"",false,"","",false};
@@ -794,8 +884,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				txtCantidadAEntregar.requestFocus ();
 				
 			}
+			else if(!materialesOk()){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"No puede dejar celdas vacias en la seccion Materiales. Verifique!",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.PLAIN_MESSAGE
+				);
+			}
 			else 
- {
+			{
 
 				cargarTablas(); // Cargaría la tabla en memoria
 				obj = btnCancelar;
@@ -1048,6 +1147,21 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtPreimpresion.setText("0");
 		txtCantidadDeHojasUtilizadas.setText("0");
 		chbApaisado.setSelected(false);
+	}
+	
+	
+	public boolean materialesOk(){
+		
+		Integer cantFilas=tablaMateriales.getRowCount();
+		Integer cantCol=tablaMateriales.getColumnCount();
+		boolean ok=cantFilas>0;
+		for(int i=0;i<cantFilas;i++){
+			for(int j=0;j<cantCol;j++){
+				ok=tablaMateriales.getValueAt(i, j) != null;
+				ok=ok && !tablaMateriales.getValueAt(i, j).toString().equals("");	
+			}
+		}
+		return ok;
 	}
 	
 	JTextField getTxtNro()
