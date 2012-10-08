@@ -101,23 +101,22 @@ public class TablaDeBusqueda extends JInternalFrame
 				
 				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
 				nuevaOT.getCliente().setEnabled(false);
-				
-				
 
+				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
+				
 				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
-				ArrayList<Integer> cantidad= Elemento.cantidadDeElemento(id_OT);
+				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
-				
-				
-					 Object nuevaFila[]= {"",""};
-                     for (int i = 0; i < cantFilas; i++)
-                     {
-                    	 temp.addRow(nuevaFila);
-                    	 temp.setValueAt(elemento.get(i), i, 0);
-                    	 temp.setValueAt(cantidad.get(i), i, 1);
-                     }
+
+				Object nuevaFila[]= {"",""};
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					temp.addRow(nuevaFila);
+					temp.setValueAt(elemento.get(i), i, 0);
+					temp.setValueAt(cantidad.get(i), i, 1);	
+				}
 				
 
 				
