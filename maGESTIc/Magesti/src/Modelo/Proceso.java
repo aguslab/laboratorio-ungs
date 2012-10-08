@@ -50,8 +50,7 @@ public class Proceso
 
 		return id_proces;
 	}
-
-
+	
 	public Integer getId_proceso() 
 	{
 		return id_proceso;
