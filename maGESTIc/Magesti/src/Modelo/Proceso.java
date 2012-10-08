@@ -3,39 +3,47 @@ package Modelo;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Proceso {
+public class Proceso 
+{
 	
 	private Integer id_proceso;
 	private String nombre;
 	
 	
-	public Proceso(Integer id_proceso, String nombre) {
+	public Proceso(Integer id_proceso, String nombre) 
+	{
 		super();
 		this.id_proceso = id_proceso;
 		this.nombre = nombre;
 	}
 	
 	
-	public Proceso(String nombre) {
+	public Proceso(String nombre) 
+	{
 		super();
 		this.nombre = nombre;
 	}
 	
 	
-	public static Integer getIdProceso(String nombre) {
+	public static Integer getIdProceso(String nombre) 
+	{
 		Integer id_proces = null;
 
 		nombre = "'" + nombre + "'";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_proceso FROM proceso where nombre=" + nombre);
+				"SELECT id_proceso FROM proceso WHERE nombre=" + nombre);
 
-		if (resultado != null) {
+		if (resultado != null) 
+		{
 			try {// por si llega a haber mas de un proceso con = nombre
-				while (resultado.next()) {
+				while (resultado.next()) 
+				{
 					id_proces = resultado.getInt(1);
 					break;
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}
@@ -44,55 +52,69 @@ public class Proceso {
 	}
 
 
-	public Integer getId_proceso() {
+	public Integer getId_proceso() 
+	{
 		return id_proceso;
 	}
 
 
-	public void setId_proceso(Integer id_proceso) {
+	public void setId_proceso(Integer id_proceso) 
+	{
 		this.id_proceso = id_proceso;
 	}
 
 
-	public String getNombre() {
+	public String getNombre() 
+	{
 		return nombre;
 	}
 
 
-	public void setNombre(String nombre) {
+	public void setNombre(String nombre) 
+	{
 		this.nombre = nombre;
 	}
 	
 	
-	public boolean Alta() {
+	public boolean Alta() 
+	{
 		String nombre = this.getNombre();
 
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO proceso VALUES(default," + "'"+nombre+"'"+");")) {
+				.ejecutar("INSERT INTO proceso VALUES(default," + "'"+nombre+"'"+");")) 
+		{
 			return true;
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 	}
 	
 	
-	public ArrayList<Proceso> Buscar() {
+	public ArrayList<Proceso> Buscar() 
+	{
 
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT * FROM proceso");
 
 		ArrayList<Proceso> list_Proc = new ArrayList<Proceso>();
-		if (resultado != null) {
+		if (resultado != null) 
+		{
 
-			try {
+			try 
+			{
 
-				while (resultado.next()) {
+				while (resultado.next()) 
+				{
 					Proceso proceso= new Proceso(new Integer(
 							resultado.getInt("id_proceso")),
 							resultado.getString("nombre"));
 					list_Proc.add(proceso);
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}
