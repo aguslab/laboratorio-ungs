@@ -91,51 +91,24 @@ public class Elemento {
 		ArrayList<String> valores = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT tipo_elemento FROM elemento WHERE id_orden_trabajo ="+ id_OT);
-		
-		if (resultado != null) 
+
+		if (resultado != null)
 		{
-			try 
+			try
 			{
-				while (resultado.next()) 
+				while (resultado.next())
 				{
 					valores.add(resultado.getString("tipo_elemento"));
 				}
-			} 
-			catch (Exception e) 
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
-		}	
+		}
 		return valores;
 	}
-	
-	
-	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
-	{
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
-		
-		if (resultado != null) 
-		{
-			try 
-			{
-				while (resultado.next()) 
-				{
-					valores.add(Integer.parseInt(resultado.getString("cantidad")));
-				}
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}	
-		return valores;
-	}
-	
-	
-	
-	
+
 	
 	public static Integer cantidadFilas(Integer id_OT)
 	{
@@ -161,6 +134,29 @@ public class Elemento {
 	
 	return cantidad;
 }
+	
+	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT cantidad FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(Integer.parseInt(resultado.getString("cantidad")));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
 	
 	public static Integer getMaxId_Elemento() {
 		Integer maxId = null;

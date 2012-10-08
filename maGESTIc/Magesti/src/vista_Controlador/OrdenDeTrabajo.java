@@ -7,10 +7,12 @@ import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -583,6 +585,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, true, true, true, true, true, true, true, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaMateriales.getColumnModel().getColumn(0).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(0).setPreferredWidth(95);
@@ -614,7 +622,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(45);
 		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
-		tablaMateriales.getColumnModel().setColumnSelectionAllowed(false);
 		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
 		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(88);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
@@ -624,7 +631,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		TableColumnModel tcm = tablaMateriales.getColumnModel();
 		tcm.addColumnModelListener(new TableColumnModelListener() {
-			
 			@Override
 			public void columnSelectionChanged(ListSelectionEvent arg0) {
 				Integer cantFilas= tablaMateriales.getRowCount();
@@ -1272,5 +1278,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	public JTable getTablaOrdenTrabajo()
 	{
 		return this.tablaOrdenDeEjecucion;
+	}
+	
+	public JButton getBtnLimpiarCampos() 
+	{
+		return this.btnLimpiarOT;
 	}
 }	
