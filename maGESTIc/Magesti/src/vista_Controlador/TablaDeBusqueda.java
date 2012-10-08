@@ -103,30 +103,30 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getCliente().setEnabled(false);
 				
 				
-				
-				JTable tablaAuxElementos = nuevaOT.getTablaElementos();
-				Integer cantFilas = tablaAuxElementos.getRowCount();
+
 				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
+				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> valores = Elemento.cosasDeElemento(id_OT);
-				DefaultTableModel temp = (DefaultTableModel) tablaAuxElementos.getModel();
+				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				
-				for (int i = 0; i < cantFilas; i++) {
-					if (i % 2 != 0) {// si es impar
-						tablaAuxElementos.setValueAt(valores.get(i), i, 0);
-					} else {
-						tablaAuxElementos.setValueAt(valores.get(i), i, 1);
-					}
-					Object nuevaFila[] = {
-							tablaAuxElementos.getValueAt(i, 0),
-							Integer.parseInt(tablaAuxElementos.getValueAt(i, 1)
-									.toString()), "", "", "", "", "", "", "",
-							"", "" };
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					Object nuevaFila[]= {"",""};
 					temp.addRow(nuevaFila);
+					if (i % 2 != 0) {// si es impar, es elemento
+						System.out.println("Else" + (String) valores.get(i));
+						temp.setValueAt(valores.get(i), i, 0);
+					} 
+					else //cantidad
+					{
+						temp.setValueAt(valores.get(i), i, 1);
+					}
+					
 				}
 				
 				//Esto agrega la tabla llena al OT creado.
 				//nuevaOT.add(llenarTablaElemento(nuevaOT.getTablaElementos()));
-				nuevaOT.add(llenarTablaElemento(tablaAuxElementos));
+			//	nuevaOT.add(llenarTablaElemento(tablaAuxElementos));
 			}
 		});
 		getContentPane().add (jpMostrar);

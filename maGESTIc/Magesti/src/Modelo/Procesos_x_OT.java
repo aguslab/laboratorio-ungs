@@ -158,28 +158,6 @@ public class Procesos_x_OT
 		return list_prox_x_orden;
 	}
 	
-	public static Integer getIdProceso(String nombre) {
-        Integer id_proces = null;
-
-        nombre = "'" + nombre + "'";
-        ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-                        "SELECT id_proceso FROM proceso WHERE nombre=" + nombre);
-
-        if (resultado != null) {
-                try {// por si llega a haber mas de un proceso con = nombre
-                        while (resultado.next()) {
-                                id_proces = resultado.getInt(1);
-                                break;
-                        }
-                } catch (Exception e) {
-                        e.printStackTrace();
-                }
-        }
-
-        return id_proces;
-}
-
-
 	
 	public static ArrayList<String> BuscarProc_x_OT(Integer id_OT) 
 	{

@@ -109,9 +109,33 @@ public class Elemento {
 				e.printStackTrace();
 			}
 		}	
-		
 		return valores;
 	}
+	
+	public static Integer cantidadFilas(Integer id_OT)
+	{
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM elemento WHERE id_orden_trabajo =" + id_OT);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad=resultado.getInt("cantidad");
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	
+	return cantidad;
+}
 	
 	public static Integer getMaxId_Elemento() {
 		Integer maxId = null;
