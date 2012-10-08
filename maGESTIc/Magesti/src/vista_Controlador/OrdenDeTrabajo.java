@@ -446,16 +446,20 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				{null, "Cant. Hojas", null},*/
 		tablaElementos = new JTable();
 		tablaElementos.setModel(new DefaultTableModel(
-			new Object[][] {
+			new Object[][] 
+			{
 			},
-			new String[] {
+			new String[] 
+			{
 				"Elemento del producto", "Cantidad"
 			}
 		) {
-			Class[] columnTypes = new Class[] {
+			Class[] columnTypes = new Class[]
+			{
 				String.class, Integer.class
 			};
-			public Class getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) 
+			{
 				return columnTypes[columnIndex];
 			}
 		});
@@ -498,7 +502,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		panElementos.add(btnNewButton_1);
 		
 		JButton btnAlmacenar = new JButton("Almacenar");
-		btnAlmacenar.addActionListener(new ActionListener() {
+		btnAlmacenar.addActionListener(new ActionListener() 
+		{
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -508,28 +513,31 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				DefaultTableModel temp = (DefaultTableModel) tablaMateriales.getModel();
 				//cuenta la cantidad de filas no vacias que se agregan
 				Integer c=0;
-				try{					
+				try
+				{					
 					for (int i = 0; i < cantFilas; i++) 
 					{
-						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals("")){
+						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals(""))
+						{
 							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
 							temp.addRow(nuevaFila);	
 							c++;
 						}
 					}
-				}catch (NumberFormatException e2) {
+				}
+				catch (NumberFormatException e2) 
+				{
 					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 				}
-				if(c==cantFilas && c!=0){
+				if(c==cantFilas && c!=0)
+				{
 					JOptionPane.showMessageDialog(null,"Se almaceno correctamente.Vaya a la seccion MATERIALES.");	
-				}else{
+				}
+				else
+				{
 					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
 
 				}
-				
-				
-				
-				
 				
 				// Valores para el combo
 				String calidades[] = Calidad.getCalidades();
@@ -630,9 +638,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		TableColumnModel tcm = tablaMateriales.getColumnModel();
-		tcm.addColumnModelListener(new TableColumnModelListener() {
+		tcm.addColumnModelListener(new TableColumnModelListener()
+		{
 			@Override
-			public void columnSelectionChanged(ListSelectionEvent arg0) {
+			public void columnSelectionChanged(ListSelectionEvent arg0) 
+			{
 				Integer cantFilas= tablaMateriales.getRowCount();
 				Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
 				for (int i = 0; i < cantFilas; i++) {
@@ -674,32 +684,33 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 			
 			@Override
-			public void columnRemoved(TableColumnModelEvent arg0) {
+			public void columnRemoved(TableColumnModelEvent arg0) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
-			public void columnMoved(TableColumnModelEvent arg0) {
+			public void columnMoved(TableColumnModelEvent arg0) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
-			public void columnMarginChanged(ChangeEvent arg0) {
+			public void columnMarginChanged(ChangeEvent arg0) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
-			public void columnAdded(TableColumnModelEvent arg0) {
+			public void columnAdded(TableColumnModelEvent arg0) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 		});
-		
-		//tablaMateriales.getColumnModel().getColumn(8)
-		
 		
 		
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -1049,70 +1060,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			return "12";
 		}
 	}
-	
-	
-	private void llenarMateriales(){
-		JScrollPane spMateriales = new JScrollPane();
-		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		spMateriales.setBounds(10, 11, 615, 228);
-		panMateriales.add(spMateriales);
-		
-		JTable tableMateriales = new JTable();
-		tableMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
-		tableMateriales.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		tableMateriales.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tableMateriales.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableMateriales.setModel(new DefaultTableModel(
-			new Object[][] 
-					{
-				
-					{"asldaskl", null, null, null, null, null, null, null, null, null, null},{null, null, null, null, null, null, null, null, null, null, null},
-			},
-			new String[] 
-					{
-				"Elemento", "Cantidad", "Calidad", "Variante", "Gramaje", "Formato", "Poses x Pliego", "Pliegos en Demasia", "Pliegos x hoja", "Hojas", "Pliegos Netos"
-			}
-		) {
-			Class[] columnTypes = new Class[] 
-					{
-				String.class, Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) 
-			{
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] 
-					{
-				true, true, true, true, true, true, true, true, true, false, false
-			};
-			public boolean isCellEditable(int row, int column) 
-			{
-				return columnEditables[column];
-			}
-		});
-		tableMateriales.getColumnModel().getColumn(4).setPreferredWidth(56);
-		tableMateriales.getColumnModel().getColumn(6).setPreferredWidth(83);
-		tableMateriales.getColumnModel().getColumn(7).setPreferredWidth(105);
-		tableMateriales.getColumnModel().getColumn(8).setPreferredWidth(95);
-		spMateriales.setViewportView(tableMateriales);
-		
-		
-		// Valores para el combo
-		String calidades[] = Calidad.getCalidades();
-		TableColumn columnaCalidad = tableMateriales.getColumnModel().getColumn(2);
-		columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
-		
-		// Valores para el combo
-		String variantes[] = Variante.getVariantes(); 
-		TableColumn columnaVariante = tableMateriales.getColumnModel().getColumn(3);
-		columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
-		
-		// Valores para el combo
-		String formatos[] = Formato_Papel.getFormatos();
-		TableColumn columnaFormato = tableMateriales.getColumnModel().getColumn(5);
-		columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
-	}
-	
 
 	void txtClear () 
 	{
