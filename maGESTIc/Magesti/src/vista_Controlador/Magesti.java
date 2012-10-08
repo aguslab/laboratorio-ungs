@@ -1,6 +1,7 @@
 package vista_Controlador;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyVetoException;
 import java.io.EOFException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
@@ -90,6 +91,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		setIconImage (getToolkit().getImage ("Imagenes/icono.png"));
 		setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setJMenuBar (barra);
+		
 		
 		
 
@@ -338,6 +340,16 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		getContentPane().add (barraDeEstado, BorderLayout.SOUTH);
 
 		setVisible (true);
+		
+		TablaDeBusqueda tablaTop5 = new TablaDeBusqueda("Consultar Orden de Trabajo");
+		escritorio.add (tablaTop5);
+		tablaTop5.show ();
+		try {
+			tablaTop5.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void actionPerformed (ActionEvent ae) 
@@ -405,6 +417,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo");
 					escritorio.add (tablaB);
+					
 					tablaB.show ();
 				}
 

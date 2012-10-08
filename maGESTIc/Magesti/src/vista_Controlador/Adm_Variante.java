@@ -26,7 +26,7 @@ public class Adm_Variante extends JInternalFrame {
 		String [] Variantes=Variante.getVariantes();
 		
 		JLabel lblNuevo = new JLabel("Agregar Variante");
-		lblNuevo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNuevo.setFont(new Font("Arial", Font.BOLD, 11));
 		lblNuevo.setBackground(Color.BLACK);
 		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNuevo.setForeground(Color.WHITE);
@@ -66,7 +66,7 @@ public class Adm_Variante extends JInternalFrame {
 		JLabel lblEliminarVariante = new JLabel("Eliminar Variante");
 		lblEliminarVariante.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEliminarVariante.setForeground(Color.WHITE);
-		lblEliminarVariante.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEliminarVariante.setFont(new Font("Arial", Font.BOLD, 11));
 		lblEliminarVariante.setBackground(Color.BLACK);
 		lblEliminarVariante.setBounds(10, 116, 414, 18);
 		getContentPane().add(lblEliminarVariante);

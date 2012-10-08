@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.TextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.util.Calendar;
 
 @SuppressWarnings("serial")
 
@@ -20,21 +21,27 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	private JTextField txtFecha;
 	public SolicitudDeCompra(boolean  RP) {
 super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		setSize (564, 529);
-		
+		Calendar fecha= Calendar.getInstance();
+		Integer mm=fecha.get(Calendar.MONTH)+1;
+		Integer dd=fecha.get(Calendar.DATE);
+		Integer aaaa=fecha.get(Calendar.YEAR);
 		//jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("N\u00FAmero:");
 		lblNewLabel.setBounds(10, 11, 65, 14);
+	
 		getContentPane().add(lblNewLabel);
 		
 		textField = new JTextField();
 		textField.setBounds(85, 8, 78, 25);
 		getContentPane().add(textField);
+		textField.setEditable(false);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Proveedor:");
@@ -49,6 +56,10 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		lblNewLabel_2.setBounds(10, 47, 129, 14);
 		getContentPane().add(lblNewLabel_2);
 		
+		txtFecha = new JTextField(dd + "-" + mm + "-" + aaaa);
+		txtFecha.setBounds(139, 44, 100, 25);
+		getContentPane().add(txtFecha);
+		/*
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(139, 44, 46, 25);
 		getContentPane().add(comboBox_1);
@@ -60,7 +71,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setBounds(225, 44, 60, 25);
 		getContentPane().add(comboBox_3);
-		
+		*/
 		JLabel lblNewLabel_3 = new JLabel("Vendedor:");
 		lblNewLabel_3.setBounds(295, 47, 63, 14);
 		getContentPane().add(lblNewLabel_3);
@@ -88,48 +99,52 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panel_1.setLayout(null);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Enviar Proveedor");
-		chckbxNewCheckBox.setBounds(6, 7, 159, 23);
+		chckbxNewCheckBox.setBounds(36, 76, 159, 23);
 		panel_1.add(chckbxNewCheckBox);
 		
 		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Retirar");
-		chckbxNewCheckBox_1.setBounds(6, 33, 61, 23);
+		chckbxNewCheckBox_1.setBounds(36, 102, 61, 23);
 		panel_1.add(chckbxNewCheckBox_1);
 		
 		JLabel lblNewLabel_9 = new JLabel("Direcci\u00F3n de Retiro:");
-		lblNewLabel_9.setBounds(16, 63, 121, 14);
+		lblNewLabel_9.setBounds(36, 146, 121, 14);
 		panel_1.add(lblNewLabel_9);
 		
 		textField_6 = new JTextField();
-		textField_6.setBounds(157, 57, 362, 25);
+		textField_6.setBounds(161, 141, 342, 25);
 		panel_1.add(textField_6);
 		textField_6.setColumns(10);
 		
-		JLabel lblNewLabel_10 = new JLabel("Fecha de Entrega");
-		lblNewLabel_10.setBounds(10, 96, 93, 14);
+		JLabel lblNewLabel_10 = new JLabel("Fecha:");
+		lblNewLabel_10.setBounds(38, 32, 93, 14);
 		panel_1.add(lblNewLabel_10);
 		
 		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setBounds(134, 93, 69, 25);
+		comboBox_5.setBounds(101, 32, 69, 25);
 		panel_1.add(comboBox_5);
 		
 		JComboBox comboBox_6 = new JComboBox();
-		comboBox_6.setBounds(202, 93, 61, 25);
+		comboBox_6.setBounds(170, 32, 61, 25);
 		panel_1.add(comboBox_6);
 		
 		JComboBox comboBox_7 = new JComboBox();
-		comboBox_7.setBounds(262, 93, 61, 25);
+		comboBox_7.setBounds(231, 32, 61, 25);
 		panel_1.add(comboBox_7);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Ma\u00F1ana");
-		rdbtnNewRadioButton.setBounds(410, 109, 109, 23);
+		rdbtnNewRadioButton.setBounds(390, 32, 109, 23);
 		panel_1.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Tarde");
-		rdbtnNewRadioButton_1.setBounds(410, 148, 109, 23);
+		rdbtnNewRadioButton_1.setBounds(390, 70, 109, 23);
 		panel_1.add(rdbtnNewRadioButton_1);
 		
-		JLabel lblNewLabel_11 = new JLabel("Horario de Entrega:");
-		lblNewLabel_11.setBounds(295, 131, 109, 14);
+		ButtonGroup grupo = new ButtonGroup();
+	    grupo.add(rdbtnNewRadioButton);
+	    grupo.add(rdbtnNewRadioButton_1);
+		
+		JLabel lblNewLabel_11 = new JLabel("Horario:");
+		lblNewLabel_11.setBounds(337, 56, 83, 14);
 		panel_1.add(lblNewLabel_11);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
@@ -165,7 +180,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		textField_5.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 335, 338, 116);
+		panel.setBounds(10, 335, 338, 148);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		panel.setEnabled(true);
@@ -184,7 +199,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panel.add(btnNewButton_5);
 		
 		TextArea textArea = new TextArea();
-		textArea.setBounds(105, 10, 223, 96);
+		textArea.setBounds(105, 10, 223, 128);
 		panel.add(textArea);
 		
 		

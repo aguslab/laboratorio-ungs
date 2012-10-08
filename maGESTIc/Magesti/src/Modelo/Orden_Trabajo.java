@@ -95,8 +95,8 @@ public class Orden_Trabajo implements Config
 	
 	public static String[] getNomColum() {
 		String columnas[] = { "Nro Orden Trabajo", "Producto", "Cliente",
-				"fecha Conf", "fecha prom", "nombre trabajo", "Descripcion","Cant a Entregar",
-				"cant Preimpr", "ancho", "alto", "apaisado", "Estado" };
+				"Fecha de confeccion", "Fecha prometida", "Nombre del trabajo", "Descripcion","Cantidad a entregar",
+				"Preimpresiones", "Ancho", "Alto", "Apaisado", "Estado" };
 
 		return columnas;
 	}

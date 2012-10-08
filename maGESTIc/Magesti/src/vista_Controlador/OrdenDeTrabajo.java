@@ -72,7 +72,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboEstado;
 	private JComboBox cboEstado_1;
 	
-	private JButton
+	public JButton
 		btnLimpiarOT,
 		btnGuardar, 
 		btnCancelar;
@@ -162,7 +162,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro = new JTextField (maxIdOT);
 		txtNro.setEditable(false);
 		txtNro.setForeground(Color.RED);
-		txtNro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtNro.setFont(new Font("Arial", Font.BOLD, 11));
 		txtNro.setFocusable(false);
 		txtNro.setBounds(105, 20, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
@@ -180,7 +180,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		lbAncho = new JLabel ("Ancho:");
 		lbAncho.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbAncho.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lbAncho.setFont(new Font("Arial", Font.ITALIC, 11));
 		lbAncho.setBounds(105, 161, 80, 25);
 		lbAncho.setForeground (Color.black);
 		
@@ -190,7 +190,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		lbAlto = new JLabel ("Alto:");
 		lbAlto.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbAlto.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lbAlto.setFont(new Font("Arial", Font.ITALIC, 11));
 		lbAlto.setBounds(312, 161, 80, 25);
 		lbAlto.setForeground (Color.black);
 		
@@ -199,7 +199,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtAlto.setHorizontalAlignment (JTextField.LEFT);
 		
 		chbApaisado = new JCheckBox ("Apaisado");
-		chbApaisado.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		chbApaisado.setFont(new Font("Arial", Font.ITALIC, 11));
 		chbApaisado.setBounds(580, 160, 80, 25);
 		
 		lbTipoDeProducto = new JLabel ("Tipo de Prod.:");

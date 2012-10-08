@@ -68,7 +68,7 @@ public class Adm_Cliente extends JInternalFrame {
 		getContentPane().add(lblMail);
 		
 		JLabel lblContacto = new JLabel("Contacto  Cliente");
-		lblContacto.setFont(new Font("Rockwell", Font.BOLD, 18));
+		lblContacto.setFont(new Font("Arial", Font.BOLD, 18));
 		lblContacto.setBounds(186, 207, 178, 20);
 		getContentPane().add(lblContacto);
 		
