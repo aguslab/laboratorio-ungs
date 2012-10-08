@@ -44,34 +44,41 @@ public class Consulta_OT extends JFrame
 	}
 
 	// Encabezados de la tabla
-	private String[] getColumnas() {
+	private String[] getColumnas() 
+	{
 		String columna[] = Orden_Trabajo.getNomColum();
 		return columna;
 	}
 
-	private void setFilas() {
-		// Conectar a PostgreSQL\\
-		ResultSet result = ConexionDB.getbaseDatos().consultar(
-				"SELECT * FROM orden_trabajo");
-		// CachedRowSet crs =
-		// cnndb.Function("SELECT deptno, dname, loc FROM dept");
-
+	private void setFilas() 
+	{
+		ResultSet result = ConexionDB.getbaseDatos().consultar
+		(
+			"SELECT * FROM orden_trabajo"
+		);
 		Object datos[] = new Object[12]; // Numero de columnas de la tabla
-
-		try {
-			while (result.next()) {
-				for (int i = 0; i < 12; i++) {
+		try 
+		{
+			while (result.next()) 
+			{
+				for (int i = 0; i < 12; i++) 
+				{
 					datos[i] = result.getObject(i + 1);
+					
 				}
+				
 				dtmEjemplo.addRow(datos);
 			}
 
 			// result.close();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 		}
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[]) 
+	{
 		Consulta_OT obj1 = new Consulta_OT();
 		obj1.setVisible(true);
 	}
