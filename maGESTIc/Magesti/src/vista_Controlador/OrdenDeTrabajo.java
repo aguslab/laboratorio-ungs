@@ -7,6 +7,12 @@ import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -17,6 +23,7 @@ import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
+import Modelo.Proceso;
 import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
 import Modelo.Variante;
@@ -657,23 +664,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
 		tablaOrdenDeEjecucion = new JTable();
-		tablaOrdenDeEjecucion.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
+		tablaOrdenDeEjecucion.setModel(new DefaultTableModel(new Object[][] {},
+			new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
+		{
+			Class[] columnTypes = new Class[] 
+			{
 				String.class, Boolean.class, String.class, String.class, Boolean.class
 			};
-			public Class getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) 
+			{
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
+			boolean[] columnEditables = new boolean[] 
+			{
 				true, true, true, true, false
 			};
-			public boolean isCellEditable(int row, int column) {
+			public boolean isCellEditable(int row, int column) 
+			{
 				return columnEditables[column];
 			}
 		});
@@ -851,12 +858,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				Integer id_OT = Orden_Trabajo.FacturaAEntero(this.txtNro.getText());
 				for (int i = 0; i < cantFilasProc; i++) 
 				{
+					Integer id_Proceso = Proceso.getIdProceso((String) tablaOrdenDeEjecucion.getValueAt(i, 0));
 					boolean isTercerizada = (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 1);
 					Integer id_Proveedor;
 					String observaciones;
 					if( isTercerizada == true)
 					{
-						id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 1).toString());
+						id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
 						observaciones = tablaOrdenDeEjecucion.getValueAt(i, 3).toString();
 					}
 					else
@@ -864,9 +872,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						id_Proveedor = null;
 						observaciones = null;
 					}
-					//falta agregar los id de procesos ara dar de alta
-					//Procesos_x_OT pxt = new Procesos_x_OT(id_OT,isTercerizada,id_Proveedor, false,observaciones);
-					//pxt.Alta();
+					Procesos_x_OT pxt = new Procesos_x_OT(id_Proceso,id_OT,isTercerizada,id_Proveedor, false,observaciones);
+					pxt.Alta();
 				}	
 		
 		
