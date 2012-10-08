@@ -940,18 +940,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
 		ot1.Alta();
 		
-		/*//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
-		Integer cantFilas = tablaOrdenEjecucion.getRowCount();
-		Integer id_OT = Integer.parseInt(this.txtNro.getText());
-		for (int i = 0; i < cantFilas; i++) 
-		{
-			Integer id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenEjecucion.getValueAt(i, 2).toString()); ;
-			Procesos_x_OT e = new Procesos_x_OT(id_OT,false,id_Proveedor,tablaElementos.getValueAt(i, 3).toString());
-			e.Alta();
-		}*/
-		
-		
-		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
 				Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
 				Integer id_OT = Orden_Trabajo.FacturaAEntero(this.txtNro.getText());
@@ -980,21 +968,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		//Se obtienen los valores guardados en la tabla Elementos para crear filas en la tabla Elemento de la BD
 				
 		Integer cantFilas = tablaElementos.getRowCount();
-		//Integer id_OT = Integer.parseInt(this.txtNro.getText());
-		 /* 
-		for (int i = 0; i < cantFilas; i++) 
-		{
-			Elemento e = new Elemento(id_OT,tablaElementos.getValueAt(i, 0).toString(),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()));
-			e.Alta();
-		}*/
-		
-		//Se obtienen los valores guardados en la tabla Materiales para crear filas en la tabla Materiales de la BD
-		//Integer id_Elem = Elemento.getMaxId_elemento();
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			
 			Elemento e = new Elemento(id_OT,tablaElementos.getValueAt(i, 0).toString(),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()));
 			e.Alta();
+			
 			//id_elem tiene el ultimo elemento que se agrego
 			Integer id_Elem = Elemento.getMaxId_elemento();
 			
@@ -1003,24 +982,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 4).toString());
 			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
 			
-			//Obtengo los datos de lal tabla materiales necesarios para calcular los Pliegos Netos 
+			//Obtengo los demas datos para la tabla de materiales
 			Integer cantElemento = Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
-			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());
-			Integer totalPliegosNetos = (cantEntr * cantElemento) / posesXpliego; 
-			tablaMateriales.setValueAt(totalPliegosNetos, i, 10); 
-			
-			//Obtengo los datos de lal tabla materiales necesarios para calcular la cantidad de hojas
-			Integer pliegosNetos = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
+			Integer gramaje = Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString());
 			Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
+			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());
 			Integer pliegosXhoja = Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString());
-			
-			Integer hojas = (pliegosEnDemasia + pliegosNetos) / pliegosXhoja;
-			tablaMateriales.setValueAt(hojas, i, 9); 
+			Integer hojas = Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString());
+			Integer pliegosNetos = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
 			
 			//Se da de alta la tabla de materiales con todos los datos ingresados por el usuario.
-			Materiales m = new Materiales(id_Elem,Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString()), 
-					id_for,id_var,id_cal,pliegosEnDemasia,posesXpliego,pliegosXhoja,
-					Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString()),pliegosNetos);
+			Materiales m = new Materiales(id_Elem,gramaje,id_for,id_var,id_cal,pliegosEnDemasia,posesXpliego,
+					pliegosXhoja,hojas,pliegosNetos);
 			m.Alta();
 		}
 		
