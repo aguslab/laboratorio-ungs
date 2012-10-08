@@ -1057,7 +1057,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
 			
 			//Obtengo los demas datos para la tabla de materiales
-			Integer cantElemento = Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
+			//Integer cantElemento = Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
 			Integer gramaje = Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString());
 			Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
 			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());

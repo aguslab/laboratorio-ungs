@@ -341,7 +341,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 
 		setVisible (true);
 		
-		TablaDeBusqueda tablaTop5 = new TablaDeBusqueda("Consultar Orden de Trabajo");
+		TablaDeBusqueda tablaTop5 = new TablaDeBusqueda("Consultar Orden de Trabajo",true);
 		escritorio.add (tablaTop5);
 		tablaTop5.show ();
 		try {
@@ -371,7 +371,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				boolean b = openChildWindow ("Buscador");
 				if (b == false) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo");
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo",false);
 					escritorio.add (tablaB);
 					tablaB.show ();
 					//tablaB.setVisible(true);
@@ -384,7 +384,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				boolean b = openChildWindow ("Buscador");
 				if (b == false) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra");
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra",false);
 					escritorio.add (tablaB);
 					tablaB.show ();
 				}
@@ -415,7 +415,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				boolean b = openChildWindow ("Buscador");
 				if (b == false) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo");
+					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo",false);
 					escritorio.add (tablaB);
 					
 					tablaB.show ();
@@ -427,7 +427,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			boolean b = openChildWindow ("Buscador");
 			if (b == false) 
 			{
-				TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Solicitud de Compra");
+				TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Solicitud de Compra",false);
 				escritorio.add (tablaB);
 				tablaB.show ();
 			}

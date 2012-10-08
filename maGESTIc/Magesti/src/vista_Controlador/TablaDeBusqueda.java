@@ -2,6 +2,7 @@ package vista_Controlador;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
@@ -27,9 +28,11 @@ public class TablaDeBusqueda extends JInternalFrame
 	private JScrollPane jspTabla;
 	private JTable tablaBusqueda;
 	
-	TablaDeBusqueda(String titulo) 
+	
+	TablaDeBusqueda(String titulo,boolean top5) 
 	{
 		super (titulo, true, true, true, true);
+		boolean top5OT=top5;
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusqueda);
@@ -127,7 +130,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		});
 		getContentPane().add (jpMostrar);
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
-		setFilas();
+		setFilas(top5);
 		tablaBusqueda.setModel(dtmMagesti);
 		jspTabla.add(tablaBusqueda);
 		jspTabla.setViewportView(tablaBusqueda);
@@ -145,7 +148,7 @@ public class TablaDeBusqueda extends JInternalFrame
 			// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 
-			setFilas();
+			setFilas(top5);
 
 			tablaBusqueda.setModel(dtmMagesti);
 			jspTabla.add(tablaBusqueda);
@@ -166,12 +169,28 @@ public class TablaDeBusqueda extends JInternalFrame
 
 		
 		
-		private void setFilas() 
+		private void setFilas(boolean top5) 
 		 {
-				ResultSet result = ConexionDB
+			Calendar fecha= Calendar.getInstance();
+			Integer mm=fecha.get(Calendar.MONTH)+1;
+			Integer dd=fecha.get(Calendar.DATE);
+			Integer aaaa=fecha.get(Calendar.YEAR);	
+			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
+			
+			ResultSet result;
+			if(top5){
+				result = ConexionDB
+						.getbaseDatos()
+						.consultar(
+								"select * from orden_trabajo where f_prometida>"+fechaHoy+"order by f_prometida limit 0,5;");	
+			}else{
+				result = ConexionDB
 						.getbaseDatos()
 						.consultar(
 								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
+			}
+						
+			
 				Integer CantColumnas=13;
 				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
 

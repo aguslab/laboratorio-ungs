@@ -2,6 +2,8 @@ package Modelo;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class MySQLBD 
 {
 
@@ -78,7 +80,7 @@ public class MySQLBD
         } 
         catch (SQLException e) 
         {
-            e.printStackTrace();
+        	e.printStackTrace();
             return null;
         }
 
