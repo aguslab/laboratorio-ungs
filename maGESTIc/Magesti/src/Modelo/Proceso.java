@@ -25,6 +25,39 @@ public class Proceso
 	}
 	
 	
+	public static  String[] getProcesos()
+	{
+		ArrayList<String> proc=new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					proc.add(resultado.getString("nombre"));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		String [] Nombre_procesos= new String[proc.size()];
+		
+		for(int i=0;i<proc.size();i++)
+		{
+			Nombre_procesos[i]=proc.get(i);
+		}
+		
+		return Nombre_procesos;
+	}
+	
+	
+	
 	public static Integer getIdProceso(String nombre) 
 	{
 		Integer id_proces = null;
