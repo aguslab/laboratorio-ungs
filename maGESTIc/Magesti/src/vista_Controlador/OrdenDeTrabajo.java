@@ -2,6 +2,8 @@ package vista_Controlador;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.swing.*;
@@ -20,6 +22,7 @@ import javax.swing.table.TableColumnModel;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
+import Modelo.ConexionDB;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
@@ -840,82 +843,142 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	//Chequear un poco lo ingresado antes de guardar
 	public void actionPerformed (ActionEvent ae) 
 	{
-
+		int clave = Orden_Trabajo.FacturaAEntero(txtNro.getText());
 		Object obj = ae.getSource();
-		
+		int flag=0;
+
 		if (obj == btnGuardar) 
 		{
-			if (txtNombreOT.getText().equals("")) 
+			ResultSet sqlOT = ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo, estado FROM orden_trabajo WHERE id_orden_trabajo = "+clave);
+			
+			
+			if (sqlOT != null) 
 			{
-				
-				JOptionPane.showMessageDialog 
-				(
-					this, 
-					"Esta OT no tiene nombre asignado",
-					qTITULO + " - Campo vacío", 
-					JOptionPane.PLAIN_MESSAGE
-				);
-				
-				txtNombreOT.requestFocus ();
-				
+				try 
+				{
+					while (sqlOT.next()) 
+					{
+						String sqlEstado = sqlOT.getString("estado");
+						System.out.println(sqlEstado);
+						// Si esta "pendiente" y se cambia el estado a otro distinto de "pendiente"
+						if (sqlEstado.equalsIgnoreCase("pendiente") && cboEstado_1.getSelectedItem().toString().equalsIgnoreCase("pendiente"))
+						{
+							flag = 1;
+						}
+						// Si esta "cerrada"
+						else if (sqlEstado.equalsIgnoreCase("Cerrada"))
+						{
+							flag = 2;
+						}
+					}
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
 			}
-			else if (txtDescripcion.getText().equals("")) 
+			
+			if (flag!=0) //Si no esta "En ejecucion"
 			{
-				
-				JOptionPane.showMessageDialog 
-				(
-					this, 
-					"No hay descripción de este trabajo",
-					qTITULO + " - Campo vacío", 
-					JOptionPane.PLAIN_MESSAGE
-				);
-				
-				txtDescripcion.requestFocus ();
-				
+				if (flag==1) //Si esta "Pendiente"
+				{
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Esta orden ya está 'Pendiente'\nSólo puede cambiar su estado",
+						qTITULO + " - Error#01", 
+						JOptionPane.ERROR_MESSAGE
+						
+					);
+					flag = 0;
+				}
+				else
+				{
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Esta orden está cerrada\nNo puede realizar cambios",
+						qTITULO + " - Error#02", 
+						JOptionPane.ERROR_MESSAGE
+					);
+					flag = 0;
+				}
 			}
-			else if (txtTipoProducto.getText().equals("")) 
+			else
 			{
+				if (txtNombreOT.getText().equals("")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Esta OT no tiene nombre asignado",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtNombreOT.requestFocus ();
+					
+				}
 				
-				JOptionPane.showMessageDialog 
-				(
-					this, 
-					"Ingrese Tipo de producto",
-					qTITULO + " - Campo vacío", 
-					JOptionPane.PLAIN_MESSAGE
-				);
-				
-				txtTipoProducto.requestFocus ();
-				
-			}
-			else if (txtCantidadAEntregar.getText().equals("") || txtCantidadAEntregar.getText().equals("0")) 
-			{
-				
-				JOptionPane.showMessageDialog 
-				(
-					this, 
-					"Debe especificar un valor en la Cantidad a Entregar",
-					qTITULO + " - Campo vacío", 
-					JOptionPane.PLAIN_MESSAGE
-				);
-				
-				txtCantidadAEntregar.requestFocus ();
-				
-			}
-			else if(!materialesOk()){
-				JOptionPane.showMessageDialog 
-				(
-					this, 
-					"No puede dejar celdas vacias en la seccion Materiales. Verifique!",
-					qTITULO + " - Campo vacío", 
-					JOptionPane.PLAIN_MESSAGE
-				);
-			}
-			else 
-			{
-
-				cargarTablas(); // Cargaría la tabla en memoria
-				obj = btnCancelar;
-
+				else if (txtDescripcion.getText().equals("")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"No hay descripción de este trabajo",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtDescripcion.requestFocus ();
+					
+				}
+				else if (txtTipoProducto.getText().equals("")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Ingrese Tipo de producto",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtTipoProducto.requestFocus ();
+					
+				}
+				else if (txtCantidadAEntregar.getText().equals("") || txtCantidadAEntregar.getText().equals("0")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Debe especificar un valor en la Cantidad a Entregar",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtCantidadAEntregar.requestFocus ();
+					
+				}
+				else if(!materialesOk()){
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"No puede dejar celdas vacias en la seccion Materiales. Verifique!",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
+				else 
+				{
+	
+					cargarTablas(); // Cargaría la tabla en memoria
+					obj = btnCancelar;
+	
+				}
 			}
 		}
 		if (obj == btnCancelar) 

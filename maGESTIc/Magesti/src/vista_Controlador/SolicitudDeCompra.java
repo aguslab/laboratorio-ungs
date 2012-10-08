@@ -56,7 +56,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		lblNewLabel_2.setBounds(10, 47, 129, 14);
 		getContentPane().add(lblNewLabel_2);
 		
-		txtFecha = new JTextField(dd + "-" + mm + "-" + aaaa);
+		txtFecha = new JTextField(aaaa + "-" + mm + "-" + dd);
 		txtFecha.setBounds(139, 44, 100, 25);
 		getContentPane().add(txtFecha);
 		/*
