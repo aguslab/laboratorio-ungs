@@ -912,7 +912,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Esta OT no tiene nombre asignado",
+						"Esta orden no tiene nombre asignado",
 						qTITULO + " - Campo vacío", 
 						JOptionPane.WARNING_MESSAGE
 					);
@@ -941,7 +941,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Ingrese Tipo de producto",
+						"Ingrese el Tipo de producto",
 						qTITULO + " - Campo vacío", 
 						JOptionPane.WARNING_MESSAGE
 					);
