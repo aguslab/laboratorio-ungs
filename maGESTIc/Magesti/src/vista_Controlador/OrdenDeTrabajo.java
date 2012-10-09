@@ -327,9 +327,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.getModel().setSelectedItem(aaaa.toString());
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(250, 55, 65, 25);
-		
-		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
-		cboEstado_1 = new JComboBox ();
+		//cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
+		cboEstado_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) 
+			{
+				if(cboEstado_1.getSelectedItem().equals("Pendiente"))
+				{
+					return;
+				}
+				else if(cboEstado_1.getSelectedItem().equals("En Proceso"))
+				{
+					
+				}
+				else
+				{
+					System.out.println("Cerrada");
+				}
+					
+			}
+		});
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(445, 90, 209, 25);
@@ -1009,11 +1026,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
 		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
 		Integer cliente = Cliente.getId_cliente((String) cboCliente.getSelectedItem());
-
+		String estado = (String) this.cboEstado_1.getSelectedItem();
 		
 		
 		//Se da de alta una nueva OT
-		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
+		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,estado,hojasUti);
 		ot1.Alta();
 		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
