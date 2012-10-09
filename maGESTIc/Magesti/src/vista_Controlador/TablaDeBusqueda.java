@@ -117,7 +117,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
-
+				nuevaOT.getTablaElementos().setEnabled(false);
 				Object nuevaFilaElemento[]= {"",""};
 				for (int i = 0; i < cantFilas; i++) 
 				{
@@ -125,6 +125,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
 				}
+				
 				
 				//Muestra los datos de la tabla Materiales
 				
@@ -161,6 +162,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempMat.setValueAt(hojas.get(i), i, 9);	
 					tempMat.setValueAt(pliegos_netos.get(i), i, 10);	
 				}
+				nuevaOT.getTablaMateriales().setEnabled(false);
 				
 				//Muestra los datos de la tabla Orden de ejecucion
 				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
@@ -183,7 +185,8 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempOE.setValueAt(observaciones.get(i), i, 3);	
 					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
-				
+				nuevaOT.getTablaOrdenEjecucion().setEnabled(false);
+				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
 			}
 			
 		});
