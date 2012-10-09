@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.*;
@@ -122,6 +123,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JScrollPane spOrdenEjecucion;
 	private JTable tablaOrdenDeEjecucion;
 	private JButton btnConfirmarSeleccion;
+	private JButton btnAgregarFila;
+	private JButton btnBorrarFila;
+	JButton btnAlmacenar;
 
 	OrdenDeTrabajo()
 	{	
@@ -327,26 +331,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.getModel().setSelectedItem(aaaa.toString());
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(250, 55, 65, 25);
-		//cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
-		cboEstado_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) 
-			{
-				if(cboEstado_1.getSelectedItem().equals("Pendiente"))
-				{
-					return;
-				}
-				else if(cboEstado_1.getSelectedItem().equals("En Proceso"))
-				{
-					
-				}
-				else
-				{
-					System.out.println("Cerrada");
-				}
-					
-			}
-		});
+		
+		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
+		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(445, 90, 209, 25);
@@ -487,7 +474,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		spElementos.setViewportView(tablaElementos);
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		
-		JButton btnAgregarFila = new JButton("Agregar Fila");
+		btnAgregarFila = new JButton("Agregar Fila");
 		btnAgregarFila.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -500,8 +487,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnAgregarFila.setBounds(10, 215, 96, 23);
 		panElementos.add(btnAgregarFila);
 		
-		JButton btnNewButton_1 = new JButton("Borrar Fila");
-		btnNewButton_1.addActionListener(new ActionListener() 
+		btnBorrarFila = new JButton("Borrar Fila");
+		btnBorrarFila.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -518,10 +505,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		});
-		btnNewButton_1.setBounds(116, 215, 96, 23);
-		panElementos.add(btnNewButton_1);
+		btnBorrarFila .setBounds(116, 215, 96, 23);
+		panElementos.add(btnBorrarFila);
 		
-		JButton btnAlmacenar = new JButton("Almacenar");
+		btnAlmacenar = new JButton("Almacenar");
 		btnAlmacenar.addActionListener(new ActionListener() 
 		{
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
@@ -865,7 +852,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		int clave = Orden_Trabajo.FacturaAEntero(txtNro.getText());
 		Object obj = ae.getSource();
 		int flag=0;
-
+		String estado=this.cboEstado_1.getSelectedItem().toString().toUpperCase();
 		if (obj == btnGuardar) 
 		{
 			ResultSet sqlOT = ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo, estado FROM orden_trabajo WHERE id_orden_trabajo = "+clave);
@@ -922,7 +909,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					);
 					flag = 0;
 				}
+					
 			}
+			
 			else
 			{
 				if (txtNombreOT.getText().equals("")) 
@@ -991,9 +980,24 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
+				else if(estado.equals("EN PROCESO")
+						|| estado.equals("CERRADO")){
+						if(estado.equals("EN PROCESO")){
+							Orden_Trabajo.CambiarEstado(clave, "En Proceso");		
+						}else{
+							Orden_Trabajo.CambiarEstado(clave, "Cerrado");		
+						}
+						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
+						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+							System.out.println(Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n));
+						}
+						obj = btnCancelar;
+				}
 				else 
 				{
-	
+
 					cargarTablas(); // Cargaría la tabla en memoria
 					obj = btnCancelar;
 	
@@ -1026,11 +1030,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
 		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
 		Integer cliente = Cliente.getId_cliente((String) cboCliente.getSelectedItem());
-		String estado = (String) this.cboEstado_1.getSelectedItem();
+
 		
 		
 		//Se da de alta una nueva OT
-		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,estado,hojasUti);
+		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
 		ot1.Alta();
 		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
@@ -1172,6 +1176,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return ok;
 	}
 	
+	public ArrayList<Integer> getId_procesosTablaActual(){
+		ArrayList<Integer> idproc= new ArrayList<Integer>();
+		for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) 
+		{
+			Integer id_Proceso = Proceso.getIdProceso((String) tablaOrdenDeEjecucion.getValueAt(i, 0));
+			idproc.add(id_Proceso);
+			System.out.println("proc"+id_Proceso);
+		}
+		return idproc;
+	}
+
+	
 	JTextField getTxtNro()
 	{
 		return this.txtNro;
@@ -1287,13 +1303,31 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.btnLimpiarOT;
 	}
 	
-	public JScrollPane getSpListaDeProcesos() {
-		return spListaDeProcesos;
-	}
-
-
 	public JButton getBtnConfirmarSeleccion() {
 		return btnConfirmarSeleccion;
 	}
+
+
+	public JButton getBtnAgregarFila() {
+		return btnAgregarFila;
+	}
+
+
+	public JButton getBtnBorrarFila() {
+		return btnBorrarFila;
+	}
+
+
+	public JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+
+	public JButton getBtnAlmacenar() {
+		return btnAlmacenar;
+	}
+	
+	
+	
 	
 }	
