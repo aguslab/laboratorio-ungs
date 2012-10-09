@@ -130,13 +130,10 @@ public class Elemento {
 			{
 				e.printStackTrace();
 			}
-
 		}
 	
 		return cantidad;
 	}
-
-	
 	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
 	{
 		ArrayList<Integer> valores = new ArrayList<Integer>();
@@ -159,9 +156,8 @@ public class Elemento {
 		}
 		return valores;
 	}
-	
-
-	public static Integer getMaxId_Elemento() {
+	public static Integer getMaxId_Elemento() 
+	{
 		Integer maxId = null;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT MAX(id_elemento) FROM elemento");
