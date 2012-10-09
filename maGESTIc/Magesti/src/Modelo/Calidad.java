@@ -158,9 +158,9 @@ public class Calidad
 		return id_cal;
 	}
 	
-	public static ArrayList<String> getNombre(Integer id_cal)
+	public static String getNombre(Integer id_cal)
 	{
-		ArrayList<String> valores = new ArrayList<String>();
+		String valor = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT nombre FROM calidad WHERE id_calidad="+ id_cal);
 
@@ -170,7 +170,7 @@ public class Calidad
 			{
 				while (resultado.next())
 				{
-					valores.add(resultado.getString("nombre"));
+					valor = resultado.getString("nombre");
 				}
 			}
 			catch (Exception e)
@@ -178,6 +178,6 @@ public class Calidad
 				e.printStackTrace();
 			}
 		}
-		return valores;
+		return valor;
 	}
 }

@@ -116,7 +116,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
+				/*DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 
 				Object nuevaFilaElemento[]= {"",""};
 				for (int i = 0; i < cantFilas; i++) 
@@ -124,7 +124,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
-				}
+				}*/
 				
 				//Muestra los datos de la tabla Materiales
 				
@@ -146,11 +146,12 @@ public class TablaDeBusqueda extends JInternalFrame
 				{
 					tempMat.addRow(nuevaFilaMateriales);
 					tempMat.setValueAt(elemento.get(i), i, 0);
-					tempMat.setValueAt(cantidad.get(i), i, 1);		
+					tempMat.setValueAt(cantidad.get(i), i, 1);	
+					System.out.println(gramaje.get(i));
 					tempMat.setValueAt(gramaje.get(i), i, 2);	
-					tempMat.setValueAt((Formato_Papel.getTipoFormato(id_formato_papel.get(i)).get(i)), i, 3);	
-					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)).get(i), i, 4);	
-					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)).get(i), i, 5);	
+					tempMat.setValueAt(Formato_Papel.getTamanio(id_formato_papel.get(i)), i, 3);	
+					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)), i, 4);	
+					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)), i, 5);	
 					tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);	
 					tempMat.setValueAt(poses_x_pliego.get(i), i, 7);	
 					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	

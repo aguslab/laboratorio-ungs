@@ -132,9 +132,9 @@ public class Formato_Papel {
 		return id_for;
 	}
 	
-	public static ArrayList<String> getTipoFormato(Integer id_for)
+	public static String getTamanio(Integer id_for)
 	{
-		ArrayList<String> valores = new ArrayList<String>();
+		String valor = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT tamanio FROM formato_papel WHERE id_formato_papel="+ id_for);
 
@@ -144,7 +144,7 @@ public class Formato_Papel {
 			{
 				while (resultado.next())
 				{
-					valores.add(resultado.getString("tamanio"));
+					valor = resultado.getString("tamanio");
 				}
 			}
 			catch (Exception e)
@@ -152,6 +152,6 @@ public class Formato_Papel {
 				e.printStackTrace();
 			}
 		}
-		return valores;
+		return valor;
 	}
 }
