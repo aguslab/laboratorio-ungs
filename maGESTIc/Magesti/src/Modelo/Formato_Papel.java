@@ -6,41 +6,36 @@ import java.util.ArrayList;
 public class Formato_Papel {
 	
 	private Integer id_formato_papel;
-	private Integer ancho;
-	private Integer alto;
+	private String tamanio;
 	
 	
-	public Formato_Papel(Integer id_formato, Integer ancho, Integer alto) {
+	public Formato_Papel(Integer id_formato, String tamanio) {
 		super();
 		this.id_formato_papel= id_formato;
-		this.ancho = ancho;
-		this.alto = alto;
+		this.tamanio = tamanio;
 	}
 	
-	public Formato_Papel(Integer ancho, Integer alto) {
+	public Formato_Papel(String tamanio) {
 		super();
-		this.ancho = ancho;
-		this.alto = alto;
+		this.tamanio= tamanio;
 	}
 
-	public Integer getId_variante() {
+	
+
+	public Integer getId_formato_papel() {
 		return id_formato_papel;
 	}
 
-	public void setId_variante(Integer id_variante) {
-		this.id_formato_papel = id_variante;
+	public void setId_formato_papel(Integer id_formato_papel) {
+		this.id_formato_papel = id_formato_papel;
 	}
 
-	public Integer getAncho() {
-		return ancho;
+	public String getTamanio() {
+		return tamanio;
 	}
 
-	public void setAncho(Integer ancho) {
-		this.ancho = ancho;
-	}
-
-	public Integer getAlto() {
-		return alto;
+	public void setTamanio(String tamanio) {
+		this.tamanio = tamanio;
 	}
 
 	public static  String[] getFormatos()
@@ -74,18 +69,14 @@ public class Formato_Papel {
 		return fmts;
 	}
 	
-	public void setAlto(Integer alto) {
-		this.alto = alto;
-	}
+	
 	
 	
 	public boolean Alta() {
-		Integer ancho = this.getAncho();
-		Integer alto = this.getAlto();
+		String tam="'"+this.getTamanio()+"'";
 
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO formato_papel VALUES(default," + ancho
-						+ "," + alto + ");")) {
+				.ejecutar("INSERT INTO formato_papel VALUES(default," + tam+ ");")) {
 			return true;
 		} else {
 			return false;
@@ -105,9 +96,7 @@ public class Formato_Papel {
 
 				while (resultado.next()) {
 					Formato_Papel for_papel= new Formato_Papel(new Integer(
-							resultado.getInt("id_formato_papel")),new Integer(
-									resultado.getInt("ancho")), new Integer(
-											resultado.getInt("alto")));
+							resultado.getInt("id_formato_papel")),resultado.getString("tamanio"));
 					list_formato.add(for_papel);
 				}
 			} catch (Exception e) {
@@ -147,7 +136,7 @@ public class Formato_Papel {
 	{
 		ArrayList<String> valores = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT tamanio FROM elemento WHERE id_formato_papel="+ id_for);
+				"SELECT tamanio FROM formato_papel WHERE id_formato_papel="+ id_for);
 
 		if (resultado != null)
 		{

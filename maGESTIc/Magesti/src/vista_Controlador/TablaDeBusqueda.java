@@ -126,7 +126,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.setValueAt(cantidad.get(i), i, 1);	
 				}
 				
-				/*//Muestra los datos de la tabla Materiales
+				//Muestra los datos de la tabla Materiales
 				
 				//ArrayList<Integer> tipo_Elemento = Materiales.getID_elemento(id_OT);
 				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
@@ -141,14 +141,14 @@ public class TablaDeBusqueda extends JInternalFrame
 				
 				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
 
-				Object nuevaFilaMateriales[]= {"",-1, -1,"", "", "", -1, -1, -1, -1, -1};
+				Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					tempMat.addRow(nuevaFilaMateriales);
 					tempMat.setValueAt(elemento.get(i), i, 0);
 					tempMat.setValueAt(cantidad.get(i), i, 1);		
 					tempMat.setValueAt(gramaje.get(i), i, 2);	
-					tempMat.setValueAt(Formato_Papel.getTipoFormato(id_formato_papel.get(i)).get(i), i, 3);	
+					tempMat.setValueAt((Formato_Papel.getTipoFormato(id_formato_papel.get(i)).get(i)), i, 3);	
 					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)).get(i), i, 4);	
 					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)).get(i), i, 5);	
 					tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);	
@@ -156,7 +156,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
 					tempMat.setValueAt(hojas.get(i), i, 9);	
 					tempMat.setValueAt(pliegos_netos.get(i), i, 10);	
-				}*/
+				}
 				
 				//Muestra los datos de la tabla Orden de ejecucion
 				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
