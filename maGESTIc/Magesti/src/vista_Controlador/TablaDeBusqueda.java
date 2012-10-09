@@ -125,8 +125,8 @@ public class TablaDeBusqueda extends JInternalFrame
 				}
 				
 				//Muestra los datos de la tabla Materiales
-				cantFilas = Materiales.cantidadFilas(id_OT);
-				ArrayList<Integer> tipo_Elemento = Materiales.getID_elemento(id_OT);
+				
+				//ArrayList<Integer> tipo_Elemento = Materiales.getID_elemento(id_OT);
 				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
 				ArrayList<Integer> poses_x_pliego = Materiales.getPoses_x_pliego(id_OT);
 				ArrayList<Integer> pliegos_netos = Materiales.getPliegos_netos(id_OT);
@@ -135,29 +135,30 @@ public class TablaDeBusqueda extends JInternalFrame
 				ArrayList<Integer> id_calidad = Materiales.getID_Calidad(id_OT);
 				ArrayList<Integer> id_variante = Materiales.getID_Variante(id_OT);
 				ArrayList<Integer> id_formato_papel = Materiales.getId_formato_papel(id_OT);
-				ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_hoja(id_OT);
+				ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_Hojas(id_OT);
 				
-				temp = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
+				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
 
 				Object nuevaFilaMateriales[]= {"",-1, -1,"", "", "", -1, -1, -1, -1, -1};
 				for (int i = 0; i < cantFilas; i++) 
 				{
-					temp.addRow(nuevaFilaMateriales);
-					temp.setValueAt(Elemento.getTipoElemento(tipo_Elemento.get(i)), i, 0);
-					temp.setValueAt(cantidad.get(i), i, 1);	
-					temp.setValueAt(gramaje.get(i), i, 2);	
-					temp.setValueAt(Formato_Papel.getTipoFormato(id_formato_papel.get(i)).get(i), i, 3);	
-					temp.setValueAt(Variante.getNombre(id_variante.get(i)).get(i), i, 4);	
-					temp.setValueAt(Calidad.getNombre(id_calidad.get(i)).get(i), i, 5);	
-					temp.setValueAt(pliegos_en_demasia.get(i), i, 6);	
-					temp.setValueAt(poses_x_pliego.get(i), i, 7);	
-					temp.setValueAt(pliegos_x_hoja.get(i), i, 8);	
-					temp.setValueAt(hojas.get(i), i, 9);	
-					temp.setValueAt(pliegos_netos.get(i), i, 10);	
+					tempMat.addRow(nuevaFilaMateriales);
+					tempMat.setValueAt(elemento.get(i), i, 0);
+					tempMat.setValueAt(cantidad.get(i), i, 1);		
+					tempMat.setValueAt(gramaje.get(i), i, 2);	
+					tempMat.setValueAt(Formato_Papel.getTipoFormato(id_formato_papel.get(i)).get(i), i, 3);	
+					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)).get(i), i, 4);	
+					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)).get(i), i, 5);	
+					tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);	
+					tempMat.setValueAt(poses_x_pliego.get(i), i, 7);	
+					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
+					tempMat.setValueAt(hojas.get(i), i, 9);	
+					tempMat.setValueAt(pliegos_netos.get(i), i, 10);	
 				}
 				
 			}
 		});
+		
 		getContentPane().add (jpMostrar);
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 		setFilas(top5);
