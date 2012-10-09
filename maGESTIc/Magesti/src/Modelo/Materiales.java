@@ -177,7 +177,7 @@ public class Materiales {
 	{
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+";");
+				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+")");
 				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 		
 		
