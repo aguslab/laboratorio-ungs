@@ -118,6 +118,29 @@ public class Proveedor
 		return id_pro;
 	}
 	
+	public static String getRazonSocial(Integer id_Proveedor)
+	{
+		String valor = "";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT razon_social FROM proveedor WHERE id_proveedor="+ id_Proveedor);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+						valor = resultado.getString("razon_social");
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valor;
+	}
+	
 	public Integer getId_proveedor() 
 	{
 		return id_proveedor;

@@ -169,10 +169,8 @@ public class Procesos_x_OT
 		ArrayList<String> list_proc = new ArrayList<String>();
 		if (resultado != null) 
 		{
-
 			try
 			{
-
 				while (resultado.next()) 
 				{
 					Integer id_proc = resultado.getInt("id_proceso");
@@ -204,6 +202,128 @@ public class Procesos_x_OT
 		return list_proc;
 	}
 	
-	
+	public static ArrayList<Boolean> getTercerizada(Integer id_OT)
+	{
+		ArrayList<Boolean> valores = new ArrayList<Boolean>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT tercerizada FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
 
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getBoolean("tercerizada"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+
+	public static ArrayList<Integer> getProveedor(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_proveedor FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("id_proveedor"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Boolean> getCumplida(Integer id_OT)
+	{
+		ArrayList<Boolean> valores = new ArrayList<Boolean>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT cumplida FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getBoolean("cumplida"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<String> getObservaciones(Integer id_OT)
+	{
+		ArrayList<String> valores = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT observacion FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					//Pongo esta condicion para que no salga "null" en la columna
+					if(!resultado.getString("observacion").equals("null"))
+					{
+
+						valores.add(resultado.getString("observacion"));
+					}
+					else
+					{
+						valores.add("");
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static Integer getCantidadFilas(Integer id_OT)
+	{
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
 }
