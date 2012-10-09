@@ -169,7 +169,8 @@ public class Orden_Trabajo implements Config
 			"Ancho", 
 			"Alto", 
 			"Apaisado", 
-			"Estado" 
+			"Estado",
+			"Hojas Utilizadas"
 		};
 		return columnas;
 	}
@@ -328,17 +329,23 @@ public class Orden_Trabajo implements Config
 
 		
 		
-		//metodo trucho que solo muestra unos datos para ver que anda xD
-		public void mostrarDatos(){
-			System.out.println();
-			System.out.print(this.getId_orden_trabajo()+"    ");
-			System.out.print(this.getNombre_Producto()+"     ");
-			System.out.print(this.getF_prometida()+"     ");
-			System.out.print(this.getNombre_trabajo()+"     ");
-			System.out.print(this.getEstado()+"     ");
-			
+		public static boolean CambiarEstado(Integer id_OT,String estado){
+			estado="'"+estado+"'";
+			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set estado="+estado+"where id_orden_trabajo="+id_OT)){
+				return true;
+			}else{
+				return false;
+			}
 		}
 		
+		
+		public static boolean CambiarCantHojasUtil(Integer id_OT,Integer cantHojas){
+			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set hojas_utilizadas="+cantHojas+" where id_orden_trabajo="+id_OT)){
+				return true;
+			}else{
+				return false;
+			}
+		}
 		
 		// R: una orden de trabajo
 		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
@@ -358,56 +365,18 @@ public class Orden_Trabajo implements Config
 		Double alto = getAlto();
 		boolean apaisa = isApaisado();
 		String status = getEstado();
-		Integer hojas_utiliz=this.getHojas_utilizadas();
+		Integer hojas_utiliz = this.getHojas_utilizadas();
 
-		if (ConexionDB.getbaseDatos().ejecutar
-		(
-			"INSERT INTO orden_trabajo VALUES(default," + 
-			"'" +
-			nombre_prod +
-			"'" + 
-			"," + 
-			id_cli + 
-			"," + 
-			"'" + 
-			f_conf + 
-			"'" + 
-			"," + 
-			"'" + 
-			f_prom + 
-			"'" + 
-			"," + 
-			"'" + 
-			nom_trabajo + 
-			"'" + 
-			"," + 
-			"'" + 
-			descr + 
-			"'" + 
-			"," +
-			cant_a_ent +
-			"," + 
-			cant_preimpr + 
-			"," + 
-			ancho + 
-			"," + 
-			alto + 
-			"," + 
-			apaisa + 
-			"," + 
-			"'" + 
-			status + 
-			"'" + 
-			"," +
-			hojas_utiliz +
-			");"
-			)
-		) 
-		{
+		if (ConexionDB.getbaseDatos().ejecutar(
+				"INSERT INTO orden_trabajo VALUES(default," + "'" + nombre_prod
+						+ "'" + "," + id_cli + "," + "'" + f_conf + "'" + ","
+						+ "'" + f_prom + "'" + "," + "'" + nom_trabajo + "'"
+						+ "," + "'" + descr + "'" + "," + cant_a_ent + ","
+						+ cant_preimpr + "," + ancho + "," + alto + ","
+						+ apaisa + "," + "'" + status + "'" + ","
+						+ hojas_utiliz + ");")) {
 			return true;
-		} 
-		else 
-		{
+		} else {
 			return false;
 		}
 

@@ -374,7 +374,12 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo",false);
 					escritorio.add (tablaB);
 					tablaB.show ();
-					//tablaB.setVisible(true);
+					try {
+						tablaB.setMaximum(true);
+					} catch (PropertyVetoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
 		}
@@ -417,8 +422,13 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo",false);
 					escritorio.add (tablaB);
-					
 					tablaB.show ();
+					try {
+						tablaB.setMaximum(true);
+					} catch (PropertyVetoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
 		}

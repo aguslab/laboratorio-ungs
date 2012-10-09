@@ -21,6 +21,8 @@ import Modelo.Procesos_x_OT;
 import java.awt.GridLayout;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -52,11 +54,12 @@ public class TablaDeBusqueda extends JInternalFrame
 			public void mouseClicked(MouseEvent arg0) 
 			{
 				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
-				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
+				final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
 				
 				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
@@ -125,11 +128,12 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
 				}
-				
+				nuevaOT.getBtnAgregarFila().setEnabled(false);
+				nuevaOT.getBtnBorrarFila().setEnabled(false);
+				nuevaOT.getBtnAlmacenar().setEnabled(false);
 				
 				//Muestra los datos de la tabla Materiales
 				
-				//ArrayList<Integer> tipo_Elemento = Materiales.getID_elemento(id_OT);
 				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
 				ArrayList<Integer> poses_x_pliego = Materiales.getPoses_x_pliego(id_OT);
 				ArrayList<Integer> pliegos_netos = Materiales.getPliegos_netos(id_OT);
@@ -164,13 +168,37 @@ public class TablaDeBusqueda extends JInternalFrame
 				}
 				nuevaOT.getTablaMateriales().setEnabled(false);
 				
+				
 				//Muestra los datos de la tabla Orden de ejecucion
+				
 				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
 				ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
 				ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
 				ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
 				ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
 				ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
+				
+				//permite que la columna cumplida sea editable
+				nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel(new Object[][] {},
+						new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
+					{
+						Class[] columnTypes = new Class[] 
+						{
+							String.class, Boolean.class, String.class, String.class, Boolean.class
+						};
+						public Class getColumnClass(int columnIndex) 
+						{
+							return columnTypes[columnIndex];
+						}
+						boolean[] columnEditables = new boolean[] 
+						{
+							false, false,false, false, true
+						};
+						public boolean isCellEditable(int row, int column) 
+						{
+							return columnEditables[column];
+						}
+					});
 				
 				DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
 
@@ -185,11 +213,30 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempOE.setValueAt(observaciones.get(i), i, 3);	
 					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
-				nuevaOT.getTablaOrdenEjecucion().setEnabled(false);
+				
 				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
+				
+				
+				///////////////////////
+				
+				///////////////////////
+				nuevaOT.getBtnGuardar().addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						System.out.println(nuevaOT.getEstado().getSelectedItem().toString());
+						
+						
+					}
+				});
+				
+				
 			}
 			
 		});
+		
+		
 		
 		getContentPane().add (jpMostrar);
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
@@ -241,11 +288,11 @@ public class TablaDeBusqueda extends JInternalFrame
 				result = ConexionDB
 						.getbaseDatos()
 						.consultar(
-								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
+								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
 			}
 						
 			
-				Integer CantColumnas=13;
+				Integer CantColumnas=14;
 				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
 
 				try 
@@ -258,8 +305,6 @@ public class TablaDeBusqueda extends JInternalFrame
 							datos[i] = result.getObject(i + 1);
 							if (i==11)
 							{
-								
-								//System.out.println(Modelo.Orden_Trabajo.esApaisadaS((Boolean) datos[11]));
 								datos[i]=Modelo.Orden_Trabajo.esApaisadaS((Boolean) datos[11]);
 							}
 						}
