@@ -17,10 +17,6 @@ public class Materiales {
 	private Integer id_calidad;
 	private Integer id_variante;
 	private Integer id_formato_papel;
-	
-	
-	
-	
 
 
 	public Materiales(Integer id_materiales, Integer id_elemento,
@@ -168,10 +164,283 @@ public class Materiales {
 		this.id_formato_papel = id_formato_papel;
 	}
 	
-	
+	public static ArrayList<String> getID_Materiales(Integer id_OT)
+	{
+		ArrayList<String> valores = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getString("tipo_elemento"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
 	
+	public static ArrayList<Integer> getID_elemento(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_elemento FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("id_elemento"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
 	
+	public static ArrayList<Integer> getGramaje(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT gramaje FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("gramaje"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getPoses_x_pliego(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT poses_x_pliego FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("poses_x_pliego"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getPliegos_netos(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT pliegos_netos FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("pliegos_netos"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getPliegos_en_demasia(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT pliegos_en_demasia FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("pliegos_en_demasia"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getPliegos_x_hoja(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT pliegos_x_hoja FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("pliegos_x_hoja"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getHojas(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT pliegos_x_hoja FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("pliegos_x_hoja"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+
+	public static ArrayList<Integer> getID_Calidad(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_calidad FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("id_calidad"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getID_Variante(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_variante FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("id_variante"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static ArrayList<Integer> getId_formato_papel(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_formato_papel FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("id_formato_papel"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
+	public static Integer cantidadFilas(Integer id_OT)
+	{
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM materiales WHERE id_orden_trabajo =" + id_OT);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	
+	return cantidad;
+	}
 	
 	public boolean Alta() {
 

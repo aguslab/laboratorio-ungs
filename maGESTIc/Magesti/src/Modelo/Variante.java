@@ -96,6 +96,29 @@ public class Variante {
 		return vars;
 	}
 	
+	public static ArrayList<String> getNombre(Integer id_var)
+	{
+		ArrayList<String> valores = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT nombre FROM variante WHERE id_variante="+ id_var);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getString("nombre"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+	
 	public boolean Alta() {
 		String nombre = this.getNombre();
 
