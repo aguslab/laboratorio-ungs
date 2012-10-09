@@ -130,12 +130,23 @@ public class Elemento {
 			{
 				e.printStackTrace();
 			}
+<<<<<<< .mine
 		}
 	
+		return cantidad;
+	}
+=======
+		}
+>>>>>>> .r177
+	
+<<<<<<< .mine
+	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
+=======
 	return cantidad;
 }
 	
 	public static ArrayList<Integer> cantidadDeElemento(Integer id_OT)
+>>>>>>> .r177
 	{
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
@@ -158,7 +169,12 @@ public class Elemento {
 		return valores;
 	}
 	
+<<<<<<< .mine
+	public static Integer getMaxId_Elemento() 
+	{
+=======
 	public static Integer getMaxId_Elemento() {
+>>>>>>> .r177
 		Integer maxId = null;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT MAX(id_elemento) FROM elemento");
@@ -177,6 +193,29 @@ public class Elemento {
 
 		}
 		return maxId + 1;
+	}
+	
+	public static ArrayList<String> getTipoElemento(Integer id_elem)
+	{
+		ArrayList<String> valores = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT tipo_elemento FROM elemento WHERE id_elemento="+ id_elem);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getString("tipo_elemento"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
 	}
 	
 	public boolean Alta() {
