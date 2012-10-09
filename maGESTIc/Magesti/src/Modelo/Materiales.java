@@ -169,13 +169,18 @@ public class Materiales {
 	public static String getSelectToGetId_Materiales(Integer id_OT)
 	{
 		return 	"(select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+"))";
-
-		
-		/*
+	}
+	
+	
+	
+	public static ArrayList<Integer> getID_Materiales(Integer id_OT)
+	{
+		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+")");
+				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+";");
 				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
-
+		
+		
 		if (resultado != null)
 		{
 			try
@@ -191,35 +196,6 @@ public class Materiales {
 			}
 		}
 		return valores;
-		*/
-	}
-	
-	
-	
-	public static ResultSet getID_Materiales(Integer id_OT)
-	{
-		//ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet id_Mater = ConexionDB.getbaseDatos().consultar(
-				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+";");
-				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
-		return id_Mater;
-		/*
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("id_materiales"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		//return valores;
-		 * */
 	}
 	
 	
