@@ -83,8 +83,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JCheckBox
 		chbApaisado;
 	
-	
-	
 	private JTabbedPane
 		tabSecciones;
 	
@@ -119,9 +117,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JTable tablaElementos;
 	private JPanel panMateriales;
 	private JScrollPane spMateriales;
+	private JScrollPane spListaDeProcesos;
 	private JTable tablaMateriales;
 	private JScrollPane spOrdenEjecucion;
 	private JTable tablaOrdenDeEjecucion;
+	private JButton btnConfirmarSeleccion;
 
 	OrdenDeTrabajo()
 	{	
@@ -742,7 +742,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		/*
 		 * Seccion Procesos
 		 */
-		JScrollPane spListaDeProcesos = new JScrollPane();
+
+		spListaDeProcesos = new JScrollPane();
 		spListaDeProcesos.setBounds(10, 11, 204, 207);
 		panOrdenEjecucion.add(spListaDeProcesos);
 		
@@ -794,7 +795,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaOrdenDeEjecucion.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
-		JButton btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
+		
+		btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
 		btnConfirmarSeleccion.setMaximumSize(new Dimension(135, 23));
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
@@ -1267,4 +1269,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		return this.btnLimpiarOT;
 	}
+	
+	public JScrollPane getSpListaDeProcesos() {
+		return spListaDeProcesos;
+	}
+
+
+	public JButton getBtnConfirmarSeleccion() {
+		return btnConfirmarSeleccion;
+	}
+	
 }	
