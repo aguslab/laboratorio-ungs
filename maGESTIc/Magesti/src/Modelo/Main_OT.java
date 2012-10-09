@@ -15,6 +15,22 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
+			/*ArrayList<Integer> id_mat=Materiales.getID_Materialesssssss(21);
+			for(int i=0;i<id_mat.size();i++){
+				System.out.println("pos:"+i+" "+id_mat.get(i));
+			}*/
+			System.out.println("hojas");System.out.println();System.out.println();
+			
+			ArrayList<Integer> hojas=Materiales.getHojas(21);
+			for(int i=0;i<hojas.size();i++){
+				System.out.println("pos:"+i+" "+hojas.get(i));
+			}
+			
+			
+			
+			
+			
+		/*	
 			//System.out.println(Elemento.cantidadFilas(2));
 			ArrayList<String> a= Elemento.nombreDeElemento(8);
 			ArrayList<Integer> b= Elemento.cantidadDeElemento(8);
@@ -25,7 +41,7 @@ public class Main_OT {
 				System.out.println("pos:"+i+" "+a.get(i));
 				System.out.println("pos:"+i+" "+b.get(i));
 			}
-			
+			*/
 			
 	/*		// ORDEN DE TRABAJO
 		Orden_Trabajo ot1= new Orden_Trabajo("producto blabla", 1, "2012-9-29", "2012-10-29", "Javier", "esta es una descripcion",13, 9,12.2,34.7,false,"pendiente",null);

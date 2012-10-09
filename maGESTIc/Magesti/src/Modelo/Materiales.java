@@ -164,11 +164,17 @@ public class Materiales {
 		this.id_formato_papel = id_formato_papel;
 	}
 	
-	public static ArrayList<String> getID_Materiales(Integer id_OT)
+	
+	//devuelve los id_materiales de la OT pasada como parametro
+	public static String getSelectToGetId_Materiales(Integer id_OT)
 	{
-		ArrayList<String> valores = new ArrayList<String>();
+		return 	"(select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+"))";
+
+		
+		/*
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+")");
+				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 
 		if (resultado != null)
 		{
@@ -176,7 +182,7 @@ public class Materiales {
 			{
 				while (resultado.next())
 				{
-					valores.add(resultado.getString("tipo_elemento"));
+					valores.add(resultado.getInt("id_materiales"));
 				}
 			}
 			catch (Exception e)
@@ -185,21 +191,26 @@ public class Materiales {
 			}
 		}
 		return valores;
+		*/
 	}
 	
-	public static ArrayList<Integer> getID_elemento(Integer id_OT)
+	
+	
+	public static ResultSet getID_Materiales(Integer id_OT)
 	{
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_elemento FROM materiales WHERE id_orden_trabajo ="+ id_OT);
-
+		//ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet id_Mater = ConexionDB.getbaseDatos().consultar(
+				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+";");
+				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
+		return id_Mater;
+		/*
 		if (resultado != null)
 		{
 			try
 			{
 				while (resultado.next())
 				{
-					valores.add(resultado.getInt("id_elemento"));
+					valores.add(resultado.getInt("id_materiales"));
 				}
 			}
 			catch (Exception e)
@@ -207,14 +218,20 @@ public class Materiales {
 				e.printStackTrace();
 			}
 		}
-		return valores;
+		//return valores;
+		 * */
 	}
+	
+	
+	
+	
 	
 	public static ArrayList<Integer> getGramaje(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT gramaje FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT gramaje FROM materiales WHERE id_materiales in "+consulta);
 
 		if (resultado != null)
 		{
@@ -233,11 +250,13 @@ public class Materiales {
 		return valores;
 	}
 	
+	
 	public static ArrayList<Integer> getPoses_x_pliego(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT poses_x_pliego FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT poses_x_pliego FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -256,11 +275,13 @@ public class Materiales {
 		return valores;
 	}
 	
+	
 	public static ArrayList<Integer> getPliegos_netos(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_netos FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT pliegos_netos FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -279,11 +300,14 @@ public class Materiales {
 		return valores;
 	}
 	
+	
+	
 	public static ArrayList<Integer> getPliegos_en_demasia(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_en_demasia FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT pliegos_en_demasia FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -302,11 +326,39 @@ public class Materiales {
 		return valores;
 	}
 	
-	public static ArrayList<Integer> getPliegos_x_hoja(Integer id_OT)
-	{
+	
+	public static ArrayList<Integer> getHojas(Integer id_OT) {
+		
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_x_hoja FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT hojas FROM materiales WHERE id_materiales in "+ consulta);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("hojas"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+		
+	}
+
+	
+	public static ArrayList<Integer> getPliegos_x_Hojas(Integer id_OT)
+	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT pliegos_x_hoja FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -325,34 +377,14 @@ public class Materiales {
 		return valores;
 	}
 	
-	public static ArrayList<Integer> getHojas(Integer id_OT)
-	{
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_x_hoja FROM materiales WHERE id_orden_trabajo ="+ id_OT);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("pliegos_x_hoja"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
+	
 
 	public static ArrayList<Integer> getID_Calidad(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_calidad FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT id_calidad FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -371,11 +403,13 @@ public class Materiales {
 		return valores;
 	}
 	
+	
 	public static ArrayList<Integer> getID_Variante(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_variante FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT id_variante FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -394,11 +428,14 @@ public class Materiales {
 		return valores;
 	}
 	
+	
+	
 	public static ArrayList<Integer> getId_formato_papel(Integer id_OT)
 	{
+		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_formato_papel FROM materiales WHERE id_orden_trabajo ="+ id_OT);
+				"SELECT id_formato_papel FROM materiales WHERE id_materiales in "+ consulta);
 
 		if (resultado != null)
 		{
@@ -417,30 +454,7 @@ public class Materiales {
 		return valores;
 	}
 	
-	public static Integer cantidadFilas(Integer id_OT)
-	{
-		Integer cantidad = 0;
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT COUNT(*) FROM materiales WHERE id_orden_trabajo =" + id_OT);
-		
-		if (resultado != null) 
-		{
-			try 
-			{
-				while (resultado.next()) 
-				{
-					cantidad=resultado.getInt(1);
-					break;
-				}
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
 	
-	return cantidad;
-	}
 	
 	public boolean Alta() {
 
@@ -500,6 +514,8 @@ public class Materiales {
 
 		return list_Materiales;
 	}
+
+	
 	
 	
 	
