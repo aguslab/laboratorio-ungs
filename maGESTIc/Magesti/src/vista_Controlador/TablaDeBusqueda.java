@@ -14,7 +14,9 @@ import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
+import Modelo.Proveedor;
 import Modelo.Variante;
+import Modelo.Procesos_x_OT;
 
 import java.awt.GridLayout;
 
@@ -124,7 +126,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.setValueAt(cantidad.get(i), i, 1);	
 				}
 				
-				//Muestra los datos de la tabla Materiales
+				/*//Muestra los datos de la tabla Materiales
 				
 				//ArrayList<Integer> tipo_Elemento = Materiales.getID_elemento(id_OT);
 				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
@@ -154,9 +156,32 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
 					tempMat.setValueAt(hojas.get(i), i, 9);	
 					tempMat.setValueAt(pliegos_netos.get(i), i, 10);	
+				}*/
+				
+				//Muestra los datos de la tabla Orden de ejecucion
+				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
+				ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
+				ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
+				ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
+				ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
+				ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
+				
+				DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
+
+				Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
+
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					tempOE.addRow(nuevaFilaOrdenEjecucion);
+					tempOE.setValueAt(procesos.get(i), i, 0);
+					tempOE.setValueAt(tercerizadas.get(i), i, 1);	
+					tempOE.setValueAt(Proveedor.getRazonSocial(proveedor.get(i)), i, 2);	
+					tempOE.setValueAt(observaciones.get(i), i, 3);	
+					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
 				
 			}
+			
 		});
 		
 		getContentPane().add (jpMostrar);
