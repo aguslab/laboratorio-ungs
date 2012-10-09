@@ -157,4 +157,27 @@ public class Calidad
 		}	
 		return id_cal;
 	}
+	
+	public static ArrayList<String> getNombre(Integer id_cal)
+	{
+		ArrayList<String> valores = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT nombre FROM calidad WHERE id_calidad="+ id_cal);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getString("nombre"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
 }
