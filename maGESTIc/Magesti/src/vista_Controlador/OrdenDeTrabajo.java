@@ -1255,7 +1255,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	public JTable getTablaMateriales()
 	{
-		return this.tablaElementos;
+		return this.tablaMateriales;
 	}
 	
 	public JTable getTablaOrdenEjecucion()

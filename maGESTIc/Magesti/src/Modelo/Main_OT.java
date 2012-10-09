@@ -15,16 +15,17 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
-			/*ArrayList<Integer> id_mat=Materiales.getID_Materialesssssss(21);
+			ArrayList<Integer> id_mat=Materiales.getID_Materiales(21);
 			for(int i=0;i<id_mat.size();i++){
 				System.out.println("pos:"+i+" "+id_mat.get(i));
-			}*/
+			}
+			
 			System.out.println("hojas");System.out.println();System.out.println();
 			
-			ArrayList<Integer> hojas=Materiales.getHojas(21);
+			/*ArrayList<Integer> hojas=Materiales.getHojas(21);
 			for(int i=0;i<hojas.size();i++){
 				System.out.println("pos:"+i+" "+hojas.get(i));
-			}
+			}*/
 			
 			
 			
