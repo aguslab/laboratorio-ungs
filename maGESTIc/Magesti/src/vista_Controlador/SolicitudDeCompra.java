@@ -7,6 +7,7 @@ import java.awt.TextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.Calendar;
+import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 
@@ -14,18 +15,18 @@ import java.util.Calendar;
 
 public class SolicitudDeCompra extends JInternalFrame implements ActionListener, Config
 {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtNumero;
+	private JTextField txtVendedor;
+	private JTextField txtTotal;
+	private JTextField txtMontoIVA;
+	private JTextField txtIVA;
+	private JTextField txtSubtotal;
+	private JTextField txtDireccionRetiro;
 	private JTextField txtFecha;
 	public SolicitudDeCompra(boolean  RP) {
 super ("Solicitud de Compra (SC)", false, true, false, true);
 		
-		setSize (564, 529);
+	setSize (680, 680);
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
 		Integer dd=fecha.get(Calendar.DATE);
@@ -33,32 +34,36 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		//jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 		getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("N\u00FAmero:");
-		lblNewLabel.setBounds(10, 11, 65, 14);
-	
-		getContentPane().add(lblNewLabel);
+		JPanel JpSolicitudDeCompra = new JPanel();
+		JpSolicitudDeCompra.setBounds(0, 0, 670, 645);
+		getContentPane().add(JpSolicitudDeCompra);
+		JpSolicitudDeCompra.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(85, 8, 78, 25);
-		getContentPane().add(textField);
-		textField.setEditable(false);
-		textField.setColumns(10);
+		JLabel lbNumero = new JLabel("N\u00FAmero:");
+		lbNumero.setBounds(25, 28, 65, 14);
+		JpSolicitudDeCompra.add(lbNumero);
 		
-		JLabel lblNewLabel_1 = new JLabel("Proveedor:");
-		lblNewLabel_1.setBounds(173, 11, 68, 14);
-		getContentPane().add(lblNewLabel_1);
+		txtNumero = new JTextField();
+		txtNumero.setBounds(144, 23, 164, 25);
+		JpSolicitudDeCompra.add(txtNumero);
+		txtNumero.setEditable(false);
+		txtNumero.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(242, 8, 302, 25);
-		getContentPane().add(comboBox);
+		JLabel lbProveedor = new JLabel("Proveedor:");
+		lbProveedor.setBounds(25, 96, 68, 14);
+		JpSolicitudDeCompra.add(lbProveedor);
 		
-		JLabel lblNewLabel_2 = new JLabel("Fecha de Confecci\u00F3n:");
-		lblNewLabel_2.setBounds(10, 47, 129, 14);
-		getContentPane().add(lblNewLabel_2);
+		JComboBox cbProveedor = new JComboBox();
+		cbProveedor.setBounds(144, 91, 282, 25);
+		JpSolicitudDeCompra.add(cbProveedor);
+		
+		JLabel txtFechaConfec = new JLabel("Fecha de confeccion:");
+		txtFechaConfec.setBounds(379, 23, 129, 14);
+		JpSolicitudDeCompra.add(txtFechaConfec);
 		
 		txtFecha = new JTextField(aaaa + "-" + mm + "-" + dd);
-		txtFecha.setBounds(139, 44, 100, 25);
-		getContentPane().add(txtFecha);
+		txtFecha.setBounds(500, 17, 148, 25);
+		JpSolicitudDeCompra.add(txtFecha);
 		/*
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(139, 44, 46, 25);
@@ -72,167 +77,175 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		comboBox_3.setBounds(225, 44, 60, 25);
 		getContentPane().add(comboBox_3);
 		*/
-		JLabel lblNewLabel_3 = new JLabel("Vendedor:");
-		lblNewLabel_3.setBounds(295, 47, 63, 14);
-		getContentPane().add(lblNewLabel_3);
+		JLabel lbVendedor = new JLabel("Vendedor:");
+		lbVendedor.setBounds(25, 128, 63, 14);
+		JpSolicitudDeCompra.add(lbVendedor);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(358, 44, 186, 25);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		txtVendedor = new JTextField();
+		txtVendedor.setBounds(144, 123, 282, 25);
+		JpSolicitudDeCompra.add(txtVendedor);
+		txtVendedor.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("N\u00B0 Orden de Trabajo / Stockeo:");
-		lblNewLabel_4.setBounds(10, 81, 205, 14);
-		getContentPane().add(lblNewLabel_4);
+		JLabel lbNroOT = new JLabel("N\u00B0 Orden de Trabajo:");
+		lbNroOT.setBounds(25, 64, 121, 14);
+		JpSolicitudDeCompra.add(lbNroOT);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(195, 78, 349, 25);
-		getContentPane().add(comboBox_4);
+		JComboBox cbNroOT = new JComboBox();
+		cbNroOT.setBounds(144, 59, 282, 25);
+		JpSolicitudDeCompra.add(cbNroOT);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 106, 534, 218);
-		getContentPane().add(tabbedPane);
+		JTabbedPane Secciones = new JTabbedPane(JTabbedPane.TOP);
+		Secciones.setBounds(25, 171, 623, 225);
+		JpSolicitudDeCompra.add(Secciones);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabbedPane.addTab("Condiciones de Entrega", null, panel_1, null);
-		panel_1.setLayout(null);
+		JPanel panelCondicionEntrega = new JPanel();
+		panelCondicionEntrega.setBorder(new LineBorder(new Color(0, 0, 0)));
+		Secciones.addTab("Condiciones de Entrega", null, panelCondicionEntrega, null);
+		panelCondicionEntrega.setLayout(null);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Enviar Proveedor");
-		chckbxNewCheckBox.setBounds(36, 76, 159, 23);
-		panel_1.add(chckbxNewCheckBox);
+		JLabel lbDireccionRetiro = new JLabel("Direcci\u00F3n de Retiro:");
+		lbDireccionRetiro.setBounds(22, 154, 121, 14);
+		panelCondicionEntrega.add(lbDireccionRetiro);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Retirar");
-		chckbxNewCheckBox_1.setBounds(36, 102, 61, 23);
-		panel_1.add(chckbxNewCheckBox_1);
+		txtDireccionRetiro = new JTextField();
+		txtDireccionRetiro.setBounds(133, 149, 459, 25);
+		panelCondicionEntrega.add(txtDireccionRetiro);
+		txtDireccionRetiro.setColumns(10);
 		
-		JLabel lblNewLabel_9 = new JLabel("Direcci\u00F3n de Retiro:");
-		lblNewLabel_9.setBounds(36, 146, 121, 14);
-		panel_1.add(lblNewLabel_9);
+		JLabel lbFechaEntrega = new JLabel("Fecha Entrega:");
+		lbFechaEntrega.setBounds(22, 24, 93, 14);
+		panelCondicionEntrega.add(lbFechaEntrega);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(161, 141, 342, 25);
-		panel_1.add(textField_6);
-		textField_6.setColumns(10);
+		JComboBox cbMes = new JComboBox();
+		cbMes.setBounds(111, 19, 69, 25);
+		panelCondicionEntrega.add(cbMes);
 		
-		JLabel lblNewLabel_10 = new JLabel("Fecha:");
-		lblNewLabel_10.setBounds(38, 32, 93, 14);
-		panel_1.add(lblNewLabel_10);
+		JComboBox cbDia = new JComboBox();
+		cbDia.setBounds(179, 19, 61, 25);
+		panelCondicionEntrega.add(cbDia);
 		
-		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setBounds(101, 32, 69, 25);
-		panel_1.add(comboBox_5);
+		JComboBox cbAnio = new JComboBox();
+		cbAnio.setBounds(226, 19, 61, 25);
+		panelCondicionEntrega.add(cbAnio);
 		
-		JComboBox comboBox_6 = new JComboBox();
-		comboBox_6.setBounds(170, 32, 61, 25);
-		panel_1.add(comboBox_6);
-		
-		JComboBox comboBox_7 = new JComboBox();
-		comboBox_7.setBounds(231, 32, 61, 25);
-		panel_1.add(comboBox_7);
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Ma\u00F1ana");
-		rdbtnNewRadioButton.setBounds(390, 32, 109, 23);
-		panel_1.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Tarde");
-		rdbtnNewRadioButton_1.setBounds(390, 70, 109, 23);
-		panel_1.add(rdbtnNewRadioButton_1);
+		JPanel pHorarioEntrega = new JPanel();
+		pHorarioEntrega.setBorder(new TitledBorder(null, "Horario de entrega", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pHorarioEntrega.setBounds(362, 63, 223, 68);
+		panelCondicionEntrega.add(pHorarioEntrega);
+		pHorarioEntrega.setLayout(null);
 		
 		ButtonGroup grupo = new ButtonGroup();
-	    grupo.add(rdbtnNewRadioButton);
-	    grupo.add(rdbtnNewRadioButton_1);
+
+		JRadioButton rbManiana = new JRadioButton("Ma\u00F1ana");
+		rbManiana.setBounds(27, 27, 72, 23);
+		grupo.add(rbManiana);
+		pHorarioEntrega.add(rbManiana);
 		
-		JLabel lblNewLabel_11 = new JLabel("Horario:");
-		lblNewLabel_11.setBounds(337, 56, 83, 14);
-		panel_1.add(lblNewLabel_11);
+		JRadioButton rbTarde = new JRadioButton("Tarde");
+		rbTarde.setBounds(124, 27, 72, 23);
+		grupo.add(rbTarde);
+		pHorarioEntrega.add(rbTarde);
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabbedPane.addTab("Detalle", null, tabbedPane_1, null);
+		JPanel pCondicionEntrega = new JPanel();
+		pCondicionEntrega.setBorder(new TitledBorder(null, "Condici\u00F3n de Entrega", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pCondicionEntrega.setBounds(22, 63, 276, 68);
+		panelCondicionEntrega.add(pCondicionEntrega);
+		pCondicionEntrega.setLayout(null);
 		
-		JButton btnNewButton_1 = new JButton("Cerrar");
-		btnNewButton_1.setBounds(461, 459, 89, 30);
-		getContentPane().add(btnNewButton_1);
+		JCheckBox chbRetirar = new JCheckBox("Retirar");
+		chbRetirar.setBounds(20, 27, 59, 23);
+		pCondicionEntrega.add(chbRetirar);
 		
-		JButton btnNewButton_2 = new JButton("Confirmar");
-		btnNewButton_2.setBounds(362, 459, 89, 30);
-		getContentPane().add(btnNewButton_2);
+		JCheckBox chbEnviarProveedor = new JCheckBox("Enviar Proveedor");
+		chbEnviarProveedor.setBounds(115, 27, 128, 23);
+		pCondicionEntrega.add(chbEnviarProveedor);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(464, 428, 86, 25);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		JTabbedPane ttpDetalle = new JTabbedPane(JTabbedPane.TOP);
+		ttpDetalle.setBorder(new LineBorder(new Color(0, 0, 0)));
+		Secciones.addTab("Detalle   ", null, ttpDetalle, null);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(464, 397, 86, 25);
-		getContentPane().add(textField_3);
-		textField_3.setColumns(10);
+		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.setBounds(559, 604, 89, 30);
+		JpSolicitudDeCompra.add(btnCerrar);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(464, 366, 86, 25);
-		getContentPane().add(textField_4);
-		textField_4.setColumns(10);
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setBounds(460, 604, 89, 30);
+		JpSolicitudDeCompra.add(btnConfirmar);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(464, 335, 86, 25);
-		getContentPane().add(textField_5);
-		textField_5.setColumns(10);
+		txtTotal = new JTextField();
+		txtTotal.setBounds(562, 551, 86, 25);
+		JpSolicitudDeCompra.add(txtTotal);
+		txtTotal.setColumns(10);
+		
+		txtMontoIVA = new JTextField();
+		txtMontoIVA.setBounds(562, 520, 86, 25);
+		JpSolicitudDeCompra.add(txtMontoIVA);
+		txtMontoIVA.setColumns(10);
+		
+		txtIVA = new JTextField();
+		txtIVA.setBounds(562, 489, 86, 25);
+		JpSolicitudDeCompra.add(txtIVA);
+		txtIVA.setColumns(10);
+		
+		txtSubtotal = new JTextField();
+		txtSubtotal.setBounds(562, 459, 86, 25);
+		JpSolicitudDeCompra.add(txtSubtotal);
+		txtSubtotal.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 335, 338, 148);
-		getContentPane().add(panel);
+		panel.setBounds(25, 412, 446, 168);
+		JpSolicitudDeCompra.add(panel);
 		panel.setLayout(null);
 		panel.setEnabled(true);
 		
 		
-		JButton btnNewButton_3 = new JButton("Confirmar");
-		btnNewButton_3.setBounds(10, 11, 89, 23);
-		panel.add(btnNewButton_3);
+		JButton btnConfirmarRecepcion = new JButton("Confirmar");
+		btnConfirmarRecepcion.setBounds(10, 11, 89, 23);
+		panel.add(btnConfirmarRecepcion);
 		
-		JButton btnNewButton_4 = new JButton("Rechazar");
-		btnNewButton_4.setBounds(10, 42, 89, 23);
-		panel.add(btnNewButton_4);
+		JButton btnRechazarRecepcion = new JButton("Rechazar");
+		btnRechazarRecepcion.setBounds(10, 42, 89, 23);
+		panel.add(btnRechazarRecepcion);
 		
-		JButton btnNewButton_5 = new JButton("Incompleta");
-		btnNewButton_5.setBounds(10, 76, 89, 23);
-		panel.add(btnNewButton_5);
+		JButton btnIncompleta = new JButton("Incompleta");
+		btnIncompleta.setBounds(10, 76, 89, 23);
+		panel.add(btnIncompleta);
 		
-		TextArea textArea = new TextArea();
-		textArea.setBounds(105, 10, 223, 128);
-		panel.add(textArea);
+		TextArea txtDescripcionIncidencia = new TextArea();
+		txtDescripcionIncidencia.setBounds(110, 10, 326, 149);
+		panel.add(txtDescripcionIncidencia);
+		
+		JLabel lbSubtotal = new JLabel("Subtotal:");
+		lbSubtotal.setBounds(492, 464, 68, 14);
+		JpSolicitudDeCompra.add(lbSubtotal);
+		
+		JLabel lbIVA = new JLabel("% IVA:");
+		lbIVA.setBounds(492, 494, 68, 14);
+		JpSolicitudDeCompra.add(lbIVA);
+		
+		JLabel lbMontoIVA = new JLabel("Monto IVA:");
+		lbMontoIVA.setBounds(492, 526, 68, 14);
+		JpSolicitudDeCompra.add(lbMontoIVA);
+		
+		JLabel lbTotal = new JLabel("TOTAL:");
+		lbTotal.setBounds(492, 556, 68, 14);
+		JpSolicitudDeCompra.add(lbTotal);
 		
 		
 		if (RP)
 		{
-			btnNewButton_3.setEnabled(true);
-			btnNewButton_4.setEnabled(true);
-			btnNewButton_5.setEnabled(true);
-			textArea.setEnabled(true);
+			btnConfirmarRecepcion.setEnabled(true);
+			btnRechazarRecepcion.setEnabled(true);
+			btnIncompleta.setEnabled(true);
+			txtDescripcionIncidencia.setEnabled(true);
 		}
 		else
 		{
-			btnNewButton_3.setEnabled(false);
-			btnNewButton_4.setEnabled(false);
-			btnNewButton_5.setEnabled(false);
-			textArea.setEnabled(false);
+			btnConfirmarRecepcion.setEnabled(false);
+			btnRechazarRecepcion.setEnabled(false);
+			btnIncompleta.setEnabled(false);
+			txtDescripcionIncidencia.setEnabled(false);
 		}
-		
-		JLabel lblNewLabel_5 = new JLabel("Subtotal:");
-		lblNewLabel_5.setBounds(386, 338, 68, 14);
-		getContentPane().add(lblNewLabel_5);
-		
-		JLabel lblNewLabel_6 = new JLabel("% IVA:");
-		lblNewLabel_6.setBounds(386, 369, 68, 14);
-		getContentPane().add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("Monto IVA:");
-		lblNewLabel_7.setBounds(386, 400, 68, 14);
-		getContentPane().add(lblNewLabel_7);
-		
-		JLabel lblNewLabel_8 = new JLabel("TOTAL:");
-		lblNewLabel_8.setBounds(386, 431, 68, 14);
-		getContentPane().add(lblNewLabel_8);
 	}
 
 	@Override
