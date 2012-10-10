@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
@@ -59,8 +61,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro, 
 		txtNombreOT,
 		txtDescripcion,
-		txtAncho,
-		txtAlto,
+		//txtAncho,
+		//txtAlto,
 		txtCantidadAEntregar,
 		txtPreimpresion,
 		txtCantidadDeHojasUtilizadas;
@@ -127,6 +129,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JButton btnBorrarFila;
 	JButton btnAlmacenar;
 
+	private JFormattedTextField txtAlto, txtAncho;
+
 	OrdenDeTrabajo()
 	{	
 		super ("Orden de Trabajo (OT)", false, true, false, true);
@@ -191,9 +195,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAncho.setBounds(105, 161, 80, 25);
 		lbAncho.setForeground (Color.black);
 		
-		txtAncho = new JTextField ("0");
-		txtAncho.setBounds(202, 161, 100, 25);
-		txtAncho.setHorizontalAlignment (JTextField.LEFT);
+		try
+        {
+            MaskFormatter mascara = new MaskFormatter("###.##");
+            txtAncho = new JFormattedTextField(mascara);
+            txtAncho.setValue("000.00");
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+		
+	    txtAncho.setBounds(202, 161, 100, 25);
 		
 		lbAlto = new JLabel ("Alto:");
 		lbAlto.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -201,9 +213,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAlto.setBounds(312, 161, 80, 25);
 		lbAlto.setForeground (Color.black);
 		
-		txtAlto = new JTextField ("0");
-		txtAlto.setBounds(402, 161, 100, 25);
-		txtAlto.setHorizontalAlignment (JTextField.LEFT);
+		try
+        {
+            MaskFormatter mascara = new MaskFormatter("###.##");
+            txtAlto = new JFormattedTextField(mascara);
+            txtAlto.setValue("000.00");
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+		
+	    txtAlto.setBounds(402, 161, 100, 25);
+		
 		
 		chbApaisado = new JCheckBox ("Apaisado");
 		chbApaisado.setFont(new Font("Arial", Font.ITALIC, 11));
@@ -245,41 +266,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones = new JTabbedPane();
 		tabSecciones.setBounds(15, 265, 640, 290);
 
-		//Restriccion para que el usuario solo ingrese número.
-		txtAncho.getInputMap(txtAncho.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		txtAncho.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE) || c == '.'))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		txtAlto.getInputMap(txtAlto.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		txtAlto.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)|| c == '.'))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		
 		txtCantidadAEntregar.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -669,7 +655,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 								.getValueAt(i, 7).toString());
 						Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
 								/ posesXpliego);
-
 						tablaMateriales.setValueAt(totalPliegosNetos, i, 10);
 
 						// Obtengo los datos de la tabla materiales necesarios
@@ -682,9 +667,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						Integer pliegosXhoja = Integer.parseInt(tablaMateriales
 								.getValueAt(i, 8).toString());
 
-						Integer hojas =  (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
+						Integer hojas = (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
 								/ pliegosXhoja);
-
+						
 						tablaMateriales.setValueAt(hojas, i, 9);
 					}
 
@@ -1155,13 +1140,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadDeHojasUtilizadas.setText ("0");
-		txtAncho.setText("0");
-		txtAlto.setText("0");
+		//txtAncho.setText("0");
+		//txtAlto.setText("0");
 		txtCantidadAEntregar.setText("1");
 		txtPreimpresion.setText("0");
 		txtCantidadDeHojasUtilizadas.setText("0");
 		chbApaisado.setSelected(false);
 	}
+	
 	
 	
 	public boolean materialesOk(){
@@ -1329,7 +1315,5 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return btnAlmacenar;
 	}
 	
-	
-	
-	
+
 }	
