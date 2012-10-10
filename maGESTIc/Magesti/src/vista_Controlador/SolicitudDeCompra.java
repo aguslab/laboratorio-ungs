@@ -76,6 +76,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		txtFecha.setFont(new Font("Arial", Font.PLAIN, 11));
 		txtFecha.setBounds(500, 17, 148, 25);
 		JpSolicitudDeCompra.add(txtFecha);
+		txtFecha.setEditable(false);
 		/*
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(139, 44, 46, 25);
