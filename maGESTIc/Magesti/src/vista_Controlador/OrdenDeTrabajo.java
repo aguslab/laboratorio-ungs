@@ -667,8 +667,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 								.getValueAt(i, 1).toString());
 						Integer posesXpliego = Integer.parseInt(tablaMateriales
 								.getValueAt(i, 7).toString());
-						Integer totalPliegosNetos = (cantEntr * cantElemento)
-								/ posesXpliego;
+						Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
+								/ posesXpliego);
+
 						tablaMateriales.setValueAt(totalPliegosNetos, i, 10);
 
 						// Obtengo los datos de la tabla materiales necesarios
@@ -681,8 +682,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						Integer pliegosXhoja = Integer.parseInt(tablaMateriales
 								.getValueAt(i, 8).toString());
 
-						Integer hojas = (pliegosEnDemasia + pliegosNetos)
-								/ pliegosXhoja;
+						Integer hojas =  (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
+								/ pliegosXhoja);
+
 						tablaMateriales.setValueAt(hojas, i, 9);
 					}
 
