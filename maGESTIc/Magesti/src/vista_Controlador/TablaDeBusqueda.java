@@ -98,7 +98,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
 				nuevaOT.getTxtPreimpresion().setEditable(false);
 				
-				nuevaOT.getTxtAncho().setText((tablaBusqueda.getValueAt(filaElegida, 9)).toString());
+				nuevaOT.getTxtAncho().setText(tablaBusqueda.getValueAt(filaElegida, 9).toString());
 				nuevaOT.getTxtAncho().setEditable(false);
 				
 				nuevaOT.getTxtAlto().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString());
