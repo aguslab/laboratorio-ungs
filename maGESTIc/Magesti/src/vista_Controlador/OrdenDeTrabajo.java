@@ -1271,6 +1271,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.tablaElementos;
 	}
 
+	
 	public JComboBox getCliente() 
 	{
 		return this.cboCliente;
