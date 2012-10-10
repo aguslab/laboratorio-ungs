@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
@@ -59,8 +60,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro, 
 		txtNombreOT,
 		txtDescripcion,
-		txtAncho,
-		txtAlto,
+		//txtAncho,
+		//txtAlto,
 		txtCantidadAEntregar,
 		txtPreimpresion,
 		txtCantidadDeHojasUtilizadas;
@@ -126,6 +127,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JButton btnAgregarFila;
 	private JButton btnBorrarFila;
 	JButton btnAlmacenar;
+	private JFormattedTextField txtAlto, txtAncho;
 
 	OrdenDeTrabajo()
 	{	
@@ -190,10 +192,22 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAncho.setFont(new Font("Arial", Font.ITALIC, 11));
 		lbAncho.setBounds(105, 161, 80, 25);
 		lbAncho.setForeground (Color.black);
+		JFormattedTextField txtAncho = null;
+		try
+        {
+            MaskFormatter mascara = new MaskFormatter("###.##");
+            txtAncho = new JFormattedTextField(mascara);
+            txtAncho.setValue("000.00");
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 		
-		txtAncho = new JTextField ("0");
-		txtAncho.setBounds(202, 161, 100, 25);
-		txtAncho.setHorizontalAlignment (JTextField.LEFT);
+	    txtAncho.setBounds(202, 161, 100, 25);
+
+		//txtAncho = new JTextField ("0");
+		//txtAncho.setBounds(202, 161, 100, 25);
+		//txtAncho.setHorizontalAlignment (JTextField.LEFT);
 		
 		lbAlto = new JLabel ("Alto:");
 		lbAlto.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -201,9 +215,22 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAlto.setBounds(312, 161, 80, 25);
 		lbAlto.setForeground (Color.black);
 		
-		txtAlto = new JTextField ("0");
-		txtAlto.setBounds(402, 161, 100, 25);
-		txtAlto.setHorizontalAlignment (JTextField.LEFT);
+		JFormattedTextField txtAlto = null;
+		try
+        {
+            MaskFormatter mascara = new MaskFormatter("###.##");
+            txtAlto = new JFormattedTextField(mascara);
+            txtAlto.setValue("000.00");
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+		
+	    txtAlto.setBounds(402, 161, 100, 25);
+
+		//txtAlto = new JTextField ("0");
+		//txtAlto.setBounds(402, 161, 100, 25);
+		//txtAlto.setHorizontalAlignment (JTextField.LEFT);
 		
 		chbApaisado = new JCheckBox ("Apaisado");
 		chbApaisado.setFont(new Font("Arial", Font.ITALIC, 11));
@@ -246,7 +273,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tabSecciones.setBounds(15, 265, 640, 290);
 
 		//Restriccion para que el usuario solo ingrese número.
-		txtAncho.getInputMap(txtAncho.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		/*txtAncho.getInputMap(txtAncho.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtAncho.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -278,7 +305,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						}
 					}
 				}
-		);
+		);*/
 		
 		txtCantidadAEntregar.addKeyListener 
 		(
@@ -1153,8 +1180,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadDeHojasUtilizadas.setText ("0");
-		txtAncho.setText("0");
-		txtAlto.setText("0");
+		//txtAncho.setText("0");
+		//txtAlto.setText("0");
 		txtCantidadAEntregar.setText("1");
 		txtPreimpresion.setText("0");
 		txtCantidadDeHojasUtilizadas.setText("0");
