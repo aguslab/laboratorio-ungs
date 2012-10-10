@@ -158,11 +158,25 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		ButtonGroup grupoCondicionEntrega = new ButtonGroup();
 		JRadioButton rdbtnRetirar = new JRadioButton("Retirar");
+		rdbtnRetirar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				txtDireccionRetiro.setEnabled(true);
+			}
+		});
 		rdbtnRetirar.setBounds(16, 27, 109, 23);
 		grupoCondicionEntrega.add(rdbtnRetirar);
 		pCondicionEntrega.add(rdbtnRetirar);
 		
 		JRadioButton rdbtnEnviarAProveedor = new JRadioButton("Enviar a Proveedor");
+		rdbtnEnviarAProveedor.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				txtDireccionRetiro.setEnabled(false);
+			}
+		});
 		rdbtnEnviarAProveedor.setBounds(127, 27, 143, 23);
 		grupoCondicionEntrega.add(rdbtnEnviarAProveedor);
 		pCondicionEntrega.add(rdbtnEnviarAProveedor);
