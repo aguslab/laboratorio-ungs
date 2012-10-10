@@ -3,11 +3,15 @@ package vista_Controlador;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.TextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 
@@ -23,6 +27,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JTextField txtSubtotal;
 	private JTextField txtDireccionRetiro;
 	private JTextField txtFecha;
+	private JTable tablaDetalles;
 	public SolicitudDeCompra(boolean  RP) {
 super ("Solicitud de Compra (SC)", false, true, false, true);
 		
@@ -98,71 +103,122 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		Secciones.setBounds(25, 171, 623, 225);
 		JpSolicitudDeCompra.add(Secciones);
 		
-		JPanel panelCondicionEntrega = new JPanel();
-		panelCondicionEntrega.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Secciones.addTab("Condiciones de Entrega", null, panelCondicionEntrega, null);
-		panelCondicionEntrega.setLayout(null);
+		JPanel panCondicionEntrega = new JPanel();
+		panCondicionEntrega.setBorder(new LineBorder(new Color(0, 0, 0)));
+		Secciones.addTab("Condiciones de Entrega", null, panCondicionEntrega, null);
+		panCondicionEntrega.setLayout(null);
 		
 		JLabel lbDireccionRetiro = new JLabel("Direcci\u00F3n de Retiro:");
 		lbDireccionRetiro.setBounds(22, 154, 121, 14);
-		panelCondicionEntrega.add(lbDireccionRetiro);
+		panCondicionEntrega.add(lbDireccionRetiro);
 		
 		txtDireccionRetiro = new JTextField();
 		txtDireccionRetiro.setBounds(133, 149, 459, 25);
-		panelCondicionEntrega.add(txtDireccionRetiro);
+		panCondicionEntrega.add(txtDireccionRetiro);
 		txtDireccionRetiro.setColumns(10);
 		
 		JLabel lbFechaEntrega = new JLabel("Fecha Entrega:");
 		lbFechaEntrega.setBounds(22, 24, 93, 14);
-		panelCondicionEntrega.add(lbFechaEntrega);
+		panCondicionEntrega.add(lbFechaEntrega);
 		
 		JComboBox cbMes = new JComboBox();
-		cbMes.setBounds(111, 19, 69, 25);
-		panelCondicionEntrega.add(cbMes);
+		cbMes.setBounds(119, 19, 69, 25);
+		panCondicionEntrega.add(cbMes);
 		
 		JComboBox cbDia = new JComboBox();
 		cbDia.setBounds(179, 19, 61, 25);
-		panelCondicionEntrega.add(cbDia);
+		panCondicionEntrega.add(cbDia);
 		
 		JComboBox cbAnio = new JComboBox();
 		cbAnio.setBounds(226, 19, 61, 25);
-		panelCondicionEntrega.add(cbAnio);
+		panCondicionEntrega.add(cbAnio);
 		
 		JPanel pHorarioEntrega = new JPanel();
 		pHorarioEntrega.setBorder(new TitledBorder(null, "Horario de entrega", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pHorarioEntrega.setBounds(362, 63, 223, 68);
-		panelCondicionEntrega.add(pHorarioEntrega);
+		panCondicionEntrega.add(pHorarioEntrega);
 		pHorarioEntrega.setLayout(null);
 		
-		ButtonGroup grupo = new ButtonGroup();
-
+		ButtonGroup grupoHorario = new ButtonGroup();
 		JRadioButton rbManiana = new JRadioButton("Ma\u00F1ana");
 		rbManiana.setBounds(27, 27, 72, 23);
-		grupo.add(rbManiana);
+		grupoHorario.add(rbManiana);
 		pHorarioEntrega.add(rbManiana);
 		
 		JRadioButton rbTarde = new JRadioButton("Tarde");
 		rbTarde.setBounds(124, 27, 72, 23);
-		grupo.add(rbTarde);
+		grupoHorario.add(rbTarde);
 		pHorarioEntrega.add(rbTarde);
 		
 		JPanel pCondicionEntrega = new JPanel();
 		pCondicionEntrega.setBorder(new TitledBorder(null, "Condici\u00F3n de Entrega", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pCondicionEntrega.setBounds(22, 63, 276, 68);
-		panelCondicionEntrega.add(pCondicionEntrega);
+		panCondicionEntrega.add(pCondicionEntrega);
 		pCondicionEntrega.setLayout(null);
 		
-		JCheckBox chbRetirar = new JCheckBox("Retirar");
-		chbRetirar.setBounds(20, 27, 59, 23);
-		pCondicionEntrega.add(chbRetirar);
+		ButtonGroup grupoCondicionEntrega = new ButtonGroup();
+		JRadioButton rdbtnRetirar = new JRadioButton("Retirar");
+		rdbtnRetirar.setBounds(16, 27, 109, 23);
+		grupoCondicionEntrega.add(rdbtnRetirar);
+		pCondicionEntrega.add(rdbtnRetirar);
 		
-		JCheckBox chbEnviarProveedor = new JCheckBox("Enviar Proveedor");
-		chbEnviarProveedor.setBounds(115, 27, 128, 23);
-		pCondicionEntrega.add(chbEnviarProveedor);
+		JRadioButton rdbtnEnviarAProveedor = new JRadioButton("Enviar a Proveedor");
+		rdbtnEnviarAProveedor.setBounds(127, 27, 143, 23);
+		grupoCondicionEntrega.add(rdbtnEnviarAProveedor);
+		pCondicionEntrega.add(rdbtnEnviarAProveedor);
 		
-		JTabbedPane ttpDetalle = new JTabbedPane(JTabbedPane.TOP);
-		ttpDetalle.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Secciones.addTab("Detalle   ", null, ttpDetalle, null);
+		JPanel panDetalles = new JPanel();
+		Secciones.addTab("Detalles", null, panDetalles, null);
+		panDetalles.setLayout(null);
+		
+		JScrollPane spDetalles = new JScrollPane();
+		spDetalles.setBounds(10, 11, 598, 175);
+		panDetalles.add(spDetalles);
+		
+		tablaDetalles = new JTable();
+		tablaDetalles.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Cant. Hojas", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "Precio Unitario", "Unidad de Medida", "Importe"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, Object.class, Object.class, Object.class, Integer.class, Double.class, String.class, Double.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, true, true, true, true, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tablaDetalles.getColumnModel().getColumn(0).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(90);
+		tablaDetalles.getColumnModel().getColumn(1).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(85);
+		tablaDetalles.getColumnModel().getColumn(2).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tablaDetalles.getColumnModel().getColumn(3).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(3).setPreferredWidth(115);
+		tablaDetalles.getColumnModel().getColumn(4).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(85);
+		tablaDetalles.getColumnModel().getColumn(5).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(5).setPreferredWidth(85);
+		tablaDetalles.getColumnModel().getColumn(6).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(6).setPreferredWidth(105);
+		tablaDetalles.getColumnModel().getColumn(7).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(7).setPreferredWidth(110);
+		tablaDetalles.getColumnModel().getColumn(8).setResizable(false);
+		spDetalles.setViewportView(tablaDetalles);
+		
+		tablaDetalles.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaDetalles.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JButton btnCerrar = new JButton("Cerrar");
 		btnCerrar.setBounds(559, 604, 89, 30);
