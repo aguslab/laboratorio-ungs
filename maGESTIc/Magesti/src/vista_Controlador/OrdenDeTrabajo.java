@@ -487,7 +487,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
 				}
 			}
 		});
