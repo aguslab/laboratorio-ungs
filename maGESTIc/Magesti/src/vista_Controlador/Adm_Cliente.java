@@ -1,149 +1,121 @@
 package vista_Controlador;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
-import java.awt.Font;
+
 import javax.swing.JButton;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Adm_Cliente extends JInternalFrame {
-	private JTextField txtFRazon_Social;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
 
-	/**
-	 * Launch the application.
-	 */
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+
+public class Adm_Cliente extends JInternalFrame 
+{
 	
+	private JTable tablaDatosCliente;
+	private JTable tablaContactoCliente;
+	public Adm_Cliente() 
+	{
+		super ("Administracion de Clientes", false, true, false, true);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-	/**
-	 * Create the frame.
-	 */
-	public Adm_Cliente() {
-		super ("Administracion de Cliente", false, true, false, true);
-
-		setBounds(100, 100, 650, 500);
 		getContentPane().setLayout(null);
 		
-		txtFRazon_Social = new JTextField();
-		txtFRazon_Social.setBounds(82, 21, 501, 20);
-		getContentPane().add(txtFRazon_Social);
-		txtFRazon_Social.setColumns(10);
-		
-		JLabel lblRazonSocail = new JLabel("Razon Socail:");
-		lblRazonSocail.setBounds(10, 21, 72, 20);
-		getContentPane().add(lblRazonSocail);
-		
-		JLabel lblCuit = new JLabel("Cuit:");
-		lblCuit.setBounds(48, 52, 34, 20);
-		getContentPane().add(lblCuit);
-		
-		JLabel lblCondIva = new JLabel("Cond. Iva:");
-		lblCondIva.setBounds(20, 83, 62, 20);
-		getContentPane().add(lblCondIva);
-		
-		JLabel lblDireccion = new JLabel("Direccion:");
-		lblDireccion.setBounds(29, 114, 53, 20);
-		getContentPane().add(lblDireccion);
-		
-		JLabel lblTel = new JLabel("Telefono:");
-		lblTel.setBounds(29, 145, 53, 20);
-		getContentPane().add(lblTel);
-		
-		JLabel lblMail = new JLabel("Mail:");
-		lblMail.setBounds(48, 176, 34, 20);
-		getContentPane().add(lblMail);
-		
-		JLabel lblContacto = new JLabel("Contacto  Cliente");
-		lblContacto.setFont(new Font("Arial", Font.BOLD, 18));
-		lblContacto.setBounds(186, 207, 178, 20);
-		getContentPane().add(lblContacto);
-		
-		JLabel lblNombreContacto = new JLabel("Nombre:");
-		lblNombreContacto.setBounds(37, 238, 45, 20);
-		getContentPane().add(lblNombreContacto);
-		
-		JLabel label = new JLabel("Telefono:");
-		label.setBounds(29, 267, 53, 20);
-		getContentPane().add(label);
-		
-		JLabel label_1 = new JLabel("Mail:");
-		label_1.setBounds(48, 298, 34, 20);
-		getContentPane().add(label_1);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(82, 52, 501, 20);
-		getContentPane().add(textField);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(82, 83, 501, 20);
-		getContentPane().add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(82, 114, 501, 20);
-		getContentPane().add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(82, 145, 501, 20);
-		getContentPane().add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(82, 176, 501, 20);
-		getContentPane().add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(82, 238, 501, 20);
-		getContentPane().add(textField_5);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(82, 267, 501, 20);
-		getContentPane().add(textField_6);
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(82, 298, 501, 20);
-		getContentPane().add(textField_7);
-		
-		JLabel lblDirEntrega = new JLabel("Direccion Entrega:");
-		lblDirEntrega.setBounds(29, 345, 89, 26);
-		getContentPane().add(lblDirEntrega);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(123, 348, 459, 20);
-		getContentPane().add(textField_8);
-		
-		JButton button = new JButton("CERRAR");
-		button.setBounds(393, 426, 89, 23);
+		JButton button = new JButton("CERRAR", new ImageIcon ("Imagenes/cerrar3.png"));
+		button.setBounds(10, d.height-225, 120, 35);
 		getContentPane().add(button);
 		
-		JButton btnConfirmar = new JButton("CONFIRMAR");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		JButton btnConfirmar = new JButton("GUARDAR", new ImageIcon ("Imagenes/confirmar3.png"));
+		btnConfirmar.setBounds(10, d.height-185, 120, 35);
+		btnConfirmar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
 			}
-		});
-		btnConfirmar.setBounds(157, 426, 105, 23);
+		}
+		);
 		getContentPane().add(btnConfirmar);
+		//
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane.setBounds(10, 11, d.width-40, d.height-165);
 
+		getContentPane().add(tabbedPane);
+		// DATOS
+		JPanel panelDatos = new JPanel();
+		panelDatos.setBorder
+		(
+			new LineBorder
+			(
+				new Color
+				(0, 0, 0)
+			)
+		);
+		panelDatos.setLayout(null);
+		
+		tabbedPane.addTab("Datos                         ",  new ImageIcon ("Imagenes/datos.png"), panelDatos, null);
+
+
+		Object[][] dataDC = 
+		{
+			{"test s.a", "00-00000000-0","test","test","00-0000-0000"},
+		};
+
+		String[] columnaNombreDC =
+		{
+			"Razón social", 
+			"CUIT",
+            "Condición IVA",
+            "Dirección",
+            "Teléfono"
+        };
+		
+		JScrollPane spDatosCliente = new JScrollPane();
+		spDatosCliente.setViewportBorder(null);
+		spDatosCliente.setBounds(0, 0, d.width-210, d.height-165);
+		panelDatos.add(spDatosCliente);
+		
+		tablaDatosCliente = new JTable(dataDC, columnaNombreDC);
+		spDatosCliente.setViewportView(tablaDatosCliente);
+		// CONTACTO
+		JPanel panelContacto = new JPanel();
+		panelContacto.setBorder
+		(
+			new LineBorder
+			(
+				new Color(0, 0, 0)
+			)
+		);
+		panelContacto.setLayout(null);
+		
+		tabbedPane.addTab("Contacto                      ",  new ImageIcon ("Imagenes/contacto.png"), panelContacto, null);
+		
+		Object[][] dataCC = 
+			{
+				{"test", "00-0000-0000","test@test"},
+			};
+
+			String[] columnaNombreCC =
+			{
+				"Nombre", 
+				"Teléfono",
+	            "Correo electrónico"
+	        };
+			
+		JScrollPane spClienteContacto = new JScrollPane();
+		spClienteContacto.setBounds(0, 0, d.width-210, d.height-165);
+		panelContacto.add(spClienteContacto);
+		
+		tablaContactoCliente = new JTable(dataCC, columnaNombreCC);
+		spClienteContacto.setViewportView(tablaContactoCliente);
+		
 	}
 }

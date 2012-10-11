@@ -485,6 +485,12 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Adm_Cliente admCli= new Adm_Cliente();
 				escritorio.add (admCli);
+				try {
+					admCli.setMaximum(true);
+				} catch (PropertyVetoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				admCli.show ();
 			}
 			
