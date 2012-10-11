@@ -30,11 +30,11 @@ public class Adm_Cliente extends JInternalFrame
 
 		getContentPane().setLayout(null);
 		
-		JButton button = new JButton("CERRAR", new ImageIcon ("Imagenes/cerrar3.png"));
+		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
 		button.setBounds(10, d.height-225, 120, 35);
 		getContentPane().add(button);
 		
-		JButton btnConfirmar = new JButton("GUARDAR", new ImageIcon ("Imagenes/confirmar3.png"));
+		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setBounds(10, d.height-185, 120, 35);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
