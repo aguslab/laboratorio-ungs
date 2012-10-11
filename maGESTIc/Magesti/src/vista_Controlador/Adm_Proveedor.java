@@ -8,6 +8,7 @@ import javax.swing.JInternalFrame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -69,8 +70,7 @@ public class Adm_Proveedor extends JInternalFrame
 		getContentPane().add(btnAgregar);
 		
 		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(10, d.height-265, 120, 35);
-		btnAgregar.addActionListener(new ActionListener() 
+		btnBorrar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -84,10 +84,11 @@ public class Adm_Proveedor extends JInternalFrame
 				}
 				catch(ArrayIndexOutOfBoundsException e1)
 				{
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
 				}
 			}
 		});
+		btnBorrar.setBounds(10, d.height-265, 120, 35);
 		getContentPane().add(btnBorrar);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
