@@ -46,34 +46,34 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		JpSolicitudDeCompra.setLayout(null);
 		
 		JLabel lbNumero = new JLabel("N\u00FAmero:");
-		lbNumero.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbNumero.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbNumero.setBounds(25, 28, 65, 14);
 		JpSolicitudDeCompra.add(lbNumero);
 		
 		txtNumero = new JTextField();
-		txtNumero.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtNumero.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtNumero.setBounds(144, 23, 164, 25);
 		JpSolicitudDeCompra.add(txtNumero);
 		txtNumero.setEditable(false);
 		txtNumero.setColumns(10);
 		
 		JLabel lbProveedor = new JLabel("Proveedor:");
-		lbProveedor.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbProveedor.setBounds(25, 96, 68, 14);
 		JpSolicitudDeCompra.add(lbProveedor);
 		
 		JComboBox cbProveedor = new JComboBox();
-		cbProveedor.setFont(new Font("Arial", Font.PLAIN, 11));
+		cbProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbProveedor.setBounds(144, 91, 282, 25);
 		JpSolicitudDeCompra.add(cbProveedor);
 		
 		JLabel txtFechaConfec = new JLabel("Fecha de confeccion:");
-		txtFechaConfec.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtFechaConfec.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtFechaConfec.setBounds(379, 23, 129, 14);
 		JpSolicitudDeCompra.add(txtFechaConfec);
 		
 		txtFecha = new JTextField(aaaa + "-" + mm + "-" + dd);
-		txtFecha.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtFecha.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtFecha.setBounds(500, 17, 148, 25);
 		JpSolicitudDeCompra.add(txtFecha);
 		txtFecha.setEditable(false);
@@ -91,23 +91,23 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		getContentPane().add(comboBox_3);
 		*/
 		JLabel lbVendedor = new JLabel("Vendedor:");
-		lbVendedor.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbVendedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbVendedor.setBounds(25, 128, 63, 14);
 		JpSolicitudDeCompra.add(lbVendedor);
 		
 		txtVendedor = new JTextField();
-		txtVendedor.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtVendedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtVendedor.setBounds(144, 123, 282, 25);
 		JpSolicitudDeCompra.add(txtVendedor);
 		txtVendedor.setColumns(10);
 		
 		JLabel lbNroOT = new JLabel("N\u00B0 Orden de Trabajo:");
-		lbNroOT.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbNroOT.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbNroOT.setBounds(25, 64, 121, 14);
 		JpSolicitudDeCompra.add(lbNroOT);
 		
 		JComboBox cbNroOT = new JComboBox();
-		cbNroOT.setFont(new Font("Arial", Font.PLAIN, 11));
+		cbNroOT.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbNroOT.setBounds(144, 59, 282, 25);
 		JpSolicitudDeCompra.add(cbNroOT);
 		
@@ -212,7 +212,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panDetalles.add(spDetalles);
 		
 		tablaDetalles = new JTable();
-		tablaDetalles.setFont(new Font("Arial", Font.PLAIN, 11));
+		tablaDetalles.setFont(new Font("Arial", Font.PLAIN, 12));
 		tablaDetalles.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -257,36 +257,36 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JButton btnCerrar = new JButton("Cerrar");
-		btnCerrar.setFont(new Font("Arial", Font.PLAIN, 11));
+		JButton btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		btnCerrar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCerrar.setBounds(528, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnCerrar);
 		
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 11));
+		JButton btnConfirmar = new JButton("Confirmar", new ImageIcon ("Imagenes/confirmar3.png"));
+		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.setBounds(398, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnConfirmar);
 		
 		txtTotal = new JTextField();
-		txtTotal.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtTotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtTotal.setBounds(562, 551, 86, 25);
 		JpSolicitudDeCompra.add(txtTotal);
 		txtTotal.setColumns(10);
 		
 		txtMontoIVA = new JTextField();
-		txtMontoIVA.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtMontoIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMontoIVA.setBounds(562, 520, 86, 25);
 		JpSolicitudDeCompra.add(txtMontoIVA);
 		txtMontoIVA.setColumns(10);
 		
 		txtIVA = new JTextField();
-		txtIVA.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtIVA.setBounds(562, 489, 86, 25);
 		JpSolicitudDeCompra.add(txtIVA);
 		txtIVA.setColumns(10);
 		
 		txtSubtotal = new JTextField();
-		txtSubtotal.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtSubtotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtSubtotal.setBounds(562, 459, 86, 25);
 		JpSolicitudDeCompra.add(txtSubtotal);
 		txtSubtotal.setColumns(10);
@@ -299,17 +299,17 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		
 		JButton btnConfirmarRecepcion = new JButton("Confirmar");
-		btnConfirmarRecepcion.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnConfirmarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmarRecepcion.setBounds(10, 11, 89, 23);
 		panel.add(btnConfirmarRecepcion);
 		
 		JButton btnRechazarRecepcion = new JButton("Rechazar");
-		btnRechazarRecepcion.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnRechazarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnRechazarRecepcion.setBounds(10, 42, 89, 23);
 		panel.add(btnRechazarRecepcion);
 		
 		JButton btnIncompleta = new JButton("Incompleta");
-		btnIncompleta.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnIncompleta.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnIncompleta.setBounds(10, 76, 89, 23);
 		panel.add(btnIncompleta);
 		
@@ -319,22 +319,22 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panel.add(txtDescripcionIncidencia);
 		
 		JLabel lbSubtotal = new JLabel("Subtotal:");
-		lbSubtotal.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbSubtotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbSubtotal.setBounds(492, 464, 68, 14);
 		JpSolicitudDeCompra.add(lbSubtotal);
 		
 		JLabel lbIVA = new JLabel("% IVA:");
-		lbIVA.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbIVA.setBounds(492, 494, 68, 14);
 		JpSolicitudDeCompra.add(lbIVA);
 		
 		JLabel lbMontoIVA = new JLabel("Monto IVA:");
-		lbMontoIVA.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbMontoIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbMontoIVA.setBounds(492, 526, 68, 14);
 		JpSolicitudDeCompra.add(lbMontoIVA);
 		
 		JLabel lbTotal = new JLabel("TOTAL:");
-		lbTotal.setFont(new Font("Arial", Font.PLAIN, 11));
+		lbTotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbTotal.setBounds(492, 556, 68, 14);
 		JpSolicitudDeCompra.add(lbTotal);
 		
