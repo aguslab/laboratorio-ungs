@@ -36,6 +36,14 @@ public class Adm_Cliente extends JInternalFrame
 		getContentPane().setLayout(null);
 		
 		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		button.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				setVisible (false);
+				dispose();
+			}
+		});
 		button.setBounds(10, d.height-225, 120, 35);
 		getContentPane().add(button);
 		
@@ -45,6 +53,7 @@ public class Adm_Cliente extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				
 			}
 		}
 		);
@@ -202,7 +211,6 @@ public class Adm_Cliente extends JInternalFrame
 				DefaultTableModel tablaTempContactos = (DefaultTableModel) tablaContactoCliente.getModel();
 				while (result.next()) 
 				{
-					System.out.println("contactos");
 					for (int i = 0; i < CantColumnas; i++) 
 					{
 						contactos[i] = result.getObject(i + 1);
