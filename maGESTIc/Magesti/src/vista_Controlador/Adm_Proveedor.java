@@ -31,6 +31,14 @@ public class Adm_Proveedor extends JInternalFrame
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		button.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				setVisible (false);
+				dispose();
+			}
+		});
 		button.setBounds(10, d.height-225, 120, 35);
 		getContentPane().add(button);
 		
