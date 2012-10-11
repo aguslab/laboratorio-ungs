@@ -1,143 +1,224 @@
 package vista_Controlador;
 
-import java.awt.EventQueue;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
-import java.awt.Font;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-public class Adm_Proveedor extends JInternalFrame {
-	private JTextField txtFRazon_Social;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+import Modelo.ConexionDB;
 
-	/**
-	 * Launch the application.
-	 */
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+
+public class Adm_Proveedor extends JInternalFrame 
+{
+	private JTable tablaDatos;
+	private JTable tablaContacto;
 	
-
-	/**
-	 * Create the frame.
-	 */
-	public Adm_Proveedor() {
+	public Adm_Proveedor() 
+	{
 		super ("Administracion de Proveedor", false, true, false, true);
-
-		setBounds(100, 100, 650, 500);
-		getContentPane().setLayout(null);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		txtFRazon_Social = new JTextField();
-		txtFRazon_Social.setBounds(82, 21, 501, 20);
-		getContentPane().add(txtFRazon_Social);
-		txtFRazon_Social.setColumns(10);
+		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		button.setBounds(10, d.height-225, 120, 35);
+		getContentPane().add(button);
 		
-		JLabel lblRazonSocail = new JLabel("Razon Socail:");
-		lblRazonSocail.setBounds(10, 21, 72, 20);
-		getContentPane().add(lblRazonSocail);
+		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
+		btnConfirmar.setBounds(10, d.height-185, 120, 35);
+		btnConfirmar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			}
+		}
+		);
+		getContentPane().add(btnConfirmar);
 		
-		JLabel lblCuit = new JLabel("Cuit:");
-		lblCuit.setBounds(48, 52, 34, 20);
-		getContentPane().add(lblCuit);
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(10, d.height-305, 120, 35);
+		btnAgregar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatos.getModel();
+					Object nuevo[]= {""};
+					tablaTemp.addRow(nuevo);
+			}
+		}
+		);
+		getContentPane().add(btnAgregar);
 		
-		JLabel lblCondIva = new JLabel("Cond. Iva:");
-		lblCondIva.setBounds(20, 83, 62, 20);
-		getContentPane().add(lblCondIva);
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(10, d.height-265, 120, 35);
+		btnAgregar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				try
+				{	
+					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatos.getModel();
+					if(tablaTemp.getRowCount()>0)
+					{
+						tablaTemp.removeRow(tablaDatos.getSelectedRow());
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
+		getContentPane().add(btnBorrar);
 		
-		JLabel lblDireccion = new JLabel("Direccion:");
-		lblDireccion.setBounds(29, 114, 53, 20);
-		getContentPane().add(lblDireccion);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane.setBounds(10, 11, d.width-40, d.height-165);
+		getContentPane().add(tabbedPane);
 		
-		JLabel lblTel = new JLabel("Telefono:");
-		lblTel.setBounds(29, 145, 53, 20);
-		getContentPane().add(lblTel);
+		JPanel panDatos = new JPanel();
+		tabbedPane.addTab("Datos                      ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
+		panDatos.setLayout(null);
 		
-		JLabel lblMail = new JLabel("Mail:");
-		lblMail.setBounds(48, 176, 34, 20);
-		getContentPane().add(lblMail);
+		JScrollPane spDatos = new JScrollPane();
+		spDatos.setBounds(0, 0, d.width-210, d.height-165);
+		panDatos.add(spDatos);
 		
-		JLabel lblContacto = new JLabel("Contacto  Proveedor");
-		lblContacto.setFont(new Font("Arial", Font.BOLD, 18));
-		lblContacto.setBounds(186, 207, 178, 20);
-		getContentPane().add(lblContacto);
+		tablaDatos = new JTable();
+		tablaDatos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tablaDatos.getColumnModel().getColumn(0).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(0).setPreferredWidth(120);
+		tablaDatos.getColumnModel().getColumn(1).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(1).setPreferredWidth(102);
+		tablaDatos.getColumnModel().getColumn(2).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(101);
+		tablaDatos.getColumnModel().getColumn(3).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(178);
+		tablaDatos.getColumnModel().getColumn(4).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(5).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(5).setPreferredWidth(137);
+		spDatos.setViewportView(tablaDatos);
 		
-		JLabel lblNombreContacto = new JLabel("Nombre:");
-		lblNombreContacto.setBounds(37, 238, 45, 20);
-		getContentPane().add(lblNombreContacto);
+		tablaDatos.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaDatos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tablaDatos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
-		JLabel label = new JLabel("Telefono:");
-		label.setBounds(29, 267, 53, 20);
-		getContentPane().add(label);
+		JPanel panContacto = new JPanel();
+		tabbedPane.addTab("Contacto                      ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
+		panContacto.setLayout(null);
 		
-		JLabel label_1 = new JLabel("Mail:");
-		label_1.setBounds(48, 298, 34, 20);
-		getContentPane().add(label_1);
+		JScrollPane spContacto = new JScrollPane();
+		spContacto.setBounds(0, 0, d.width-210, d.height-165);
+		panContacto.add(spContacto);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(82, 52, 501, 20);
-		getContentPane().add(textField);
+		tablaContacto = new JTable();
+		tablaContacto.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Telefono", "Mail", "Direccion de retiro"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tablaContacto.getColumnModel().getColumn(0).setResizable(false);
+		tablaContacto.getColumnModel().getColumn(0).setPreferredWidth(155);
+		tablaContacto.getColumnModel().getColumn(1).setResizable(false);
+		tablaContacto.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tablaContacto.getColumnModel().getColumn(2).setResizable(false);
+		tablaContacto.getColumnModel().getColumn(2).setPreferredWidth(119);
+		tablaContacto.getColumnModel().getColumn(3).setResizable(false);
+		tablaContacto.getColumnModel().getColumn(3).setPreferredWidth(179);
+		spContacto.setViewportView(tablaContacto);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(82, 83, 501, 20);
-		getContentPane().add(textField_1);
+		tablaContacto.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaContacto.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		tablaContacto.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(82, 114, 501, 20);
-		getContentPane().add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(82, 145, 501, 20);
-		getContentPane().add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(82, 176, 501, 20);
-		getContentPane().add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(82, 238, 501, 20);
-		getContentPane().add(textField_5);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(82, 267, 501, 20);
-		getContentPane().add(textField_6);
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(82, 298, 501, 20);
-		getContentPane().add(textField_7);
-		
-		JLabel lblDirEntrega = new JLabel("Direccion Retiro:");
-		lblDirEntrega.setBounds(29, 345, 89, 26);
-		getContentPane().add(lblDirEntrega);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(123, 348, 459, 20);
-		getContentPane().add(textField_8);
-		
-		JButton btnAlmacenar = new JButton("ALMACENAR");
-		btnAlmacenar.setBounds(159, 425, 102, 23);
-		getContentPane().add(btnAlmacenar);
-		
-		JButton btnCerrar = new JButton("CERRAR");
-		btnCerrar.setBounds(350, 425, 89, 23);
-		getContentPane().add(btnCerrar);
+		this.setFilas();
 
 	}
+	
+	private void setFilas() 
+	 {
+		ResultSet result = ConexionDB
+					.getbaseDatos()
+					.consultar(
+							"SELECT razon_social, cuit, cond_iva, direccion,telefono,mail from proveedor");
+		
+			Integer CantColumnas=6;
+			Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
+
+			try 
+			{
+				DefaultTableModel tablaTempDatos = (DefaultTableModel) tablaDatos.getModel();
+				while (result.next()) 
+				{
+					
+					for (int i = 0; i < CantColumnas; i++) 
+					{
+						datos[i] = result.getObject(i + 1);
+					}
+					tablaTempDatos.addRow(datos);
+				}
+				// result.close();
+			} 
+			catch (Exception e) 
+			{
+			}
+			
+			
+			CantColumnas=4;
+			Object contactos[] = new Object[CantColumnas];
+			result = ConexionDB
+					.getbaseDatos()
+					.consultar(
+							"SELECT nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro from proveedor");
+			
+			try 
+			{
+				DefaultTableModel tablaTempContactos = (DefaultTableModel) tablaContacto.getModel();
+				while (result.next()) 
+				{
+					
+					for (int i = 0; i < CantColumnas; i++) 
+					{
+						contactos[i] = result.getObject(i + 1);
+					}
+					tablaTempContactos.addRow(contactos);
+				}
+				// result.close();
+			} 
+			catch (Exception e) 
+			{
+			}
+		}
 }

@@ -31,7 +31,6 @@ public class TablaDeBusqueda extends JInternalFrame
 {
 	private JPanel jpMostrar = new JPanel ();
 	private DefaultTableModel dtmMagesti;
-	private DefaultTableModel dtmElemento;
 	private JScrollPane jspTabla;
 	private JTable tablaBusqueda;
 	
@@ -44,6 +43,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		jspTabla = new JScrollPane (tablaBusqueda);
 		jpMostrar.add (jspTabla);
 		tablaBusqueda = new JTable();
+		tablaBusqueda.setEnabled(false);
 		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
 		
 		tablaBusqueda.addMouseListener
@@ -132,6 +132,8 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getBtnBorrarFila().setEnabled(false);
 				nuevaOT.getBtnAlmacenar().setEnabled(false);
 				
+				nuevaOT.getTablaElementos().setEnabled(false);
+				
 				//Muestra los datos de la tabla Materiales
 				
 				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
@@ -144,18 +146,16 @@ public class TablaDeBusqueda extends JInternalFrame
 				ArrayList<Integer> id_formato_papel = Materiales.getId_formato_papel(id_OT);
 				ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_Hojas(id_OT);
 				
+				
 				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
-
 				Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
 				cantFilas=Materiales.getID_Materiales(id_OT).size();
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					tempMat.addRow(nuevaFilaMateriales);
 					tempMat.setValueAt(elemento.get(i), i, 0);
-
-					tempMat.setValueAt(cantidad.get(i), i, 1);
+					tempMat.setValueAt(cantidad.get(i), i, 1);	
 					tempMat.setValueAt(gramaje.get(i), i, 2);	
-
 					tempMat.setValueAt((Formato_Papel.getTamanio(id_formato_papel.get(i))), i, 3);	
 					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)), i, 4);	
 					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)), i, 5);	
@@ -164,7 +164,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempMat.setValueAt(poses_x_pliego.get(i), i, 7);	
 					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
 					tempMat.setValueAt(hojas.get(i), i, 9);	
-					tempMat.setValueAt(pliegos_netos.get(i), i, 10);	
+					tempMat.setValueAt(pliegos_netos.get(i), i, 10);
 				}
 				nuevaOT.getTablaMateriales().setEnabled(false);
 				
@@ -213,7 +213,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempOE.setValueAt(observaciones.get(i), i, 3);	
 					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
-				
+				nuevaOT.getTablaOrdenEjecucion().setEnabled(false);
 				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
 				
 				
@@ -233,7 +233,6 @@ public class TablaDeBusqueda extends JInternalFrame
 				
 				
 			}
-			
 		});
 		
 		
@@ -316,45 +315,6 @@ public class TablaDeBusqueda extends JInternalFrame
 				{
 				}
 			}
-		
-		//Consulta sql para conseguir los datos que se van a mostrar en la tabla de Elementos
-		private void setFilasDeElementos(JTable elemento) 
-		 {
-				ResultSet result = ConexionDB
-				.getbaseDatos()
-				.consultar
-				(
-					"SELECT e.id_elemento, e.id_orden_trabajo, e.tipo_elemento, e.cantidad FROM elemento e, orden_trabajo o WHERE o.id_orden_trabajo = e.id_orden_trabajo"
-				);
-				Integer CantColumnas = 4;
-				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
-
-				try 
-				{
-					while (result.next()) 
-					{
-						
-						for (int i = 0; i < CantColumnas; i++) 
-						{
-							datos[i] = result.getObject(i + 1);
-						}
-						dtmElemento.addRow(datos);
-					}
-				} 
-				catch (Exception e) 
-				{
-				}
-			}
-		
-
-		//Llena la tabla de elemento con los datos conseguidos 
-		private JTable llenarTablaElemento(JTable tablaElemento) 
-		{
-			dtmElemento = (DefaultTableModel) tablaElemento.getModel();
-			setFilasDeElementos(tablaElemento);
-			tablaElemento.setModel(dtmElemento);
-			return tablaElemento;
-		}
 		
 		static String separar(String fecha, int numero)
 		{

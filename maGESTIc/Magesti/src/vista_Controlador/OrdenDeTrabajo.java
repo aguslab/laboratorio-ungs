@@ -482,7 +482,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				{	
 				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
 				if(temp.getRowCount()>0){
-					temp.removeRow(temp.getRowCount()-1);	
+					temp.removeRow(tablaElementos.getSelectedRow());	
 				}
 				}
 				catch(ArrayIndexOutOfBoundsException e)
