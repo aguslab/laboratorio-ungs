@@ -50,8 +50,9 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		lbNumero.setBounds(25, 28, 65, 14);
 		JpSolicitudDeCompra.add(lbNumero);
 		
-		txtNumero = new JTextField();
+		txtNumero = new JTextField("test");
 		txtNumero.setFont(new Font("Arial", Font.PLAIN, 12));
+		txtNumero.setForeground(Color.RED);
 		txtNumero.setBounds(144, 23, 164, 25);
 		JpSolicitudDeCompra.add(txtNumero);
 		txtNumero.setEditable(false);
@@ -262,7 +263,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		btnCerrar.setBounds(528, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnCerrar);
 		
-		JButton btnConfirmar = new JButton("Confirmar", new ImageIcon ("Imagenes/confirmar3.png"));
+		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.setBounds(398, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnConfirmar);
