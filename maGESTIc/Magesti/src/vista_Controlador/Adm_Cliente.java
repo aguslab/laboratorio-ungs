@@ -60,7 +60,7 @@ public class Adm_Cliente extends JInternalFrame
 		getContentPane().add(btnConfirmar);
 		
 		
-		JButton btnAgregar = new JButton("Agregar");
+		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
 		btnAgregar.setBounds(10, d.height-305, 120, 35);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
@@ -75,7 +75,7 @@ public class Adm_Cliente extends JInternalFrame
 		);
 		getContentPane().add(btnAgregar);
 		
-		JButton btnBorrar = new JButton("Borrar");
+		JButton btnBorrar = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
 		btnBorrar.setBounds(10, d.height-265, 120, 35);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
