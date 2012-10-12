@@ -144,12 +144,12 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		JComboBox cbDia = new JComboBox();
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbDia.setBounds(179, 19, 61, 25);
+		cbDia.setBounds(189, 19, 61, 25);
 		panCondicionEntrega.add(cbDia);
 		
 		JComboBox cbAnio = new JComboBox();
 		cbAnio.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbAnio.setBounds(226, 19, 61, 25);
+		cbAnio.setBounds(252, 19, 61, 25);
 		panCondicionEntrega.add(cbAnio);
 		
 		JPanel pHorarioEntrega = new JPanel();
@@ -205,6 +205,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		pCondicionEntrega.add(rdbtnEnviarAProveedor);
 		
 		JPanel panDetalles = new JPanel();
+		panDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		Secciones.addTab("Detalles", null, panDetalles, null);
 		panDetalles.setLayout(null);
 		
@@ -299,24 +300,24 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panel.setEnabled(true);
 		
 		
-		JButton btnConfirmarRecepcion = new JButton("Confirmar");
+		JButton btnConfirmarRecepcion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
 		btnConfirmarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnConfirmarRecepcion.setBounds(10, 11, 89, 23);
+		btnConfirmarRecepcion.setBounds(10, 11, 120, 35);
 		panel.add(btnConfirmarRecepcion);
 		
-		JButton btnRechazarRecepcion = new JButton("Rechazar");
+		JButton btnRechazarRecepcion = new JButton("Rechazar", new ImageIcon ("Imagenes/no.png"));
 		btnRechazarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnRechazarRecepcion.setBounds(10, 42, 89, 23);
+		btnRechazarRecepcion.setBounds(10, 55, 120, 35);
 		panel.add(btnRechazarRecepcion);
 		
-		JButton btnIncompleta = new JButton("Incompleta");
+		JButton btnIncompleta = new JButton("Incompleta", new ImageIcon ("Imagenes/incompleto.png"));
 		btnIncompleta.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnIncompleta.setBounds(10, 76, 89, 23);
+		btnIncompleta.setBounds(10, 101, 120, 35);
 		panel.add(btnIncompleta);
 		
 		TextArea txtDescripcionIncidencia = new TextArea();
 		txtDescripcionIncidencia.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtDescripcionIncidencia.setBounds(110, 10, 326, 149);
+		txtDescripcionIncidencia.setBounds(143, 10, 293, 149);
 		panel.add(txtDescripcionIncidencia);
 		
 		JLabel lbSubtotal = new JLabel("Subtotal:");
@@ -335,7 +336,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		JpSolicitudDeCompra.add(lbMontoIVA);
 		
 		JLabel lbTotal = new JLabel("TOTAL:");
-		lbTotal.setFont(new Font("Arial", Font.PLAIN, 12));
+		lbTotal.setFont(new Font("Arial", Font.BOLD, 12));
 		lbTotal.setBounds(492, 556, 68, 14);
 		JpSolicitudDeCompra.add(lbTotal);
 		

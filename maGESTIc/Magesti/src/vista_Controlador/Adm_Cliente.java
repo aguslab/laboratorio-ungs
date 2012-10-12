@@ -32,6 +32,7 @@ public class Adm_Cliente extends JInternalFrame
 	{
 		super ("Administracion de Clientes", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		System.out.println(d.toString());
 
 		getContentPane().setLayout(null);
 		

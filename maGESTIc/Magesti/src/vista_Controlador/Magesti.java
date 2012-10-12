@@ -85,11 +85,14 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	{
 		
 		super (qTITULO +"  -  Mantenimiento y Gestión de Imprentas");
+		
 		escritorio.setBackground(new Color(83, 130, 161));
 		UIManager.addPropertyChangeListener (new UISwitchListener ((JComponent)getRootPane()));
 		barra = new JMenuBar ();
 		setIconImage (getToolkit().getImage ("Imagenes/icono.png"));
-		setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		//setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setJMenuBar (barra);
 		
 		
