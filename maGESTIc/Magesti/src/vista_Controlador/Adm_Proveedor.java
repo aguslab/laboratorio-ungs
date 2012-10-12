@@ -1,5 +1,6 @@
 package vista_Controlador;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
@@ -30,6 +32,8 @@ public class Adm_Proveedor extends JInternalFrame
 	{
 		super ("Administracion de Proveedor", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		getContentPane().setLayout(null);
 		
 		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
 		button.addActionListener(new ActionListener() 
@@ -54,7 +58,7 @@ public class Adm_Proveedor extends JInternalFrame
 		);
 		getContentPane().add(btnConfirmar);
 		
-		JButton btnAgregar = new JButton("Agregar");
+		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
 		btnAgregar.setBounds(10, d.height-305, 120, 35);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
@@ -69,7 +73,8 @@ public class Adm_Proveedor extends JInternalFrame
 		);
 		getContentPane().add(btnAgregar);
 		
-		JButton btnBorrar = new JButton("Borrar");
+		JButton btnBorrar = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
+		btnBorrar.setBounds(10, d.height-265, 120, 35);
 		btnBorrar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -96,6 +101,14 @@ public class Adm_Proveedor extends JInternalFrame
 		getContentPane().add(tabbedPane);
 		
 		JPanel panDatos = new JPanel();
+		panDatos.setBorder
+		(
+			new LineBorder
+			(
+				new Color
+				(0, 0, 0)
+			)
+		);
 		tabbedPane.addTab("Datos                      ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
 		panDatos.setLayout(null);
 		
@@ -136,6 +149,13 @@ public class Adm_Proveedor extends JInternalFrame
 		tablaDatos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		JPanel panContacto = new JPanel();
+		panContacto.setBorder
+		(
+			new LineBorder
+			(
+				new Color(0, 0, 0)
+			)
+		);
 		tabbedPane.addTab("Contacto                      ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
 		panContacto.setLayout(null);
 		
@@ -168,7 +188,7 @@ public class Adm_Proveedor extends JInternalFrame
 		tablaContacto.getColumnModel().getColumn(3).setPreferredWidth(179);
 		spContacto.setViewportView(tablaContacto);
 		
-		tablaContacto.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		//tablaContacto.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaContacto.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaContacto.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		

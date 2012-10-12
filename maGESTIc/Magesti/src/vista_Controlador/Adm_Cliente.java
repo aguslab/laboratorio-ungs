@@ -25,9 +25,9 @@ import java.sql.ResultSet;
 
 public class Adm_Cliente extends JInternalFrame 
 {
-	
 	private JTable tablaDatosCliente;
 	private JTable tablaContactoCliente;
+	
 	public Adm_Cliente() 
 	{
 		super ("Administracion de Clientes", false, true, false, true);
