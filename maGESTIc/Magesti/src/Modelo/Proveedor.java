@@ -17,12 +17,13 @@ public class Proveedor
 	private String telefono_contacto;
 	private String mail_contacto;
 	private String direccion_retiro;
+	private boolean activo;
 
 	// Se usa para crear objetos a la hora de buscar
 	public Proveedor(Integer id_proveedor, String razon_social, BigInteger cuit,
 			String cond_iva, String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
-			String mail_contacto, String direccion_retiro) 
+			String mail_contacto, String direccion_retiro, boolean activo) 
 	{
 		super();
 		this.id_proveedor = id_proveedor;
@@ -36,6 +37,7 @@ public class Proveedor
 		this.telefono_contacto = telefono_contacto;
 		this.mail_contacto = mail_contacto;
 		this.direccion_retiro = direccion_retiro;
+		this.activo = activo;
 	}
 
 	// Se usa para crear objetos a la hora de insertar.El campo id_proveedor es
@@ -43,7 +45,7 @@ public class Proveedor
 	public Proveedor(String razon_social, BigInteger cuit, String cond_iva,
 			String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
-			String mail_contacto, String direccion_retiro) 
+			String mail_contacto, String direccion_retiro, boolean activo) 
 	{
 		super();
 		this.razon_social = razon_social;
@@ -56,6 +58,7 @@ public class Proveedor
 		this.telefono_contacto = telefono_contacto;
 		this.mail_contacto = mail_contacto;
 		this.direccion_retiro = direccion_retiro;
+		this.activo = activo;
 	}
 
 	
@@ -249,6 +252,16 @@ public class Proveedor
 	{
 		this.direccion_retiro = direccion_retiro;
 	}
+	
+	public boolean getActivo()
+	{
+		return this.activo;
+	}
+	
+	public void setActivo(boolean estado)
+	{
+		this.activo = estado;
+	}
 
 	public boolean Alta() 
 	{
@@ -302,7 +315,8 @@ public class Proveedor
 							resultado.getString("nombre_contacto"),
 							resultado.getString("telefono_contacto"),
 							resultado.getString("mail_contacto"),
-							resultado.getString("direccion_retiro"));
+							resultado.getString("direccion_retiro"),
+							resultado.getBoolean("activo"));
 					list_proveedores.add(proveedores);
 				}
 			} 
