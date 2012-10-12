@@ -360,7 +360,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio2.addItem (anios);
 		}
 				
-		btnLimpiarOT = new JButton("Limpiar campos");
+		btnLimpiarOT = new JButton("Limpiar", new ImageIcon ("Imagenes/limpiar.png"));
 		btnLimpiarOT.setBounds(15, 599, 121, 35);
 		btnLimpiarOT.addActionListener (this);
 					
@@ -460,7 +460,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		spElementos.setViewportView(tablaElementos);
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		
-		btnAgregarFila = new JButton("Agregar Fila");
+		btnAgregarFila = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
 		btnAgregarFila.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -470,10 +470,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				temp.addRow(nuevo);
 			}
 		});
-		btnAgregarFila.setBounds(10, 215, 96, 23);
+		btnAgregarFila.setBounds(10, 215,120, 35);
 		panElementos.add(btnAgregarFila);
 		
-		btnBorrarFila = new JButton("Borrar Fila");
+		btnBorrarFila = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
 		btnBorrarFila.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -491,10 +491,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		});
-		btnBorrarFila .setBounds(116, 215, 96, 23);
+		btnBorrarFila .setBounds(142, 215,120,35);
 		panElementos.add(btnBorrarFila);
 		
-		btnAlmacenar = new JButton("Almacenar");
+		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
 		btnAlmacenar.addActionListener(new ActionListener() 
 		{
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
@@ -549,7 +549,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		});
 		
-		btnAlmacenar.setBounds(529, 215, 96, 23);
+		btnAlmacenar.setBounds(500, 215,120, 35);
 		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
 		tabSecciones.setDisabledIconAt(0, null);
@@ -719,7 +719,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		JPanel panOrdenEjecucion = new JPanel();
-		panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panOrdenEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
+		//panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panOrdenEjecucion.setLayout(null);
         
 		tabSecciones.addTab
@@ -787,8 +788,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		btnConfirmarSeleccion = new JButton("Confirmar Selecci\u00F3n");
-		btnConfirmarSeleccion.setMaximumSize(new Dimension(135, 23));
+		btnConfirmarSeleccion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
+		//btnConfirmarSeleccion.setBounds(10, 10,120,35);
+		//btnConfirmarSeleccion.setMaximumSize(new Dimension(135, 35));
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -813,7 +815,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
-		btnConfirmarSeleccion.setBounds(39, 229, 141, 23);
+		btnConfirmarSeleccion.setBounds(39, 220, 120, 35);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
