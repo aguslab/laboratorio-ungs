@@ -184,10 +184,46 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNombreOT = new JTextField ();
 		txtNombreOT.setBounds(105, 90, 210, 25);
 		txtNombreOT.setHorizontalAlignment (JTextField.LEFT);
+		txtNombreOT.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtNombreOT.getText().length()== 50)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
+		txtNombreOT.getInputMap(txtNombreOT.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		txtDescripcion = new JTextField ();
 		txtDescripcion.setBounds(105, 125, 550, 25);
 		txtDescripcion.setHorizontalAlignment (JTextField.LEFT);
+		txtDescripcion.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtDescripcion.getText().length()== 100)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
+		txtDescripcion.getInputMap(txtDescripcion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		lbAncho = new JLabel ("Ancho:");
 		lbAncho.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -241,6 +277,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar = new JTextField ("1");
 		txtCantidadAEntregar.setBounds(445, 195, 210, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
+		txtCantidadAEntregar.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtCantidadAEntregar.getText().length()== 11)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
 		
 		lbPreimpresion = new JLabel ("Preimpresión:");
 		lbPreimpresion.setBounds(15, 230, 80, 25);
@@ -253,6 +306,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtPreimpresion = new JTextField ("0");
 		txtPreimpresion.setBounds(105, 230, 210, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
+		txtPreimpresion.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtPreimpresion.getText().length()== 11)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
 		
 		lbCantidadDeHojasUtilizadas = new JLabel ("Hojas utilizadas:");
 		lbCantidadDeHojasUtilizadas.setBounds(15, 563, 100, 25);
@@ -262,6 +332,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadDeHojasUtilizadas.setEnabled(false);
 		txtCantidadDeHojasUtilizadas.setBounds(105,563, 100, 25);
 		txtCantidadDeHojasUtilizadas.setHorizontalAlignment (JTextField.LEFT);
+		txtCantidadDeHojasUtilizadas.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtCantidadDeHojasUtilizadas.getText().length()== 11)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
 		
 		tabSecciones = new JTabbedPane();
 		tabSecciones.setBounds(15, 265, 640, 290);
@@ -281,7 +368,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					}
 				}
 		);
-		
+		txtCantidadAEntregar.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtCantidadAEntregar.getText().length()== 11)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
 		txtPreimpresion.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -298,7 +401,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					}
 				}
 		);
-
+		txtPreimpresion.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtPreimpresion.getText().length()== 11)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
@@ -828,6 +947,24 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtTipoProducto = new JTextField("");
 		txtTipoProducto.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTipoProducto.setBounds(105, 195, 210, 25);
+		txtTipoProducto.addKeyListener
+		(
+			new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtTipoProducto.getText().length()== 50)
+						e.consume();
+				}
+				public void keyPressed(KeyEvent arg0) 
+				{
+				}
+				public void keyReleased(KeyEvent arg0)
+				{
+				}
+			}
+		);
+		
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		txtClear();
 	}
