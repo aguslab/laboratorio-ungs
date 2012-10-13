@@ -789,8 +789,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		btnConfirmarSeleccion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
-		//btnConfirmarSeleccion.setBounds(10, 10,120,35);
-		//btnConfirmarSeleccion.setMaximumSize(new Dimension(135, 35));
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -1085,7 +1083,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 	}
 	
-	static String dameNumeroMes(String mes)
+	public static String dameNumeroMes(String mes)
 	{
 		if(mes == "Enero")
 		{
@@ -1317,6 +1315,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	public JButton getBtnAlmacenar() {
 		return btnAlmacenar;
 	}
+
+
+	public String[] getMeses() {
+		return Meses;
+	}
+	
 	
 
 }	

@@ -4,14 +4,33 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.TextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+import Modelo.Calidad;
+import Modelo.Detalle;
+import Modelo.Formato_Papel;
+import Modelo.Orden_Trabajo;
+import Modelo.Proveedor;
+import Modelo.Solicitud_compra;
+import Modelo.Variante;
+
 import java.awt.Font;
 
 @SuppressWarnings("serial")
@@ -29,10 +48,23 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JTextField txtDireccionRetiro;
 	private JTextField txtFecha;
 	private JTable tablaDetalles;
+	private JPanel JpSolicitudDeCompra;
+	private JLabel lbNumero;
+	private JLabel lbProveedor,lbNroOT ;
+	private JComboBox<String> cbProveedor ;
+	private JLabel txtFechaConfec ;
+	private JLabel lbVendedor;
+	private JComboBox<String> cbMes, cbDia, cbAnio;
+	private JButton btnBorrar,btnAlmacenar,btnAgregar,btnCerrar,btnConfirmar,btnConfirmarRecepcion,btnRechazarRecepcion,btnIncompleta;
+	private JRadioButton rbManiana,rbTarde,rdbtnRetirar,rdbtnEnviarAProveedor; 
+	private ButtonGroup grupoHorario,grupoCondicionEntrega;
+	private JComboBox cbNroOT;
+	private TextArea txtDescripcionIncidencia;
+	
 	public SolicitudDeCompra(boolean  RP) {
-super ("Solicitud de Compra (SC)", false, true, false, true);
+		super ("Solicitud de Compra (SC)", false, true, false, true);
 		
-	setSize (680, 680);
+		setSize (680, 680);
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
 		Integer dd=fecha.get(Calendar.DATE);
@@ -40,17 +72,38 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		//jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 		getContentPane().setLayout(null);
 		
-		JPanel JpSolicitudDeCompra = new JPanel();
+		String Meses[] = 
+			{
+				"Enero", 
+				"Febrero", 
+				"Marzo", 
+				"Abril", 
+				"Mayo", 
+				"Junio",
+				"Julio", 
+				"Agosto", 
+				"Septiembre", 
+				"Octubre", 
+				"Noviembre", 
+				"Diciembre"
+			};
+		
+		
+		
+		
+		JpSolicitudDeCompra = new JPanel();
 		JpSolicitudDeCompra.setBounds(0, 0, 670, 645);
 		getContentPane().add(JpSolicitudDeCompra);
 		JpSolicitudDeCompra.setLayout(null);
 		
-		JLabel lbNumero = new JLabel("N\u00FAmero:");
+		lbNumero = new JLabel("N\u00FAmero:");
 		lbNumero.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbNumero.setBounds(25, 22, 65, 14);
 		JpSolicitudDeCompra.add(lbNumero);
 		
-		txtNumero = new JTextField("test");
+		String maxId = Orden_Trabajo.EnteroAFactura(Solicitud_compra.getUltId_SC());
+		
+		txtNumero = new JTextField(maxId);
 		txtNumero.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtNumero.setForeground(Color.RED);
 		txtNumero.setBounds(144, 17, 164, 25);
@@ -58,40 +111,30 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		txtNumero.setEditable(false);
 		txtNumero.setColumns(10);
 		
-		JLabel lbProveedor = new JLabel("Proveedor:");
+		lbProveedor = new JLabel("Proveedor:");
 		lbProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbProveedor.setBounds(25, 90, 68, 14);
 		JpSolicitudDeCompra.add(lbProveedor);
 		
-		JComboBox cbProveedor = new JComboBox();
+		String[] proveedores=Proveedor.getProveedores();
+		cbProveedor = new JComboBox(proveedores);
 		cbProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbProveedor.setBounds(144, 85, 282, 25);
 		JpSolicitudDeCompra.add(cbProveedor);
 		
-		JLabel txtFechaConfec = new JLabel("Fecha de confeccion:");
+		txtFechaConfec = new JLabel("Fecha de confeccion:");
 		txtFechaConfec.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtFechaConfec.setBounds(379, 17, 129, 14);
+		txtFechaConfec.setBounds(379, 22, 129, 14);
 		JpSolicitudDeCompra.add(txtFechaConfec);
 		
 		txtFecha = new JTextField(aaaa + "-" + mm + "-" + dd);
+		txtFecha.setHorizontalAlignment(SwingConstants.CENTER);
 		txtFecha.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtFecha.setBounds(500, 11, 148, 25);
+		txtFecha.setBounds(500, 17, 148, 25);
 		JpSolicitudDeCompra.add(txtFecha);
 		txtFecha.setEditable(false);
-		/*
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(139, 44, 46, 25);
-		getContentPane().add(comboBox_1);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(183, 44, 42, 25);
-		getContentPane().add(comboBox_2);
-		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(225, 44, 60, 25);
-		getContentPane().add(comboBox_3);
-		*/
-		JLabel lbVendedor = new JLabel("Vendedor:");
+		lbVendedor = new JLabel("Vendedor:");
 		lbVendedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbVendedor.setBounds(25, 122, 63, 14);
 		JpSolicitudDeCompra.add(lbVendedor);
@@ -101,13 +144,38 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		txtVendedor.setBounds(144, 117, 282, 25);
 		JpSolicitudDeCompra.add(txtVendedor);
 		txtVendedor.setColumns(10);
+
+		//limitar la cantidad de caracteres a 30
+		txtVendedor.addKeyListener(new KeyListener(){
+		public void keyTyped(KeyEvent e){
+			int limite=30;
+			if (txtVendedor.getText().length()== limite){
+				getToolkit().beep ();
+				e.consume();
+			}
+				
+		}
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		});
 		
-		JLabel lbNroOT = new JLabel("N\u00B0 Orden de Trabajo:");
+		lbNroOT = new JLabel("N\u00B0 Orden de Trabajo:");
 		lbNroOT.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbNroOT.setBounds(25, 58, 121, 14);
 		JpSolicitudDeCompra.add(lbNroOT);
 		
-		JComboBox cbNroOT = new JComboBox();
+		String [] numot_nombreot=Orden_Trabajo.getId_nom_OT();
+		cbNroOT = new JComboBox(numot_nombreot);
 		cbNroOT.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbNroOT.setBounds(144, 53, 282, 25);
 		JpSolicitudDeCompra.add(cbNroOT);
@@ -132,25 +200,60 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panCondicionEntrega.add(txtDireccionRetiro);
 		txtDireccionRetiro.setColumns(10);
 		
+		txtDireccionRetiro.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int limite=100;
+				if (txtVendedor.getText().length()== limite){
+					getToolkit().beep ();
+					e.consume();
+				}				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		JLabel lbFechaEntrega = new JLabel("Fecha Entrega:");
 		lbFechaEntrega.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbFechaEntrega.setBounds(22, 24, 93, 14);
 		panCondicionEntrega.add(lbFechaEntrega);
 		
-		JComboBox cbMes = new JComboBox();
+		cbMes = new JComboBox(Meses);
 		cbMes.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbMes.setBounds(119, 19, 69, 25);
+		cbMes.setBounds(117, 19, 82, 25);
 		panCondicionEntrega.add(cbMes);
 		
-		JComboBox cbDia = new JComboBox();
+		cbDia = new JComboBox<String>();
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbDia.setBounds(189, 19, 61, 25);
+		cbDia.setBounds(200, 19, 61, 25);
 		panCondicionEntrega.add(cbDia);
+		for (int i = 1; i <= 31; i++) 
+		{
+			String dias = "" + i;
+			cbDia.addItem (dias);
+		}
 		
-		JComboBox cbAnio = new JComboBox();
+		cbAnio = new JComboBox();
 		cbAnio.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbAnio.setBounds(252, 19, 61, 25);
+		cbAnio.setBounds(262, 19, 61, 25);
 		panCondicionEntrega.add(cbAnio);
+		
+		for (int i = 2012; i <= 2042; i++) 
+		{
+			String anios = "" + i;
+			cbAnio.addItem (anios);
+		}
 		
 		JPanel pHorarioEntrega = new JPanel();
 		pHorarioEntrega.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Horario de entrega", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -158,14 +261,14 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panCondicionEntrega.add(pHorarioEntrega);
 		pHorarioEntrega.setLayout(null);
 		
-		ButtonGroup grupoHorario = new ButtonGroup();
-		JRadioButton rbManiana = new JRadioButton("Ma\u00F1ana");
+		grupoHorario = new ButtonGroup();
+		rbManiana = new JRadioButton("Ma\u00F1ana");
 		rbManiana.setFont(new Font("Arial", Font.PLAIN, 12));
 		rbManiana.setBounds(27, 27, 72, 23);
 		grupoHorario.add(rbManiana);
 		pHorarioEntrega.add(rbManiana);
 		
-		JRadioButton rbTarde = new JRadioButton("Tarde");
+		rbTarde = new JRadioButton("Tarde");
 		rbTarde.setFont(new Font("Arial", Font.PLAIN, 12));
 		rbTarde.setBounds(124, 27, 72, 23);
 		grupoHorario.add(rbTarde);
@@ -177,8 +280,8 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panCondicionEntrega.add(pCondicionEntrega);
 		pCondicionEntrega.setLayout(null);
 		
-		ButtonGroup grupoCondicionEntrega = new ButtonGroup();
-		JRadioButton rdbtnRetirar = new JRadioButton("Retirar");
+		grupoCondicionEntrega = new ButtonGroup();
+		rdbtnRetirar = new JRadioButton("Retirar");
 		rdbtnRetirar.setFont(new Font("Arial", Font.PLAIN, 12));
 		rdbtnRetirar.addActionListener(new ActionListener() 
 		{
@@ -191,7 +294,7 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		grupoCondicionEntrega.add(rdbtnRetirar);
 		pCondicionEntrega.add(rdbtnRetirar);
 		
-		JRadioButton rdbtnEnviarAProveedor = new JRadioButton("Enviar a Proveedor");
+		rdbtnEnviarAProveedor = new JRadioButton("Enviar a Proveedor");
 		rdbtnEnviarAProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		rdbtnEnviarAProveedor.addActionListener(new ActionListener() 
 		{
@@ -259,7 +362,66 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JButton btnBorrar = new JButton("Borrar");
+		//
+		//Autocalcular importe
+		//
+		TableColumnModel tc= tablaDetalles.getColumnModel();
+		tc.addColumnModelListener(new TableColumnModelListener() {
+			
+			@Override
+			public void columnSelectionChanged(ListSelectionEvent arg0) {
+				Integer cantFilas = tablaDetalles.getRowCount();
+
+				for (int i = 0; i < cantFilas; i++) {
+					// solo si las columnas tiene valores
+					if (tablaDetalles.getValueAt(i, 1) != null
+							&& tablaDetalles.getValueAt(i, 5) != null
+							&& tablaDetalles.getValueAt(i, 6) != null
+							&& tablaDetalles.getValueAt(i, 7) != null
+							&& !tablaDetalles.getValueAt(i, 1).toString()
+									.equals("")
+							&& !tablaDetalles.getValueAt(i, 5).toString()
+									.equals("")
+							&& !tablaDetalles.getValueAt(i, 6).toString()
+									.equals("")
+							&& !tablaDetalles.getValueAt(i, 7).toString()
+									.equals("")) {
+						// calcular importe
+						Double importe=getImporte(i);
+						tablaDetalles.setValueAt(importe, i, 8);
+						
+					}
+				}
+			}
+			
+			@Override
+			public void columnRemoved(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnMoved(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnMarginChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void columnAdded(TableColumnModelEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+			
+		
+		
+		btnBorrar= new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
 		btnBorrar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -278,10 +440,10 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 				}
 			}
 		});
-		btnBorrar.setBounds(519, 193, 89, 23);
+		btnBorrar.setBounds(130, 190, 100, 23);
 		panDetalles.add(btnBorrar);
 		
-		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar= new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -289,40 +451,120 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 				Object nuevo[]= {""};
 				temp.addRow(nuevo);
+				
+				String calidades[] = Calidad.getCalidades();
+				TableColumn columnaCalidad = tablaDetalles.getColumnModel().getColumn(2);//table es la JTable, ponele que la col n es la del combo.
+				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
+				
+				// Valores para el combo
+				String variantes[] = Variante.getVariantes(); 
+				TableColumn columnaVariante = tablaDetalles.getColumnModel().getColumn(3);//table es la JTable, ponele que la col n es la del combo.
+				columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+				
+				// Valores para el combo
+				String formatos[] = Formato_Papel.getFormatos();
+				TableColumn columnaFormato = tablaDetalles.getColumnModel().getColumn(4);//table es la JTable, ponele que la col n es la del combo.
+				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+				
+				// Valores para el combo
+				String unidad_medida[] = {"Resma","Kg","Hoja"};
+				TableColumn columnaUnidMedida= tablaDetalles.getColumnModel().getColumn(7);//table es la JTable, ponele que la col n es la del combo.
+				columnaUnidMedida.setCellEditor(new MyComboBoxEditor(unidad_medida));
+				
 			}
 		});
-		btnAgregar.setBounds(420, 193, 89, 23);
+		btnAgregar.setBounds(20, 190, 100, 23);
 		panDetalles.add(btnAgregar);
 		
-		JButton btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
+		btnAlmacenar.setBounds(455, 190, 115, 23);
+		panDetalles.add(btnAlmacenar);
+		btnAlmacenar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// 
+				// PRIMERO CHEQUEAR QUE ESTEN TODOS LOS CAMPOS COMPLETOS
+				//DESPUES...
+				int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
+				boolean celdas_ok=false;
+				for(int i=0;i<cantFilas;i++){
+					for(int j=0;j<cantCol;j++){
+						if (tablaDetalles.getValueAt(i, j) == null
+								|| tablaDetalles.getValueAt(i, j).toString()
+										.equals("")) {
+							celdas_ok=false;
+							break;
+						}else if(i==(cantFilas-1) && j==(cantCol-1) ){
+							celdas_ok=true;
+						}
+						}
+					}
+				
+				if(celdas_ok){
+					//calcular subotal, monto IVA, total
+					Double subtotal=0.0;
+					Double monto_iva=0.0;
+					Double total=0.0;
+					cantFilas=tablaDetalles.getRowCount();
+					for (int k = 0; k < cantFilas; k++) {
+						subtotal = subtotal
+								+ (Double) tablaDetalles.getValueAt(k, 8);
+					}
+					monto_iva = subtotal * Config.IVA / 100;
+					total = subtotal + monto_iva;
+					DecimalFormat df= new DecimalFormat("0.00");
+					df.format(subtotal);
+					txtSubtotal.setText(pasarAPesos(df.format(subtotal)));
+					txtMontoIVA.setText("$ " + df.format(monto_iva));
+					txtTotal.setText("$ " + df.format(total));
+				}else{
+					JOptionPane.showMessageDialog(null,"Debe completar todas las celdas!!!");
+				}
+				
+			}
+		});
+		
+		btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
 		btnCerrar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCerrar.setBounds(528, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnCerrar);
+		btnCerrar.addActionListener(this);
 		
-		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
+		btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.setBounds(398, 599, 120, 35);
 		JpSolicitudDeCompra.add(btnConfirmar);
+		btnConfirmar.addActionListener(this);
 		
 		txtTotal = new JTextField();
+		txtTotal.setEditable(false);
+		txtTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtTotal.setBounds(562, 555, 86, 25);
 		JpSolicitudDeCompra.add(txtTotal);
 		txtTotal.setColumns(10);
 		
 		txtMontoIVA = new JTextField();
+		txtMontoIVA.setEditable(false);
+		txtMontoIVA.setHorizontalAlignment(SwingConstants.CENTER);
 		txtMontoIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMontoIVA.setBounds(562, 524, 86, 25);
 		JpSolicitudDeCompra.add(txtMontoIVA);
 		txtMontoIVA.setColumns(10);
 		
-		txtIVA = new JTextField();
+		
+		txtIVA = new JTextField(Config.IVA.toString()+" %");
+		txtIVA.setEditable(false);
+		txtIVA.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIVA.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtIVA.setBounds(562, 493, 86, 25);
 		JpSolicitudDeCompra.add(txtIVA);
 		txtIVA.setColumns(10);
 		
 		txtSubtotal = new JTextField();
+		txtSubtotal.setEditable(false);
+		txtSubtotal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSubtotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtSubtotal.setBounds(562, 463, 86, 25);
 		JpSolicitudDeCompra.add(txtSubtotal);
@@ -335,22 +577,22 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 		panel.setEnabled(true);
 		
 		
-		JButton btnConfirmarRecepcion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
+		btnConfirmarRecepcion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
 		btnConfirmarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmarRecepcion.setBounds(10, 11, 120, 35);
 		panel.add(btnConfirmarRecepcion);
 		
-		JButton btnRechazarRecepcion = new JButton("Rechazar", new ImageIcon ("Imagenes/no.png"));
+		btnRechazarRecepcion = new JButton("Rechazar", new ImageIcon ("Imagenes/no.png"));
 		btnRechazarRecepcion.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnRechazarRecepcion.setBounds(10, 55, 120, 35);
 		panel.add(btnRechazarRecepcion);
 		
-		JButton btnIncompleta = new JButton("Incompleta", new ImageIcon ("Imagenes/incompleto.png"));
+		btnIncompleta = new JButton("Incompleta", new ImageIcon ("Imagenes/incompleto.png"));
 		btnIncompleta.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnIncompleta.setBounds(10, 101, 120, 35);
 		panel.add(btnIncompleta);
 		
-		TextArea txtDescripcionIncidencia = new TextArea();
+		txtDescripcionIncidencia = new TextArea();
 		txtDescripcionIncidencia.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtDescripcionIncidencia.setBounds(143, 10, 293, 149);
 		panel.add(txtDescripcionIncidencia);
@@ -394,9 +636,185 @@ super ("Solicitud de Compra (SC)", false, true, false, true);
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		int clave = Orden_Trabajo.FacturaAEntero(txtNumero.getText());
+		Object obj = e.getSource();
+		if(obj==btnConfirmar){
+			//faltaria verificar que no sean solo espacios el nombre del vendedor
+			if(txtVendedor.getText()==null || txtVendedor.getText().equals("")){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Debe especificar el nombre del vendedor",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.WARNING_MESSAGE
+				);
+				txtVendedor.requestFocus();
+			}
+			else if(grupoHorario.getSelection()==null){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Debe selecionar un horario de entrega",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.WARNING_MESSAGE
+				);
+				rbManiana.requestFocusInWindow();
+			}
+			else if(grupoCondicionEntrega.getSelection()==null){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Debe selecionar el modo de entrega",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.WARNING_MESSAGE
+				);
+				//rdbtnRetirar.requestFocusInWindow();
+			}		
+			else if(txtSubtotal.getText()==null || txtSubtotal.getText().equals("")){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Debe completar la seccion detalles y luego presionar el botón 'Almacenar'",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.WARNING_MESSAGE
+				);
+			}
+			else if(txtTotal.getText().toString().equals("$ 0,00")){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"El valor total debe ser mayor a $ 0,00",
+					qTITULO + " - Campo vacío", 
+					JOptionPane.WARNING_MESSAGE
+				);
+			}
+			else {// ////////////////////////
+				if (rdbtnRetirar.isSelected()) {
+					if (txtDireccionRetiro.getText() == null
+							|| txtDireccionRetiro.getText().equals("")) {
+						JOptionPane.showMessageDialog(this,
+								"Debe especificar la dirección de retiro",
+								qTITULO + " - Campo vacío",
+								JOptionPane.WARNING_MESSAGE);
+						txtDireccionRetiro.requestFocus();
+					}
+				}
+				cargarTablas();
+				setVisible(false);
+				dispose();
+			}
+		}
+		else if(obj==btnCerrar){
+			setVisible (false);
+			dispose();
+		}
 		
 	}
+	
+	
+	private void cargarTablas() {
+		
+		String fechaConfeccion = txtFecha.getText();
+		Integer id_proveedor = Proveedor.getId_Proveedor((String) cbProveedor.getSelectedItem());
+		String vendedor = (String) txtVendedor.getText();
+		Integer id_OT=getIdEnCombo();
+		boolean envia_proveedor=rdbtnEnviarAProveedor.isSelected();
+		String direccionRetiro="";
+		if(!envia_proveedor){
+			direccionRetiro=txtDireccionRetiro.getText();	
+		}
+		
+		String fechaEntrega= (String) cbAnio.getSelectedItem() +"-"+ OrdenDeTrabajo.dameNumeroMes((String)cbMes.getSelectedItem()) +"-"+ cbDia.getSelectedItem();
+		String horEntrega;
+		if(rbTarde.isSelected()){
+			horEntrega="T";
+		}else{
+			horEntrega="M";
+		}
+		
+		Double subtotal= pasarADouble(txtSubtotal.getText());
+		Double porcentaje_iva=Config.IVA;
+		Double monto_iva= pasarADouble(txtMontoIVA.getText());
+		Double total=pasarADouble(txtTotal.getText());
+		
+		//dar de alta SC
+		Solicitud_compra sc= new Solicitud_compra(fechaConfeccion, id_proveedor, vendedor, id_OT, envia_proveedor, direccionRetiro, fechaEntrega, horEntrega, subtotal, porcentaje_iva, monto_iva, total);
+		sc.Alta();
+
+		//cargar datos en detalles para esa SC
+		int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
+		for(int i=0;i<cantFilas;i++){
+				Integer cantidad=(Integer) tablaDetalles.getValueAt(i, 0);
+				String marca=tablaDetalles.getValueAt(i, 1).toString();
+				Integer id_calidad = Calidad.getId_Calidad(tablaDetalles.getValueAt(i, 2).toString());
+				Integer id_variante = Variante.getId_Variante(tablaDetalles.getValueAt(i, 3).toString());
+				Integer id_formato = Formato_Papel.getId_Formato(tablaDetalles.getValueAt(i, 4).toString());
+				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
+				Double precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
+				String unidad_medida_del_precio=tablaDetalles.getValueAt(i, 7).toString();
+				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
+				
+				//dar de alta detalle
+				Detalle detalle= new Detalle(Orden_Trabajo.FacturaAEntero(txtNumero.getText()), cantidad, marca, id_calidad, id_formato, id_variante, gramaje, precio_unitario, unidad_medida_del_precio, importe);
+				detalle.Alta();
+				}
+		}
+		
+	
+	public Integer getIdEnCombo(){
+		String id="";
+		String otSelec=(String) cbNroOT.getSelectedItem();
+		for(int i=0;otSelec.charAt(i)!= ' ';i++){
+				id=id+otSelec.charAt(i);
+		}
+		return Integer.parseInt(id);
+	}
+	
+	
+
+	private Double getImporte(Integer i) {
+		Double importe=0.0;
+		String unidad_medida_precio="";
+		Integer cant_hojas=0;
+		Double precio_unitario=0.0;
+		//for(int i=0;i<tablaDetalles.getRowCount();i++){
+			cant_hojas=(Integer) tablaDetalles.getValueAt(i, 0);
+			precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
+			unidad_medida_precio=tablaDetalles.getValueAt(i, 7).toString();
+			
+		//si la unidad de medida del precio es RESMA
+			if(unidad_medida_precio.toUpperCase().equals("RESMA")){
+				//calculo cuantas resmas hay 
+				Double cant_resma= (double)cant_hojas/Config.Resma;
+				//y lo multiplico por el precio unitario
+				importe=(cant_resma)*(precio_unitario);
+		//si la unidad de medida del precio es KG
+			}else if(unidad_medida_precio.toUpperCase().equals("KG")){
+				//calculo el formato(ancho x alto)
+				Double formato=(double) (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(0, 2))*Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(3)));
+				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
+				//lo multiplico por el gramaje y la cantidad de hojas
+				Double peso=formato*gramaje*cant_hojas;
+				//obtengo el peso en KG y lo multiplico por precio unitario
+				importe=(peso/1000)*precio_unitario;
+		//si la unidad de medida del precio es HOJA
+			}else{
+				//preciounitario x cantidad de hojas
+				importe=precio_unitario*cant_hojas;
+			}
+		//}		
+		return importe;
+	}
+	
+	private String pasarAPesos(String df){
+		return "$ "+df;
+	}
+	
+	private Double pasarADouble(String cant){
+		String monto=cant.substring(2);//saco el sigo $ 
+		return Double.parseDouble(monto.replace(',', '.'));
+	}
+	
 	};
 	
 
