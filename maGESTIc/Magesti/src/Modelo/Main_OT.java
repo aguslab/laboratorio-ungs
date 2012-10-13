@@ -41,7 +41,7 @@ public class Main_OT {
 				System.out.println("pos:"+i+" "+id_mat.get(i));
 			}
 			
-			System.out.println("hojas");System.out.println();System.out.println();
+			System.out.println("hojas");System.out.println();
 			
 			*/
 			
@@ -148,10 +148,7 @@ public class Main_OT {
 		System.out.println(m.Alta());
 		ArrayList<Materiales> l_m=m.Buscar();
 	*/	
-	
 
-
-		
 		 }
 		
 	}

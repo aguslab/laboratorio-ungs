@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Modelo.Cliente;
 import Modelo.ConexionDB;
 
 import java.awt.Color;
@@ -32,7 +33,6 @@ public class Adm_Cliente extends JInternalFrame
 	{
 		super ("Administracion de Clientes", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		System.out.println(d.toString());
 
 		getContentPane().setLayout(null);
 		
@@ -54,49 +54,64 @@ public class Adm_Cliente extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+				Integer cantFilasDatos = tablaDatosCliente.getRowCount();
+				for (int i = 0; i < cantFilasDatos; i++) 
+				{
+
+					String Nro_Cliente = tablaDatosCliente.getValueAt(i, 0).toString();
+					String razon_social = tablaDatosCliente.getValueAt(i, 1).toString();
+					String CUIT = tablaDatosCliente.getValueAt(i, 2).toString();
+					String cond_IVA = tablaDatosCliente.getValueAt(i, 3).toString();
+					String direccion = tablaDatosCliente.getValueAt(i, 4).toString();
+					String telefono = tablaDatosCliente.getValueAt(i, 5).toString();
+					String mail = tablaDatosCliente.getValueAt(i, 6).toString();
+					boolean activo = (Boolean) tablaDatosCliente.getValueAt(i, 7);
+					
+					String nombre_contacto = tablaContactoCliente.getValueAt(i, 1).toString();
+					String telefono_contacto = tablaContactoCliente.getValueAt(i, 2).toString();
+					String mail_contacto = tablaContactoCliente.getValueAt(i, 3).toString();
+					String direccion_entrega = tablaContactoCliente.getValueAt(i, 4).toString();
+						
+					if(Nro_Cliente.equals(""))
+					{
+						Cliente cli = new Cliente(razon_social,CUIT,cond_IVA,direccion,telefono,
+								mail,nombre_contacto,telefono_contacto,mail_contacto,direccion_entrega, activo);
+						cli.Alta();
+					}
+					else
+					{
+						boolean result = ConexionDB
+								.getbaseDatos()
+								.ejecutar("UPDATE cliente SET razon_social = "+ "'"+razon_social+"'" + ",cuit = " + CUIT + ",cond_iva = "
+								+"'" +cond_IVA+"'" + ",direccion = " + "'"+direccion+"'" + ",telefono = " + "'"+telefono+"'" + ",mail = " + "'"+ mail + "'" + ",nombre_contacto =" +
+								"'"+nombre_contacto+"'" + ",telefono_contacto = "+ telefono_contacto + ",mail_contacto = " + "'"+mail_contacto+"'" + ",direccion_entrega = " + "'"+direccion_entrega+"'"
+								+ ",activo = " + activo + " WHERE id_cliente =" + Integer.parseInt(Nro_Cliente));
+					}
+				}
+				Actualizar();
 			}
 		}
 		);
 		getContentPane().add(btnConfirmar);
 		
-		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
-		btnAgregar.setBounds(10, d.height-305, 120, 35);
+		btnAgregar.setBounds(10, d.height-265, 120, 35);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatosCliente.getModel();
-					Object nuevo[]= {""};
-					tablaTemp.addRow(nuevo);
+				DefaultTableModel tablaTempDatos = (DefaultTableModel) tablaDatosCliente.getModel();
+				Object nuevaFilaDatos[]= {"","","","","","","",true};
+				tablaTempDatos.addRow(nuevaFilaDatos);
+				
+				DefaultTableModel tablaTempContacto = (DefaultTableModel) tablaContactoCliente.getModel();
+				Object nuevaFilaContacto[]= {"","","","",""};
+				tablaTempContacto.addRow(nuevaFilaContacto);
 			}
 		}
 		);
 		getContentPane().add(btnAgregar);
-		
-		JButton btnBorrar = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
-		btnBorrar.setBounds(10, d.height-265, 120, 35);
-		btnAgregar.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				try
-				{	
-					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatosCliente.getModel();
-					if(tablaTemp.getRowCount()>0)
-					{
-						tablaTemp.removeRow(tablaDatosCliente.getSelectedRow());
-					}
-				}
-				catch(ArrayIndexOutOfBoundsException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-		});
-		getContentPane().add(btnBorrar);
 		
 		//
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
@@ -126,18 +141,45 @@ public class Adm_Cliente extends JInternalFrame
 		spDatosCliente.setViewportView(tablaDatosCliente);
 		
 		tablaDatosCliente.setModel(new DefaultTableModel(
-				new Object[][] {},
-				new String[] {"Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail"}) {
-				Class[] columnTypes = new Class[] 
-				{
-					String.class, String.class, String.class, String.class, String.class, String.class
-				};
-				public Class getColumnClass(int columnIndex) 
-				{
-					return columnTypes[columnIndex];
-				}
-			});
-		
+			new Object[][] {
+			},
+			new String[] {
+				"Nro", "Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail", "Activo"
+			}
+		) {
+			Class[] columnTypes = new Class[] 
+			{
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) 
+			{
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] 
+			{
+					false, true, true, true, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) 
+			{
+				return columnEditables[column];
+			}
+		});
+		tablaDatosCliente.getColumnModel().getColumn(0).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tablaDatosCliente.getColumnModel().getColumn(1).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tablaDatosCliente.getColumnModel().getColumn(2).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(2).setPreferredWidth(102);
+		tablaDatosCliente.getColumnModel().getColumn(3).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(3).setPreferredWidth(101);
+		tablaDatosCliente.getColumnModel().getColumn(4).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(4).setPreferredWidth(225);
+		tablaDatosCliente.getColumnModel().getColumn(5).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(6).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(6).setPreferredWidth(137);
+		tablaDatosCliente.getColumnModel().getColumn(7).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(7).setPreferredWidth(15);
+		tablaDatosCliente.getTableHeader().setReorderingAllowed(false);
 		
 		// CONTACTO
 		JPanel panelContacto = new JPanel();
@@ -150,7 +192,7 @@ public class Adm_Cliente extends JInternalFrame
 		);
 		panelContacto.setLayout(null);
 		
-		tabbedPane.addTab("Contacto                      ",  new ImageIcon ("Imagenes/contacto.png"), panelContacto, null);
+		tabbedPane.addTab("Contacto                   ",  new ImageIcon ("Imagenes/contacto.png"), panelContacto, null);
 			
 		JScrollPane spClienteContacto = new JScrollPane();
 		spClienteContacto.setBounds(0, 0, d.width-210, d.height-165);
@@ -159,17 +201,40 @@ public class Adm_Cliente extends JInternalFrame
 		tablaContactoCliente = new JTable();
 		spClienteContacto.setViewportView(tablaContactoCliente);
 		tablaContactoCliente.setModel(new DefaultTableModel(
-				new Object[][] {},
-				new String[] {"Nombre", "Telefono", "Mail", "Direccion de entrega"}) {
-				Class[] columnTypes = new Class[] 
-				{
-					String.class, String.class, String.class, String.class
-				};
-				public Class getColumnClass(int columnIndex) 
-				{
-					return columnTypes[columnIndex];
-				}});
-		
+			new Object[][] {
+			},
+			new String[] {
+				"Nro", "Nombre", "Telefono", "Mail", "Direccion de entrega"
+			}
+		) {
+			Class[] columnTypes = new Class[] 
+			{
+				String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) 
+			{
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] 
+			{
+				false, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) 
+			{
+				return columnEditables[column];
+			}
+		});
+		tablaContactoCliente.getColumnModel().getColumn(0).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tablaContactoCliente.getColumnModel().getColumn(1).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(1).setPreferredWidth(195);
+		tablaContactoCliente.getColumnModel().getColumn(2).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(2).setPreferredWidth(115);
+		tablaContactoCliente.getColumnModel().getColumn(3).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(3).setPreferredWidth(130);
+		tablaContactoCliente.getColumnModel().getColumn(4).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(4).setPreferredWidth(240);
+		tablaContactoCliente.getTableHeader().setReorderingAllowed(false);
 		this.setFilas();
 		
 	}
@@ -179,9 +244,9 @@ public class Adm_Cliente extends JInternalFrame
 		ResultSet result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT razon_social, cuit, cond_iva, direccion,telefono,mail from cliente");
+							"SELECT id_cliente, razon_social, cuit, cond_iva, direccion,telefono,mail, activo from cliente");
 		
-			Integer CantColumnas=6;
+			Integer CantColumnas=8;
 			Object datos[] = new Object[CantColumnas];
 			try 
 			{
@@ -200,12 +265,12 @@ public class Adm_Cliente extends JInternalFrame
 			}
 			
 			
-			CantColumnas=4;
+			CantColumnas=5;
 			Object contactos[] = new Object[CantColumnas];
 			result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT nombre_contacto, telefono_contacto, mail_contacto, direccion_entrega from cliente");
+							"SELECT id_cliente, nombre_contacto, telefono_contacto, mail_contacto, direccion_entrega from cliente");
 			
 			try 
 			{
@@ -222,5 +287,12 @@ public class Adm_Cliente extends JInternalFrame
 			catch (Exception e) 
 			{
 			}
+		}
+	
+		private void Actualizar()
+		{
+			/*tablaDatos.removeAll();
+			tablaContacto.removeAll();
+			setFilas();*/
 		}
 }
