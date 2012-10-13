@@ -8,7 +8,7 @@ public class Cliente {
 
 	private Integer id_cliente;
 	private String razon_social;
-	private BigInteger cuit;
+	private String cuit;
 	private String cond_iva;
 	private String direccion;
 	private String telefono;
@@ -17,12 +17,13 @@ public class Cliente {
 	private String telefono_contacto;
 	private String mail_contacto;
 	private String direccion_entrega;
+	private boolean activo;
 
 	// Se usa para crear objetos a la hora de buscar
-	public Cliente(Integer id_cliente, String razon_social, BigInteger cuit,
+	public Cliente(Integer id_cliente, String razon_social, String cuit,
 			String cond_iva, String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
-			String mail_contacto, String direccion_entrega) {
+			String mail_contacto, String direccion_entrega, boolean activo) {
 		super();
 		this.id_cliente = id_cliente;
 		this.razon_social = razon_social;
@@ -35,14 +36,15 @@ public class Cliente {
 		this.telefono_contacto = telefono_contacto;
 		this.mail_contacto = mail_contacto;
 		this.direccion_entrega = direccion_entrega;
+		this.activo = activo;
 	}
 
 	// Se usa para crear objetos a la hora de insertar.El campo id_cliente es
 	// autonumerico
-	public Cliente(String razon_social, BigInteger cuit, String cond_iva,
+	public Cliente(String razon_social, String cuit, String cond_iva,
 			String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
-			String mail_contacto, String direccion_entrega) {
+			String mail_contacto, String direccion_entrega, boolean activo) {
 		super();
 		this.razon_social = razon_social;
 		this.cuit = cuit;
@@ -54,6 +56,7 @@ public class Cliente {
 		this.telefono_contacto = telefono_contacto;
 		this.mail_contacto = mail_contacto;
 		this.direccion_entrega = direccion_entrega;
+		this.activo = activo;
 	}
 
 	
@@ -123,11 +126,11 @@ public class Cliente {
 		this.razon_social = razon_social;
 	}
 
-	public BigInteger getCuit() {
+	public String getCuit() {
 		return cuit;
 	}
 
-	public void setCuit(BigInteger cuit) {
+	public void setCuit(String cuit) {
 		this.cuit = cuit;
 	}
 
@@ -187,18 +190,31 @@ public class Cliente {
 		this.mail_contacto = mail_contacto;
 	}
 
-	public String getDireccion_entrega() {
+	public String getDireccion_entrega() 
+	{
 		return direccion_entrega;
 	}
 
-	public void setDireccion_entrega(String direccion_entrega) {
+	public void setDireccion_entrega(String direccion_entrega) 
+	{
 		this.direccion_entrega = direccion_entrega;
 	}
 
-	public boolean Alta() {
+	public boolean getActivo()
+	{
+		return this.activo;
+	}
+	
+	public void setActivo(boolean estado)
+	{
+		this.activo = estado;
+	}
+	
+	public boolean Alta()
+	{
 
 		String razon_soc = "'" + this.getRazon_social() + "'";
-		BigInteger cuit = this.getCuit();
+		System.out.println(cuit);
 		String c_iva = "'" + this.getCond_iva() + "'";
 		String direc = "'" + this.getDireccion() + "'";
 		String tel = "'" + this.getTelefono() + "'";
@@ -206,14 +222,18 @@ public class Cliente {
 		String nom_cont = "'" + this.getNombre_contacto() + "'";
 		String tel_cont = "'" + this.getTelefono_contacto() + "'";
 		String mail_contacto = "'" + this.getMail_contacto() + "'";
-		String dir_entrega = "'" + this.direccion_entrega + "'";
+		String dir_entrega = "'" + this.getDireccion_entrega() + "'";
+		boolean clienteActivo = this.getActivo();
 
-		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO cliente VALUES(default,"
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO cliente VALUES(DEFAULT,"
 				+ razon_soc + "," + cuit + "," + c_iva + "," + direc + ","
 				+ tel + "," + email+"," + nom_cont + "," + tel_cont + ","
-				+ mail_contacto + "," + dir_entrega + ");")) {
+				+ mail_contacto + "," + dir_entrega + "," + clienteActivo + ");")) 
+		{
 			return true;
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 
@@ -232,7 +252,7 @@ public class Cliente {
 					Cliente clientes = new Cliente(new Integer(
 							resultado.getInt("id_cliente")),
 							resultado.getString("razon_social"),
-							new BigInteger(resultado.getString("cuit")),
+							resultado.getString("cuit"),
 							resultado.getString("cond_iva"),
 							resultado.getString("direccion"),
 							resultado.getString("telefono"),
@@ -240,7 +260,8 @@ public class Cliente {
 							resultado.getString("nombre_contacto"),
 							resultado.getString("telefono_contacto"),
 							resultado.getString("mail_contacto"),
-							resultado.getString("direccion_entrega"));
+							resultado.getString("direccion_entrega"),
+							resultado.getBoolean("activo"));
 					list_clientes.add(clientes);
 				}
 			} catch (Exception e) {

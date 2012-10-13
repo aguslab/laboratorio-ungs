@@ -28,7 +28,6 @@ import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
-import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
 import java.awt.Font;
@@ -51,10 +50,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JPanel JpSolicitudDeCompra;
 	private JLabel lbNumero;
 	private JLabel lbProveedor,lbNroOT ;
-	private JComboBox<String> cbProveedor ;
+	private JComboBox cbProveedor ;
 	private JLabel txtFechaConfec ;
 	private JLabel lbVendedor;
-	private JComboBox<String> cbMes, cbDia, cbAnio;
+	private JComboBox cbMes, cbDia, cbAnio;
 	private JButton btnBorrar,btnAlmacenar,btnAgregar,btnCerrar,btnConfirmar,btnConfirmarRecepcion,btnRechazarRecepcion,btnIncompleta;
 	private JRadioButton rbManiana,rbTarde,rdbtnRetirar,rdbtnEnviarAProveedor; 
 	private ButtonGroup grupoHorario,grupoCondicionEntrega;
@@ -234,7 +233,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		cbMes.setBounds(117, 19, 82, 25);
 		panCondicionEntrega.add(cbMes);
 		
-		cbDia = new JComboBox<String>();
+		cbDia = new JComboBox();
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbDia.setBounds(200, 19, 61, 25);
 		panCondicionEntrega.add(cbDia);

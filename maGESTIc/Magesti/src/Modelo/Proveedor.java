@@ -8,7 +8,7 @@ public class Proveedor
 {
 	private Integer id_proveedor;
 	private String razon_social;
-	private BigInteger cuit;
+	private String cuit;
 	private String cond_iva;
 	private String direccion;
 	private String telefono;
@@ -20,7 +20,7 @@ public class Proveedor
 	private boolean activo;
 
 	// Se usa para crear objetos a la hora de buscar
-	public Proveedor(Integer id_proveedor, String razon_social, BigInteger cuit,
+	public Proveedor(Integer id_proveedor, String razon_social, String cuit,
 			String cond_iva, String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
 			String mail_contacto, String direccion_retiro, boolean activo) 
@@ -42,7 +42,7 @@ public class Proveedor
 
 	// Se usa para crear objetos a la hora de insertar.El campo id_proveedor es
 	// autonumerico
-	public Proveedor(String razon_social, BigInteger cuit, String cond_iva,
+	public Proveedor(String razon_social, String cuit, String cond_iva,
 			String direccion, String telefono, String mail,
 			String nombre_contacto, String telefono_contacto,
 			String mail_contacto, String direccion_retiro, boolean activo) 
@@ -164,12 +164,12 @@ public class Proveedor
 		this.razon_social = razon_social;
 	}
 
-	public BigInteger getCuit() 
+	public String getCuit() 
 	{
 		return cuit;
 	}
 
-	public void setCuit(BigInteger cuit) 
+	public void setCuit(String cuit) 
 	{
 		this.cuit = cuit;
 	}
@@ -267,7 +267,7 @@ public class Proveedor
 	{
 
 		String razon_soc = "'" + this.getRazon_social() + "'";
-		BigInteger cuit = this.getCuit();
+		String cuit = "'" + this.getCuit()+ "'";
 		String c_iva = "'" + this.getCond_iva() + "'";
 		String direc = "'" + this.getDireccion() + "'";
 		String tel = "'" + this.getTelefono() + "'";
@@ -276,11 +276,12 @@ public class Proveedor
 		String tel_cont = "'" + this.getTelefono_contacto() + "'";
 		String mail_contacto = "'" + this.getMail_contacto() + "'";
 		String dir_retiro = "'" + this.getDireccion_retiro() + "'";
+		boolean activo = this.getActivo();
 
 		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO proveedor VALUES(DEFAULT,"
 				+ razon_soc + "," + cuit + "," + c_iva + "," + direc + ","
 				+ tel + "," + email+"," + nom_cont + "," + tel_cont + ","
-				+ mail_contacto + "," + dir_retiro + ");")) 
+				+ mail_contacto + "," + dir_retiro + "," + activo + ");")) 
 		{
 			return true;
 		} 
@@ -307,7 +308,7 @@ public class Proveedor
 					Proveedor proveedores = new Proveedor(new Integer(
 							resultado.getInt("id_proveedor")),
 							resultado.getString("razon_social"),
-							new BigInteger(resultado.getString("cuit")),
+							resultado.getString("cuit"),
 							resultado.getString("cond_iva"),
 							resultado.getString("direccion"),
 							resultado.getString("telefono"),
