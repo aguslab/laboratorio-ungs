@@ -24,8 +24,13 @@ public class MySQLBD
         try 
         {
             Class.forName("com.mysql.jdbc.Driver");
-            String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=tp_labo&password=laboratorio";
-            //String BaseDeDatos = "jdbc:mysql://localhost/Magesti?user=root&password=magesti2012";
+            String  ip="localhost",
+            		baseDatos="Magesti",
+            		usuario="tp_labo",
+            		pass="laboratorio";
+
+            
+            String BaseDeDatos = "jdbc:mysql://"+ip+"/"+baseDatos+"?user="+usuario+"&password="+pass;
             setConexion(DriverManager.getConnection(BaseDeDatos));
             if(getConexion() != null)
             {

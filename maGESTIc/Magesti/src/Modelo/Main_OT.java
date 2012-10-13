@@ -15,12 +15,35 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
+					
+			Detalle d= new Detalle(1, 123, "saa", 1, 2, 3, 12, 12.3, "KG", 134.12);
+			d.Alta();
+			
+			
+			/*
+			String[] a=Orden_Trabajo.getId_nom_OT();
+			for(int i=0;i<a.length;i++){
+				System.out.println(a[i]);
+			}
+			*/
+			
+			
+			
+			/*//Solicitud de compra
+			Solicitud_compra sc= new Solicitud_compra("2012-10-12", 2, "javier", 1, true, null, "2012-10-13", "M", 13.2, 13.2, 14.1, 165.2);
+			System.out.println(sc.Alta());
+			System.out.println(Solicitud_compra.getUltId_SC());
+			*/			
+			
+			/*
 			ArrayList<Integer> id_mat=Materiales.getID_Materiales(21);
 			for(int i=0;i<id_mat.size();i++){
 				System.out.println("pos:"+i+" "+id_mat.get(i));
 			}
 			
 			System.out.println("hojas");System.out.println();System.out.println();
+			
+			*/
 			
 			/*ArrayList<Integer> hojas=Materiales.getHojas(21);
 			for(int i=0;i<hojas.size();i++){

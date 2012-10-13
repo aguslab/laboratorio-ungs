@@ -140,6 +140,31 @@ public class Detalle {
 	}
 	
 	
+	public boolean Alta() {
+
+		Integer id_solicitud_compra=this.getId_solicitud_compra();
+		Integer cantidad=this.getCantidad();
+		String marca="'"+this.getMarca()+"'";
+		Integer id_calidad=this.getId_calidad();
+		Integer id_formato_papel=this.getId_formato_papel();
+		Integer id_variante=this.getId_variante();
+		Integer gramaje=this.getGramaje();
+		Double precio_unitario=this.getPrecio_unitario();
+		String unidad_medida_del_precio="'"+this.getUnidad_medida_del_precio()+"'";
+		Double importe=this.getImporte();
+
+		if (ConexionDB.getbaseDatos().ejecutar(
+				"INSERT INTO detalle VALUES(default," + id_solicitud_compra + ","
+						+ cantidad+ "," + marca+ "," + id_calidad+ "," + id_formato_papel
+						+ "," +id_variante+ "," + gramaje+ "," + precio_unitario
+						+ "," + unidad_medida_del_precio+ "," + importe+ ");")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
 	
 	
 	

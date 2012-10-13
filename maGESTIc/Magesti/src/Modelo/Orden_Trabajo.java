@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -127,8 +128,7 @@ public class Orden_Trabajo implements Config
 			this.hojas_utilizadas=hojas_utilizadas;
 		}
 		
-		public static Integer getUltOT() 
-		{
+		public static Integer getUltOT(){
 			Integer maxId = null;
 			ResultSet resultado = ConexionDB.getbaseDatos().consultar
 			(
@@ -153,6 +153,31 @@ public class Orden_Trabajo implements Config
 		return maxId + 1;
 	}
 	
+		
+	public static String [] getId_nom_OT(){
+		
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo");
+		String[] id_nom_ot = new String[Orden_Trabajo.getUltOT()-1];
+		if(resultado != null){
+			int i=0;
+			try {
+				while(resultado.next()){
+					
+						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						String nom_ot=resultado.getString("nombre_trabajo");
+						id_nom_ot[i]=id_ot.toString()+"  -  "+nom_ot;
+						i++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return id_nom_ot;
+	}
+		
+		
 	public static String[] getNomColum() 
 	{
 		String columnas[] = 
@@ -350,8 +375,7 @@ public class Orden_Trabajo implements Config
 		// R: una orden de trabajo
 		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
 		// lo contrario.
-		public boolean Alta() 
- {
+		public boolean Alta() {
 
 		String nombre_prod = getNombre_Producto();
 		Integer id_cli = getId_cliente();

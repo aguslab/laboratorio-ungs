@@ -8,6 +8,8 @@ import java.io.StringReader;
 
 import javax.swing.*;
 
+import Modelo.ConexionDB;
+
 import java.util.*;
 import java.text.*;
 
@@ -624,6 +626,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			if (reply == JOptionPane.YES_OPTION) 
 			{
 				setVisible (false);
+				ConexionDB.getbaseDatos().cerrar();
 				dispose();
 				System.out.println ("Gracias por utilizar MAGESTI\n©2012 - De Napoli, Godoy, Jiménez y asociados.");
 				System.exit (0);
