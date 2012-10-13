@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.TextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -141,9 +142,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtVendedor = new JTextField();
 		txtVendedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtVendedor.setBounds(144, 117, 282, 25);
+		
 		JpSolicitudDeCompra.add(txtVendedor);
 		txtVendedor.setColumns(10);
-
+		txtVendedor.getInputMap(txtVendedor.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		
 		//limitar la cantidad de caracteres a 30
 		txtVendedor.addKeyListener(new KeyListener(){
 		public void keyTyped(KeyEvent e){
@@ -154,7 +157,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 				
 		}
-
+		
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
@@ -198,6 +201,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtDireccionRetiro.setBounds(141, 149, 451, 25);
 		panCondicionEntrega.add(txtDireccionRetiro);
 		txtDireccionRetiro.setColumns(10);
+		txtDireccionRetiro.getInputMap(txtVendedor.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		txtDireccionRetiro.addKeyListener(new KeyListener() {
 			
@@ -594,6 +598,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtDescripcionIncidencia = new TextArea();
 		txtDescripcionIncidencia.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtDescripcionIncidencia.setBounds(143, 10, 293, 149);
+		
 		panel.add(txtDescripcionIncidencia);
 		
 		JLabel lbSubtotal = new JLabel("Subtotal:");
