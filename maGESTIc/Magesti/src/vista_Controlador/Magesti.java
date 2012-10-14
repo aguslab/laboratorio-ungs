@@ -81,6 +81,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	private SimpleDateFormat fechaFormateada = new SimpleDateFormat ("dd MMMM yyyy", Locale.getDefault());
 	
 	private String fecha = fechaFormateada.format (fechaActual);
+	private JMenuItem Stock;
 	
 
 	public Magesti() 
@@ -182,7 +183,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		clientes.addActionListener (this);
 		
 		Proveedor = new JMenuItem ("Registro de Proveedores  ", new ImageIcon ("Imagenes/clientes.png"));
-		Proveedor.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		Proveedor.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
 		Proveedor.setMnemonic ((int)'P');
 		Proveedor.addActionListener (this);
 		
@@ -232,6 +233,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		mnuAdministracion.add (clientes);
 		mnuAdministracion.add (Proveedor);
+		
+		Stock = new JMenuItem("Registro de Stock");
+		Stock.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		mnuAdministracion.add(Stock);
 		
 		JMenu mnAdministracionAtributosPapel = new JMenu("Administracion Atributos de Papel");
 		mnuAdministracion.add(mnAdministracionAtributosPapel);
