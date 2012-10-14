@@ -44,11 +44,11 @@ public class Adm_Proveedor extends JInternalFrame
 				dispose();
 			}
 		});
-		button.setBounds(10, d.height-225, 120, 35);
+		button.setBounds(10, d.height-250, 120, 30);
 		getContentPane().add(button);
 		
 		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnConfirmar.setBounds(10, d.height-185, 120, 35);
+		btnConfirmar.setBounds(10, d.height-210, 120, 30);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -59,7 +59,7 @@ public class Adm_Proveedor extends JInternalFrame
 		getContentPane().add(btnConfirmar);
 		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
-		btnAgregar.setBounds(10, d.height-305, 120, 35);
+		btnAgregar.setBounds(10, d.height-290, 120, 30);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -74,7 +74,7 @@ public class Adm_Proveedor extends JInternalFrame
 		getContentPane().add(btnAgregar);
 		
 		JButton btnBorrar = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
-		btnBorrar.setBounds(10, d.height-265, 120, 35);
+		btnBorrar.setBounds(10, d.height-330, 120, 30);
 		btnBorrar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -93,11 +93,11 @@ public class Adm_Proveedor extends JInternalFrame
 				}
 			}
 		});
-		btnBorrar.setBounds(10, d.height-265, 120, 35);
+		//btnBorrar.setBounds(10, d.height-290, 120, 30);
 		getContentPane().add(btnBorrar);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-		tabbedPane.setBounds(10, 11, d.width-40, d.height-165);
+		tabbedPane.setBounds(10, 11, d.width-30, d.height-190);
 		getContentPane().add(tabbedPane);
 		
 		JPanel panDatos = new JPanel();
@@ -109,14 +109,15 @@ public class Adm_Proveedor extends JInternalFrame
 				(0, 0, 0)
 			)
 		);
-		tabbedPane.addTab("Datos                      ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
+		tabbedPane.addTab("Datos                         ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
 		panDatos.setLayout(null);
 		
 		JScrollPane spDatos = new JScrollPane();
-		spDatos.setBounds(0, 0, d.width-210, d.height-165);
+		spDatos.setBounds(0, 0, d.width-193, d.height-190);
 		panDatos.add(spDatos);
 		
 		tablaDatos = new JTable();
+		spDatos.setViewportView(tablaDatos);
 		tablaDatos.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -156,11 +157,11 @@ public class Adm_Proveedor extends JInternalFrame
 				new Color(0, 0, 0)
 			)
 		);
-		tabbedPane.addTab("Contacto                      ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
+		tabbedPane.addTab("Contacto                   ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
 		panContacto.setLayout(null);
 		
 		JScrollPane spContacto = new JScrollPane();
-		spContacto.setBounds(0, 0, d.width-210, d.height-165);
+		spContacto.setBounds(0, 0, d.width-193, d.height-190);
 		panContacto.add(spContacto);
 		
 		tablaContacto = new JTable();
