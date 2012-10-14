@@ -231,7 +231,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
 				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
-				
+				nuevaOT.getTablaOrdenEjecucion().setAutoResizeMode(1);
 				
 				///////////////////////
 				
