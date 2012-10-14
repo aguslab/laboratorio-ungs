@@ -743,7 +743,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		Double total=pasarADouble(txtTotal.getText());
 		
 		//dar de alta SC
-		Solicitud_compra sc= new Solicitud_compra(fechaConfeccion, id_proveedor, vendedor, id_OT, envia_proveedor, direccionRetiro, fechaEntrega, horEntrega, subtotal, porcentaje_iva, monto_iva, total);
+		Solicitud_compra sc = new Solicitud_compra(fechaConfeccion, id_proveedor, vendedor, id_OT, envia_proveedor, direccionRetiro, fechaEntrega, horEntrega, subtotal, porcentaje_iva, monto_iva, total);
 		sc.Alta();
 
 		//cargar datos en detalles para esa SC
