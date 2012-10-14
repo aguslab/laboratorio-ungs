@@ -4,7 +4,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -19,10 +18,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
 import Modelo.Calidad;
 import Modelo.Detalle;
@@ -199,6 +196,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		panCondicionEntrega.add(lbDireccionRetiro);
 		
 		txtDireccionRetiro = new JTextField();
+		txtDireccionRetiro.setEnabled(false);
 		txtDireccionRetiro.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtDireccionRetiro.setBounds(141, 149, 731, 25);
 		panCondicionEntrega.add(txtDireccionRetiro);
@@ -269,13 +267,13 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		grupoHorario = new ButtonGroup();
 		rbManiana = new JRadioButton("Ma\u00F1ana");
 		rbManiana.setFont(new Font("Arial", Font.PLAIN, 12));
-		rbManiana.setBounds(27, 27, 72, 23);
+		rbManiana.setBounds(32, 27, 72, 23);
 		grupoHorario.add(rbManiana);
 		pHorarioEntrega.add(rbManiana);
 		
 		rbTarde = new JRadioButton("Tarde");
 		rbTarde.setFont(new Font("Arial", Font.PLAIN, 12));
-		rbTarde.setBounds(137, 27, 72, 23);
+		rbTarde.setBounds(124, 27, 72, 23);
 		grupoHorario.add(rbTarde);
 		pHorarioEntrega.add(rbTarde);
 		
@@ -295,7 +293,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				txtDireccionRetiro.setEnabled(true);
 			}
 		});
-		rdbtnRetirar.setBounds(16, 27, 109, 23);
+		rdbtnRetirar.setBounds(28, 27, 72, 23);
 		grupoCondicionEntrega.add(rdbtnRetirar);
 		pCondicionEntrega.add(rdbtnRetirar);
 		
@@ -308,7 +306,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				txtDireccionRetiro.setEnabled(false);
 			}
 		});
-		rdbtnEnviarAProveedor.setBounds(127, 27, 143, 23);
+		rdbtnEnviarAProveedor.setBounds(110, 27, 143, 23);
 		grupoCondicionEntrega.add(rdbtnEnviarAProveedor);
 		pCondicionEntrega.add(rdbtnEnviarAProveedor);
 		
@@ -482,7 +480,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		panDetalles.add(btnAgregar);
 		
 		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
-		btnAlmacenar.setBounds(270, 178, 120, 30);
+		btnAlmacenar.setBounds(760, 178, 120, 30);
 		panDetalles.add(btnAlmacenar);
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
