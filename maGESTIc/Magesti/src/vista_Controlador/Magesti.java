@@ -235,8 +235,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mnuAdministracion.add (Proveedor);
 		
 		Stock = new JMenuItem("Registro de Stock");
+		Stock.setIcon(new ImageIcon("C:\\Documents and Settings\\Agustina\\Escritorio\\Magesti\\maGESTIc\\Magesti\\Imagenes\\clientes.png"));
 		Stock.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnuAdministracion.add(Stock);
+		Stock.addActionListener (this);
 		
 		JMenu mnAdministracionAtributosPapel = new JMenu("Administracion Atributos de Papel");
 		mnuAdministracion.add(mnAdministracionAtributosPapel);
@@ -573,7 +575,24 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			}
 		}
 		
-		
+		else if (obj == Stock)
+		{
+			boolean b = openChildWindow ("Registro de Stock");
+			if (b == false) 
+			{
+				Adm_Stock admStock= new Adm_Stock();
+				escritorio.add (admStock);
+				try 
+				{
+					admStock.setMaximum(true);
+				} 
+				catch (PropertyVetoException e) 
+				{
+					e.printStackTrace();
+				}
+				admStock.show ();
+			}
+		}
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{
