@@ -1099,6 +1099,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
+				else if(!procesosOk()){
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Debe seleccionar al menos un proceso en la seccion Orden de Ejecucuión",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
 				else if(estado.equals("EN PROCESO")
 						|| estado.equals("CERRADO")){
 						if(estado.equals("EN PROCESO")){
@@ -1280,7 +1289,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		chbApaisado.setSelected(false);
 	}
 	
-	
+	public boolean procesosOk(){
+		Integer cantFilas=tablaOrdenDeEjecucion.getRowCount();
+		
+		return cantFilas>0;
+	}
 	
 	public boolean materialesOk(){
 		

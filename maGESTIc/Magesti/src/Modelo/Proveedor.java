@@ -70,7 +70,7 @@ public class Proveedor
 		ArrayList<String> pros = new ArrayList<String>();
 
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT razon_social FROM proveedor");
+				"SELECT razon_social FROM proveedor where activo = true");
 
 		if (resultado != null) {
 			try {
