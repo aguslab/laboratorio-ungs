@@ -1,5 +1,8 @@
 package Modelo;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class Detalle {
 	private Integer id_detalle;
 	private Integer id_solicitud_compra;
@@ -163,6 +166,233 @@ public class Detalle {
 			return false;
 		}
 
+	}
+
+	public static Integer cantidadFilas(Integer id_SC) {
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM detalle WHERE id_solicitud_compra=" + id_SC);
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	
+		return cantidad;
+	}
+
+	public static ArrayList<Integer> cantidadDeDetalle(Integer id_SC) {
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT cantidad FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					valores.add(resultado.getInt("cantidad"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return valores;
+	}
+
+	public static ArrayList<String> marcaDeDetalle(Integer id_SC) {
+		
+		ArrayList<String> marcas = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT marca FROM detalle WHERE id_solicitud_compra="+ id_SC);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					marcas.add(resultado.getString("marca"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return marcas;
+	}
+
+	public static ArrayList<Integer> calidadDeDetalle(Integer id_SC) {
+		
+		ArrayList<Integer> calidades = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT id_calidad FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					calidades.add(resultado.getInt("id_calidad"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return calidades;
+	}
+
+	public static ArrayList<Integer> formato_papel_DeDetalle(Integer id_SC) {
+		
+		ArrayList<Integer> formatos = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT id_formato_papel FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					formatos.add(resultado.getInt("id_formato_papel"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return formatos;
+	}
+
+	public static ArrayList<Integer> varianteDeDetalle(Integer id_SC) {
+		ArrayList<Integer> variantes = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT id_variante FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					variantes.add(resultado.getInt("id_variante"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return variantes;
+	}
+
+	public static ArrayList<Integer> gramajeDeDetalle(Integer id_SC) {
+		
+		ArrayList<Integer> gramajes = new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT gramaje FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					gramajes.add(resultado.getInt("gramaje"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return gramajes;
+	}
+
+	public static ArrayList<Double> precioUnitarioDeDetalle(Integer id_SC) {
+		ArrayList<Double> precios_unitario = new ArrayList<Double>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT precio_unitario FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					precios_unitario .add(resultado.getDouble("precio_unitario"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return precios_unitario;
+	}
+
+	public static ArrayList<String> unidadMedidaDeDetalle(Integer id_SC) {
+		
+		ArrayList<String> unidad_medidas = new ArrayList<String>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT unidad_medida_del_precio FROM detalle WHERE id_solicitud_compra="+ id_SC);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					unidad_medidas.add(resultado.getString("unidad_medida_del_precio"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return unidad_medidas;
+	}
+
+	public static ArrayList<Double> importeDeDetalle(Integer id_SC) {
+		ArrayList<Double> importes = new ArrayList<Double>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT importe FROM detalle WHERE id_solicitud_compra ="+ id_SC);
+	
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					importes .add(resultado.getDouble("importe"));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return importes;
 	}
 	
 	

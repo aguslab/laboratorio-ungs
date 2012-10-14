@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Modelo.Calidad;
 import Modelo.ConexionDB;
+import Modelo.Detalle;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
@@ -37,10 +38,9 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 	private JScrollPane jspTabla;
 	private JTable tablaBusqueda;
 	
-	TablaDeBusqueda_SC(String titulo,boolean top5) 
+	TablaDeBusqueda_SC(String titulo) 
 	{
 		super (titulo, true, true, true, true);
-		boolean top5SC = top5;
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusqueda);
@@ -68,8 +68,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				
-				nuevaSC.getTxtNumero().setText(Orden_Trabajo.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
+				Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
+				nuevaSC.getTxtNumero().setText(Orden_Trabajo.EnteroAFactura(id_SC));
 				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
 				
 				nuevaSC.getCbProveedor().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2));
@@ -122,183 +122,48 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getTxtMontoIVA().setText(SolicitudDeCompra.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
 				nuevaSC.getTxtTotal().setText(SolicitudDeCompra.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 12).toString()));
 				
+				
+				
 				/*
-				nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
+				 *	Muestra los datos de la tabla Elemento 
+				 */
 				
-				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
-				nuevaOT.getTipoProducto().setEditable(false);
+								
+				ArrayList<Integer> cantidad = Detalle.cantidadDeDetalle(id_SC);
+				ArrayList<String> marca = Detalle.marcaDeDetalle(id_SC);
+				ArrayList<Integer> id_Calidad = Detalle.calidadDeDetalle(id_SC);
+				ArrayList<Integer> id_formato_Papel = Detalle.formato_papel_DeDetalle(id_SC);
+				ArrayList<Integer> id_Variante = Detalle.varianteDeDetalle(id_SC);
+				ArrayList<Integer> gramaje = Detalle.gramajeDeDetalle(id_SC);
+				ArrayList<Double> precio_Unitario= Detalle.precioUnitarioDeDetalle(id_SC);
+				ArrayList<String> unidad_medida= Detalle.unidadMedidaDeDetalle(id_SC);
+				ArrayList<Double> importe= Detalle.importeDeDetalle(id_SC);
 				
-				nuevaOT.getCboMes().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
-				nuevaOT.getCboMes().setEnabled(false);
 				
-				nuevaOT.getCboDia().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
-				nuevaOT.getCboDia().setEnabled(false);
-				
-				nuevaOT.getCboAnio().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 0));
-				nuevaOT.getCboAnio().setEnabled(false);
-				
-				nuevaOT.getCboMes2().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 1)));
-				nuevaOT.getCboMes2().setEnabled(false);
-				
-				nuevaOT.getCboDia2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 2));
-				nuevaOT.getCboDia2().setEnabled(false);
-				
-				nuevaOT.getCboAnio2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 0));
-				nuevaOT.getCboAnio2().setEnabled(false);
-				
-				nuevaOT.getTxtNombreOT().setText((String) tablaBusqueda.getValueAt(filaElegida, 5));
-				nuevaOT.getTxtNombreOT().setEditable(false);
-				
-				nuevaOT.getTxtDescripcion().setText((String) tablaBusqueda.getValueAt(filaElegida, 6));
-				nuevaOT.getTxtDescripcion().setEditable(false);
-				
-				nuevaOT.getTxtCantidadAEntregar().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 7)));
-				nuevaOT.getTxtCantidadAEntregar().setEditable(false);
-				
-				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
-				nuevaOT.getTxtPreimpresion().setEditable(false);
-				
-				nuevaOT.getTxtAncho().setText(tablaBusqueda.getValueAt(filaElegida, 9).toString());
-				nuevaOT.getTxtAncho().setEditable(false);
-				
-				nuevaOT.getTxtAlto().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString());
-				nuevaOT.getTxtAlto().setEditable(false);
-				
-				//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
-				nuevaOT.getChbApaisado().getModel().setSelected(Modelo.Orden_Trabajo.esApaisadaB(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
-				nuevaOT.getChbApaisado().setEnabled(false);
-				
-				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
-				
-				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
-				nuevaOT.getCliente().setEnabled(false);
-				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
-				
-				//permitir ingresar solo numeros en hojas utilizadas
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() {
-					
-					@Override
-					public void keyTyped(KeyEvent ke) {
-						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-					public void keyReleased(KeyEvent arg0) {}
-					public void keyPressed(KeyEvent arg0) {}
-				});
-				
-				//Muestra los datos de la tabla Elemento
-				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
-				Integer cantFilas = Elemento.cantidadFilas(id_OT);
-				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
-				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
-				nuevaOT.getTablaElementos().setEnabled(false);
+				DefaultTableModel temp = (DefaultTableModel) nuevaSC.getTablaDetalles().getModel();
 				Object nuevaFilaElemento[]= {"",""};
+				
+				Integer cantFilas = Detalle.cantidadFilas(id_SC);
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					temp.addRow(nuevaFilaElemento);
-					temp.setValueAt(elemento.get(i), i, 0);
-					temp.setValueAt(cantidad.get(i), i, 1);	
+					temp.setValueAt(cantidad.get(i), i, 0);
+					temp.setValueAt(marca.get(i), i, 1);
+					temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
+					temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 3);	
+					temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 4);
+					temp.setValueAt(gramaje.get(i), i, 5);
+					temp.setValueAt(precio_Unitario.get(i), i, 6);
+					temp.setValueAt(unidad_medida.get(i), i, 7);
+					temp.setValueAt(importe.get(i), i, 8);
+					
 				}
-				nuevaOT.getBtnAgregarFila().setEnabled(false);
-				nuevaOT.getBtnBorrarFila().setEnabled(false);
-				nuevaOT.getBtnAlmacenar().setEnabled(false);
+				nuevaSC.getBtnAgregar().setEnabled(false);
+				nuevaSC.getBtnBorrar().setEnabled(false);
+				nuevaSC.getBtnAlmacenar().setEnabled(false);
 				
-				nuevaOT.getTablaElementos().setEnabled(false);
-				
-				//Muestra los datos de la tabla Materiales
-				
-				ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
-				ArrayList<Integer> poses_x_pliego = Materiales.getPoses_x_pliego(id_OT);
-				ArrayList<Integer> pliegos_netos = Materiales.getPliegos_netos(id_OT);
-				ArrayList<Integer> pliegos_en_demasia = Materiales.getPliegos_en_demasia(id_OT);
-				ArrayList<Integer> hojas = Materiales.getHojas(id_OT);
-				ArrayList<Integer> id_calidad = Materiales.getID_Calidad(id_OT);
-				ArrayList<Integer> id_variante = Materiales.getID_Variante(id_OT);
-				ArrayList<Integer> id_formato_papel = Materiales.getId_formato_papel(id_OT);
-				ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_Hojas(id_OT);
-				
-				
-				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
-				Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
-				cantFilas=Materiales.getID_Materiales(id_OT).size();
-				for (int i = 0; i < cantFilas; i++) 
-				{
-					tempMat.addRow(nuevaFilaMateriales);
-					tempMat.setValueAt(elemento.get(i), i, 0);
-					tempMat.setValueAt(cantidad.get(i), i, 1);	
-					tempMat.setValueAt(gramaje.get(i), i, 2);	
-					tempMat.setValueAt((Formato_Papel.getTamanio(id_formato_papel.get(i))), i, 3);	
-					tempMat.setValueAt(Variante.getNombre(id_variante.get(i)), i, 4);	
-					tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)), i, 5);	
-
-					tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);	
-					tempMat.setValueAt(poses_x_pliego.get(i), i, 7);	
-					tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
-					tempMat.setValueAt(hojas.get(i), i, 9);	
-					tempMat.setValueAt(pliegos_netos.get(i), i, 10);
-				}
-				nuevaOT.getTablaMateriales().setEnabled(false);
-				
-				
-				//Muestra los datos de la tabla Orden de ejecucion
-				
-				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
-				ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
-				ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
-				ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
-				ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
-				ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
-				
-				//permite que la columna cumplida sea editable
-				nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel(new Object[][] {},
-						new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
-					{
-						Class[] columnTypes = new Class[] 
-						{
-							String.class, Boolean.class, String.class, String.class, Boolean.class
-						};
-						public Class getColumnClass(int columnIndex) 
-						{
-							return columnTypes[columnIndex];
-						}
-						boolean[] columnEditables = new boolean[] 
-						{
-							false, false,false, false, true
-						};
-						public boolean isCellEditable(int row, int column) 
-						{
-							return columnEditables[column];
-						}
-					});
-				
-				
-				DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
-
-				Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
-
-				for (int i = 0; i < cantFilas; i++) 
-				{
-					tempOE.addRow(nuevaFilaOrdenEjecucion);
-					tempOE.setValueAt(procesos.get(i), i, 0);
-					tempOE.setValueAt(tercerizadas.get(i), i, 1);	
-					tempOE.setValueAt(Proveedor.getRazonSocial(proveedor.get(i)), i, 2);	
-					tempOE.setValueAt(observaciones.get(i), i, 3);	
-					tempOE.setValueAt(cumplida.get(i), i, 4);	
-				}
-				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
-				
-				*/
-				///////////////////////
-				
-				///////////////////////
-				
-				
-				
+				nuevaSC.getTablaDetalles().setEnabled(false);
+								
 			}
 		});
 		
@@ -306,7 +171,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		
 		getContentPane().add (jpMostrar);
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
-		setFilas(top5);
+		setFilas();
 		tablaBusqueda.setModel(dtmMagesti);
 		jspTabla.add(tablaBusqueda);
 		jspTabla.setViewportView(tablaBusqueda);
@@ -315,7 +180,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 
-			setFilas(top5);
+			setFilas();
 
 			tablaBusqueda.setModel(dtmMagesti);
 			jspTabla.add(tablaBusqueda);
@@ -336,7 +201,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 
 		
 		
-		private void setFilas(boolean top5) 
+		private void setFilas() 
 		 {
 			Calendar fecha= Calendar.getInstance();
 			Integer mm=fecha.get(Calendar.MONTH)+1;
@@ -344,18 +209,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			Integer aaaa=fecha.get(Calendar.YEAR);	
 			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
 			
-			ResultSet result;
-			if(top5){
-				result = ConexionDB
-						.getbaseDatos()
-						.consultar(
-								"select * from orden_trabajo where f_prometida>"+fechaHoy+"order by f_prometida limit 0,5;");	
-		} else {
-			result = ConexionDB
-					.getbaseDatos()
-					.consultar(
-							"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor order by id_solicitud_compra");
-		}
+			ResultSet result=ConexionDB.getbaseDatos().consultar(
+			"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor order by id_solicitud_compra");
 						
 			
 				Integer CantColumnas=13;
