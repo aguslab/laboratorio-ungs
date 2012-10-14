@@ -134,7 +134,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{	
 		super ("Orden de Trabajo (OT)", false, true, false, true);
 		
-		setSize (928, 600);
+		setSize (928, 587);
 		
 		jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 
@@ -347,7 +347,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		tabSecciones = new JTabbedPane();
-		tabSecciones.setBounds(10, 228, 895, 280);
+		tabSecciones.setBounds(10, 228, 895, 275);
 
 		txtCantidadAEntregar.addKeyListener 
 		(
@@ -476,15 +476,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 				
 		btnLimpiarOT = new JButton("Limpiar", new ImageIcon ("Imagenes/limpiar.png"));
-		btnLimpiarOT.setBounds(10, 519, 121, 35);
+		btnLimpiarOT.setBounds(10, 514, 121, 30);
 		btnLimpiarOT.addActionListener (this);
 					
 		btnGuardar = new JButton ("Confirmar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnGuardar.setBounds(655, 519, 120, 35);
+		btnGuardar.setBounds(655, 514, 120, 30);
 		btnGuardar.addActionListener (this);
 		
 		btnCancelar = new JButton ("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
-		btnCancelar.setBounds(785, 519, 120, 35);
+		btnCancelar.setBounds(785, 514, 120, 30);
 		btnCancelar.addActionListener (this);
 		
 		jpOrdenDeTrabajo.setLayout(null);
@@ -584,7 +584,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				temp.addRow(nuevo);
 			}
 		});
-		btnAgregarFila.setBounds(10, 206,120, 35);
+		btnAgregarFila.setBounds(10, 206,120, 30);
 		panElementos.add(btnAgregarFila);
 		
 		btnBorrarFila = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
@@ -605,7 +605,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		});
-		btnBorrarFila .setBounds(140, 206,120,35);
+		btnBorrarFila .setBounds(140, 206,120,30);
 		panElementos.add(btnBorrarFila);
 		
 		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
@@ -663,7 +663,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		});
 		
-		btnAlmacenar.setBounds(760, 206,120, 35);
+		btnAlmacenar.setBounds(760, 206,120, 30);
 		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
 		tabSecciones.setDisabledIconAt(0, null);
@@ -683,7 +683,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		spMateriales = new JScrollPane();
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		spMateriales.setBounds(10, 11, 870, 228);
+		spMateriales.setBounds(10, 11, 870, 192);
 		panMateriales.add(spMateriales);
 		
 		tablaMateriales = new JTable();
@@ -866,7 +866,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		});
 		
 		spOrdenEjecucion = new JScrollPane();
-		spOrdenEjecucion.setBounds(268, 12, 612, 229);
+		spOrdenEjecucion.setBounds(268, 12, 612, 224);
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
 		tablaOrdenDeEjecucion = new JTable();
@@ -927,7 +927,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
-		btnConfirmarSeleccion.setBounds(10, 206, 120, 35);
+		btnConfirmarSeleccion.setBounds(10, 206, 120, 30);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
