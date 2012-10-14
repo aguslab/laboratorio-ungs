@@ -449,7 +449,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			boolean b = openChildWindow ("Buscador");
 			if (b == false) 
 			{
-				TablaDeBusqueda_SC tablaB = new TablaDeBusqueda_SC("Consultar Solicitud de Compra",false);
+				TablaDeBusqueda_SC tablaB = new TablaDeBusqueda_SC("Consultar Solicitud de Compra");
 				escritorio.add (tablaB);
 				tablaB.show ();
 				try {
