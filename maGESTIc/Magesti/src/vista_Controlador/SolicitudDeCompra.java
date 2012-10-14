@@ -156,6 +156,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		}
 		
 		
+		
+		
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
@@ -168,6 +170,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			
 		}
 		});
+		
 		
 		lbNroOT = new JLabel("<html>N\u00B0 Orden<br> de Trabajo:</html>");
 		lbNroOT.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -270,7 +273,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		rbManiana.setBounds(32, 27, 72, 23);
 		grupoHorario.add(rbManiana);
 		pHorarioEntrega.add(rbManiana);
-		
+		rbManiana.setSelected(true);
 		rbTarde = new JRadioButton("Tarde");
 		rbTarde.setFont(new Font("Arial", Font.PLAIN, 12));
 		rbTarde.setBounds(124, 27, 72, 23);
@@ -285,6 +288,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		
 		grupoCondicionEntrega = new ButtonGroup();
 		rdbtnRetirar = new JRadioButton("Retirar");
+		
 		rdbtnRetirar.setFont(new Font("Arial", Font.PLAIN, 12));
 		rdbtnRetirar.addActionListener(new ActionListener() 
 		{
@@ -309,7 +313,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		rdbtnEnviarAProveedor.setBounds(110, 27, 143, 23);
 		grupoCondicionEntrega.add(rdbtnEnviarAProveedor);
 		pCondicionEntrega.add(rdbtnEnviarAProveedor);
-		
+		rdbtnEnviarAProveedor.setSelected(true);
 		JPanel panDetalles = new JPanel();
 		panDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		Secciones.addTab("Detalles", null, panDetalles, null);
@@ -645,8 +649,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		int clave = Orden_Trabajo.FacturaAEntero(txtNumero.getText());
 		Object obj = e.getSource();
 		if(obj==btnConfirmar){
+			String sVendedor = txtVendedor.getText().trim();
+			String sDirRetiro = txtDireccionRetiro.getText().trim();
 			//faltaria verificar que no sean solo espacios el nombre del vendedor
-			if(txtVendedor.getText()==null || txtVendedor.getText().equals("")){
+			if(txtVendedor.getText()==null || txtVendedor.getText().equals("") || sVendedor.length() == 0){
 				JOptionPane.showMessageDialog 
 				(
 					this, 
@@ -697,7 +703,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			else {// ////////////////////////
 				if (rdbtnRetirar.isSelected()) {
 					if (txtDireccionRetiro.getText() == null
-							|| txtDireccionRetiro.getText().equals("")) {
+							|| txtDireccionRetiro.getText().equals("") || sDirRetiro.length() == 0) {
 						JOptionPane.showMessageDialog(this,
 								"Debe especificar la dirección de retiro",
 								qTITULO + " - Campo vacío",
