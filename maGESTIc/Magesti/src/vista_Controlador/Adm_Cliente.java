@@ -45,11 +45,11 @@ public class Adm_Cliente extends JInternalFrame
 				dispose();
 			}
 		});
-		button.setBounds(10, d.height-225, 120, 35);
+		button.setBounds(10, d.height-250, 120, 30);
 		getContentPane().add(button);
 		
 		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnConfirmar.setBounds(10, d.height-185, 120, 35);
+		btnConfirmar.setBounds(10, d.height-210, 120, 30);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -95,7 +95,7 @@ public class Adm_Cliente extends JInternalFrame
 		getContentPane().add(btnConfirmar);
 		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
-		btnAgregar.setBounds(10, d.height-265, 120, 35);
+		btnAgregar.setBounds(10, d.height-290, 120, 30);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -115,7 +115,7 @@ public class Adm_Cliente extends JInternalFrame
 		
 		//
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-		tabbedPane.setBounds(10, 11, d.width-40, d.height-165);
+		tabbedPane.setBounds(10, 11, d.width-30, d.height-190);
 
 		getContentPane().add(tabbedPane);
 		// DATOS
@@ -134,7 +134,7 @@ public class Adm_Cliente extends JInternalFrame
 
 		JScrollPane spDatosCliente = new JScrollPane();
 		spDatosCliente.setViewportBorder(null);
-		spDatosCliente.setBounds(0, 0, d.width-210, d.height-165);
+		spDatosCliente.setBounds(0, 0, d.width-193, d.height-190);
 		panelDatos.add(spDatosCliente);
 		
 		tablaDatosCliente = new JTable();
@@ -195,7 +195,7 @@ public class Adm_Cliente extends JInternalFrame
 		tabbedPane.addTab("Contacto                   ",  new ImageIcon ("Imagenes/contacto.png"), panelContacto, null);
 			
 		JScrollPane spClienteContacto = new JScrollPane();
-		spClienteContacto.setBounds(0, 0, d.width-210, d.height-165);
+		spClienteContacto.setBounds(0, 0, d.width-193, d.height-190);
 		panelContacto.add(spClienteContacto);
 		
 		tablaContactoCliente = new JTable();
