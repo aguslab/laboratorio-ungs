@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
@@ -88,6 +89,7 @@ public class Adm_Cliente extends JInternalFrame
 								+ ",activo = " + activo + " WHERE id_cliente =" + Integer.parseInt(Nro_Cliente));
 					}
 				}
+				JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
 				Actualizar();
 			}
 		}
