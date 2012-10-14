@@ -29,6 +29,7 @@ import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
+import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
 import java.awt.Font;

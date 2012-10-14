@@ -67,7 +67,7 @@ public class Cliente {
 		ArrayList<String> clien=new ArrayList<String>();
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT razon_social FROM cliente");
+				"SELECT razon_social FROM cliente where activo = true");
 		
 		if (resultado != null) {
 			try {

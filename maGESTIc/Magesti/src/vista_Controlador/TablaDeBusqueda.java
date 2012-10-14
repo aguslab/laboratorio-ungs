@@ -200,6 +200,7 @@ public class TablaDeBusqueda extends JInternalFrame
 						}
 					});
 				
+				
 				DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
 
 				Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
@@ -213,23 +214,13 @@ public class TablaDeBusqueda extends JInternalFrame
 					tempOE.setValueAt(observaciones.get(i), i, 3);	
 					tempOE.setValueAt(cumplida.get(i), i, 4);	
 				}
-				nuevaOT.getTablaOrdenEjecucion().setEnabled(false);
 				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
 				
 				
 				///////////////////////
 				
 				///////////////////////
-				nuevaOT.getBtnGuardar().addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						System.out.println(nuevaOT.getEstado().getSelectedItem().toString());
-						
-						
-					}
-				});
+				
 				
 				
 			}
