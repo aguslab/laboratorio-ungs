@@ -900,6 +900,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaOrdenDeEjecucion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaOrdenDeEjecucion.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tablaOrdenDeEjecucion.setBounds(268, 12, 612, 224);
 		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		btnConfirmarSeleccion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
@@ -927,7 +928,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
-		btnConfirmarSeleccion.setBounds(10, 206, 120, 30);
+		btnConfirmarSeleccion.setBounds(67, 206, 120, 30);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
