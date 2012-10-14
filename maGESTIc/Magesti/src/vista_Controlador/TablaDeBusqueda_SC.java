@@ -12,11 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import Modelo.Calidad;
 import Modelo.ConexionDB;
 import Modelo.Detalle;
-import Modelo.Elemento;
 import Modelo.Formato_Papel;
-import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
-import Modelo.Proveedor;
 import Modelo.Solicitud_compra;
 import Modelo.Variante;
 

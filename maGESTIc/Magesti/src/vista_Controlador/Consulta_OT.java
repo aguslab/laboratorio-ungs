@@ -11,10 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import Modelo.ConexionDB;
 import Modelo.Orden_Trabajo;
 
-/**
- * 
- * @author beastieux
- */
 public class Consulta_OT extends JFrame 
 {
 
