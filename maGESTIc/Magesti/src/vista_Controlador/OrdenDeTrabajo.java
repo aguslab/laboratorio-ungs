@@ -3,13 +3,11 @@ package vista_Controlador;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import javax.swing.event.ChangeEvent;
@@ -433,7 +431,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(840, 11, 65, 25);
 		
-		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
+		//cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
 		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
@@ -453,7 +451,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		
 		cboMes2 = new JComboBox (Meses);
-		//cboMes2 = new JComboBox<String> ();
 		
 		cboMes2.setBounds(85, 54, 97, 25);
 		
@@ -834,7 +831,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		JPanel panOrdenEjecucion = new JPanel();
 		panOrdenEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
-		//panOrdenEjecucion.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panOrdenEjecucion.setLayout(null);
         
 		tabSecciones.addTab
@@ -856,7 +852,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		final JList listaProcesos = new JList();
 		spListaDeProcesos.setViewportView(listaProcesos);
 		listaProcesos.setModel(new AbstractListModel() {
-			String[] values = new String[] {"CTP", "Pel\u00EDculas", "Copia de chapas", "Corte inicial", "Impresi\u00F3n", "Barniz", "Laminado", "Trazado", "Puntillado", "Medio corte", "Troquelado", "Doblado", "Intercalado", "Emblocado", "Agujereado", "Abrochado", "Encuadernaci\u00F3n", "Confecci\u00F3n de sobres", "Corte final", "Empaque"};
+			String[] values = new String[] {};
 			public int getSize() {
 				return values.length;
 			}
@@ -864,6 +860,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return values[index];
 			}
 		});
+		
+		String proveedores[] = Proceso.getProcesos();
+		DefaultListModel modeloList = new DefaultListModel();
+		for(int i = 0; i < proveedores.length; i ++)
+		{
+			modeloList.addElement(proveedores[i]);
+		}
+		listaProcesos.setModel(modeloList);
 		
 		spOrdenEjecucion = new JScrollPane();
 		spOrdenEjecucion.setBounds(268, 12, 612, 224);

@@ -121,4 +121,34 @@ public class Proceso
 		return list_Proc;
 	}
 
+	public static  String[] getProcesos()
+	{
+		ArrayList<String> pros = new ArrayList<String>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					pros.add(resultado.getString("nombre"));
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		String [] procesos= new String[pros.size()];
+		
+		for(int i=0;i<pros.size();i++)
+		{
+			procesos[i]=pros.get(i);
+		}
+		
+		return procesos;
+	}
 }
