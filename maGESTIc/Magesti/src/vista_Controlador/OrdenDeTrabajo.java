@@ -984,7 +984,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					while (sqlOT.next()) 
 					{
 						String sqlEstado = sqlOT.getString("estado");
-						System.out.println(sqlEstado);
 						// Si esta "pendiente" y se cambia el estado a otro distinto de "pendiente"
 						if (sqlEstado.equalsIgnoreCase("pendiente") && cboEstado_1.getSelectedItem().toString().equalsIgnoreCase("pendiente"))
 						{
@@ -1119,7 +1118,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
 						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
 							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-							System.out.println(Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n));
 						}
 						obj = btnCancelar;
 				}
@@ -1309,13 +1307,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return ok;
 	}
 	
-	public ArrayList<Integer> getId_procesosTablaActual(){
-		ArrayList<Integer> idproc= new ArrayList<Integer>();
-		for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) 
-		{
-			Integer id_Proceso = Proceso.getIdProceso((String) tablaOrdenDeEjecucion.getValueAt(i, 0));
+	public ArrayList<Integer> getId_procesosTablaActual() {
+		ArrayList<Integer> idproc = new ArrayList<Integer>();
+		for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) {
+			Integer id_Proceso = Proceso
+					.getIdProceso((String) tablaOrdenDeEjecucion.getValueAt(i,
+							0));
 			idproc.add(id_Proceso);
-			System.out.println("proc"+id_Proceso);
 		}
 		return idproc;
 	}

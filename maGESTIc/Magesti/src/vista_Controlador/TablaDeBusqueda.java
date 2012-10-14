@@ -23,6 +23,8 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -113,6 +115,22 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
 				nuevaOT.getCliente().setEnabled(false);
 				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
+				
+				//permitir ingresar solo numeros en hojas utilizadas
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() {
+					
+					@Override
+					public void keyTyped(KeyEvent ke) {
+						char c = ke.getKeyChar ();
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
+						{
+							getToolkit().beep ();
+							ke.consume ();
+						}
+					}
+					public void keyReleased(KeyEvent arg0) {}
+					public void keyPressed(KeyEvent arg0) {}
+				});
 				
 				//Muestra los datos de la tabla Elemento
 				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
