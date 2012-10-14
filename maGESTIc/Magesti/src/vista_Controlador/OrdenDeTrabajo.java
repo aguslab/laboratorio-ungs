@@ -54,7 +54,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbTipoDeProducto,
 		lbCantidadAEntregar,
 		lbPreimpresion,
-		lbPlanchas,
 		lbCantidadDeHojasUtilizadas;
 	
 	private JTextField 
@@ -135,36 +134,37 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{	
 		super ("Orden de Trabajo (OT)", false, true, false, true);
 		
-		setSize (680, 680);
+		setSize (737, 616);
 		
 		jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 
 		lbNro = new JLabel ("Número:");
-		lbNro.setBounds(15, 20, 80, 25);
+		lbNro.setBounds(10, 11, 220, 25);
 		lbNro.setForeground (Color.black);
 		
 	    lbCliente = new JLabel ("Cliente:");
-	    lbCliente.setBounds(355, 20, 80, 25);
+	    lbCliente.setBounds(259, 11, 220, 25);
 		lbCliente.setForeground (Color.black);
 	    
-		lbFechaC = new JLabel ("Fecha confec.:");
-		lbFechaC.setBounds(15, 55, 80, 25);
+		lbFechaC = new JLabel ("Fecha confecci\u00F3n:");
+		lbFechaC.setHorizontalAlignment(SwingConstants.LEFT);
+		lbFechaC.setBounds(495, 11, 219, 25);
 		lbFechaC.setForeground (Color.black);
 				
-		lbFechaP = new JLabel ("Fecha prom.:");
-		lbFechaP.setBounds(355, 55, 80, 25);
+		lbFechaP = new JLabel ("Fecha prometida:");
+		lbFechaP.setBounds(10, 54, 220, 25);
 		lbFechaP.setForeground (Color.black);
 		
 		lbNombreOT = new JLabel ("Nombre OT:");
-		lbNombreOT.setBounds(15, 90, 80, 25);
+		lbNombreOT.setBounds(259, 54, 220, 25);
 		lbNombreOT.setForeground (Color.black);
 		
 		lbEstado = new JLabel ("Estado:");
-		lbEstado.setBounds(355, 90, 80, 25);
+		lbEstado.setBounds(495, 54, 219, 25);
 		lbEstado.setForeground (Color.black);
 		
-		lbDescripcion = new JLabel ("Descripcion:");
-		lbDescripcion.setBounds(15, 125, 80, 25);
+		lbDescripcion = new JLabel ("Descripci\u00F3n:");
+		lbDescripcion.setBounds(10, 97, 220, 25);
 		lbDescripcion.setForeground (Color.black);
 
 		
@@ -175,14 +175,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setForeground(Color.RED);
 		txtNro.setFont(new Font("Arial", Font.BOLD, 11));
 		txtNro.setFocusable(false);
-		txtNro.setBounds(105, 20, 210, 25);
+		txtNro.setBounds(20, 30, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
 		cboCliente = new JComboBox (Clientes);
-		cboCliente.setBounds(445, 20, 210, 25);
+		cboCliente.setBounds(269, 30, 210, 25);
 		
 		txtNombreOT = new JTextField ();
-		txtNombreOT.setBounds(105, 90, 210, 25);
+		txtNombreOT.setBounds(269, 73, 210, 25);
 		txtNombreOT.setHorizontalAlignment (JTextField.LEFT);
 		txtNombreOT.addKeyListener
 		(
@@ -204,7 +204,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNombreOT.getInputMap(txtNombreOT.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		txtDescripcion = new JTextField ();
-		txtDescripcion.setBounds(105, 125, 550, 25);
+		txtDescripcion.setBounds(20, 116, 694, 25);
 		txtDescripcion.setHorizontalAlignment (JTextField.LEFT);
 		txtDescripcion.addKeyListener
 		(
@@ -226,9 +226,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.getInputMap(txtDescripcion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		lbAncho = new JLabel ("Ancho:");
-		lbAncho.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbAncho.setHorizontalAlignment(SwingConstants.LEFT);
 		lbAncho.setFont(new Font("Arial", Font.ITALIC, 11));
-		lbAncho.setBounds(105, 161, 80, 25);
+		lbAncho.setBounds(85, 140, 110, 25);
 		lbAncho.setForeground (Color.black);
 		
 		try
@@ -241,12 +241,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
             e.printStackTrace();
         }
 		
-	    txtAncho.setBounds(202, 161, 100, 25);
+	    txtAncho.setBounds(95, 159, 100, 25);
 		
 		lbAlto = new JLabel ("Alto:");
-		lbAlto.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbAlto.setHorizontalAlignment(SwingConstants.LEFT);
 		lbAlto.setFont(new Font("Arial", Font.ITALIC, 11));
-		lbAlto.setBounds(312, 161, 80, 25);
+		lbAlto.setBounds(210, 140, 110, 25);
 		lbAlto.setForeground (Color.black);
 		
 		try
@@ -259,23 +259,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
             e.printStackTrace();
         }
 		
-	    txtAlto.setBounds(402, 161, 100, 25);
+	    txtAlto.setBounds(220, 159, 100, 25);
 		
 		
 		chbApaisado = new JCheckBox ("Apaisado");
 		chbApaisado.setFont(new Font("Arial", Font.ITALIC, 11));
-		chbApaisado.setBounds(580, 160, 80, 25);
+		chbApaisado.setBounds(350, 159, 80, 25);
 		
-		lbTipoDeProducto = new JLabel ("Tipo de Prod.:");
-		lbTipoDeProducto.setBounds(15, 195, 80, 25);
+		lbTipoDeProducto = new JLabel ("Tipo de Producto:");
+		lbTipoDeProducto.setBounds(495, 140, 219, 25);
 		lbTipoDeProducto.setForeground (Color.black);
 		
-		lbCantidadAEntregar = new JLabel ("Cant. a Entr.:");
-		lbCantidadAEntregar.setBounds(355, 195, 80, 25);
+		lbCantidadAEntregar = new JLabel ("Cantidad a entregar:");
+		lbCantidadAEntregar.setBounds(10, 183, 220, 25);
 		lbCantidadAEntregar.setForeground (Color.black);
 		
 		txtCantidadAEntregar = new JTextField ("1");
-		txtCantidadAEntregar.setBounds(445, 195, 210, 25);
+		txtCantidadAEntregar.setBounds(20, 202, 210, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		txtCantidadAEntregar.addKeyListener
 		(
@@ -295,16 +295,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		);
 		
-		lbPreimpresion = new JLabel ("Preimpresión:");
-		lbPreimpresion.setBounds(15, 230, 80, 25);
+		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas):");
+		lbPreimpresion.setBounds(259, 183, 220, 25);
 		lbPreimpresion.setForeground (Color.black);
 		
-		lbPlanchas = new JLabel ("(Cant.Planchas)");
-		lbPlanchas.setBounds(320, 230, 100, 25);
-		lbPlanchas.setForeground (Color.black);
-		
 		txtPreimpresion = new JTextField ("0");
-		txtPreimpresion.setBounds(105, 230, 210, 25);
+		txtPreimpresion.setBounds(269, 202, 210, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
 		(
@@ -325,12 +321,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		lbCantidadDeHojasUtilizadas = new JLabel ("Hojas utilizadas:");
-		lbCantidadDeHojasUtilizadas.setBounds(15, 563, 100, 25);
+		lbCantidadDeHojasUtilizadas.setBounds(495, 183, 100, 25);
 		lbCantidadDeHojasUtilizadas.setForeground (Color.black);
 		
 		txtCantidadDeHojasUtilizadas = new JTextField ("0");
 		txtCantidadDeHojasUtilizadas.setEnabled(false);
-		txtCantidadDeHojasUtilizadas.setBounds(105,563, 100, 25);
+		txtCantidadDeHojasUtilizadas.setBounds(505,202, 209, 25);
 		txtCantidadDeHojasUtilizadas.setHorizontalAlignment (JTextField.LEFT);
 		txtCantidadDeHojasUtilizadas.addKeyListener
 		(
@@ -351,7 +347,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		tabSecciones = new JTabbedPane();
-		tabSecciones.setBounds(15, 265, 640, 290);
+		tabSecciones.setBounds(10, 238, 704, 290);
 
 		txtCantidadAEntregar.addKeyListener 
 		(
@@ -422,26 +418,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
 		cboMes.getModel().setSelectedItem(TablaDeBusqueda.dameMes(mm.toString()));
-		cboMes.setBounds(105, 55, 97, 25);
+		cboMes.setBounds(505, 30, 97, 25);
 		cboMes.setEnabled(false);
 		
 		cboDia = new JComboBox ();
 		Integer dd=fecha.get(Calendar.DATE);
 		cboDia.getModel().setSelectedItem(dd.toString());
 		cboDia.setEnabled(false);
-		cboDia.setBounds(202, 55, 48, 25);
+		cboDia.setBounds(602, 30, 48, 25);
 		
 		cboAnio = new JComboBox ();
 		Integer aaaa=fecha.get(Calendar.YEAR);
 		cboAnio.getModel().setSelectedItem(aaaa.toString());
 		cboAnio.setEnabled(false);
-		cboAnio.setBounds(250, 55, 65, 25);
+		cboAnio.setBounds(650, 30, 65, 25);
 		
 		cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
 		cboEstado_1 = new JComboBox ();
 		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
-		cboEstado_1.setBounds(445, 90, 209, 25);
+		cboEstado_1.setBounds(505, 73, 209, 25);
 		cboEstado_1.setEnabled(false);
 		
 		for (int i = 1; i <= 31; i++) 
@@ -459,13 +455,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboMes2 = new JComboBox (Meses);
 		//cboMes2 = new JComboBox<String> ();
 		
-		cboMes2.setBounds(445, 55, 97, 25);
+		cboMes2.setBounds(20, 73, 97, 25);
 		
 		cboDia2 = new JComboBox ();
-		cboDia2.setBounds(542, 55, 48, 25);
+		cboDia2.setBounds(117, 73, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
-		cboAnio2.setBounds(590, 55, 65, 25);
+		cboAnio2.setBounds(165, 73, 65, 25);
 		
 		for (int i = 1; i <= 31; i++) 
 		{
@@ -480,15 +476,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 				
 		btnLimpiarOT = new JButton("Limpiar", new ImageIcon ("Imagenes/limpiar.png"));
-		btnLimpiarOT.setBounds(15, 599, 121, 35);
+		btnLimpiarOT.setBounds(10, 535, 121, 35);
 		btnLimpiarOT.addActionListener (this);
 					
 		btnGuardar = new JButton ("Confirmar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnGuardar.setBounds(403, 599, 120, 35);
+		btnGuardar.setBounds(464, 539, 120, 35);
 		btnGuardar.addActionListener (this);
 		
 		btnCancelar = new JButton ("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
-		btnCancelar.setBounds(535, 599, 120, 35);
+		btnCancelar.setBounds(594, 539, 120, 35);
 		btnCancelar.addActionListener (this);
 		
 		jpOrdenDeTrabajo.setLayout(null);
@@ -519,7 +515,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbTipoDeProducto);
 		jpOrdenDeTrabajo.add (lbCantidadAEntregar);
 		jpOrdenDeTrabajo.add (lbPreimpresion);
-		jpOrdenDeTrabajo.add (lbPlanchas);
 		jpOrdenDeTrabajo.add (lbCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtPreimpresion);
@@ -549,7 +544,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		JScrollPane spElementos = new JScrollPane();
-		spElementos.setBounds(10, 11, 615, 193);
+		spElementos.setBounds(10, 11, 679, 193);
 		panElementos.add(spElementos);
 		/*{null, "Original", null},
 				{null, "Duplicado", null},
@@ -668,7 +663,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		});
 		
-		btnAlmacenar.setBounds(500, 215,120, 35);
+		btnAlmacenar.setBounds(569, 215,120, 35);
 		panElementos.add(btnAlmacenar);
 		tabSecciones.setEnabledAt(0, true);
 		tabSecciones.setDisabledIconAt(0, null);
@@ -688,7 +683,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		spMateriales = new JScrollPane();
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		spMateriales.setBounds(10, 11, 615, 228);
+		spMateriales.setBounds(10, 11, 679, 228);
 		panMateriales.add(spMateriales);
 		
 		tablaMateriales = new JTable();
@@ -827,7 +822,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		spMateriales.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		spMateriales.setBounds(10, 11, 615, 228);
+		spMateriales.setBounds(10, 11, 679, 228);
 		panMateriales.add(spMateriales);
 		
 		tablaMateriales.setPreferredScrollableViewportSize(new Dimension(1100, 500));
@@ -855,7 +850,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		 */
 
 		spListaDeProcesos = new JScrollPane();
-		spListaDeProcesos.setBounds(10, 11, 204, 207);
+		spListaDeProcesos.setBounds(10, 11, 167, 194);
 		panOrdenEjecucion.add(spListaDeProcesos);
 		
 		final JList listaProcesos = new JList();
@@ -871,7 +866,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		});
 		
 		spOrdenEjecucion = new JScrollPane();
-		spOrdenEjecucion.setBounds(224, 11, 401, 239);
+		spOrdenEjecucion.setBounds(187, 11, 502, 239);
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
 		tablaOrdenDeEjecucion = new JTable();
@@ -932,7 +927,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				columnaProveedor.setCellEditor(new MyComboBoxEditor(proveedores));
 			}
 		});
-		btnConfirmarSeleccion.setBounds(39, 220, 120, 35);
+		btnConfirmarSeleccion.setBounds(10, 215, 120, 35);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
@@ -941,12 +936,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		dtcr.setVisible(true);
 		
 		JLabel lblMedidaFinal = new JLabel("Medida Final");
-		lblMedidaFinal.setBounds(15, 166, 80, 14);
+		lblMedidaFinal.setBounds(10, 140, 80, 25);
 		jpOrdenDeTrabajo.add(lblMedidaFinal);
 		
 		txtTipoProducto = new JTextField("");
 		txtTipoProducto.setHorizontalAlignment(SwingConstants.LEFT);
-		txtTipoProducto.setBounds(105, 195, 210, 25);
+		txtTipoProducto.setBounds(505, 159, 210, 25);
 		txtTipoProducto.addKeyListener
 		(
 			new KeyListener()
