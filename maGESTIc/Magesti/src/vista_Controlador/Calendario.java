@@ -12,12 +12,10 @@ import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.swing.*;
 
-import vista_Controlador.OrdenDeTrabajo;
 @SuppressWarnings("serial")
 public class Calendario 
 extends JInternalFrame 
