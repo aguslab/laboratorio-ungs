@@ -156,16 +156,29 @@ public class Orden_Trabajo implements Config
 		
 	public static String [] getId_nom_OT(){
 		
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo");
-		String[] id_nom_ot = new String[Orden_Trabajo.getUltOT()-1];
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado='Pendiente'");
+		String[] id_nom_ot = null;
+		try {
+			resultado.last();
+			int cantOTPendiente = resultado.getRow();
+			id_nom_ot= new String[cantOTPendiente+1];
+			resultado.beforeFirst();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		
 		if(resultado != null){
 			int i=0;
 			try {
 				while(resultado.next()){
 					
 						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						String id_OT_Formato=EnteroAFactura(id_ot);
 						String nom_ot=resultado.getString("nombre_trabajo");
-						id_nom_ot[i]=id_ot.toString()+"  -  "+nom_ot;
+						id_nom_ot[i]=id_OT_Formato+"  -  "+nom_ot;
 						i++;
 				}
 			} catch (SQLException e) {
@@ -487,5 +500,29 @@ public class Orden_Trabajo implements Config
     		return false;
     	}
     }
+
+	public static String getId_Con_nom_OT(String nom_ot) {
+		
+		String Id_Con_nom_OT="";
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
+
+		if(resultado != null){
+			int i=0;
+			try {
+				while(resultado.next()){
+					
+						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						String id_OT_Formato=EnteroAFactura(id_ot);
+						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
+						i++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return Id_Con_nom_OT;
+	}
 		
 }
