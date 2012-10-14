@@ -220,6 +220,26 @@ public class Solicitud_compra {
 		}
 
 	}
+
+	public static String[] getNomColumAMostrar() {
+		String columnas[] = 
+			{ 
+				"Nro Solicitud Compra", 
+				"Fecha de confeccion", 
+				"Proveedor", 
+				"Vendedor",
+				"Nombre trabajo Ralacionado", 
+				"Envia a Proveedor",
+				"Direccion de Retiro",
+				"Fecha de Entrega",
+				"Horario Entrega",
+				"subtotal",
+				"% IVA",
+				"monto IVA",
+				"Total"
+			};
+			return columnas;
+	}
 	
 	
 	

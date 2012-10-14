@@ -393,7 +393,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				}
 
 		}
-		else if (obj == btnBuscarSolicitudDeCompra) 
+		/*else if (obj == btnBuscarSolicitudDeCompra) 
 		{
 
 				boolean b = openChildWindow ("Buscador");
@@ -404,7 +404,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 					tablaB.show ();
 				}
 
-		}
+		}*/
 		else if (obj == cerrarAplicacion || obj== btnSalir) 
 		{
 			salirDelPrograma();
@@ -442,14 +442,20 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				}
 
 		}
-		else if (obj == consultarSolicitudDeCompra ) 
+		else if (obj == consultarSolicitudDeCompra || obj==btnBuscarSolicitudDeCompra) 
 		{		
 			boolean b = openChildWindow ("Buscador");
 			if (b == false) 
 			{
-				TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Solicitud de Compra",false);
+				TablaDeBusqueda_SC tablaB = new TablaDeBusqueda_SC("Consultar Solicitud de Compra",false);
 				escritorio.add (tablaB);
 				tablaB.show ();
+				try {
+					tablaB.setMaximum(true);
+				} catch (PropertyVetoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		else if (obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido)  

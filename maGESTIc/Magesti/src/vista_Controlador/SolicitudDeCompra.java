@@ -50,8 +50,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JTextField txtFecha;
 	private JTable tablaDetalles;
 	private JPanel JpSolicitudDeCompra;
-	private JLabel lbNumero;
-	private JLabel lbProveedor,lbNroOT ;
+	private JLabel lbNumero,lbDireccionRetiro ;
+	private JLabel lbProveedor,lbNroOT,lbFechaEntrega;
 	private JComboBox cbProveedor ;
 	private JLabel txtFechaConfec ;
 	private JLabel lbVendedor;
@@ -70,7 +70,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		Integer mm=fecha.get(Calendar.MONTH)+1;
 		Integer dd=fecha.get(Calendar.DATE);
 		Integer aaaa=fecha.get(Calendar.YEAR);
-		//jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 		getContentPane().setLayout(null);
 		
 		String Meses[] = 
@@ -194,7 +193,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		Secciones.addTab("Condiciones de Entrega", null, panCondicionEntrega, null);
 		panCondicionEntrega.setLayout(null);
 		
-		JLabel lbDireccionRetiro = new JLabel("Direcci\u00F3n de Retiro:");
+		lbDireccionRetiro = new JLabel("Direcci\u00F3n de Retiro:");
 		lbDireccionRetiro.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbDireccionRetiro.setBounds(22, 154, 121, 14);
 		panCondicionEntrega.add(lbDireccionRetiro);
@@ -230,7 +229,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 		});
 		
-		JLabel lbFechaEntrega = new JLabel("Fecha Entrega:");
+		lbFechaEntrega = new JLabel("Fecha Entrega:");
 		lbFechaEntrega.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbFechaEntrega.setBounds(22, 24, 93, 14);
 		panCondicionEntrega.add(lbFechaEntrega);
@@ -776,7 +775,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		for(int i=0;otSelec.charAt(i)!= ' ';i++){
 				id=id+otSelec.charAt(i);
 		}
-		return Integer.parseInt(id);
+		return Orden_Trabajo.FacturaAEntero(id);
 	}
 	
 	
@@ -815,7 +814,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		return importe;
 	}
 	
-	private String pasarAPesos(String df){
+	public static String pasarAPesos(String df){
 		return "$ "+df;
 	}
 	
@@ -823,10 +822,167 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		String monto=cant.substring(2);//saco el sigo $ 
 		return Double.parseDouble(monto.replace(',', '.'));
 	}
-	
-	};
-	
 
+	
+	//
+	//getters
+	//
+	
+	public JTextField getTxtNumero() {
+		return txtNumero;
+	}
+
+	public JTextField getTxtVendedor() {
+		return txtVendedor;
+	}
+
+	public JTextField getTxtTotal() {
+		return txtTotal;
+	}
+
+	public JTextField getTxtMontoIVA() {
+		return txtMontoIVA;
+	}
+
+	public JTextField getTxtIVA() {
+		return txtIVA;
+	}
+
+	public JTextField getTxtSubtotal() {
+		return txtSubtotal;
+	}
+
+	public JTextField getTxtDireccionRetiro() {
+		return txtDireccionRetiro;
+	}
+
+	public JTextField getTxtFecha() {
+		return txtFecha;
+	}
+
+	public JTable getTablaDetalles() {
+		return tablaDetalles;
+	}
+
+	public JPanel getJpSolicitudDeCompra() {
+		return JpSolicitudDeCompra;
+	}
+
+	public JLabel getLbNumero() {
+		return lbNumero;
+	}
+
+	public JLabel getLbDireccionRetiro() {
+		return lbDireccionRetiro;
+	}
+
+	public JLabel getLbProveedor() {
+		return lbProveedor;
+	}
+
+	public JLabel getLbNroOT() {
+		return lbNroOT;
+	}
+
+	public JLabel getLbFechaEntrega() {
+		return lbFechaEntrega;
+	}
+
+	public JComboBox getCbProveedor() {
+		return cbProveedor;
+	}
+
+	public JLabel getTxtFechaConfec() {
+		return txtFechaConfec;
+	}
+
+	public JLabel getLbVendedor() {
+		return lbVendedor;
+	}
+
+	public JComboBox getCbMes() {
+		return cbMes;
+	}
+
+	public JComboBox getCbDia() {
+		return cbDia;
+	}
+
+	public JComboBox getCbAnio() {
+		return cbAnio;
+	}
+
+	public JButton getBtnBorrar() {
+		return btnBorrar;
+	}
+
+	public JButton getBtnAlmacenar() {
+		return btnAlmacenar;
+	}
+
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
+
+	public JButton getBtnCerrar() {
+		return btnCerrar;
+	}
+
+	public JButton getBtnConfirmar() {
+		return btnConfirmar;
+	}
+
+	public JButton getBtnConfirmarRecepcion() {
+		return btnConfirmarRecepcion;
+	}
+
+	public JButton getBtnRechazarRecepcion() {
+		return btnRechazarRecepcion;
+	}
+
+	public JButton getBtnIncompleta() {
+		return btnIncompleta;
+	}
+
+	public JRadioButton getRbManiana() {
+		return rbManiana;
+	}
+
+	public JRadioButton getRbTarde() {
+		return rbTarde;
+	}
+
+	public JRadioButton getRdbtnRetirar() {
+		return rdbtnRetirar;
+	}
+
+	public JRadioButton getRdbtnEnviarAProveedor() {
+		return rdbtnEnviarAProveedor;
+	}
+
+	public ButtonGroup getGrupoHorario() {
+		return grupoHorario;
+	}
+
+	public ButtonGroup getGrupoCondicionEntrega() {
+		return grupoCondicionEntrega;
+	}
+
+	public JComboBox getCbNroOT() {
+		return cbNroOT;
+	}
+
+	public TextArea getTxtDescripcionIncidencia() {
+		return txtDescripcionIncidencia;
+	}
+	
+	
+	
+	
+	
+};
+	
+	
 
 
 	

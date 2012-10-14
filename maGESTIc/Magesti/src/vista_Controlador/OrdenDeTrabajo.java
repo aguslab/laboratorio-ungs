@@ -1151,6 +1151,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
 		Double ancho = Double.parseDouble(txtAncho.getText());
 		Double alto = Double.parseDouble(txtAlto.getText());
+		System.out.println(txtAncho.getText());
+		System.out.println(txtAlto.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
