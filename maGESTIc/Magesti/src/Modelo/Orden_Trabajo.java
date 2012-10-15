@@ -1,5 +1,6 @@
 package Modelo;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -523,6 +524,23 @@ public class Orden_Trabajo implements Config
 		}
 		
 		return Id_Con_nom_OT;
+	}
+
+	public static Date getDateTimeActual() {
+		Date f_h_actual = null;
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
+		if(resultado != null){
+			try {
+				while(resultado.next()){
+					
+						f_h_actual=resultado.getDate(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return f_h_actual;
 	}
 		
 }

@@ -15,13 +15,14 @@ public class Detalle {
 	private Double precio_unitario;
 	private String unidad_medida_del_precio;
 	private Double importe;
+	private boolean recibido;
 	
 	
 	public Detalle(Integer id_detalle, Integer id_solicitud_compra,
 			Integer cantidad, String marca, Integer id_calidad,
 			Integer id_formato_papel, Integer id_variante, Integer gramaje,
 			Double precio_unitario, String unidad_medida_del_precio,
-			Double importe) {
+			Double importe,boolean recibido) {
 		super();
 		this.id_detalle = id_detalle;
 		this.id_solicitud_compra = id_solicitud_compra;
@@ -34,13 +35,14 @@ public class Detalle {
 		this.precio_unitario = precio_unitario;
 		this.unidad_medida_del_precio = unidad_medida_del_precio;
 		this.importe = importe;
+		this.recibido= recibido;
 	}
 	
 	public Detalle(Integer id_solicitud_compra,
 			Integer cantidad, String marca, Integer id_calidad,
 			Integer id_formato_papel, Integer id_variante, Integer gramaje,
 			Double precio_unitario, String unidad_medida_del_precio,
-			Double importe) {
+ Double importe, boolean recibido) {
 		super();
 		this.id_solicitud_compra = id_solicitud_compra;
 		this.cantidad = cantidad;
@@ -52,6 +54,7 @@ public class Detalle {
 		this.precio_unitario = precio_unitario;
 		this.unidad_medida_del_precio = unidad_medida_del_precio;
 		this.importe = importe;
+		this.recibido = recibido;
 	}
 
 	public Integer getId_detalle() {
@@ -142,7 +145,14 @@ public class Detalle {
 		this.importe = importe;
 	}
 	
-	
+	public boolean isRecibido() {
+		return recibido;
+	}
+
+	public void setRecibido(boolean recibido) {
+		this.recibido = recibido;
+	}
+
 	public boolean Alta() {
 
 		Integer id_solicitud_compra=this.getId_solicitud_compra();
@@ -155,12 +165,13 @@ public class Detalle {
 		Double precio_unitario=this.getPrecio_unitario();
 		String unidad_medida_del_precio="'"+this.getUnidad_medida_del_precio()+"'";
 		Double importe=this.getImporte();
+		boolean recibido=this.isRecibido();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO detalle VALUES(default," + id_solicitud_compra + ","
 						+ cantidad+ "," + marca+ "," + id_calidad+ "," + id_formato_papel
 						+ "," +id_variante+ "," + gramaje+ "," + precio_unitario
-						+ "," + unidad_medida_del_precio+ "," + importe+ ");")) {
+						+ "," + unidad_medida_del_precio+ "," + importe+","+recibido+ ");")) {
 			return true;
 		} else {
 			return false;
@@ -394,8 +405,66 @@ public class Detalle {
 		}
 		return importes;
 	}
+
+	public static boolean isRecibido(Integer id_detalle) {
+		boolean estado=false;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT recibido FROM detalle WHERE id_detalle="+ id_detalle);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							estado=resultado.getBoolean("recibido");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return estado;
+	}
+	
+	public static Integer dameIdDetalle(Integer SC,Integer cant,String marca,Integer id_cal,Integer id_formato,Integer id_var,Integer gram,Double precioUnit,String unidadMed,Double importe){
+		Integer idDetalle=null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_detalle FROM detalle WHERE id_solicitud_compra="+SC+" AND cantidad="+cant+" AND marca="+"'"+marca+"'"+" AND id_calidad="+id_cal+
+				" AND id_formato_papel="+id_formato+" AND id_variante="+id_var+" AND gramaje="+gram+" AND precio_unitario="+precioUnit+ " AND unidad_medida_del_precio="+"'"+unidadMed+"'"+
+				" AND importe="+importe);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							idDetalle=resultado.getInt(1);
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return idDetalle;
+	}
 	
 	
+	public static void setAllAsRecibidos(Integer id_SC) {
+
+		ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE detalle set recibido=true WHERE id_solicitud_compra="+ id_SC);
+	}
 	
+	
+	public static void setAsRecibido(Integer id_detalle,boolean estado) {
+
+		ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE detalle set recibido="+estado+" WHERE id_detalle="+ id_detalle);
+	}
 	
 }

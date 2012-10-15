@@ -240,6 +240,17 @@ public class Solicitud_compra {
 			};
 			return columnas;
 	}
+
+	public static String enviaProveedor(Boolean dato) {
+		if (dato)
+    	{
+    		return "SI";
+    	}
+    	else
+    	{
+    		return "NO";
+    	}
+	}
 	
 	
 	

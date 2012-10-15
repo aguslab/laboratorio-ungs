@@ -1,9 +1,11 @@
 package Modelo;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 
 public class Recepcion_pedido {
 
+	 private Integer id_recepcion_pedido;
 	 private Integer id_solicitud_compra;
 	 private String estado;
 	 private Date f_h_recibido;
@@ -59,7 +61,71 @@ public class Recepcion_pedido {
 		this.incidente = incidente;
 	}	
 	
-		 
+	public boolean Alta() {
+
+		Integer id_solicitud_compra = this.getId_solicitud_compra();
+		String estado = "'" + this.getEstado() + "'";
+		String f_h_recibido = null;
+		if (this.getF_h_recibido() != null) {
+			f_h_recibido = "'"+this.getF_h_recibido()+"'";
+		}
+		String incidente = "'" + this.getIncidente() + "'";
+
+		if (ConexionDB.getbaseDatos().ejecutar(
+				"INSERT INTO recepcion_pedido VALUES(default," + id_solicitud_compra
+						+ "," + estado + "," + f_h_recibido + "," + incidente
+						+ ");")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+	public static String dameEstado(Integer id_SC) {
+		String estado="";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT estado FROM recepcion_pedido WHERE id_solicitud_compra="+ id_SC);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							estado=resultado.getString("estado");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return estado;
+	}
+
+
+	public static String dametxtDescripcion(Integer id_SC) {
+		String txtDescripcion="";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT incidente FROM recepcion_pedido WHERE id_solicitud_compra="+ id_SC);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							txtDescripcion=resultado.getString("incidente");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return txtDescripcion;
+	}
 	 
 	 
 	 

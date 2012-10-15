@@ -16,7 +16,7 @@ import java.text.*;
 @SuppressWarnings("serial")
 public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
-	private JDesktopPane escritorio = new JDesktopPane ();
+	private static JDesktopPane escritorio = new JDesktopPane ();
 	
 	private JMenuBar barra;
 	
@@ -672,7 +672,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 	}
 	
-	public JDesktopPane getEscritorio(){
+	public static JDesktopPane getEscritorio(){
 		return escritorio;
 	}
 	
