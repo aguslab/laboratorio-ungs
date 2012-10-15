@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,9 +15,11 @@ import Modelo.ConexionDB;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
+import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
 
@@ -26,6 +29,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda_SC extends JInternalFrame 
@@ -43,9 +47,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		jspTabla = new JScrollPane (tablaBusqueda);
 		jpMostrar.add (jspTabla);
 		tablaBusqueda = new JTable();
-		tablaBusqueda.setEnabled(false);
 		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
-		
+		tablaBusqueda.setSelectionBackground(Color.blue);
+
+		//tablaBusqueda.setEnabled(false);si se habilita, la fila seleccionada no se "pinta"
+
 		tablaBusqueda.addMouseListener
 		(
 			new MouseAdapter() 
@@ -53,8 +59,9 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
+
 				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
-				final SolicitudDeCompra nuevaSC = new SolicitudDeCompra(false);
+				final SolicitudDeCompra nuevaSC = new SolicitudDeCompra(true);
 				
 				getDesktopPane().add(nuevaSC);
 				nuevaSC.show ();
@@ -65,7 +72,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
+				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
 				nuevaSC.getTxtNumero().setText(Orden_Trabajo.EnteroAFactura(id_SC));
 				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
 				
@@ -83,7 +90,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				//si envia a proveedor...
-				if(tablaBusqueda.getValueAt(filaElegida, 5).toString().equals("true")){
+				if(tablaBusqueda.getValueAt(filaElegida, 5).toString().equals("SI")){
 					nuevaSC.getRdbtnEnviarAProveedor().setSelected(true);
 					nuevaSC.getTxtDireccionRetiro().setEnabled(false);
 				}else{
@@ -122,7 +129,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				/*
-				 *	Muestra los datos de la tabla Elemento 
+				 *	Muestra los datos de la seccion Detalles 
 				 */
 				
 								
@@ -140,15 +147,15 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				DefaultTableModel temp = (DefaultTableModel) nuevaSC.getTablaDetalles().getModel();
 				Object nuevaFilaElemento[]= {"",""};
 				
-				Integer cantFilas = Detalle.cantidadFilas(id_SC);
+				final Integer cantFilas = Detalle.cantidadFilas(id_SC);
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(cantidad.get(i), i, 0);
 					temp.setValueAt(marca.get(i), i, 1);
 					temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
-					temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 3);	
-					temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 4);
+					temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 3);
+					temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 4);
 					temp.setValueAt(gramaje.get(i), i, 5);
 					temp.setValueAt(precio_Unitario.get(i), i, 6);
 					temp.setValueAt(unidad_medida.get(i), i, 7);
@@ -158,9 +165,94 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getBtnAgregar().setEnabled(false);
 				nuevaSC.getBtnBorrar().setEnabled(false);
 				nuevaSC.getBtnAlmacenar().setEnabled(false);
-				
+				nuevaSC.getBtnConfirmar().setEnabled(false);
 				nuevaSC.getTablaDetalles().setEnabled(false);
+				
+				
+				/*
+				 * seccion asentar RP
+				 */
+				
+				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO") || Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECHAZADO")){
+					//cargar datos en seccion RP
+					String txtDescripcionincidencia=Recepcion_pedido.dametxtDescripcion(id_SC);
+					if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO")){
+						nuevaSC.getTxtDescripcionIncidencia().setText(txtDescripcionincidencia+"\n         RECIBIDO");	
+					}else{
+						nuevaSC.getTxtDescripcionIncidencia().setText(txtDescripcionincidencia+"\n       RECHAZADO");
+					}			
+					nuevaSC.getBtnRechazarRecepcion().setEnabled(false);
+					nuevaSC.getBtnConfirmarRecepcion().setEnabled(false);
+					nuevaSC.getBtnIncompleta().setEnabled(false);
+					nuevaSC.getTxtDescripcionIncidencia().setEnabled(false);
+
+				}else{
+					nuevaSC.getBtnRechazarRecepcion().setEnabled(true);
+					nuevaSC.getBtnConfirmarRecepcion().setEnabled(true);
+					nuevaSC.getBtnIncompleta().setEnabled(true);
+					nuevaSC.getTxtDescripcionIncidencia().setEnabled(true);
+					
+					
+					//Accion boton INCOMPLETA
+					nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							boolean b = openChildWindow ("SC");
+							
+							if (b == false) 
+							{
+							Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
+							Magesti.getEscritorio().add (nRP);						
+							nRP.show ();
+							}
+							
+						}
+					});
+					
+					
+					
+					//Accion boton RECHAZAR
+					nuevaSC.getBtnRechazarRecepcion().addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							if(Recepcion_pedido.dameEstado(id_SC).equals("Recibido")){
+								JOptionPane.showMessageDialog 
+								(
+									nuevaSC, 
+									"Esta Solicitud de compra ya ha sido Recibida, no puede ser rechazada",
+									Config.qTITULO + " SC Recibida", 
+									JOptionPane.WARNING_MESSAGE
+								);
+							}else{
+								Date f_h_recibido=Orden_Trabajo.getDateTimeActual();
+								Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Rechazado",f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
+								rp.Alta();
+								nuevaSC.dispose();	
+							}	
+						}
+					});
+					
+					//Accion boton RECIBIDO
+					nuevaSC.getBtnConfirmarRecepcion().addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Detalle.setAllAsRecibidos(id_SC); 
+							Date f_h_recibido=Orden_Trabajo.getDateTimeActual();
+							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
+							rp.Alta();
+							nuevaSC.dispose();
+						}
+					});
+					
 								
+					
+				}
+				
+				
+				
 			}
 		});
 		
@@ -222,6 +314,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
+							if (i==5)
+							{
+								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
+							}
 						}
 						dtmMagesti.addRow(datos);
 					}
@@ -312,6 +408,22 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			{
 				return "Diciembre";
 			}
+		}
+		
+		private boolean openChildWindow (String title) 
+		{
+
+			JInternalFrame[] childs = Magesti.getEscritorio().getAllFrames ();
+			for (int i = 0; i < childs.length; i++) 
+			{
+				if (childs[i].getTitle().equalsIgnoreCase (title)) 
+				{
+					childs[i].show ();
+					return true;
+				}
+			}
+			return false;
+
 		}
 		
 		

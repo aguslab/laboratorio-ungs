@@ -16,8 +16,8 @@ public class Main_OT {
 	
 		
 					
-			Detalle d= new Detalle(1, 123, "saa", 1, 2, 3, 12, 12.3, "KG", 134.12);
-			d.Alta();
+			Detalle d= new Detalle(1, 123, "saa", 1, 2, 3, 12, 12.3, "KG", 134.12,false);
+			System.out.println(d.Alta());
 			
 			
 			/*

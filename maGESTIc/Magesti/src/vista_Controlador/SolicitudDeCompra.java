@@ -26,6 +26,7 @@ import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
+import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
@@ -58,6 +59,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private ButtonGroup grupoHorario,grupoCondicionEntrega;
 	private JComboBox cbNroOT;
 	private TextArea txtDescripcionIncidencia;
+
 	
 	public SolicitudDeCompra(boolean  RP) {
 		super ("Solicitud de Compra (SC)", false, true, false, true);
@@ -628,6 +630,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		JpSolicitudDeCompra.add(lbTotal);
 		
 		
+		
 		if (RP)
 		{
 			btnConfirmarRecepcion.setEnabled(true);
@@ -642,6 +645,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			btnIncompleta.setEnabled(false);
 			txtDescripcionIncidencia.setEnabled(false);
 		}
+		
 	}
 
 	@Override
@@ -767,7 +771,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
 				
 				//dar de alta detalle
-				Detalle detalle= new Detalle(Orden_Trabajo.FacturaAEntero(txtNumero.getText()), cantidad, marca, id_calidad, id_formato, id_variante, gramaje, precio_unitario, unidad_medida_del_precio, importe);
+				Detalle detalle= new Detalle(Orden_Trabajo.FacturaAEntero(txtNumero.getText()), cantidad, marca, id_calidad, id_formato, id_variante, gramaje, precio_unitario, unidad_medida_del_precio, importe,false);
 				detalle.Alta();
 				}
 		}
@@ -827,6 +831,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		return Double.parseDouble(monto.replace(',', '.'));
 	}
 
+		
+	
 	
 	//
 	//getters
@@ -985,8 +991,3 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	
 	
 };
-	
-	
-
-
-	
