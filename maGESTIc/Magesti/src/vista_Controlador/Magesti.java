@@ -315,6 +315,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		btnSalir.addActionListener (this);
 
 		barraHerramientas = new JToolBar ();
+		barraHerramientas.setFloatable(false);
 		barraHerramientas.add (btnNuevaOrdenDeTrabajo);
 		barraHerramientas.add (btnBuscarOrdenDeTrabajo);
 		barraHerramientas.addSeparator ();
