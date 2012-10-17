@@ -3,7 +3,6 @@ package vista_Controlador;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.StringTokenizer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +36,6 @@ public class TablaDeBusqueda extends JInternalFrame
 	TablaDeBusqueda(String titulo,boolean top5) 
 	{
 		super (titulo, true, true, true, true);
-		boolean top5OT = top5;
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusqueda);
@@ -68,22 +66,22 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
 				nuevaOT.getTipoProducto().setEditable(false);
 				
-				nuevaOT.getCboMes().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
+				nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
 				nuevaOT.getCboMes().setEnabled(false);
 				
-				nuevaOT.getCboDia().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
+				nuevaOT.getCboDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
 				nuevaOT.getCboDia().setEnabled(false);
 				
-				nuevaOT.getCboAnio().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 0));
+				nuevaOT.getCboAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 0));
 				nuevaOT.getCboAnio().setEnabled(false);
 				
-				nuevaOT.getCboMes2().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 1)));
+				nuevaOT.getCboMes2().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 1)));
 				nuevaOT.getCboMes2().setEnabled(false);
 				
-				nuevaOT.getCboDia2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 2));
+				nuevaOT.getCboDia2().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 2));
 				nuevaOT.getCboDia2().setEnabled(false);
 				
-				nuevaOT.getCboAnio2().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 0));
+				nuevaOT.getCboAnio2().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 0));
 				nuevaOT.getCboAnio2().setEnabled(false);
 				
 				nuevaOT.getTxtNombreOT().setText((String) tablaBusqueda.getValueAt(filaElegida, 5));
@@ -323,87 +321,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				}
 			}
 		
-		static String separar(String fecha, int numero)
-		{
-			StringTokenizer s = new StringTokenizer(fecha, "-");
-			int cantidadChars = 0;
-			int numeroIdentificador = numero;
-			String parte = "";
-			while(s.hasMoreTokens())
-			{
-				String elemento = s.nextToken();
-				if (cantidadChars < 1 && numeroIdentificador == 0 )
-				{
-					parte=elemento;
-					break;
-				}
-				else if((cantidadChars >= 1 && cantidadChars < 2) && numeroIdentificador == 1)
-				{
-					parte=elemento;
-					break;
-				}
-				else if((cantidadChars >=2 && cantidadChars < 3) && numeroIdentificador == 2)
-				{
-					parte=elemento;
-					break;
-				}
-					cantidadChars++;
-			}
-			return parte;
-		}
-
 		
-		static String dameMes(String mes)
-		{
-			if(mes.equals("01") | mes.equals("1"))
-			{
-				return "Enero";
-			}
-			else if(mes.equals("02") | mes.equals("2"))
-			{
-				return "Febrero";
-			}
-			else if(mes.equals("03") | mes.equals("3"))
-			{
-				return "Marzo";
-			}
-			else if(mes.equals("04") | mes.equals("4"))
-			{
-				return "Abril";
-			}
-			else if(mes.equals("05") | mes.equals("5"))
-			{
-				return "Mayo";
-			}
-			else if(mes.equals("06") | mes.equals("6"))
-			{
-				return "Junio";
-			}
-			else if(mes.equals("07") | mes.equals("7"))
-			{
-				return "Julio";
-			}
-			else if(mes.equals("08") | mes.equals("8"))
-			{
-				return "Agosto";
-			}
-			else if(mes.equals("09") | mes.equals("9"))
-			{
-				return "Septiembre";
-			}
-			else if(mes.equals("10"))
-			{
-				return "Octubre";
-			}
-			else if(mes.equals("11"))
-			{
-				return "Noviembre";
-			}
-			else
-			{
-				return "Diciembre";
-			}
-		}
 		
 		
 }

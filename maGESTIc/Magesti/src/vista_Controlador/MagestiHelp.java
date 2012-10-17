@@ -69,12 +69,10 @@ class HtmlPane extends JScrollPane implements HyperlinkListener
 
 	protected void linkActivated(URL u) 
 	{
-
 		Cursor c = html.getCursor();
 		Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		html.setCursor(waitCursor);
 		SwingUtilities.invokeLater(new PageLoader(u, c));
-
 	}
 
 	class PageLoader implements Runnable 
@@ -115,12 +113,9 @@ class HtmlPane extends JScrollPane implements HyperlinkListener
 					SwingUtilities.invokeLater(this);
 				}
 			}
-
 		}
-
 		URL url;
 		Cursor cursor;
-
 	}
 
 }
