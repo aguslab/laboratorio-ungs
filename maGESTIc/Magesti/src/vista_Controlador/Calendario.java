@@ -456,7 +456,6 @@ chAnio.select(Integer.valueOf(anioHoy));
 
 	public void sketch()
 	{
-		
 		pan3.setLayout(new GridLayout(0,7));
 		for(int i=0; i<totalDiasDelMes; i++)
 		{
@@ -466,7 +465,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 				{
 					if(g<DiaDeLaSemana)
 						pan3.add(new JLabel(""));
-					else if(g>=DiaDeLaSemana)
+					else if(g >= DiaDeLaSemana)
 					{ 	filaUno=false;
 						pan3.add(btnMatriz[i]);
 					}
