@@ -565,6 +565,35 @@ public class Orden_Trabajo implements Config
 		return id_nomOT;	
 	}
 	
+	public static ArrayList<String> getOT_SegunID(String id)
+	{
+		id="'"+id+"'";
+		ArrayList<String> OT =new ArrayList<String>();
+		
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar
+		(
+				"SELECT * FROM orden_trabajo WHERE id_orden_trabajo="+id);
+
+		if(resultado != null)
+		{
+			
+			try {
+				while(resultado.next())
+				{
+					for (int i=1; i<15; i++)
+						OT.add(resultado.getObject(i).toString());
+				}
+			} 
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return OT;	
+	}
+	
 	
 		
 }
