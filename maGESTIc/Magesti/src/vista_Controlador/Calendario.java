@@ -437,22 +437,21 @@ chAnio.select(Integer.valueOf(anioHoy));
 			{
 
 				if (chMes.getSelectedItem().toLowerCase().equals(mesNHoy.toLowerCase()))
-						{
-							btnMatriz[i-1].setForeground(Color.BLUE);
-							btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/hoy.png"));
-						}
+				{
+					btnMatriz[i-1].setForeground(Color.BLUE);
+					btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/hoy.png"));
 				}
+			}
 				//falta verifcar que corresponde al año
 				else if ((i == fecha1 || i ==fecha2) && mesOT.toLowerCase().equals(chMes.getSelectedItem().toLowerCase()))
 				{
 					btnMatriz[i-1].setForeground(Color.RED);
 					btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/tarea.png"));
 				}
-			}
 		
-		
-	sketch();
-	display();
+				sketch();
+				display();
+		}
 	}
 
 	public void sketch()
@@ -522,197 +521,188 @@ chAnio.select(Integer.valueOf(anioHoy));
 	}
 
 	public void db()
-	{
-		String fecha=anio+"-"+ mm + "-" + diaSeleccionado;
-		ArrayList<String> ot= Orden_Trabajo.getId_Nom_OTSegunFecha(fecha);
-		String id_ot="";
-		String nom_ot="";
-		String msg="";
-		if(ot.size()>1)
-		{
-			for(int i=0;i<ot.size();i=i+2)
-			{
-				id_ot=id_ot+Orden_Trabajo.EnteroAFactura(Integer.parseInt(ot.get(i)))+"\t ";
-				nom_ot=nom_ot+ot.get(i+1)+"\t ";
-			}
-			msg=id_ot+"\n"+nom_ot;
-			//CalenOT c= new CalenOT(msg);
-			//c.setVisible(true);
-			ot2 = Orden_Trabajo.getOT_SegunID(id_ot);
-			
-			final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-			getDesktopPane().add(nuevaOT);
-			nuevaOT.show ();
-			nuevaOT.getEstado().setEnabled(true);
-			nuevaOT.getTxtCantidadDeHojasUtilizadas().setText(ot2.get(13).toString());
-			nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
-			nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura(Integer.valueOf(ot2.get(0))));
-			nuevaOT.getTipoProducto().setText(ot2.get(1).toString());
-			nuevaOT.getTipoProducto().setEditable(false);
-			nuevaOT.getCboMes().getModel().setSelectedItem(TablaDeBusqueda.dameMes(TablaDeBusqueda.separar(ot2.get(3).toString(), 1)));
-			nuevaOT.getCboMes().setEnabled(false);
-			nuevaOT.getCboDia().getModel().setSelectedItem(TablaDeBusqueda.separar(ot2.get(3).toString(), 2));
-			nuevaOT.getCboDia().setEnabled(false);
-			nuevaOT.getCboAnio().getModel().setSelectedItem(TablaDeBusqueda.separar(ot2.get(3).toString(), 0));
-			nuevaOT.getCboAnio().setEnabled(false);
-			nuevaOT.getCboMes2().getModel().setSelectedItem(TablaDeBusqueda.dameMes(TablaDeBusqueda.separar(ot2.get(4).toString(), 1)));
-			nuevaOT.getCboMes2().setEnabled(false);
-			nuevaOT.getCboDia2().getModel().setSelectedItem(TablaDeBusqueda.separar(ot2.get(4).toString(), 2));
-			nuevaOT.getCboDia2().setEnabled(false);
-			nuevaOT.getCboAnio2().getModel().setSelectedItem(TablaDeBusqueda.separar(ot2.get(4).toString(), 0));
-			nuevaOT.getCboAnio2().setEnabled(false);
-			nuevaOT.getTxtNombreOT().setText((String) ot2.get(5));
-			nuevaOT.getTxtNombreOT().setEditable(false);
-			nuevaOT.getTxtDescripcion().setText((String) ot2.get(6));
-			nuevaOT.getTxtDescripcion().setEditable(false);
-			nuevaOT.getTxtCantidadAEntregar().setText(ot2.get(6).toString());
-			nuevaOT.getTxtCantidadAEntregar().setEditable(false);
-			nuevaOT.getTxtPreimpresion().setText(Integer.toString(Integer.valueOf(ot2.get(8))));
-			nuevaOT.getTxtPreimpresion().setEditable(false);
-			nuevaOT.getTxtAncho().setText(ot2.get(9).toString());
-			nuevaOT.getTxtAncho().setEditable(false);
-			nuevaOT.getTxtAlto().setText(ot2.get(10).toString());
-			nuevaOT.getTxtAlto().setEditable(false);
-			//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
-			nuevaOT.getChbApaisado().getModel().setSelected(Modelo.Orden_Trabajo.esApaisadaB(ot2.get(11).toString()));
-			nuevaOT.getChbApaisado().setEnabled(false);
-			nuevaOT.getEstado().getModel().setSelectedItem((String)ot2.get(12));
-			nuevaOT.getCliente().setSelectedItem(ot2.get(2).toString());
-			nuevaOT.getCliente().setEnabled(false);
-			nuevaOT.getBtnLimpiarCampos().setEnabled(false);
-			//permitir ingresar solo numeros en hojas utilizadas
-			nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() {
-				
-				@Override
-				public void keyTyped(KeyEvent ke) {
-					char c = ke.getKeyChar ();
-					if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-					{
-						getToolkit().beep ();
-						ke.consume ();
-					}
-				}
-				public void keyReleased(KeyEvent arg0) {}
-				public void keyPressed(KeyEvent arg0) {}
-			});
-			//Muestra los datos de la tabla Elemento
-			Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
-			Integer cantFilas = Elemento.cantidadFilas(id_OT);
-			ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
-			ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-			DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
-			nuevaOT.getTablaElementos().setEnabled(false);
-			Object nuevaFilaElemento[]= {"",""};
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				temp.addRow(nuevaFilaElemento);
-				temp.setValueAt(elemento.get(i), i, 0);
-				temp.setValueAt(cantidad.get(i), i, 1);	
-			}
-			nuevaOT.getBtnAgregarFila().setEnabled(false);
-			nuevaOT.getBtnBorrarFila().setEnabled(false);
-			nuevaOT.getBtnAlmacenar().setEnabled(false);
-			
-			nuevaOT.getTablaElementos().setEnabled(false);
-			
-			//Muestra los datos de la tabla Materiales
-			
-			ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
-			ArrayList<Integer> poses_x_pliego = Materiales.getPoses_x_pliego(id_OT);
-			ArrayList<Integer> pliegos_netos = Materiales.getPliegos_netos(id_OT);
-			ArrayList<Integer> pliegos_en_demasia = Materiales.getPliegos_en_demasia(id_OT);
-			ArrayList<Integer> hojas = Materiales.getHojas(id_OT);
-			ArrayList<Integer> id_calidad = Materiales.getID_Calidad(id_OT);
-			ArrayList<Integer> id_variante = Materiales.getID_Variante(id_OT);
-			ArrayList<Integer> id_formato_papel = Materiales.getId_formato_papel(id_OT);
-			ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_Hojas(id_OT);
-			
-			
-			DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
-			Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
-			cantFilas=Materiales.getID_Materiales(id_OT).size();
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				tempMat.addRow(nuevaFilaMateriales);
-				tempMat.setValueAt(elemento.get(i), i, 0);
-				tempMat.setValueAt(cantidad.get(i), i, 1);	
-				tempMat.setValueAt(gramaje.get(i), i, 2);	
-				tempMat.setValueAt((Formato_Papel.getTamanio(id_formato_papel.get(i))), i, 3);	
-				tempMat.setValueAt(Variante.getNombre(id_variante.get(i)), i, 4);	
-				tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)), i, 5);	
+    {
+        String fecha=anio+"-"+ mm + "-" + diaSeleccionado;
+        ArrayList<String> ot= Orden_Trabajo.getId_Nom_OTSegunFecha(fecha);
+        String id_ot="";
+        String nom_ot="";
+        String msg="";
+        if(ot.size()>1)
+        {
+            for(int i=0;i<ot.size();i=i+2)
+            {
+                id_ot=id_ot+Orden_Trabajo.EnteroAFactura(Integer.parseInt(ot.get(i)))+"\t ";
+                nom_ot=nom_ot+ot.get(i+1)+"\t ";
+            }
+            msg=id_ot+"\n"+nom_ot;
+            //CalenOT c= new CalenOT(msg);
+            //c.setVisible(true);
+            ot2 = Orden_Trabajo.getOT_SegunID(id_ot);
+            
+            final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
+            getDesktopPane().add(nuevaOT);
+            nuevaOT.show ();
+            nuevaOT.getEstado().setEnabled(true);
+            nuevaOT.getTxtCantidadDeHojasUtilizadas().setText(ot2.get(13).toString());
+            nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
+            nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura(Integer.valueOf(ot2.get(0))));
+            nuevaOT.getTipoProducto().setText(ot2.get(1).toString());
+            nuevaOT.getTipoProducto().setEditable(false);
+            nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(ot2.get(3).toString(), 1)));
+            nuevaOT.getCboMes().setEnabled(false);
+            nuevaOT.getCboDia().getModel().setSelectedItem(Metodos.separar(ot2.get(3).toString(), 2));
+            nuevaOT.getCboDia().setEnabled(false);
+            nuevaOT.getCboAnio().getModel().setSelectedItem(Metodos.separar(ot2.get(3).toString(), 0));
+            nuevaOT.getCboAnio().setEnabled(false);
+            nuevaOT.getCboMes2().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(ot2.get(4).toString(), 1)));
+            nuevaOT.getCboMes2().setEnabled(false);
+            nuevaOT.getCboDia2().getModel().setSelectedItem(Metodos.separar(ot2.get(4).toString(), 2));
+            nuevaOT.getCboDia2().setEnabled(false);
+            nuevaOT.getCboAnio2().getModel().setSelectedItem(Metodos.separar(ot2.get(4).toString(), 0));
+            nuevaOT.getCboAnio2().setEnabled(false);
+            nuevaOT.getTxtNombreOT().setText((String) ot2.get(5));
+            nuevaOT.getTxtNombreOT().setEditable(false);
+            nuevaOT.getTxtDescripcion().setText((String) ot2.get(6));
+            nuevaOT.getTxtDescripcion().setEditable(false);
+            nuevaOT.getTxtCantidadAEntregar().setText(ot2.get(6).toString());
+            nuevaOT.getTxtCantidadAEntregar().setEditable(false);
+            nuevaOT.getTxtPreimpresion().setText(Integer.toString(Integer.valueOf(ot2.get(8))));
+            nuevaOT.getTxtPreimpresion().setEditable(false);
+            nuevaOT.getTxtAncho().setText(ot2.get(9).toString());
+            nuevaOT.getTxtAncho().setEditable(false);
+            nuevaOT.getTxtAlto().setText(ot2.get(10).toString());
+            nuevaOT.getTxtAlto().setEditable(false);
+            //nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
+            nuevaOT.getChbApaisado().getModel().setSelected(Modelo.Orden_Trabajo.esApaisadaB(ot2.get(11).toString()));
+            nuevaOT.getChbApaisado().setEnabled(false);
+            nuevaOT.getEstado().getModel().setSelectedItem((String)ot2.get(12));
+            nuevaOT.getCliente().setSelectedItem(ot2.get(2).toString());
+            nuevaOT.getCliente().setEnabled(false);
+            nuevaOT.getBtnLimpiarCampos().setEnabled(false);
+            //permitir ingresar solo numeros en hojas utilizadas
+            nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent ke) {
+                    char c = ke.getKeyChar ();
+                    if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
+                    {
+                        getToolkit().beep ();
+                        ke.consume ();
+                    }
+                }
+                public void keyReleased(KeyEvent arg0) {}
+                public void keyPressed(KeyEvent arg0) {}
+            });
+            //Muestra los datos de la tabla Elemento
+            Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
+            Integer cantFilas = Elemento.cantidadFilas(id_OT);
+            ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
+            ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
+            DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
+            nuevaOT.getTablaElementos().setEnabled(false);
+            Object nuevaFilaElemento[]= {"",""};
+            for (int i = 0; i < cantFilas; i++) 
+            {
+                temp.addRow(nuevaFilaElemento);
+                temp.setValueAt(elemento.get(i), i, 0);
+                temp.setValueAt(cantidad.get(i), i, 1);    
+            }
+            nuevaOT.getBtnAgregarFila().setEnabled(false);
+            nuevaOT.getBtnBorrarFila().setEnabled(false);
+            nuevaOT.getBtnAlmacenar().setEnabled(false);
+            
+            nuevaOT.getTablaElementos().setEnabled(false);
+            
+            //Muestra los datos de la tabla Materiales
+            
+            ArrayList<Integer> gramaje = Materiales.getGramaje(id_OT);
+            ArrayList<Integer> poses_x_pliego = Materiales.getPoses_x_pliego(id_OT);
+            ArrayList<Integer> pliegos_netos = Materiales.getPliegos_netos(id_OT);
+            ArrayList<Integer> pliegos_en_demasia = Materiales.getPliegos_en_demasia(id_OT);
+            ArrayList<Integer> hojas = Materiales.getHojas(id_OT);
+            ArrayList<Integer> id_calidad = Materiales.getID_Calidad(id_OT);
+            ArrayList<Integer> id_variante = Materiales.getID_Variante(id_OT);
+            ArrayList<Integer> id_formato_papel = Materiales.getId_formato_papel(id_OT);
+            ArrayList<Integer> pliegos_x_hoja = Materiales.getPliegos_x_Hojas(id_OT);
+            
+            
+            DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
+            Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
+            cantFilas=Materiales.getID_Materiales(id_OT).size();
+            for (int i = 0; i < cantFilas; i++) 
+            {
+                tempMat.addRow(nuevaFilaMateriales);
+                tempMat.setValueAt(elemento.get(i), i, 0);
+                tempMat.setValueAt(cantidad.get(i), i, 1);    
+                tempMat.setValueAt(gramaje.get(i), i, 2);    
+                tempMat.setValueAt((Formato_Papel.getTamanio(id_formato_papel.get(i))), i, 3);    
+                tempMat.setValueAt(Variante.getNombre(id_variante.get(i)), i, 4);    
+                tempMat.setValueAt(Calidad.getNombre(id_calidad.get(i)), i, 5);    
 
-				tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);	
-				tempMat.setValueAt(poses_x_pliego.get(i), i, 7);	
-				tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);	
-				tempMat.setValueAt(hojas.get(i), i, 9);	
-				tempMat.setValueAt(pliegos_netos.get(i), i, 10);
-			}
-			nuevaOT.getTablaMateriales().setEnabled(false);
-			
-			
-			//Muestra los datos de la tabla Orden de ejecucion
-			
-			cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
-			ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
-			ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
-			ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
-			ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
-			ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
-			
-			//permite que la columna cumplida sea editable
-			nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel(new Object[][] {},
-					new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
-			{
-				Class[] columnTypes = new Class[] 
-				{
-					String.class, Boolean.class, String.class, String.class, Boolean.class
-				};
-				public Class getColumnClass(int columnIndex) 
-				{
-					return columnTypes[columnIndex];
-				}
-				boolean[] columnEditables = new boolean[] 
-				{
-					false, false,false, false, true
-				};
-				public boolean isCellEditable(int row, int column) 
-				{
-					return columnEditables[column];
-				}
-			});
-			
-				
-			DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
+                tempMat.setValueAt(pliegos_en_demasia.get(i), i, 6);    
+                tempMat.setValueAt(poses_x_pliego.get(i), i, 7);    
+                tempMat.setValueAt(pliegos_x_hoja.get(i), i, 8);    
+                tempMat.setValueAt(hojas.get(i), i, 9);    
+                tempMat.setValueAt(pliegos_netos.get(i), i, 10);
+            }
+            nuevaOT.getTablaMateriales().setEnabled(false);
+            
+            
+            //Muestra los datos de la tabla Orden de ejecucion
+            
+            cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
+            ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
+            ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
+            ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
+            ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
+            ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
+            
+            //permite que la columna cumplida sea editable
+            nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel(new Object[][] {},
+                    new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
+            {
+                Class[] columnTypes = new Class[] 
+                {
+                    String.class, Boolean.class, String.class, String.class, Boolean.class
+                };
+                public Class getColumnClass(int columnIndex) 
+                {
+                    return columnTypes[columnIndex];
+                }
+                boolean[] columnEditables = new boolean[] 
+                {
+                    false, false,false, false, true
+                };
+                public boolean isCellEditable(int row, int column) 
+                {
+                    return columnEditables[column];
+                }
+            });
+            
+                
+            DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
 
-			Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
+            Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
 
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				tempOE.addRow(nuevaFilaOrdenEjecucion);
-				tempOE.setValueAt(procesos.get(i), i, 0);
-				tempOE.setValueAt(tercerizadas.get(i), i, 1);	
-				tempOE.setValueAt(Proveedor.getRazonSocial(proveedor.get(i)), i, 2);	
-				tempOE.setValueAt(observaciones.get(i), i, 3);	
-				tempOE.setValueAt(cumplida.get(i), i, 4);	
-			}
-			nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
-			nuevaOT.getTablaOrdenEjecucion().setAutoResizeMode(1);
+            for (int i = 0; i < cantFilas; i++) 
+            {
+                tempOE.addRow(nuevaFilaOrdenEjecucion);
+                tempOE.setValueAt(procesos.get(i), i, 0);
+                tempOE.setValueAt(tercerizadas.get(i), i, 1);    
+                tempOE.setValueAt(Proveedor.getRazonSocial(proveedor.get(i)), i, 2);    
+                tempOE.setValueAt(observaciones.get(i), i, 3);    
+                tempOE.setValueAt(cumplida.get(i), i, 4);    
+            }
+            nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
+            nuevaOT.getTablaOrdenEjecucion().setAutoResizeMode(1);
 
-		}
-		else
-		{
-			msg="No hay Ordenes de trabajo para este día";
-			JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
-			//JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
-			//calculosNecesarios();
-			//setVisible(true);
-			//dispose();
-		}
-		//JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
-		//JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
-		//calculosNecesarios();
-		//setVisible(true);
-		//dispose();
-	}
+        }
+        else
+        {
+            msg="No hay Ordenes de trabajo para este día";
+            JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
+        }
+    }
 
 }

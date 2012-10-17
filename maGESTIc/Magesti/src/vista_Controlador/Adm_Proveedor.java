@@ -18,9 +18,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
+import Modelo.Proveedor;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 
 public class Adm_Proveedor extends JInternalFrame 
@@ -53,49 +55,33 @@ public class Adm_Proveedor extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				GuardarDatos();
+				Actualizar();
 			}
 		}
 		);
 		getContentPane().add(btnConfirmar);
 		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
+
 		btnAgregar.setBounds(10, d.height-290, 120, 30);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatos.getModel();
-					Object nuevo[]= {""};
-					tablaTemp.addRow(nuevo);
+					DefaultTableModel tablaTempDatos = (DefaultTableModel) tablaDatos.getModel();
+					Object nuevaFilaDatos[]= {"","","","","","","",true};
+					tablaTempDatos.addRow(nuevaFilaDatos);
+					
+					DefaultTableModel tablaTempContacto = (DefaultTableModel) tablaContacto.getModel();
+					Object nuevaFilaContacto[]= {"","","","",""};
+					tablaTempContacto.addRow(nuevaFilaContacto);
 			}
 		}
 		);
 		getContentPane().add(btnAgregar);
-		
-		JButton btnBorrar = new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
-		btnBorrar.setBounds(10, d.height-330, 120, 30);
-		btnBorrar.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				try
-				{	
-					DefaultTableModel tablaTemp = (DefaultTableModel) tablaDatos.getModel();
-					if(tablaTemp.getRowCount()>0)
-					{
-						tablaTemp.removeRow(tablaDatos.getSelectedRow());
-					}
-				}
-				catch(ArrayIndexOutOfBoundsException e1)
-				{
-					JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
-				}
-			}
-		});
-		//btnBorrar.setBounds(10, d.height-290, 120, 30);
-		getContentPane().add(btnBorrar);
-		
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 		tabbedPane.setBounds(10, 11, d.width-30, d.height-190);
 		getContentPane().add(tabbedPane);
@@ -122,32 +108,36 @@ public class Adm_Proveedor extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail"
+				"Nro", "Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail", "Activo"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
 		tablaDatos.getColumnModel().getColumn(0).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(0).setPreferredWidth(120);
+		tablaDatos.getColumnModel().getColumn(0).setPreferredWidth(30);
 		tablaDatos.getColumnModel().getColumn(1).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(1).setPreferredWidth(102);
+		tablaDatos.getColumnModel().getColumn(1).setPreferredWidth(130);
 		tablaDatos.getColumnModel().getColumn(2).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(101);
+		tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(102);
 		tablaDatos.getColumnModel().getColumn(3).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(178);
+		tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(101);
 		tablaDatos.getColumnModel().getColumn(4).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(4).setPreferredWidth(225);
 		tablaDatos.getColumnModel().getColumn(5).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(5).setPreferredWidth(137);
+		tablaDatos.getColumnModel().getColumn(6).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(6).setPreferredWidth(137);
+		tablaDatos.getColumnModel().getColumn(7).setResizable(false);
+		tablaDatos.getColumnModel().getColumn(7).setPreferredWidth(15);
 		spDatos.setViewportView(tablaDatos);
 		
 		tablaDatos.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaDatos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		tablaDatos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tablaDatos.getTableHeader().setReorderingAllowed(false);
 		
 		JPanel panContacto = new JPanel();
 		panContacto.setBorder
@@ -169,42 +159,48 @@ public class Adm_Proveedor extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Nombre", "Telefono", "Mail", "Direccion de retiro"
+				"Nro", "Nombre", "Telefono", "Mail", "Direccion de retiro"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaContacto.getColumnModel().getColumn(0).setResizable(false);
-		tablaContacto.getColumnModel().getColumn(0).setPreferredWidth(155);
+		tablaContacto.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tablaContacto.getColumnModel().getColumn(1).setResizable(false);
-		tablaContacto.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tablaContacto.getColumnModel().getColumn(1).setPreferredWidth(195);
 		tablaContacto.getColumnModel().getColumn(2).setResizable(false);
-		tablaContacto.getColumnModel().getColumn(2).setPreferredWidth(119);
+		tablaContacto.getColumnModel().getColumn(2).setPreferredWidth(115);
 		tablaContacto.getColumnModel().getColumn(3).setResizable(false);
-		tablaContacto.getColumnModel().getColumn(3).setPreferredWidth(179);
+		tablaContacto.getColumnModel().getColumn(3).setPreferredWidth(130);
+		tablaContacto.getColumnModel().getColumn(4).setResizable(false);
+		tablaContacto.getColumnModel().getColumn(4).setPreferredWidth(240);
 		spContacto.setViewportView(tablaContacto);
 		
-		//tablaContacto.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaContacto.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		tablaContacto.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		
-		this.setFilas();
+		tablaContacto.getTableHeader().setReorderingAllowed(false);
+		setFilas();
 
 	}
 	
-	private void setFilas() 
+		private void setFilas() 
 	 {
 		ResultSet result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT razon_social, cuit, cond_iva, direccion,telefono,mail from proveedor");
+							"SELECT id_proveedor, razon_social, cuit, cond_iva, direccion,telefono,mail,activo from proveedor");
 		
-			Integer CantColumnas=6;
+			Integer CantColumnas=8;
 			Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
 
 			try 
@@ -219,19 +215,18 @@ public class Adm_Proveedor extends JInternalFrame
 					}
 					tablaTempDatos.addRow(datos);
 				}
-				// result.close();
 			} 
 			catch (Exception e) 
 			{
 			}
 			
 			
-			CantColumnas=4;
+			CantColumnas=5;
 			Object contactos[] = new Object[CantColumnas];
 			result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro from proveedor");
+							"SELECT id_proveedor,nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro from proveedor");
 			
 			try 
 			{
@@ -245,10 +240,54 @@ public class Adm_Proveedor extends JInternalFrame
 					}
 					tablaTempContactos.addRow(contactos);
 				}
-				// result.close();
 			} 
 			catch (Exception e) 
 			{
 			}
+		}
+		
+		private void Actualizar()
+		{
+			Metodos.borrarFilas((DefaultTableModel)tablaDatos.getModel());
+			Metodos.borrarFilas((DefaultTableModel)tablaContacto.getModel());
+			setFilas();
+		}
+		
+		private void GuardarDatos()
+		{
+			Integer cantFilasDatos = tablaDatos.getRowCount();
+			for (int i = 0; i < cantFilasDatos; i++) 
+			{
+
+				String Nro_Proveedor = tablaDatos.getValueAt(i, 0).toString();
+				String razon_social = tablaDatos.getValueAt(i, 1).toString();
+				String CUIT = tablaDatos.getValueAt(i, 2).toString();
+				String cond_IVA = tablaDatos.getValueAt(i, 3).toString();
+				String direccion = tablaDatos.getValueAt(i, 4).toString();
+				String telefono = tablaDatos.getValueAt(i, 5).toString();
+				String mail = tablaDatos.getValueAt(i, 6).toString();
+				System.out.println(mail);
+				boolean activo = (Boolean) tablaDatos.getValueAt(i, 7);
+				
+				String nombre_contacto = tablaContacto.getValueAt(i, 1).toString();
+				String telefono_contacto = tablaContacto.getValueAt(i, 2).toString();
+				String mail_contacto = tablaContacto.getValueAt(i, 3).toString();
+				String direccion_retiro = tablaContacto.getValueAt(i, 4).toString();
+					
+				if(Nro_Proveedor.equals(""))
+				{
+					Proveedor pro = new Proveedor(razon_social,CUIT,cond_IVA,direccion,telefono,
+							mail,nombre_contacto,telefono_contacto,mail_contacto,direccion_retiro, activo);
+					pro.Alta();
+				}
+				else
+				{
+					ConexionDB.getbaseDatos().ejecutar("UPDATE proveedor SET razon_social = "+ "'"+razon_social+"'" + ",cuit = " + CUIT + ",cond_iva = "
+							+"'" +cond_IVA+"'" + ",direccion = " + "'"+direccion+"'" + ",telefono = " + "'"+telefono+"'" + ",mail = " + "'"+ mail + "'" + ",nombre_contacto =" +
+							"'"+nombre_contacto+"'" + ",telefono_contacto = "+ telefono_contacto + ",mail_contacto = " + "'"+mail_contacto+"'" + ",direccion_retiro = " + "'"+direccion_retiro+"'"
+							+ ",activo = " + activo + " WHERE id_proveedor =" + Integer.parseInt(Nro_Proveedor));
+				}
+			}
+			JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
 		}
 }
