@@ -11,10 +11,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 import javax.swing.*;
+
+import Modelo.Orden_Trabajo;
 
 @SuppressWarnings("serial")
 public class Calendario 
@@ -379,7 +382,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 
 	public void panel1()
 	{
-		pan1.setBackground(Color.GRAY);
+			pan1.setBackground(Color.GRAY);
 			pan1.setLayout(new GridLayout(0, 4, 0, 0));
 			lblAnio.setForeground(new Color(255, 255, 255));
 			pan1.add(lblAnio);
@@ -509,13 +512,28 @@ chAnio.select(Integer.valueOf(anioHoy));
 
 	public void db()
 	{
-		
-		
-		String msg = "En lugar de este cartel debería estar la OT\n de la fecha: " + diaSeleccionado+ "/" + mm + "/" + anio;
-		JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
-		calculosNecesarios();
-		setVisible(true);
-		dispose();
+		String fecha=anio+"-"+ mm + "-" + diaSeleccionado;
+		ArrayList<String> ot= Orden_Trabajo.getId_Nom_OTSegunFecha(fecha);
+		String id_ot="";
+		String nom_ot="";
+		String msg="";
+		if(ot.size()>1){
+			for(int i=0;i<ot.size();i=i+2){
+				id_ot=id_ot+Orden_Trabajo.EnteroAFactura(Integer.parseInt(ot.get(i)))+"\t ";
+				nom_ot=nom_ot+ot.get(i+1)+"\t ";
+			}
+			//msg = diaSeleccionado+ "/" + mm + "/" + anio+"\n"+id_ot+"\n"+nom_ot;
+			msg=id_ot+"\n"+nom_ot;
+			CalenOT c= new CalenOT(msg);
+			c.setVisible(true);
+		}else{
+			msg="No hay Ordenes de trabajo para este día";
+		}
+		//JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
+		//JOptionPane.showMessageDialog (this, msg, "Mensajito", JOptionPane.PLAIN_MESSAGE);
+		//calculosNecesarios();
+		//setVisible(true);
+		//dispose();
 	}
 
 }

@@ -508,14 +508,12 @@ public class Orden_Trabajo implements Config
 		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
 
 		if(resultado != null){
-			int i=0;
 			try {
 				while(resultado.next()){
 					
 						Integer id_ot=resultado.getInt("id_orden_trabajo");
 						String id_OT_Formato=EnteroAFactura(id_ot);
 						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
-						i++;
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -542,5 +540,31 @@ public class Orden_Trabajo implements Config
 		}
 		return f_h_actual;
 	}
+	
+	
+	public static ArrayList<String> getId_Nom_OTSegunFecha(String fechaprom){
+		fechaprom="'"+fechaprom+"'";
+		ArrayList<String> id_nomOT=new ArrayList<String>();
+		
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo, nombre_trabajo FROM orden_trabajo WHERE f_prometida="+fechaprom);
+
+		if(resultado != null){
+			
+			try {
+				while(resultado.next()){
+						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						id_nomOT.add(id_ot.toString());
+						id_nomOT.add(resultado.getString("nombre_trabajo"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return id_nomOT;	
+	}
+	
+	
 		
 }
