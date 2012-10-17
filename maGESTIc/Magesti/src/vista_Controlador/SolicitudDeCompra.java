@@ -26,7 +26,6 @@ import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
-import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
@@ -458,7 +457,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
-				Object nuevo[]= {""};
+				Object nuevo[]= {0,"","","","",0,0.0,"",0.0};
 				temp.addRow(nuevo);
 				
 				String calidades[] = Calidad.getCalidades();
@@ -524,7 +523,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					total = subtotal + monto_iva;
 					DecimalFormat df= new DecimalFormat("0.00");
 					df.format(subtotal);
-					txtSubtotal.setText(pasarAPesos(df.format(subtotal)));
+					txtSubtotal.setText(Metodos.pasarAPesos(df.format(subtotal)));
 					txtMontoIVA.setText("$ " + df.format(monto_iva));
 					txtTotal.setText("$ " + df.format(total));
 				}else{
@@ -649,10 +648,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		int clave = Orden_Trabajo.FacturaAEntero(txtNumero.getText());
+	public void actionPerformed(ActionEvent e) 
+	{
 		Object obj = e.getSource();
-		if(obj==btnConfirmar){
+		if(obj==btnConfirmar)
+		{
 			String sVendedor = txtVendedor.getText().trim();
 			String sDirRetiro = txtDireccionRetiro.getText().trim();
 			//faltaria verificar que no sean solo espacios el nombre del vendedor
@@ -666,7 +666,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				);
 				txtVendedor.requestFocus();
 			}
-			else if(grupoHorario.getSelection()==null){
+			else if(grupoHorario.getSelection()==null)
+			{
 				JOptionPane.showMessageDialog 
 				(
 					this, 
@@ -728,15 +729,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	}
 	
 	
-	private void cargarTablas() {
-		
+	private void cargarTablas()
+	{
 		String fechaConfeccion = txtFecha.getText();
 		Integer id_proveedor = Proveedor.getId_Proveedor((String) cbProveedor.getSelectedItem());
 		String vendedor = (String) txtVendedor.getText();
-		Integer id_OT=getIdEnCombo();
+		Integer id_OT = Metodos.getIdEnCombo(cbNroOT);
 		boolean envia_proveedor=rdbtnEnviarAProveedor.isSelected();
 		String direccionRetiro="";
-		if(!envia_proveedor){
+		if(!envia_proveedor)
+		{
 			direccionRetiro=txtDireccionRetiro.getText();	
 		}
 		
@@ -748,17 +750,17 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			horEntrega="M";
 		}
 		
-		Double subtotal= pasarADouble(txtSubtotal.getText());
+		Double subtotal= Metodos.pasarADouble(txtSubtotal.getText());
 		Double porcentaje_iva=Config.IVA;
-		Double monto_iva= pasarADouble(txtMontoIVA.getText());
-		Double total=pasarADouble(txtTotal.getText());
+		Double monto_iva= Metodos.pasarADouble(txtMontoIVA.getText());
+		Double total=Metodos.pasarADouble(txtTotal.getText());
 		
 		//dar de alta SC
 		Solicitud_compra sc = new Solicitud_compra(fechaConfeccion, id_proveedor, vendedor, id_OT, envia_proveedor, direccionRetiro, fechaEntrega, horEntrega, subtotal, porcentaje_iva, monto_iva, total);
 		sc.Alta();
 
 		//cargar datos en detalles para esa SC
-		int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
+		int cantFilas=tablaDetalles.getRowCount();
 		for(int i=0;i<cantFilas;i++){
 				Integer cantidad=(Integer) tablaDetalles.getValueAt(i, 0);
 				String marca=tablaDetalles.getValueAt(i, 1).toString();
@@ -775,20 +777,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				detalle.Alta();
 				}
 		}
-		
-	
-	public Integer getIdEnCombo(){
-		String id="";
-		String otSelec=(String) cbNroOT.getSelectedItem();
-		for(int i=0;otSelec.charAt(i)!= ' ';i++){
-				id=id+otSelec.charAt(i);
-		}
-		return Orden_Trabajo.FacturaAEntero(id);
-	}
-	
-	
 
-	private Double getImporte(Integer i) {
+	private Double getImporte(Integer i) 
+	{
 		Double importe=0.0;
 		String unidad_medida_precio="";
 		Integer cant_hojas=0;
@@ -820,15 +811,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 		//}		
 		return importe;
-	}
-	
-	public static String pasarAPesos(String df){
-		return "$ "+df;
-	}
-	
-	private Double pasarADouble(String cant){
-		String monto=cant.substring(2);//saco el sigo $ 
-		return Double.parseDouble(monto.replace(',', '.'));
 	}
 
 		

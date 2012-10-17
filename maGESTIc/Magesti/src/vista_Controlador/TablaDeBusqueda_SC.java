@@ -3,10 +3,6 @@ package vista_Controlador;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.StringTokenizer;
-
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,11 +21,8 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyVetoException;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda_SC extends JInternalFrame 
@@ -102,13 +95,13 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getRdbtnRetirar().setEnabled(false);
 				
 				
-				nuevaSC.getCbMes().getModel().setSelectedItem(dameMes(separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 1)));
+				nuevaSC.getCbMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 1)));
 				nuevaSC.getCbMes().setEnabled(false);
 				
-				nuevaSC.getCbDia().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 2));
+				nuevaSC.getCbDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 2));
 				nuevaSC.getCbDia().setEnabled(false);
 				
-				nuevaSC.getCbAnio().getModel().setSelectedItem(separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
+				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
@@ -121,10 +114,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getRbTarde().setEnabled(false);
 				nuevaSC.getRbManiana().setEnabled(false);
 				
-				nuevaSC.getTxtSubtotal().setText(SolicitudDeCompra.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 9).toString()));
+				nuevaSC.getTxtSubtotal().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 9).toString()));
 				nuevaSC.getTxtIVA().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString()+" %");
-				nuevaSC.getTxtMontoIVA().setText(SolicitudDeCompra.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
-				nuevaSC.getTxtTotal().setText(SolicitudDeCompra.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 12).toString()));
+				nuevaSC.getTxtMontoIVA().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
+				nuevaSC.getTxtTotal().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 12).toString()));
 				
 				
 				
@@ -197,8 +190,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() {
 						
 						@Override
-						public void actionPerformed(ActionEvent e) {
-							boolean b = openChildWindow ("SC");
+							public void actionPerformed(ActionEvent e) {
+							boolean b = Metodos.openChildWindow ("SC");
 							
 							if (b == false) 
 							{
@@ -256,8 +249,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			}
 		});
 		
-		
-		
 		getContentPane().add (jpMostrar);
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 		setFilas();
@@ -284,7 +275,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		// Encabezados de la tabla
 		private String[] getColumnas() 
 		{
-			String columna[] = Solicitud_compra.getNomColumAMostrar();
+			String columna[] = Solicitud_compra.getNomColum();
 			return columna;
 		}
 
@@ -292,12 +283,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		
 		private void setFilas() 
 		 {
-			Calendar fecha= Calendar.getInstance();
-			Integer mm=fecha.get(Calendar.MONTH)+1;
-			Integer dd=fecha.get(Calendar.DATE);
-			Integer aaaa=fecha.get(Calendar.YEAR);	
-			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
-			
 			ResultSet result=ConexionDB.getbaseDatos().consultar(
 			"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor order by id_solicitud_compra");
 						
@@ -321,110 +306,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						}
 						dtmMagesti.addRow(datos);
 					}
-					// result.close();
 				} 
 				catch (Exception e) 
 				{
 				}
 			}
-		
-		static String separar(String fecha, int numero)
-		{
-			StringTokenizer s = new StringTokenizer(fecha, "-");
-			int cantidadChars = 0;
-			int numeroIdentificador = numero;
-			String parte = "";
-			while(s.hasMoreTokens())
-			{
-				String elemento = s.nextToken();
-				if (cantidadChars < 1 && numeroIdentificador == 0 )
-				{
-					parte=elemento;
-					break;
-				}
-				else if((cantidadChars >= 1 && cantidadChars < 2) && numeroIdentificador == 1)
-				{
-					parte=elemento;
-					break;
-				}
-				else if((cantidadChars >=2 && cantidadChars < 3) && numeroIdentificador == 2)
-				{
-					parte=elemento;
-					break;
-				}
-					cantidadChars++;
-			}
-			return parte;
-		}
-
-		
-		static String dameMes(String mes)
-		{
-			if(mes.equals("01") | mes.equals("1"))
-			{
-				return "Enero";
-			}
-			else if(mes.equals("02") | mes.equals("2"))
-			{
-				return "Febrero";
-			}
-			else if(mes.equals("03") | mes.equals("3"))
-			{
-				return "Marzo";
-			}
-			else if(mes.equals("04") | mes.equals("4"))
-			{
-				return "Abril";
-			}
-			else if(mes.equals("05") | mes.equals("5"))
-			{
-				return "Mayo";
-			}
-			else if(mes.equals("06") | mes.equals("6"))
-			{
-				return "Junio";
-			}
-			else if(mes.equals("07") | mes.equals("7"))
-			{
-				return "Julio";
-			}
-			else if(mes.equals("08") | mes.equals("8"))
-			{
-				return "Agosto";
-			}
-			else if(mes.equals("09") | mes.equals("9"))
-			{
-				return "Septiembre";
-			}
-			else if(mes.equals("10"))
-			{
-				return "Octubre";
-			}
-			else if(mes.equals("11"))
-			{
-				return "Noviembre";
-			}
-			else
-			{
-				return "Diciembre";
-			}
-		}
-		
-		private boolean openChildWindow (String title) 
-		{
-
-			JInternalFrame[] childs = Magesti.getEscritorio().getAllFrames ();
-			for (int i = 0; i < childs.length; i++) 
-			{
-				if (childs[i].getTitle().equalsIgnoreCase (title)) 
-				{
-					childs[i].show ();
-					return true;
-				}
-			}
-			return false;
-
-		}
 		
 		
 }

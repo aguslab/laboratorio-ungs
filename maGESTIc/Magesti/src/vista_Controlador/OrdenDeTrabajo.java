@@ -415,7 +415,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		Calendar fecha= Calendar.getInstance();
 		Integer mm=fecha.get(Calendar.MONTH)+1;
-		cboMes.getModel().setSelectedItem(TablaDeBusqueda.dameMes(mm.toString()));
+		cboMes.getModel().setSelectedItem(Metodos.dameMes(mm.toString()));
 		cboMes.setBounds(695, 11, 97, 25);
 		cboMes.setEnabled(false);
 		
@@ -851,12 +851,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		final JList listaProcesos = new JList();
 		spListaDeProcesos.setViewportView(listaProcesos);
-		listaProcesos.setModel(new AbstractListModel() {
+		listaProcesos.setModel(new AbstractListModel() 
+		{
 			String[] values = new String[] {};
-			public int getSize() {
+			public int getSize() 
+			{
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public Object getElementAt(int index) 
+			{
 				return values[index];
 			}
 		});

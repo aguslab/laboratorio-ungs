@@ -11,23 +11,12 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
 import Modelo.Calidad;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Recepcion_pedido;
-import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
 import java.awt.Font;
@@ -267,34 +256,6 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		}
 		
 	}
-	
-	
-	private void cargarTablas() {
-		
-		
-		
-		
-		
-		//dar de alta SC
-		
-
-		//cargar datos en detalles para esa SC
-		int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
-		for(int i=0;i<cantFilas;i++){
-				Integer cantidad=(Integer) tablaDetalles.getValueAt(i, 0);
-				String marca=tablaDetalles.getValueAt(i, 1).toString();
-				Integer id_calidad = Calidad.getId_Calidad(tablaDetalles.getValueAt(i, 2).toString());
-				Integer id_variante = Variante.getId_Variante(tablaDetalles.getValueAt(i, 3).toString());
-				Integer id_formato = Formato_Papel.getId_Formato(tablaDetalles.getValueAt(i, 4).toString());
-				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
-				Double precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
-				String unidad_medida_del_precio=tablaDetalles.getValueAt(i, 7).toString();
-				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
-				
-				//dar de alta detalle
-				
-				}
-		}
 };
 	
 	

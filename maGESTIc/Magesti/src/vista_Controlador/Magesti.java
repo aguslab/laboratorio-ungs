@@ -370,7 +370,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Object obj = ae.getSource();
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
-			boolean b = openChildWindow ("Nueva Orden de Trabajo");
+			boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
 			if (b == false) 
 			{
 				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
@@ -381,7 +381,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == consultarOrdenDeTrabajo)
 		{
 
-				boolean b = openChildWindow ("Buscador");
+				boolean b = Metodos.openChildWindow ("Buscador");
 				if (b == false) 
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo",false);
@@ -418,7 +418,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			 * Código para ingresar la Solicitud de Compra
 			 */
 			{
-				boolean b = openChildWindow ("SC");
+				boolean b = Metodos.openChildWindow ("SC");
 				if (b == false) 
 				{
 				SolicitudDeCompra nSC = new SolicitudDeCompra(false);
@@ -430,7 +430,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == btnBuscarOrdenDeTrabajo) 
 		{
 
-				boolean b = openChildWindow ("Buscador");
+				boolean b = Metodos.openChildWindow ("Buscador");
 				if (b == false) 
 				{
 					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo",false);
@@ -447,7 +447,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == consultarSolicitudDeCompra || obj==btnBuscarSolicitudDeCompra) 
 		{		
-			boolean b = openChildWindow ("Buscador");
+			boolean b = Metodos.openChildWindow ("Buscador");
 			if (b == false) 
 			{
 				TablaDeBusqueda_SC tablaB = new TablaDeBusqueda_SC("Consultar Solicitud de Compra");
@@ -466,7 +466,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			/*
 			 * Código para ingresar un Registro De Pedido
 			 */
-			boolean b = openChildWindow ("SC");
+			boolean b = Metodos.openChildWindow ("SC");
 			if (b == false) 
 			{
 			SolicitudDeCompra nSC = new SolicitudDeCompra(true);
@@ -477,17 +477,17 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == reporte) 
 		{
-		boolean b = openChildWindow ("Reporte");
+		boolean b = Metodos.openChildWindow ("Reporte");
 		if (b == false) 
 		{
-		imprimir (fabricaReporte(1020));
+		Metodos.imprimir (Metodos.fabricaReporte(1020,qCLIENTE), this);
 		}
 		}
 		
 		
 		else if (obj == btnCalendario || obj==mostrarCalendario)  
 		{
-			boolean b = openChildWindow ("Calendario");
+			boolean b = Metodos.openChildWindow ("Calendario");
 			if (b == false) 
 			{
 				Calendario cal = new Calendario();
@@ -499,7 +499,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == clientes) 
 		{
 			
-			boolean b = openChildWindow ("Registro de Clientes");
+			boolean b = Metodos.openChildWindow ("Registro de Clientes");
 			if (b == false) 
 			{
 				Adm_Cliente admCli= new Adm_Cliente();
@@ -519,7 +519,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == Proveedor) 
 		{
 			
-			boolean b = openChildWindow ("Registro de Proveedor");
+			boolean b = Metodos.openChildWindow ("Registro de Proveedor");
 			if (b == false) 
 			{
 				Adm_Proveedor admProv= new Adm_Proveedor();
@@ -542,7 +542,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == Calidad) 
 		{
 			
-			boolean b = openChildWindow ("Registro de Calidad");
+			boolean b = Metodos.openChildWindow ("Registro de Calidad");
 			if (b == false) 
 			{
 				Adm_Calidad admCal= new Adm_Calidad();
@@ -554,7 +554,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == Formato) 
 		{
 			
-			boolean b = openChildWindow ("Registro de Formato");
+			boolean b = Metodos.openChildWindow ("Registro de Formato");
 			if (b == false) 
 			{
 				Adm_Formato admFor= new Adm_Formato();
@@ -567,7 +567,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == Variante) 
 		{
 			
-			boolean b = openChildWindow ("Registro de Variante");
+			boolean b = Metodos.openChildWindow ("Registro de Variante");
 			if (b == false) 
 			{
 				Adm_Variante admVar= new Adm_Variante();
@@ -578,7 +578,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == Stock)
 		{
-			boolean b = openChildWindow ("Registro de Stock");
+			boolean b = Metodos.openChildWindow ("Registro de Stock");
 			if (b == false) 
 			{
 				Adm_Stock admStock= new Adm_Stock();
@@ -597,7 +597,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{
-			boolean b = openChildWindow ("Ayuda Magesti");
+			boolean b = Metodos.openChildWindow ("Ayuda Magesti");
 			if (b == false) 
 			{
 				MagestiHelp hlpMagesti = new MagestiHelp ("Contenido de Ayuda", "Ayuda/Magesti.htm");
@@ -607,7 +607,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == ayudaAtajos) 
 		{
-			boolean b = openChildWindow ("Atajos Magesti");
+			boolean b = Metodos.openChildWindow ("Atajos Magesti");
 			if (b == false) 
 			{
 				MagestiHelp hlpAtajos = new MagestiHelp ("Atajos / Combinaciones de teclas", "Ayuda/Atajos.htm");
@@ -622,22 +622,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 					"©2012 - De Napoli, Godoy, Jiménez y asociados.";
 				JOptionPane.showMessageDialog (this, msg, "Acerca de...", JOptionPane.PLAIN_MESSAGE);
 		}
-	}
-	
-	private boolean openChildWindow (String title) 
-	{
-
-		JInternalFrame[] childs = escritorio.getAllFrames ();
-		for (int i = 0; i < childs.length; i++) 
-		{
-			if (childs[i].getTitle().equalsIgnoreCase (title)) 
-			{
-				childs[i].show ();
-				return true;
-			}
-		}
-		return false;
-
 	}
 
 	private void salirDelPrograma() 
@@ -673,83 +657,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 	}
 	
-	public static JDesktopPane getEscritorio(){
+	public static JDesktopPane getEscritorio()
+	{
 		return escritorio;
 	}
-	
-
-		String fabricaReporte (int OT) 
-		{
-
-			String data;
-			String margen = "        ";
-			String data0 = "                        "+qCLIENTE+"                   \n";
-			String data1 = "           Reporte de Orden de Trabajo          \n\n";
-			String data2 = "   Orden No.: " + OT +"\n"; 
-			String data3 = "   Cliente: \n"; 
-			String data4 = "   Desc. Trabajo:  \n"; 
-			String data5 = "   Otro dato:   \n"; 
-			String data6 = "   Y otro dato:   \n"; 
-			String data7 = "   ... :   \n"; 
-			String data8 = "   Copyright © 2012 De Napoli, Godoy, Jiménez y Asociados   \n";	
-			 String sep0 = " -----------------------------------------------------------\n";
-			 String sep1 = " -----------------------------------------------------------\n\n";
-
-			data = margen + data0 + margen +sep0 + margen +data1 + margen +data2 + margen +data3 + margen +data4 + margen +data5 + margen +data6 + margen +data7 + margen +sep1 + margen +data8;
-			return data;
-
-		}
-
-
-		void imprimir (String rec) 
-		{
-
-			StringReader sr = new StringReader (rec);
-			LineNumberReader lnr = new LineNumberReader (sr);
-			Font typeface = new Font ("Courier", Font.PLAIN, 12);
-			Properties p = new Properties ();
-			PrintJob pJob = getToolkit().getPrintJob (this, "Imprime reporte", p);
-
-			if (pJob != null) {
-				Graphics gr = pJob.getGraphics ();
-				if (gr != null) {
-					FontMetrics fm = gr.getFontMetrics (typeface);
-					int margin = 20;
-					int pageHeight = pJob.getPageDimension().height - margin;
-	    				int fontHeight = fm.getHeight();
-		    			int fontDescent = fm.getDescent();
-	    				int curHeight = margin;
-					String nextLine;
-					gr.setFont (typeface);
-
-					try {
-						do {
-							nextLine = lnr.readLine ();
-							if (nextLine != null) {         
-								if ((curHeight + fontHeight) > pageHeight) {	//New Page.
-									gr.dispose();
-									gr = pJob.getGraphics ();
-									curHeight = margin;
-								}							
-								curHeight += fontHeight;
-								if (gr != null) {
-									gr.setFont (typeface);
-									gr.drawString (nextLine, margin, curHeight - fontDescent);
-								}
-							}
-						}
-						while (nextLine != null);					
-					}
-					catch (EOFException eof) { }
-					catch (Throwable t) { }
-				}
-				gr.dispose();
-			}
-			if (pJob != null)
-				pJob.end ();
-		}
-
-	
 	@Override
 	public void itemStateChanged(ItemEvent arg0) 
 	{

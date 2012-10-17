@@ -221,7 +221,8 @@ public class Solicitud_compra {
 
 	}
 
-	public static String[] getNomColumAMostrar() {
+	public static String[] getNomColum() 
+	{
 		String columnas[] = 
 			{ 
 				"Nro Solicitud Compra", 
