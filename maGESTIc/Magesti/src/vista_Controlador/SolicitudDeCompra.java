@@ -156,9 +156,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				
 		}
 		
-		
-		
-		
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
@@ -457,7 +454,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
-				Object nuevo[]= {0,"","","","",0,0.0,"",0.0};
+				//Object nuevo[]= {null,"","","","",null,null,"",null};
+				Object nuevo[]= {0,"","","","",0,0,"",0};
 				temp.addRow(nuevo);
 				
 				String calidades[] = Calidad.getCalidades();
