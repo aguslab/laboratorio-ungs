@@ -127,6 +127,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	JButton btnAlmacenar;
 
 	private JFormattedTextField txtAlto, txtAncho;
+	private JButton btnImprimirReporte;
 
 	OrdenDeTrabajo()
 	{	
@@ -605,6 +606,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnBorrarFila .setBounds(140, 206,120,30);
 		panElementos.add(btnBorrarFila);
 		
+		
+		
 		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
 		btnAlmacenar.addActionListener(new ActionListener() 
 		{
@@ -967,9 +970,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		txtClear();
+		
+		btnImprimirReporte = new JButton("Imprimir Reporte");
+		btnImprimirReporte.setBounds(524, 514, 121, 30);
+		jpOrdenDeTrabajo.add(btnImprimirReporte);
+		btnImprimirReporte.setEnabled(false);
 	}
 
 	
@@ -979,7 +986,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		int clave = Metodos.FacturaAEntero(txtNro.getText());
 		Object obj = ae.getSource();
 		int flag=0;
-		String estado=this.cboEstado_1.getSelectedItem().toString().toUpperCase();
+		String estado= (String) this.cboEstado_1.getSelectedItem();
 		if (obj == btnGuardar) 
 		{
 			ResultSet sqlOT = ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo, estado FROM orden_trabajo WHERE id_orden_trabajo = "+clave);
@@ -993,7 +1000,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					{
 						String sqlEstado = sqlOT.getString("estado");
 						// Si esta "pendiente" y se cambia el estado a otro distinto de "pendiente"
-						if (sqlEstado.equalsIgnoreCase("pendiente") && cboEstado_1.getSelectedItem().toString().equalsIgnoreCase("pendiente"))
+						if (sqlEstado.equalsIgnoreCase("Pendiente") && cboEstado_1.getSelectedItem().toString().equalsIgnoreCase("Pendiente"))
 						{
 							flag = 1;
 						}
@@ -1010,7 +1017,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 			
-			if (flag!=0) //Si no esta "En ejecucion"
+			if (flag!=0) //Si no esta "En proceso"
 			{
 				if (flag==1) //Si esta "Pendiente"
 				{
@@ -1026,6 +1033,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				else
 				{
+					System.out.println("D:");
 					JOptionPane.showMessageDialog 
 					(
 						this, 
@@ -1115,24 +1123,40 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
-				else if(estado.equals("EN PROCESO")
-						|| estado.equals("CERRADO")){
-						if(estado.equals("EN PROCESO")){
-							Orden_Trabajo.CambiarEstado(clave, "En Proceso");		
-						}else{
-							Orden_Trabajo.CambiarEstado(clave, "Cerrado");		
+				
+				else if (!proveedorElegido()) 
+				{
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Debe seleccionar un proveedor",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
+
+				else if(estado.equals("En Proceso") || estado.equals("Cerrada"))
+				{
+						if(estado.equals("En Proceso"))
+						{
+							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
 						}
+						else
+						{
+							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+						}
+						
 						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
 						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++)
+						{
 							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-							System.out.println(Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n));
+							Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
 						}
 						obj = btnCancelar;
 				}
 				else 
 				{
-					System.out.println("D:");
 					cargarTablas(); // Cargaría la tabla en memoria
 					obj = btnCancelar;
 	
@@ -1149,7 +1173,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			txtClear ();
 		}
-		System.out.println(":D");
 		TablaDeBusqueda.Actualizar();
 	}
 	
@@ -1161,8 +1184,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
 		Double ancho = Double.parseDouble(txtAncho.getText());
 		Double alto = Double.parseDouble(txtAlto.getText());
-		System.out.println(txtAncho.getText());
-		System.out.println(txtAlto.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
@@ -1426,4 +1447,29 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	public String[] getMeses() {
 		return Meses;
 	}
-}	
+	
+	public JButton getBtnImprimirReporte()
+	{
+		return this.btnImprimirReporte;
+	}
+	
+	
+	private boolean proveedorElegido()
+	{
+		Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
+		Integer id_Proveedor;
+		for (int i = 0; i < cantFilasProc; i++) 
+		{
+			boolean isTercerizada = (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 1);
+			if(isTercerizada == true)
+			{
+				 id_Proveedor = Proveedor.getId_Proveedor(tablaOrdenDeEjecucion.getValueAt(i, 2).toString());
+				 if(id_Proveedor == null )
+				 {
+					 return false;
+				 }
+			}
+		}
+		return true;
+	}
+}		
