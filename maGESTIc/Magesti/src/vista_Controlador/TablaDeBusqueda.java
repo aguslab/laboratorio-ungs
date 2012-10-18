@@ -4,12 +4,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import Modelo.Calidad;
 import Modelo.ConexionDB;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
+import Modelo.Hojas_Utilizadas;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
@@ -19,6 +22,8 @@ import Modelo.Procesos_x_OT;
 import java.awt.GridLayout;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -58,6 +63,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
+
 				boolean sonIguales = tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada");
 				if(sonIguales)
 				{
@@ -131,11 +137,33 @@ public class TablaDeBusqueda extends JInternalFrame
 					public void keyPressed(KeyEvent arg0) {}
 				});
 				
+				
+				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
+						new String[] {"Elemento", "Cantidad", "Hojas Utilizadas"}) 
+					{
+						Class[] columnTypes = new Class[] 
+						{
+							String.class, Integer.class, Integer.class
+						};
+						public Class getColumnClass(int columnIndex) 
+						{
+							return columnTypes[columnIndex];
+						}
+						boolean[] columnEditables = new boolean[] 
+						{
+							false, false, true
+						};
+						public boolean isCellEditable(int row, int column) 
+						{
+							return columnEditables[column];
+						}
+					});
 				//Muestra los datos de la tabla Elemento
 				Integer id_OT=Metodos.FacturaAEntero(nuevaOT.getTxtNro().getText());
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
+				ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(id_OT);
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				nuevaOT.getTablaElementos().setEnabled(false);
 				Object nuevaFilaElemento[]= {"",""};
@@ -144,12 +172,19 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
+					if(cantHojasUtil.size()>0){
+						temp.setValueAt(cantHojasUtil.get(i), i, 2);	
+					}
+					
 				}
 				nuevaOT.getBtnAgregarFila().setEnabled(false);
 				nuevaOT.getBtnBorrarFila().setEnabled(false);
 				nuevaOT.getBtnAlmacenar().setEnabled(false);
 				
-				nuevaOT.getTablaElementos().setEnabled(false);
+				nuevaOT.getTablaElementos().setEnabled(true);
+				
+				
+				
 				
 				//Muestra los datos de la tabla Materiales
 				
@@ -167,6 +202,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
 				Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
 				cantFilas=Materiales.getID_Materiales(id_OT).size();
+				
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					tempMat.addRow(nuevaFilaMateriales);
@@ -269,6 +305,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		
 		private static void setFilas() 
 		 {
+
 			ResultSet result = ConexionDB.getbaseDatos().consultar(
 								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
 			
