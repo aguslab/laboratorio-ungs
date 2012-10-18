@@ -8,12 +8,12 @@ public class Recepcion_pedido {
 	 private Integer id_recepcion_pedido;
 	 private Integer id_solicitud_compra;
 	 private String estado;
-	 private Date f_h_recibido;
+	 private String f_h_recibido;
 	 private String incidente;
 	
 	 
 	 public Recepcion_pedido(Integer id_solicitud_compra, String estado,
-			Date f_h_recibido, String incidente) {
+			 String f_h_recibido, String incidente) {
 		super();
 		this.id_solicitud_compra = id_solicitud_compra;
 		this.estado = estado;
@@ -42,12 +42,12 @@ public class Recepcion_pedido {
 	}
 
 
-	public Date getF_h_recibido() {
+	public String getF_h_recibido() {
 		return f_h_recibido;
 	}
 
 
-	public void setF_h_recibido(Date f_h_recibido) {
+	public void setF_h_recibido(String f_h_recibido) {
 		this.f_h_recibido = f_h_recibido;
 	}
 

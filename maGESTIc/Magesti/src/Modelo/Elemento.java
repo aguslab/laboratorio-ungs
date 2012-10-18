@@ -240,6 +240,28 @@ public class Elemento {
 
 			return list_Elementos;
 		}
+
+	public static ArrayList<Integer> getIdElementos(int clave) {
+		ArrayList<Integer> id_elem = new ArrayList<Integer>();
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_elemento FROM elemento where id_orden_trabajo="
+						+ clave);
+
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					id_elem.add(resultado.getInt("id_elemento"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return id_elem;
+	}
 	
 	
 	

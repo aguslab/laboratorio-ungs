@@ -219,7 +219,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 									JOptionPane.WARNING_MESSAGE
 								);
 							}else{
-								Date f_h_recibido=Metodos.getDateTimeActual();
+								String f_h_recibido=Metodos.getDateTimeActual();
 								Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Rechazado",f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 								rp.Alta();
 								nuevaSC.dispose();	
@@ -233,7 +233,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							Detalle.setAllAsRecibidos(id_SC); 
-							Date f_h_recibido=Metodos.getDateTimeActual();
+							String f_h_recibido=Metodos.getDateTimeActual();
 							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 							rp.Alta();
 							nuevaSC.dispose();

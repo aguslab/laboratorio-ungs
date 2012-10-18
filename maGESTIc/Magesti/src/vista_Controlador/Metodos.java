@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -333,9 +334,9 @@ public class Metodos implements Config
 
 
 
-	public static Date getDateTimeActual()
-	{
-		Date f_h_actual = null;
+	public static String getDateTimeActual() {
+		String f_h_actual = null;
+
 		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
 		if(resultado != null)
 		{
@@ -343,7 +344,7 @@ public class Metodos implements Config
 			{
 				while(resultado.next())
 				{
-						f_h_actual=resultado.getDate(1);
+						f_h_actual=resultado.getString(1);
 				}
 			} catch (SQLException e) 
 			{
