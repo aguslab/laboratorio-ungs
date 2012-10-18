@@ -99,7 +99,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		lbNumero.setBounds(10, 11, 75, 30);
 		JpSolicitudDeCompra.add(lbNumero);
 		
-		String maxId = Orden_Trabajo.EnteroAFactura(Solicitud_compra.getUltId_SC());
+		String maxId = Metodos.EnteroAFactura(Solicitud_compra.getUltId_SC());
 		
 		txtNumero = new JTextField(maxId);
 		txtNumero.setFont(new Font("Arial", Font.BOLD, 12));
@@ -646,6 +646,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	}
 
 	@Override
+
 	public void actionPerformed(ActionEvent e) 
 	{
 		Object obj = e.getSource();
@@ -740,7 +741,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			direccionRetiro=txtDireccionRetiro.getText();	
 		}
 		
-		String fechaEntrega= (String) cbAnio.getSelectedItem() +"-"+ OrdenDeTrabajo.dameNumeroMes((String)cbMes.getSelectedItem()) +"-"+ cbDia.getSelectedItem();
+		String fechaEntrega= (String) cbAnio.getSelectedItem() +"-"+ Metodos.dameNumeroMes((String)cbMes.getSelectedItem()) +"-"+ cbDia.getSelectedItem();
 		String horEntrega;
 		if(rbTarde.isSelected()){
 			horEntrega="T";
@@ -771,7 +772,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
 				
 				//dar de alta detalle
-				Detalle detalle= new Detalle(Orden_Trabajo.FacturaAEntero(txtNumero.getText()), cantidad, marca, id_calidad, id_formato, id_variante, gramaje, precio_unitario, unidad_medida_del_precio, importe,false);
+				Detalle detalle= new Detalle(Metodos.FacturaAEntero(txtNumero.getText()), cantidad, marca, id_calidad, id_formato, id_variante, gramaje, precio_unitario, unidad_medida_del_precio, importe,false);
 				detalle.Alta();
 				}
 		}

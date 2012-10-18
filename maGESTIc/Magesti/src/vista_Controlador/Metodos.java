@@ -272,6 +272,27 @@ public class Metodos implements Config
 		return FacturaAEntero(id);
 	}
 	
+	static boolean esNumero(String posibleNumero){
+		boolean esNumero=posibleNumero.length()>0;
+		for (int j = 0; j < posibleNumero.length(); j++) {
+			esNumero=esNumero && (posibleNumero.charAt(j)>='0' && posibleNumero.charAt(j)<='9');
+		}
+
+		return esNumero;
+	}
+	
+	static boolean noEsVacio(String cadena){
+		boolean NoesVacio=cadena.length()>0;
+		
+		for(int i=0;i<cadena.length();i++){
+			if(cadena.charAt(i)==' '){
+				return false;
+			}
+		}
+		return NoesVacio;
+	}
+	
+	
     static public String EnteroAFactura(Integer valor) 
     {
        DecimalFormat elFormato = new DecimalFormat("00000000");

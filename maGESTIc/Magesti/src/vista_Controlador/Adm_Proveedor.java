@@ -54,8 +54,87 @@ public class Adm_Proveedor extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				GuardarDatos();
-				Actualizar();
+
+				boolean todoOK=true;
+				boolean todoOKContacto=true;
+				boolean result = true;
+				
+				String id = "";
+				String razon_social = "";
+				String cuit = "";
+				String cond_iva = "";
+				String direccion = "";
+				String telefono = "";
+				String mail = "";
+				
+				String nombre_contacto = "";
+				String telefono_contacto = "";
+				String mail_contacto = "";
+				String direccion_retiro = "";
+				
+				//Agregar proveedores nuevos
+				Integer cantFilasDatos = tablaDatos.getRowCount();
+				for (int i =0; i < cantFilasDatos; i++) 
+				{
+					id=tablaDatos.getValueAt(i, 0).toString();
+					razon_social = tablaDatos.getValueAt(i, 1).toString();
+					cuit= tablaDatos.getValueAt(i, 2).toString();
+					cond_iva = tablaDatos.getValueAt(i, 3).toString();
+					direccion = tablaDatos.getValueAt(i, 4).toString();
+					telefono = tablaDatos.getValueAt(i, 5).toString();
+					mail = tablaDatos.getValueAt(i, 6).toString();
+					boolean activo = (Boolean) tablaDatos.getValueAt(i, 7);
+					
+					nombre_contacto = tablaContacto.getValueAt(i, 1).toString();
+					telefono_contacto = tablaContacto.getValueAt(i, 2).toString();
+					mail_contacto = tablaContacto.getValueAt(i, 3).toString();
+					direccion_retiro = tablaContacto.getValueAt(i, 4).toString();
+					
+									
+					todoOK=todoOK && !razon_social.equals("");
+					todoOK=todoOK && !cuit.equals("");
+					todoOK=todoOK && !cond_iva.equals("");
+					todoOK=todoOK && !direccion.equals("");
+					todoOK=todoOK && !telefono.equals("");
+					todoOK=todoOK && !mail.equals("");
+					
+					todoOKContacto=todoOKContacto && !nombre_contacto.equals("");
+					todoOKContacto=todoOKContacto && !telefono_contacto.equals("");
+					todoOKContacto=todoOKContacto && !mail_contacto.equals("");
+					todoOKContacto=todoOKContacto && !direccion_retiro.equals("");
+					
+					if (todoOK == false || todoOKContacto == false) {
+						result = false;
+						if (!todoOK) {
+							JOptionPane.showMessageDialog(null,
+									"Falta completar datos del Proveedor");
+							break;
+						} else {
+							JOptionPane
+									.showMessageDialog(null,
+									"Falta completar datos del contacto de Proveedor");
+							break;
+						}
+					} else if (id.equals("")) {
+						if(cuit.length()==11 && Metodos.esNumero(cuit)){
+							result=true;
+							Proveedor proveedor = new Proveedor(razon_social, cuit, cond_iva, direccion, telefono, mail, nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro, activo);
+								result = result && proveedor.Alta();
+						}else{
+						result=false;
+						JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
+						}	
+					}else{
+						Proveedor.updateDatosProveedor(id, razon_social, cuit, cond_iva, direccion, telefono, mail, activo);
+						Proveedor.updateDatosContactoProveedor(id, nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro);
+					}
+				}
+				if(result){
+					JOptionPane.showMessageDialog(null,"Se guardaron los cambios que realizo");
+					Actualizar();
+				}else{
+					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+				}
 			}
 		}
 		);
@@ -251,42 +330,5 @@ public class Adm_Proveedor extends JInternalFrame
 			Metodos.borrarFilas((DefaultTableModel)tablaContacto.getModel());
 			setFilas();
 		}
-		
-		private void GuardarDatos()
-		{
-			Integer cantFilasDatos = tablaDatos.getRowCount();
-			for (int i = 0; i < cantFilasDatos; i++) 
-			{
 
-				String Nro_Proveedor = tablaDatos.getValueAt(i, 0).toString();
-				String razon_social = tablaDatos.getValueAt(i, 1).toString();
-				String CUIT = tablaDatos.getValueAt(i, 2).toString();
-				String cond_IVA = tablaDatos.getValueAt(i, 3).toString();
-				String direccion = tablaDatos.getValueAt(i, 4).toString();
-				String telefono = tablaDatos.getValueAt(i, 5).toString();
-				String mail = tablaDatos.getValueAt(i, 6).toString();
-				System.out.println(mail);
-				boolean activo = (Boolean) tablaDatos.getValueAt(i, 7);
-				
-				String nombre_contacto = tablaContacto.getValueAt(i, 1).toString();
-				String telefono_contacto = tablaContacto.getValueAt(i, 2).toString();
-				String mail_contacto = tablaContacto.getValueAt(i, 3).toString();
-				String direccion_retiro = tablaContacto.getValueAt(i, 4).toString();
-					
-				if(Nro_Proveedor.equals(""))
-				{
-					Proveedor pro = new Proveedor(razon_social,CUIT,cond_IVA,direccion,telefono,
-							mail,nombre_contacto,telefono_contacto,mail_contacto,direccion_retiro, activo);
-					pro.Alta();
-				}
-				else
-				{
-					ConexionDB.getbaseDatos().ejecutar("UPDATE proveedor SET razon_social = "+ "'"+razon_social+"'" + ",cuit = " + CUIT + ",cond_iva = "
-							+"'" +cond_IVA+"'" + ",direccion = " + "'"+direccion+"'" + ",telefono = " + "'"+telefono+"'" + ",mail = " + "'"+ mail + "'" + ",nombre_contacto =" +
-							"'"+nombre_contacto+"'" + ",telefono_contacto = "+ telefono_contacto + ",mail_contacto = " + "'"+mail_contacto+"'" + ",direccion_retiro = " + "'"+direccion_retiro+"'"
-							+ ",activo = " + activo + " WHERE id_proveedor =" + Integer.parseInt(Nro_Proveedor));
-				}
-			}
-			JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
-		}
 }
