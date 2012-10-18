@@ -299,8 +299,15 @@ public class TablaDeBusqueda extends JInternalFrame
 		
 		static void Actualizar()
 		{
-			Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
-			setFilas();
+			try
+			{
+				Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
+				setFilas();
+			}
+			catch(Exception e)
+			{
+				
+			}
 		}
 		
 }
