@@ -354,7 +354,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 
 		setVisible (true);
 		
-		TablaDeBusqueda tablaTop5 = new TablaDeBusqueda("Consultar Orden de Trabajo",true);
+		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
 		escritorio.add (tablaTop5);
 		tablaTop5.show ();
 		try {
@@ -384,11 +384,11 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				boolean b = Metodos.openChildWindow ("Buscador");
 				if (b == false) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Consultar Orden de Trabajo",false);
-					escritorio.add (tablaB);
-					tablaB.show ();
+					TablaDeBusqueda_Top5 tablaConsultar = new TablaDeBusqueda_Top5();
+					escritorio.add (tablaConsultar);
+					tablaConsultar.show ();
 					try {
-						tablaB.setMaximum(true);
+						tablaConsultar.setMaximum(true);
 					} catch (PropertyVetoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -433,7 +433,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				boolean b = Metodos.openChildWindow ("Buscador");
 				if (b == false) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Orden de Trabajo",false);
+					TablaDeBusqueda tablaB = new TablaDeBusqueda();
 					escritorio.add (tablaB);
 					tablaB.show ();
 					try {

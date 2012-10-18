@@ -333,23 +333,26 @@ public class Metodos implements Config
 
 
 
-	public static Date getDateTimeActual() {
+	public static Date getDateTimeActual()
+	{
 		Date f_h_actual = null;
 		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
-		if(resultado != null){
-			try {
-				while(resultado.next()){
-					
+		if(resultado != null)
+		{
+			try 
+			{
+				while(resultado.next())
+				{
 						f_h_actual=resultado.getDate(1);
 				}
-			} catch (SQLException e) {
+			} catch (SQLException e) 
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return f_h_actual;
 	}
-	
 	
 	
 	

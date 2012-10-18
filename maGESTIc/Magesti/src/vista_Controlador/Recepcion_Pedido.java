@@ -114,8 +114,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		tablaDetalles.getColumnModel().getColumn(8).setMaxWidth(200);
 		spDetalles.setViewportView(tablaDetalles);
 		
-		
 		tablaDetalles.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaDetalles.getTableHeader().setReorderingAllowed(false);
 		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
@@ -185,6 +185,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		});
 		tablaRecibido.getColumnModel().getColumn(0).setResizable(false);
 		tablaRecibido.getColumnModel().getColumn(0).setMaxWidth(100);
+		tablaRecibido.getTableHeader().setReorderingAllowed(false);
 		spRecibido.setViewportView(tablaRecibido);
 		
 		DefaultTableModel tempRecibido = (DefaultTableModel) tablaRecibido.getModel();
