@@ -163,7 +163,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-				ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(id_OT);
+				ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(Elemento.getIdElementos(id_OT));
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				nuevaOT.getTablaElementos().setEnabled(false);
 				Object nuevaFilaElemento[]= {"",""};
@@ -172,9 +172,8 @@ public class TablaDeBusqueda extends JInternalFrame
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
-					if(cantHojasUtil.size()>0){
 						temp.setValueAt(cantHojasUtil.get(i), i, 2);	
-					}
+
 					
 				}
 				nuevaOT.getBtnAgregarFila().setEnabled(false);
@@ -328,7 +327,7 @@ public class TablaDeBusqueda extends JInternalFrame
 						dtmMagesti.addRow(datos);
 					}
 					// result.close();
-				} 
+				}
 				catch (Exception e) 
 				{
 				}

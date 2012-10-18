@@ -92,14 +92,43 @@ public class Hojas_Utilizadas {
 		}
 	}
 
-	public static ArrayList<Integer> getCantHojas(Integer id_OT) {
+	public static ArrayList<Integer> getCantHojas(ArrayList<Integer> ids_elem) {
+
+		ArrayList<Integer> valores = new ArrayList<Integer>();
+		ResultSet resultado;
+		
+		
+		
+		for (int i = 0; i < ids_elem.size(); i++) {
+			resultado = ConexionDB
+					.getbaseDatos()
+					.consultar(
+							"SELECT MAX(cantidad) from hojas_utilizadas where id_elemento="
+									+ ids_elem.get(i));
+
+			if (resultado != null) {
+				try {
+					while (resultado.next()) {
+						valores.add(resultado.getInt(1));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+				
+		return valores;
+	}
+	
+	
+	public static ArrayList<Integer> getCantHojas(Integer id_elem) {
 
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB
 				.getbaseDatos()
 				.consultar(
-						"select h.cantidad from hojas_utilizadas h inner join elemento e where h.id_elemento=e.id_elemento AND e.id_orden_trabajo="
-								+ id_OT);
+						"SELECT h.cantidad from hojas_utilizadas h inner join elemento e where h.id_elemento=e.id_elemento AND e.id_elemento="
+								+ id_elem);
 
 		if (resultado != null) {
 			try {
@@ -112,7 +141,6 @@ public class Hojas_Utilizadas {
 		}
 		return valores;
 	}
-	
 	
 	
 }
