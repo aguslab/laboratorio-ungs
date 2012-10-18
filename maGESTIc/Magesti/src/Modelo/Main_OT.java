@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import vista_Controlador.Metodos;
+
 
 public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 	
 		
-			System.out.println(Cliente.updateDatosContactoCliente("1", "asdasdas", "s22222222", "2222222", "dadsdasdas"));
+			
+			System.out.println(Metodos.getDateTimeActual());
+			
+			//System.out.println(Cliente.updateDatosContactoCliente("1", "asdasdas", "s22222222", "2222222", "dadsdasdas"));
 			
 			/*		
 			Detalle d= new Detalle(1, 123, "saa", 1, 2, 3, 12, 12.3, "KG", 134.12,false);
@@ -99,13 +104,13 @@ public class Main_OT {
 	*/
 		
 	
-	/*
-			//ELEMENTO
+	
+		/*	//ELEMENTO
 		Elemento elem= new Elemento(1, "Revista", 12);
 		System.out.println(elem.Alta());
 		ArrayList<Elemento> lelem=elem.Buscar();
-
-	*/
+*/
+	
 
 		
 	/*	FORMATO_PAPEL

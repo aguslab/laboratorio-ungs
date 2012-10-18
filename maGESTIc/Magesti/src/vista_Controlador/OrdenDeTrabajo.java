@@ -26,6 +26,7 @@ import Modelo.Cliente;
 import Modelo.ConexionDB;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
+import Modelo.Hojas_Utilizadas;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Proceso;
@@ -319,7 +320,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		);
 		
-		lbCantidadDeHojasUtilizadas = new JLabel ("<html>Hojas <br>utilizadas:</html>");
+		lbCantidadDeHojasUtilizadas = new JLabel ("<html>Total hojas <br>utilizadas:</html>");
 		lbCantidadDeHojasUtilizadas.setBounds(610, 180, 75, 30);
 		lbCantidadDeHojasUtilizadas.setForeground (Color.black);
 		
@@ -544,31 +545,28 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		JScrollPane spElementos = new JScrollPane();
 		spElementos.setBounds(10, 11, 870, 184);
 		panElementos.add(spElementos);
-		/*{null, "Original", null},
-				{null, "Duplicado", null},
-				{null, "Triplicado", null},
-				{null, "Tapa", null},
-				{null, "Cant. Hojas", null},*/
+
 		tablaElementos = new JTable();
 		tablaElementos.setModel(new DefaultTableModel(
-			new Object[][] 
-			{
+			new Object[][] {
 			},
-			new String[] 
-			{
-				"Elemento del producto", "Cantidad"
+			new String[] {
+				"Elemento del producto", "Cantidad", "Hojas Utilizadas"
 			}
 		) {
-			Class[] columnTypes = new Class[]
-			{
-				String.class, Integer.class
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class, Integer.class
 			};
-			public Class getColumnClass(int columnIndex) 
-			{
-				return columnTypes[columnIndex];
+			boolean[] columnEditables = new boolean[] {
+				true, true, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
 		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
+		tablaElementos.getColumnModel().getColumn(2).setPreferredWidth(100);
+		tablaElementos.getColumnModel().getColumn(2).setMaxWidth(200);
 		spElementos.setViewportView(tablaElementos);
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		
@@ -578,7 +576,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
-				Object nuevo[]= {"",""};
+				Object nuevo[]= {"","",""};
 				temp.addRow(nuevo);
 			}
 		});
@@ -1033,7 +1031,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				else
 				{
-					System.out.println("D:");
 					JOptionPane.showMessageDialog 
 					(
 						this, 
@@ -1123,7 +1120,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
-				
 				else if (!proveedorElegido()) 
 				{
 					JOptionPane.showMessageDialog 
@@ -1140,20 +1136,40 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						if(estado.equals("En Proceso"))
 						{
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
-						}
-						else
+						}else
 						{
 							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
 						}
 						
-						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
-						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++)
-						{
-							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-							Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
+						//actualziar hojas utilizadas
+						ArrayList<Integer> hojasut=new ArrayList<Integer>();
+						if(actualizarHojasUtilizadas(hojasut)){
+							ArrayList<Integer> id_elem=Elemento.getIdElementos(clave);
+							Integer totalHojas=0;
+							for(int i =0;i<hojasut.size();i++){
+							//tiene que actualizar las hojas
+							Hojas_Utilizadas H_U= new Hojas_Utilizadas(id_elem.get(i),hojasut.get(i), Metodos.getDateTimeActual(), estado);
+							H_U.Alta();
+							totalHojas=totalHojas+H_U.getCantidad();
+							}
+							Orden_Trabajo.CambiarCantHojasUtil(clave, totalHojas);
+							
+							//actualizar tareas cumplidas
+							ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+							for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+								boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+								Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
+							}
+							obj = btnCancelar;
+						}else{
+							JOptionPane.showMessageDialog 
+							(
+								this, 
+								"ERROR! Verifique la cantidad de hojas utilizadas que ingresó",
+								qTITULO + " - Campo vacío", 
+								JOptionPane.WARNING_MESSAGE
+							);
 						}
-						obj = btnCancelar;
 				}
 				else 
 				{
@@ -1176,6 +1192,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		TablaDeBusqueda.Actualizar();
 	}
 	
+	//devuelve la cantHojas utilizadas. -1 en las filas que son <0 || > a lo pedido
+	private boolean actualizarHojasUtilizadas(ArrayList<Integer> hojasut) {
+
+		Integer cantFilas= tablaElementos.getRowCount();
+		for(int i=0;i<cantFilas;i++){
+			Integer hu=(Integer) tablaElementos.getValueAt(i, 2);
+			if(hu > 0){
+				if(hu<=(Integer) tablaMateriales.getValueAt(i, 9)){
+					hojasut.add(hu);
+				}else{//hojasutilizadas es mayor a lo pedido
+					return false;
+					}
+			}else{//hojas utilizadas es negativo
+				return false;
+			}
+		}
+		return true;
+	}
+
+
 	void cargarTablas() 
 	{	
 		//Se obtienen las variables para crear una nueva OT
@@ -1263,8 +1299,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadDeHojasUtilizadas.setText ("0");
-		//txtAncho.setText("0");
-		//txtAlto.setText("0");
 		txtCantidadAEntregar.setText("1");
 		txtPreimpresion.setText("0");
 		txtCantidadDeHojasUtilizadas.setText("0");
