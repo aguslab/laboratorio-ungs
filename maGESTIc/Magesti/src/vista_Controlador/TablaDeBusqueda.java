@@ -2,7 +2,6 @@ package vista_Controlador;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -59,7 +58,11 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
-				
+				System.out.println(tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada"));
+				if(tablaBusqueda.getValueAt(filaElegida,13).equals("Cerrada"))
+				{
+					nuevaOT.getBtnImprimirReporte().setEnabled(true);
+				}
 				//Cargo en la ventana de OT los valores de la fila elegida
 				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
 				
@@ -233,9 +236,6 @@ public class TablaDeBusqueda extends JInternalFrame
 				///////////////////////
 				
 				///////////////////////
-				
-				
-				
 			}
 		});
 		
