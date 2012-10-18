@@ -532,7 +532,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 		{
 			for(int i=0;i<ot.size();i=i+2)
 			{
-				id_ot=id_ot+Orden_Trabajo.EnteroAFactura(Integer.parseInt(ot.get(i)))+"\t ";
+				id_ot=id_ot+Metodos.EnteroAFactura(Integer.parseInt(ot.get(i)))+"\t ";
 				nom_ot=nom_ot+ot.get(i+1)+"\t ";
 			}
 			msg=id_ot+"\n"+nom_ot;
@@ -546,7 +546,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 			nuevaOT.getEstado().setEnabled(true);
 			nuevaOT.getTxtCantidadDeHojasUtilizadas().setText(ot2.get(13).toString());
 			nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
-			nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura(Integer.valueOf(ot2.get(0))));
+			nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura(Integer.valueOf(ot2.get(0))));
 			nuevaOT.getTipoProducto().setText(ot2.get(1).toString());
 			nuevaOT.getTipoProducto().setEditable(false);
 			nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(ot2.get(3).toString(), 1)));
@@ -574,7 +574,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 			nuevaOT.getTxtAlto().setText(ot2.get(10).toString());
 			nuevaOT.getTxtAlto().setEditable(false);
 			//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
-			nuevaOT.getChbApaisado().getModel().setSelected(Modelo.Orden_Trabajo.esApaisadaB(ot2.get(11).toString()));
+			nuevaOT.getChbApaisado().getModel().setSelected(Metodos.esApaisadaB(ot2.get(11).toString()));
 			nuevaOT.getChbApaisado().setEnabled(false);
 			nuevaOT.getEstado().getModel().setSelectedItem((String)ot2.get(12));
 			nuevaOT.getCliente().setSelectedItem(ot2.get(2).toString());
@@ -596,7 +596,7 @@ chAnio.select(Integer.valueOf(anioHoy));
 				public void keyPressed(KeyEvent arg0) {}
 			});
 			//Muestra los datos de la tabla Elemento
-			Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
+			Integer id_OT=Metodos.FacturaAEntero(nuevaOT.getTxtNro().getText());
 			Integer cantFilas = Elemento.cantidadFilas(id_OT);
 			ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 			ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);

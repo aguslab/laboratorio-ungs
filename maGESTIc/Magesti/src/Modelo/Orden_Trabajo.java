@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vista_Controlador.Config;
+import vista_Controlador.Metodos;
 
 public class Orden_Trabajo implements Config
 {
@@ -177,7 +178,7 @@ public class Orden_Trabajo implements Config
 				while(resultado.next()){
 					
 						Integer id_ot=resultado.getInt("id_orden_trabajo");
-						String id_OT_Formato=EnteroAFactura(id_ot);
+						String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
 						String nom_ot=resultado.getString("nombre_trabajo");
 						id_nom_ot[i]=id_OT_Formato+"  -  "+nom_ot;
 						i++;
@@ -464,83 +465,7 @@ public class Orden_Trabajo implements Config
 		return list_OT;
 	}
 	
-    static public String EnteroAFactura(Integer valor ) 
-    {
-       DecimalFormat elFormato = new DecimalFormat("00000000");
-       String salida = qSUCURSAL + elFormato.format(valor);
-       return salida;
-    }
-	
-    static public Integer FacturaAEntero(String valor ) 
-    {
-       valor=valor.replaceAll("0001-","");
-       return Integer.parseInt(valor);
-    }
-    
-    static public String esApaisadaS (boolean dato)
-    {
-    	if (dato)
-    	{
-    		return "SI";
-    	}
-    	else
-    	{
-    		return "NO";
-    	}
-    	
-    }
-    
-    static public boolean esApaisadaB (String dato)
-    {
-    	if (dato.equalsIgnoreCase("SI"))
-    	{
-    		return true;
-    	}
-    	else
-    	{
-    		return false;
-    	}
-    }
 
-	public static String getId_Con_nom_OT(String nom_ot) {
-		
-		String Id_Con_nom_OT="";
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
-
-		if(resultado != null){
-			try {
-				while(resultado.next()){
-					
-						Integer id_ot=resultado.getInt("id_orden_trabajo");
-						String id_OT_Formato=EnteroAFactura(id_ot);
-						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		return Id_Con_nom_OT;
-	}
-
-	public static Date getDateTimeActual() {
-		Date f_h_actual = null;
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
-		if(resultado != null){
-			try {
-				while(resultado.next()){
-					
-						f_h_actual=resultado.getDate(1);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return f_h_actual;
-	}
-	
 	
 	public static ArrayList<String> getId_Nom_OTSegunFecha(String fechaprom){
 		fechaprom="'"+fechaprom+"'";
@@ -594,6 +519,26 @@ public class Orden_Trabajo implements Config
 		return OT;	
 	}
 	
-	
+	public static String getId_Con_nom_OT(String nom_ot) {
+		
+		String Id_Con_nom_OT="";
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
+
+		if(resultado != null){
+			try {
+				while(resultado.next()){
+					
+						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
+						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return Id_Con_nom_OT;
+	}
 		
 }
