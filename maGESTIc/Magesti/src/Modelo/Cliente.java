@@ -214,7 +214,7 @@ public class Cliente {
 	{
 
 		String razon_soc = "'" + this.getRazon_social() + "'";
-		System.out.println(cuit);
+		String ccuit="'"+this.getCuit()+"'";
 		String c_iva = "'" + this.getCond_iva() + "'";
 		String direc = "'" + this.getDireccion() + "'";
 		String tel = "'" + this.getTelefono() + "'";
@@ -226,7 +226,7 @@ public class Cliente {
 		boolean clienteActivo = this.getActivo();
 
 		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO cliente VALUES(DEFAULT,"
-				+ razon_soc + "," + cuit + "," + c_iva + "," + direc + ","
+				+ razon_soc + "," + ccuit + "," + c_iva + "," + direc + ","
 				+ tel + "," + email+"," + nom_cont + "," + tel_cont + ","
 				+ mail_contacto + "," + dir_entrega + "," + clienteActivo + ");")) 
 		{
@@ -272,5 +272,65 @@ public class Cliente {
 		return list_clientes;
 	}
 
+	
+	public static boolean updateDatosCliente(String id, String razon_social,String cuit, String cond_iva, String direccion, String telefono, String mail, boolean activo ){
+	
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE cliente SET razon_social = " +
+						"'"+razon_social+"'" +
+						",cuit = "+
+						"'"+cuit+"'" 
+						+",cond_iva = " +
+						"'"+ cond_iva+ "'" +
+						",direccion = "+
+						"'" + direccion + "'"
+						+ ",telefono = " +
+						"'" + telefono+ "'" 
+						+ ",mail = " +
+						"'" + mail+ "'"
+						+ ", activo="+activo
+						+ " WHERE id_cliente ="
+						+ Integer.parseInt(id));
+		
+		return r;
+	}
+	
+	
+	public static boolean updateDatosContactoCliente(String id, String nombre,String telefono, String mail,String dir_entrega){
+		
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE cliente SET nombre_contacto =" +
+						"'"+ nombre + "'"
+						+ ",telefono_contacto = "+
+						"'"+telefono+"'"
+						+",mail_contacto = " +
+						"'"+ mail+ "'"
+						+ ",direccion_entrega = " +
+						"'"+ dir_entrega + "'"
+						+ " WHERE id_cliente ="+ Integer.parseInt(id));
+		
+		return r;
+	}
+
+	public static Integer getCantClientes() {
+		Integer maxId = null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(id_cliente) FROM cliente");
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					maxId = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return maxId;
+	}
+	
+	
+	
 }
 
