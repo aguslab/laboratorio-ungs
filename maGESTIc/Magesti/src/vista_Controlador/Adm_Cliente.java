@@ -146,7 +146,7 @@ public class Adm_Cliente extends JInternalFrame
 
 				}
 				if(result){
-					JOptionPane.showMessageDialog(null,"Se guardaron los cambios que realizo");
+					JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
 					Actualizar();
 				}else{
 					//JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");

@@ -19,6 +19,7 @@ import Modelo.Calidad;
 import Modelo.ConexionDB;
 import Modelo.Formato_Papel;
 import Modelo.Variante;
+import java.awt.ComponentOrientation;
 
 public class Adm_Stock extends JInternalFrame 
 {
@@ -83,7 +84,9 @@ public class Adm_Stock extends JInternalFrame
 			{
 				public void actionPerformed(ActionEvent arg0) 
 				{
-					//Codigo para crear una solicitud de compra
+					final SolicitudDeCompra nuevaSC = new SolicitudDeCompra(false);
+					getDesktopPane().add(nuevaSC);
+					nuevaSC.show ();
 				}
 			});
 			button.setBounds(d.width-455, d.height-210, 160, 35);
@@ -99,14 +102,15 @@ public class Adm_Stock extends JInternalFrame
 			panStock.add(spStock);
 			
 			tablaStock = new JTable();
-			tablaStock.setModel(new DefaultTableModel(new Object[][]{},new String[] 
-			{
-					"Orden de Trabajo", "Solicitud de Compra", "Cantidad de hojas", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Precio Unitario", "Unidad Media", "Importe"
-			}) 
-			{
-				Class[] columnTypes = new Class[] 
-				{
-					String.class, String.class, Integer.class, String.class, String.class, String.class, String.class, Double.class, Double.class, String.class, Double.class
+			tablaStock.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Orden de Trabajo", "Solicitud de Compra", "Cantidad de hojas", "Marca", "Calidad", "Formato", "Variante", "Gramaje"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, String.class, Integer.class, String.class, String.class, String.class, String.class, Double.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -114,15 +118,13 @@ public class Adm_Stock extends JInternalFrame
 			});
 			tablaStock.getColumnModel().getColumn(0).setResizable(false);
 			tablaStock.getColumnModel().getColumn(1).setResizable(false);
+			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(90);
 			tablaStock.getColumnModel().getColumn(2).setResizable(false);
 			tablaStock.getColumnModel().getColumn(3).setResizable(false);
 			tablaStock.getColumnModel().getColumn(4).setResizable(false);
 			tablaStock.getColumnModel().getColumn(5).setResizable(false);
 			tablaStock.getColumnModel().getColumn(6).setResizable(false);
 			tablaStock.getColumnModel().getColumn(7).setResizable(false);
-			tablaStock.getColumnModel().getColumn(8).setResizable(false);
-			tablaStock.getColumnModel().getColumn(9).setResizable(false);
-			tablaStock.getColumnModel().getColumn(10).setResizable(false);
 			spStock.setViewportView(tablaStock);
 			tablaStock.getTableHeader().setReorderingAllowed(false);
 			

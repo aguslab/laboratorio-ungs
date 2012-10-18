@@ -1,11 +1,22 @@
 package vista_Controlador;
-
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.*;
+import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 
 import Modelo.Calidad;
 import Modelo.ConexionDB;
@@ -13,110 +24,105 @@ import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
+import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
 import Modelo.Variante;
-import Modelo.Procesos_x_OT;
-
-import java.awt.GridLayout;
 
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-@SuppressWarnings("serial")
-public class TablaDeBusqueda extends JInternalFrame 
+public class TablaDeBusqueda_Top5 extends JInternalFrame 
 {
+
 	private JPanel jpMostrar = new JPanel ();
 	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
-	private static JTable tablaBusqueda;
+	private static JTable tablaBusquedaTop5;
 	
-	TablaDeBusqueda() 
+	public TablaDeBusqueda_Top5()
 	{
-		super ("Buscar Orden de Trabajo", true, true, true, true);
+		super ("Consultar Orden de Trabajo", true, true, true, true);
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
-		jspTabla = new JScrollPane (tablaBusqueda);
+		jspTabla = new JScrollPane (tablaBusquedaTop5);
 		jpMostrar.add (jspTabla);
-		tablaBusqueda = new JTable();
-		tablaBusqueda.setEnabled(false);
-		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
+		tablaBusquedaTop5 = new JTable();
+		tablaBusquedaTop5.setEnabled(false);
+		tablaBusquedaTop5.getTableHeader().setReorderingAllowed(false);
 		
-		tablaBusqueda.addMouseListener
+		tablaBusquedaTop5.addMouseListener
 		(
 			new MouseAdapter() 
 			{
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
+				int filaElegida = tablaBusquedaTop5.rowAtPoint(arg0.getPoint());
 				final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
 				
 				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusquedaTop5.getValueAt(filaElegida, 13)).toString());
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
+				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusquedaTop5.getValueAt(filaElegida, 0)));
 				
-				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
+				nuevaOT.getTipoProducto().setText((String) tablaBusquedaTop5.getValueAt(filaElegida, 1));
 				nuevaOT.getTipoProducto().setEditable(false);
 				
-				nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 1)));
+				nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 3).toString(), 1)));
 				nuevaOT.getCboMes().setEnabled(false);
 				
-				nuevaOT.getCboDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 2));
+				nuevaOT.getCboDia().getModel().setSelectedItem(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 3).toString(), 2));
 				nuevaOT.getCboDia().setEnabled(false);
 				
-				nuevaOT.getCboAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 3).toString(), 0));
+				nuevaOT.getCboAnio().getModel().setSelectedItem(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 3).toString(), 0));
 				nuevaOT.getCboAnio().setEnabled(false);
 				
-				nuevaOT.getCboMes2().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 1)));
+				nuevaOT.getCboMes2().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 4).toString(), 1)));
 				nuevaOT.getCboMes2().setEnabled(false);
 				
-				nuevaOT.getCboDia2().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 2));
+				nuevaOT.getCboDia2().getModel().setSelectedItem(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 4).toString(), 2));
 				nuevaOT.getCboDia2().setEnabled(false);
 				
-				nuevaOT.getCboAnio2().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 4).toString(), 0));
+				nuevaOT.getCboAnio2().getModel().setSelectedItem(Metodos.separar(tablaBusquedaTop5.getValueAt(filaElegida, 4).toString(), 0));
 				nuevaOT.getCboAnio2().setEnabled(false);
 				
-				nuevaOT.getTxtNombreOT().setText((String) tablaBusqueda.getValueAt(filaElegida, 5));
+				nuevaOT.getTxtNombreOT().setText((String) tablaBusquedaTop5.getValueAt(filaElegida, 5));
 				nuevaOT.getTxtNombreOT().setEditable(false);
 				
-				nuevaOT.getTxtDescripcion().setText((String) tablaBusqueda.getValueAt(filaElegida, 6));
+				nuevaOT.getTxtDescripcion().setText((String) tablaBusquedaTop5.getValueAt(filaElegida, 6));
 				nuevaOT.getTxtDescripcion().setEditable(false);
 				
-				nuevaOT.getTxtCantidadAEntregar().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 7)));
+				nuevaOT.getTxtCantidadAEntregar().setText(Integer.toString((Integer) tablaBusquedaTop5.getValueAt(filaElegida, 7)));
 				nuevaOT.getTxtCantidadAEntregar().setEditable(false);
 				
-				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
+				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusquedaTop5.getValueAt(filaElegida, 8)));
 				nuevaOT.getTxtPreimpresion().setEditable(false);
 				
-				nuevaOT.getTxtAncho().setText(tablaBusqueda.getValueAt(filaElegida, 9).toString());
+				nuevaOT.getTxtAncho().setText(tablaBusquedaTop5.getValueAt(filaElegida, 9).toString());
 				nuevaOT.getTxtAncho().setEditable(false);
 				
-				nuevaOT.getTxtAlto().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString());
+				nuevaOT.getTxtAlto().setText(tablaBusquedaTop5.getValueAt(filaElegida, 10).toString());
 				nuevaOT.getTxtAlto().setEditable(false);
 				
 				//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
-				nuevaOT.getChbApaisado().getModel().setSelected(Metodos.esApaisadaB(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
+				nuevaOT.getChbApaisado().getModel().setSelected(Metodos.esApaisadaB(tablaBusquedaTop5.getValueAt(filaElegida, 11).toString()));
 				nuevaOT.getChbApaisado().setEnabled(false);
 				
-				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
+				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusquedaTop5.getValueAt(filaElegida, 12));
 				
-				nuevaOT.getCliente().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2).toString());
+				nuevaOT.getCliente().setSelectedItem(tablaBusquedaTop5.getValueAt(filaElegida, 2).toString());
 				nuevaOT.getCliente().setEnabled(false);
 				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
 				
 				//permitir ingresar solo numeros en hojas utilizadas
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() {
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener(new KeyListener() 
+				{
 					
 					@Override
-					public void keyTyped(KeyEvent ke) {
+					public void keyTyped(KeyEvent ke) 
+					{
 						char c = ke.getKeyChar ();
 						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
 						{
@@ -230,34 +236,23 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getBtnConfirmarSeleccion().setEnabled(false);
 				nuevaOT.getTablaOrdenEjecucion().setAutoResizeMode(1);
 				
-				///////////////////////
-				
-				///////////////////////
-				
-				
-				
 			}
 		});
-		
-		
-		
 		getContentPane().add (jpMostrar);
 		
-			// Llenamos el modelo
-		dtmMagesti = new DefaultTableModel(null, getColumnas());
+		// Llenamos el modelo
+	dtmMagesti = new DefaultTableModel(null, getColumnas());
 
-			setFilas();
+		setFilas();
 
-			tablaBusqueda.setModel(dtmMagesti);
-			jspTabla.add(tablaBusqueda);
-			this.setSize(500, 200);
+		tablaBusquedaTop5.setModel(dtmMagesti);
+		jspTabla.add(tablaBusquedaTop5);
+		this.setSize(500, 200);
 
-			jspTabla.setViewportView(tablaBusqueda);
-
-			setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-	}
+		jspTabla.setViewportView(tablaBusquedaTop5);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+}
 		
-
 		// Encabezados de la tabla
 		private String[] getColumnas() 
 		{
@@ -265,42 +260,41 @@ public class TablaDeBusqueda extends JInternalFrame
 			return columna;
 		}
 
-		
-		
-		private static void setFilas() 
+				
+		private void setFilas() 
 		 {
-			ResultSet result = ConexionDB.getbaseDatos().consultar(
-								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c where o.id_cliente=c.id_cliente order by id_orden_trabajo");
+			Calendar fecha= Calendar.getInstance();
+			Integer mm=fecha.get(Calendar.MONTH)+1;
+			Integer dd=fecha.get(Calendar.DATE);
+			Integer aaaa=fecha.get(Calendar.YEAR);	
+			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
+			
+			ResultSet result;
+				result = ConexionDB.getbaseDatos().consultar(
+								"select * from orden_trabajo where f_prometida>"+fechaHoy+"order by f_prometida limit 0,5;");	
+			
 			
 				Integer CantColumnas=14;
 				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
-
-				try 
-				{
-					while (result.next()) 
-					{
-						
-						for (int i = 0; i < CantColumnas; i++) 
-						{
-							datos[i] = result.getObject(i + 1);
-							if (i==11)
+	
+							try 
 							{
-								datos[i]=Metodos.esApaisadaS((Boolean) datos[11]);
+								while (result.next()) 
+								{
+									
+									for (int i = 0; i < CantColumnas; i++) 
+									{
+										datos[i] = result.getObject(i + 1);
+										if (i==11)
+										{
+											datos[i]=Metodos.esApaisadaS((Boolean) datos[11]);
+										}
+									}
+									dtmMagesti.addRow(datos);
+								}
+							} 
+							catch (Exception e) 
+							{
 							}
 						}
-						dtmMagesti.addRow(datos);
-					}
-					// result.close();
-				} 
-				catch (Exception e) 
-				{
-				}
-			}
-		
-		static void Actualizar()
-		{
-			Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
-			setFilas();
-		}
-		
 }
