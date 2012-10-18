@@ -59,8 +59,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JComboBox cbNroOT;
 	private TextArea txtDescripcionIncidencia;
 
-	
-	public SolicitudDeCompra(boolean  RP) {
+	//RP = false: Solo SC
+	//RP = true: habilita la parte de Recepcion Pedido
+	public SolicitudDeCompra(boolean  RP) 
+	{
 		super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		setSize (925, 580);
@@ -363,6 +365,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		spDetalles.setViewportView(tablaDetalles);
 		
 		tablaDetalles.setPreferredScrollableViewportSize(new Dimension(1100, 500));
+		tablaDetalles.getTableHeader().setReorderingAllowed(false);
 		tablaDetalles.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -454,8 +457,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
-				//Object nuevo[]= {null,"","","","",null,null,"",null};
-				Object nuevo[]= {0,"","","","",0,0,"",0};
+				Object nuevo[]= {null,"","","","",null,null,"",null};
 				temp.addRow(nuevo);
 				
 				String calidades[] = Calidad.getCalidades();
@@ -966,6 +968,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	public TextArea getTxtDescripcionIncidencia() {
 		return txtDescripcionIncidencia;
 	}
+	
 	
 	
 	
