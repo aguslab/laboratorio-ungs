@@ -58,8 +58,8 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
-				System.out.println(tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada"));
-				if(tablaBusqueda.getValueAt(filaElegida,13).equals("Cerrada"))
+				boolean sonIguales = tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada");
+				if(sonIguales)
 				{
 					nuevaOT.getBtnImprimirReporte().setEnabled(true);
 				}
