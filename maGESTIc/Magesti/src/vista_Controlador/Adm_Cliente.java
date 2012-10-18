@@ -25,6 +25,7 @@ import Modelo.ConexionDB;
 import java.awt.Color;
 import java.sql.ResultSet;
 
+
 public class Adm_Cliente extends JInternalFrame 
 {
 	private JTable tablaDatosCliente;
@@ -55,8 +56,88 @@ public class Adm_Cliente extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				GuardarDatos();
-				Actualizar();
+				boolean todoOK=true;
+				boolean todoOKContacto=true;
+				boolean result = true;
+				
+				String Nro_Cliente = "";
+				String razon_social = "";
+				String cuit = "";
+				String cond_iva = "";
+				String direccion = "";
+				String telefono = "";
+				String mail = "";
+				
+				String nombre_contacto = "";
+				String telefono_contacto = "";
+				String mail_contacto = "";
+				String direccion_entrega = "";
+				
+				//Agregar clientes nuevos
+				Integer cantFilasDatos = tablaDatosCliente.getRowCount();
+				for (int i =0; i < cantFilasDatos; i++) 
+				{
+					Nro_Cliente = tablaDatosCliente.getValueAt(i, 0).toString();
+					razon_social = tablaDatosCliente.getValueAt(i, 1).toString();
+					cuit = tablaDatosCliente.getValueAt(i, 2).toString();
+					cond_iva = tablaDatosCliente.getValueAt(i, 3).toString();
+					direccion = tablaDatosCliente.getValueAt(i, 4).toString();
+					telefono = tablaDatosCliente.getValueAt(i, 5).toString();
+					mail = tablaDatosCliente.getValueAt(i, 6).toString();
+					boolean activo = (Boolean) tablaDatosCliente.getValueAt(i, 7);
+					
+					nombre_contacto = tablaContactoCliente.getValueAt(i, 1).toString();
+					telefono_contacto = tablaContactoCliente.getValueAt(i, 2).toString();
+					mail_contacto = tablaContactoCliente.getValueAt(i, 3).toString();
+					direccion_entrega = tablaContactoCliente.getValueAt(i, 4).toString();
+					
+					todoOK=todoOK && !razon_social.equals("");
+					todoOK=todoOK && !cuit.equals("");
+					todoOK=todoOK && !cond_iva.equals("");
+					todoOK=todoOK && !direccion.equals("");
+					todoOK=todoOK && !telefono.equals("");
+					todoOK=todoOK && !mail.equals("");
+					
+					todoOKContacto=todoOKContacto && !nombre_contacto.equals("");
+					todoOKContacto=todoOKContacto && !telefono_contacto.equals("");
+					todoOKContacto=todoOKContacto && !mail_contacto.equals("");
+					todoOKContacto=todoOKContacto && !direccion_entrega.equals("");
+					
+					if (todoOK == false || todoOKContacto == false) {
+						result = false;
+						if (!todoOK) {
+							JOptionPane.showMessageDialog(null,
+									"Falta completar datos del cliente");
+							break;
+						} else {
+							JOptionPane
+									.showMessageDialog(null,
+									"Falta completar datos del contacto de cliente");
+							break;
+						}
+					} else if (Nro_Cliente.equals("")) {
+						if(cuit.length()==11 && Metodos.esNumero(cuit)){
+								result=true;
+								Cliente cli = new Cliente(razon_social, cuit,
+											cond_iva, direccion, telefono, mail,
+											nombre_contacto, telefono_contacto,
+											mail_contacto, direccion_entrega, activo);
+									result = result && cli.Alta();
+						}else{
+							result=false;
+							JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
+						}	
+					}else{
+						Cliente.updateDatosCliente(Nro_Cliente, razon_social, cuit, cond_iva, direccion, telefono, mail, activo);
+						Cliente.updateDatosContactoCliente(Nro_Cliente, nombre_contacto, telefono_contacto, mail_contacto, direccion_entrega);
+					}
+				}
+				if(result){
+					JOptionPane.showMessageDialog(null,"Se guardaron los cambios que realizo");
+					Actualizar();
+				}else{
+					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+				}
 			}
 		}
 		);
@@ -149,6 +230,9 @@ public class Adm_Cliente extends JInternalFrame
 		tablaDatosCliente.getColumnModel().getColumn(7).setPreferredWidth(15);
 		tablaDatosCliente.getTableHeader().setReorderingAllowed(false);
 		
+		
+		
+		
 		// CONTACTO
 		JPanel panelContacto = new JPanel();
 		panelContacto.setBorder
@@ -230,6 +314,7 @@ public class Adm_Cliente extends JInternalFrame
 			} 
 			catch (Exception e) 
 			{
+				e.printStackTrace();
 			}
 			
 			
@@ -257,47 +342,18 @@ public class Adm_Cliente extends JInternalFrame
 			}
 		}
 	
+		//devuelve true si no esta vacia la celda (fila,columna) de la tabla pasada como parametro
+		public static boolean sinVarVacios(JTable tabla, Integer fila, Integer columna){
+			boolean ok= true;
+			ok= ok && !tabla.getValueAt(fila, columna).toString().equals("");
+			return ok;
+		}
+	
 		private void Actualizar()
 		{
 			Metodos.borrarFilas((DefaultTableModel)tablaDatosCliente.getModel());
 			Metodos.borrarFilas((DefaultTableModel)tablaContactoCliente.getModel());
 			setFilas();
 		}
-		
-		private void GuardarDatos()
-		{
-			Integer cantFilasDatos = tablaDatosCliente.getRowCount();
-			for (int i = 0; i < cantFilasDatos; i++) 
-			{
-
-				String Nro_Cliente = tablaDatosCliente.getValueAt(i, 0).toString();
-				String razon_social = tablaDatosCliente.getValueAt(i, 1).toString();
-				String CUIT = tablaDatosCliente.getValueAt(i, 2).toString();
-				String cond_IVA = tablaDatosCliente.getValueAt(i, 3).toString();
-				String direccion = tablaDatosCliente.getValueAt(i, 4).toString();
-				String telefono = tablaDatosCliente.getValueAt(i, 5).toString();
-				String mail = tablaDatosCliente.getValueAt(i, 6).toString();
-				boolean activo = (Boolean) tablaDatosCliente.getValueAt(i, 7);
-				
-				String nombre_contacto = tablaContactoCliente.getValueAt(i, 1).toString();
-				String telefono_contacto = tablaContactoCliente.getValueAt(i, 2).toString();
-				String mail_contacto = tablaContactoCliente.getValueAt(i, 3).toString();
-				String direccion_entrega = tablaContactoCliente.getValueAt(i, 4).toString();
-					
-				if(Nro_Cliente.equals(""))
-				{
-					Cliente cli = new Cliente(razon_social,CUIT,cond_IVA,direccion,telefono,
-							mail,nombre_contacto,telefono_contacto,mail_contacto,direccion_entrega, activo);
-					cli.Alta();
-				}
-				else
-				{
-					ConexionDB.getbaseDatos().ejecutar("UPDATE cliente SET razon_social = "+ "'"+razon_social+"'" + ",cuit = " + CUIT + ",cond_iva = "
-							+"'" +cond_IVA+"'" + ",direccion = " + "'"+direccion+"'" + ",telefono = " + "'"+telefono+"'" + ",mail = " + "'"+ mail + "'" + ",nombre_contacto =" +
-							"'"+nombre_contacto+"'" + ",telefono_contacto = "+ telefono_contacto + ",mail_contacto = " + "'"+mail_contacto+"'" + ",direccion_entrega = " + "'"+direccion_entrega+"'"
-							+ ",activo = " + activo + " WHERE id_cliente =" + Integer.parseInt(Nro_Cliente));
-				}
-			}
-			JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
-		}
 }
+
