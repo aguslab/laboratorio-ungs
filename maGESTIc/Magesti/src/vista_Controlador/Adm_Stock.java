@@ -31,8 +31,8 @@ public class Adm_Stock extends JInternalFrame
 		
 			getContentPane().setLayout(null);
 		
-			JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
-			button.addActionListener(new ActionListener() 
+			JButton btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+			btnCerrar.addActionListener(new ActionListener() 
 			{
 				public void actionPerformed(ActionEvent arg0) 
 				{
@@ -40,8 +40,8 @@ public class Adm_Stock extends JInternalFrame
 					dispose();
 				}
 			});
-			button.setBounds(d.width-145, d.height-210, 120, 35);
-			getContentPane().add(button);
+			btnCerrar.setBounds(d.width-145, d.height-210, 120, 35);
+			getContentPane().add(btnCerrar);
 			
 			JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 			btnConfirmar.setBounds(d.width-280, d.height-210, 120, 35);
@@ -77,6 +77,17 @@ public class Adm_Stock extends JInternalFrame
 			}
 			);
 			getContentPane().add(btnConfirmar);
+			
+			JButton button = new JButton("Solicitud de compra", new ImageIcon ("Imagenes/clientes.png"));
+			button.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					//Codigo para crear una solicitud de compra
+				}
+			});
+			button.setBounds(d.width-455, d.height-210, 160, 35);
+			getContentPane().add(button);
 			
 			JPanel panStock = new JPanel();
 			panStock.setBounds(10, 11, d.width-35, d.height-230);
