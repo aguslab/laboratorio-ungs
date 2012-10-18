@@ -24,8 +24,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda extends JInternalFrame 
@@ -63,7 +61,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
-				nuevaOT.getTxtNro().setText(Orden_Trabajo.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
+				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
 				
 				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
 				nuevaOT.getTipoProducto().setEditable(false);
@@ -105,7 +103,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtAlto().setEditable(false);
 				
 				//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
-				nuevaOT.getChbApaisado().getModel().setSelected(Modelo.Orden_Trabajo.esApaisadaB(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
+				nuevaOT.getChbApaisado().getModel().setSelected(Metodos.esApaisadaB(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
 				nuevaOT.getChbApaisado().setEnabled(false);
 				
 				nuevaOT.getEstado().getModel().setSelectedItem((String)tablaBusqueda.getValueAt(filaElegida, 12));
@@ -131,7 +129,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				});
 				
 				//Muestra los datos de la tabla Elemento
-				Integer id_OT=Orden_Trabajo.FacturaAEntero(nuevaOT.getTxtNro().getText());
+				Integer id_OT=Metodos.FacturaAEntero(nuevaOT.getTxtNro().getText());
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
@@ -307,7 +305,7 @@ public class TablaDeBusqueda extends JInternalFrame
 							datos[i] = result.getObject(i + 1);
 							if (i==11)
 							{
-								datos[i]=Modelo.Orden_Trabajo.esApaisadaS((Boolean) datos[11]);
+								datos[i]=Metodos.esApaisadaS((Boolean) datos[11]);
 							}
 						}
 						dtmMagesti.addRow(datos);
@@ -319,10 +317,8 @@ public class TablaDeBusqueda extends JInternalFrame
 				}
 			}
 		
-		
 		static void Actualizar()
 		{
-			System.out.println("cant filas: " + tablaBusqueda.getRowCount());
 			Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
 			setFilas(false);
 		}

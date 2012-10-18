@@ -7,6 +7,10 @@ import java.awt.PrintJob;
 import java.io.EOFException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -14,10 +18,10 @@ import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
-import Modelo.Orden_Trabajo;
+import Modelo.ConexionDB;
 
 
-public class Metodos 
+public class Metodos implements Config
 {
 	static void borrarFilas(DefaultTableModel tabla)
 	{
@@ -107,6 +111,56 @@ public class Metodos
 	}
 	
 
+	public static String dameNumeroMes(String mes)
+	{
+		if(mes == "Enero")
+		{
+			return "01";
+		}
+		else if(mes == "Febrero")
+		{
+			return "02";
+		}
+		else if(mes == "Marzo")
+		{
+			return "03";
+		}
+		else if(mes == "Abril")
+		{
+			return "04";
+		}else if(mes == "Mayo")
+		{
+			return "05";
+		}
+		else if(mes=="Junio")
+		{
+			return "06";
+		}
+		else if(mes=="Julio")
+		{
+			return "07";
+		}
+		else if(mes=="Agosto")
+		{
+			return "08";
+		}
+		else if(mes=="Septiembre")
+		{
+			return "09";
+		}
+		else if(mes=="Octubre")
+		{
+			return "10";
+		}
+		else if(mes=="Noviembre")
+		{
+			return "11";
+		}
+		else
+		{
+			return "12";
+		}
+	}
 	
 	static boolean openChildWindow (String title) 
 	{
@@ -124,12 +178,12 @@ public class Metodos
 
 	}
 	
-	static String fabricaReporte (int OT, String cliente) 
+	static String fabricaReporte (int OT) 
 	{
 
 		String data;
 		String margen = "        ";
-		String data0 = "                        "+cliente+"                   \n";
+		String data0 = "                        "+qCLIENTE+"                   \n";
 		String data1 = "           Reporte de Orden de Trabajo          \n\n";
 		String data2 = "   Orden No.: " + OT +"\n"; 
 		String data3 = "   Cliente: \n"; 
@@ -215,6 +269,64 @@ public class Metodos
 		{
 				id=id+otSelec.charAt(i);
 		}
-		return Orden_Trabajo.FacturaAEntero(id);
+		return FacturaAEntero(id);
 	}
+	
+    static public String EnteroAFactura(Integer valor) 
+    {
+       DecimalFormat elFormato = new DecimalFormat("00000000");
+       String salida = qSUCURSAL + elFormato.format(valor);
+       return salida;
+    }
+	
+    static public Integer FacturaAEntero(String valor ) 
+    {
+       valor = valor.replaceAll("0001-","");
+       return Integer.parseInt(valor);
+    }
+    
+    static public String esApaisadaS (boolean dato)
+    {
+    	if (dato)
+    	{
+    		return "SI";
+    	}
+    	else
+    	{
+    		return "NO";
+    	}
+    	
+    }
+    
+    static public boolean esApaisadaB (String dato)
+    {
+    	if (dato.equalsIgnoreCase("SI"))
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    }
+
+
+
+	public static Date getDateTimeActual() {
+		Date f_h_actual = null;
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
+		if(resultado != null){
+			try {
+				while(resultado.next()){
+					
+						f_h_actual=resultado.getDate(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return f_h_actual;
+	}
+	
 }

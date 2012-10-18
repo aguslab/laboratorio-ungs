@@ -226,7 +226,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 					boolean estado=(Boolean) tempRecibido.getValueAt(i, 0);
 					Detalle.setAsRecibido(idDetalle[i],estado);
 				}
-				Date f_h_recibido=Orden_Trabajo.getDateTimeActual();
+				Date f_h_recibido=Metodos.getDateTimeActual();
 				Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Incompleto", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
 				rp.Alta();
 

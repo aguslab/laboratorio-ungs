@@ -166,7 +166,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbDescripcion.setForeground (Color.black);
 
 		
-		String maxIdOT = Orden_Trabajo.EnteroAFactura(Orden_Trabajo.getUltOT());
+		String maxIdOT = Metodos.EnteroAFactura(Orden_Trabajo.getUltOT());
 		
 		txtNro = new JTextField (maxIdOT);
 		txtNro.setEditable(false);
@@ -976,7 +976,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	//Chequear un poco lo ingresado antes de guardar
 	public void actionPerformed (ActionEvent ae) 
 	{
-		int clave = Orden_Trabajo.FacturaAEntero(txtNro.getText());
+		int clave = Metodos.FacturaAEntero(txtNro.getText());
 		Object obj = ae.getSource();
 		int flag=0;
 		String estado=this.cboEstado_1.getSelectedItem().toString().toUpperCase();
@@ -1116,22 +1116,28 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					);
 				}
 				else if(estado.equals("EN PROCESO")
-						|| estado.equals("CERRADO")){
-						if(estado.equals("EN PROCESO")){
+						|| estado.equals("CERRADO"))
+				{
+						if(estado.equals("EN PROCESO"))
+						{
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");		
-						}else{
+						}
+						else
+						{
 							Orden_Trabajo.CambiarEstado(clave, "Cerrado");		
 						}
 						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
 						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++)
 						{
-							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+							boolean isCumplida= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+							ConexionDB.getbaseDatos().ejecutar("UPDATE procesos_x_orden_trabajo SET cumplida = "+ "'" + isCumplida + "'" + " WHERE id_orden_trabajo =" + "'" + this.txtNro.getText() + "'");
 						}
+						System.out.println(txtNro.getText());
 						obj = btnCancelar;
 				}
 				else 
 				{
-
+					System.out.println("D:");
 					cargarTablas(); // Cargaría la tabla en memoria
 					obj = btnCancelar;
 	
@@ -1148,14 +1154,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			txtClear ();
 		}
-
+		System.out.println(":D");
+		TablaDeBusqueda.Actualizar();
 	}
 	
 	void cargarTablas() 
 	{	
 		//Se obtienen las variables para crear una nueva OT
-		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
-		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
+		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ Metodos.dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
+		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ Metodos.dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
 		Double ancho = Double.parseDouble(txtAncho.getText());
 		Double alto = Double.parseDouble(txtAlto.getText());
@@ -1173,14 +1180,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
 		ot1.Alta();
 		
-		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
 				Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
-				Integer id_OT = Orden_Trabajo.FacturaAEntero(this.txtNro.getText());
+				Integer id_OT = Metodos.FacturaAEntero(this.txtNro.getText());
 				for (int i = 0; i < cantFilasProc; i++) 
 				{
 					Integer id_Proceso = Proceso.getIdProceso((String) tablaOrdenDeEjecucion.getValueAt(i, 0));
 					boolean isTercerizada = (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 1);
+					boolean isCumplida = (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
 					Integer id_Proveedor;
 					String observaciones;
 					if( isTercerizada == true)
@@ -1193,7 +1200,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						id_Proveedor = null;
 						observaciones = null;
 					}
-					Procesos_x_OT pxt = new Procesos_x_OT(id_Proceso,id_OT,isTercerizada,id_Proveedor, false,observaciones);
+					
+					Procesos_x_OT pxt = new Procesos_x_OT(id_Proceso,id_OT,isTercerizada,id_Proveedor, isCumplida,observaciones);
 					pxt.Alta();
 				}	
 		
@@ -1231,57 +1239,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			m.Alta();
 		}
 		
-	}
-	
-	public static String dameNumeroMes(String mes)
-	{
-		if(mes == "Enero")
-		{
-			return "01";
-		}
-		else if(mes == "Febrero")
-		{
-			return "02";
-		}
-		else if(mes == "Marzo")
-		{
-			return "03";
-		}
-		else if(mes == "Abril")
-		{
-			return "04";
-		}else if(mes == "Mayo")
-		{
-			return "05";
-		}
-		else if(mes=="Junio")
-		{
-			return "06";
-		}
-		else if(mes=="Julio")
-		{
-			return "07";
-		}
-		else if(mes=="Agosto")
-		{
-			return "08";
-		}
-		else if(mes=="Septiembre")
-		{
-			return "09";
-		}
-		else if(mes=="Octubre")
-		{
-			return "10";
-		}
-		else if(mes=="Noviembre")
-		{
-			return "11";
-		}
-		else
-		{
-			return "12";
-		}
 	}
 
 	void txtClear () 

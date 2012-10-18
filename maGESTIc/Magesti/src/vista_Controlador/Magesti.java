@@ -480,7 +480,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		boolean b = Metodos.openChildWindow ("Reporte");
 		if (b == false) 
 		{
-		Metodos.imprimir (Metodos.fabricaReporte(1020,qCLIENTE), this);
+		Metodos.imprimir (Metodos.fabricaReporte(1020), this);
 		}
 		}
 		

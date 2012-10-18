@@ -66,7 +66,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
 				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
-				nuevaSC.getTxtNumero().setText(Orden_Trabajo.EnteroAFactura(id_SC));
+				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(id_SC));
 				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
 				
 				nuevaSC.getCbProveedor().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2));
@@ -219,7 +219,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 									JOptionPane.WARNING_MESSAGE
 								);
 							}else{
-								Date f_h_recibido=Orden_Trabajo.getDateTimeActual();
+								Date f_h_recibido=Metodos.getDateTimeActual();
 								Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Rechazado",f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 								rp.Alta();
 								nuevaSC.dispose();	
@@ -233,7 +233,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							Detalle.setAllAsRecibidos(id_SC); 
-							Date f_h_recibido=Orden_Trabajo.getDateTimeActual();
+							Date f_h_recibido=Metodos.getDateTimeActual();
 							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 							rp.Alta();
 							nuevaSC.dispose();

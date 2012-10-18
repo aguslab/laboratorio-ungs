@@ -22,7 +22,6 @@ import Modelo.Proveedor;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.math.BigInteger;
 import java.sql.ResultSet;
 
 public class Adm_Proveedor extends JInternalFrame 
