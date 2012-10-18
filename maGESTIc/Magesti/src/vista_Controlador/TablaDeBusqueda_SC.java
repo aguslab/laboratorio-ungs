@@ -105,6 +105,9 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
+				
+				
+				
 				//si horario entrega es M
 				if(tablaBusqueda.getValueAt(filaElegida, 8).equals("M")){
 					nuevaSC.getRbManiana().setSelected(true);

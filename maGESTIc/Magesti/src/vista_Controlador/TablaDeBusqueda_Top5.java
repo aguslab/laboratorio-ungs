@@ -63,7 +63,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusquedaTop5.getValueAt(filaElegida, 13)).toString());
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEditable(false);
 				
 				//Cargo en la ventana de OT los valores de la fila elegida
 				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusquedaTop5.getValueAt(filaElegida, 0)));
@@ -101,10 +101,10 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusquedaTop5.getValueAt(filaElegida, 8)));
 				nuevaOT.getTxtPreimpresion().setEditable(false);
 				
-				nuevaOT.getTxtAncho().setText(tablaBusquedaTop5.getValueAt(filaElegida, 9).toString());
+				nuevaOT.getTxtAncho().setText(Metodos.valorAncho(tablaBusquedaTop5.getValueAt(filaElegida, 9).toString()));
 				nuevaOT.getTxtAncho().setEditable(false);
 				
-				nuevaOT.getTxtAlto().setText(tablaBusquedaTop5.getValueAt(filaElegida, 10).toString());
+				nuevaOT.getTxtAlto().setText(Metodos.valorAncho(tablaBusquedaTop5.getValueAt(filaElegida, 10).toString()));
 				nuevaOT.getTxtAlto().setEditable(false);
 				
 				//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
@@ -305,7 +305,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
-				"select * from orden_trabajo where f_prometida>" + fechaHoy
+				"select * from orden_trabajo where f_prometida>=" + fechaHoy
 						+ "order by f_prometida limit 0,5;");
 
 		Integer CantColumnas = 14;

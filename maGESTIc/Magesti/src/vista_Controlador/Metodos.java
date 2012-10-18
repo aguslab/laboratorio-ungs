@@ -353,6 +353,15 @@ public class Metodos implements Config
 		}
 		return f_h_actual;
 	}
+
+	public static String valorAncho(String cadena) {
+		
+		int l= cadena.length();
+		if(l!=6){
+			cadena="0"+cadena;
+		}
+		return cadena;
+	}
 	
 	
 	
