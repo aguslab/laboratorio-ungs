@@ -1123,8 +1123,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							Orden_Trabajo.CambiarEstado(clave, "Cerrado");		
 						}
 						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
-						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++)
+						{
 							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
 						}
 						obj = btnCancelar;
@@ -1172,6 +1172,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		//Se da de alta una nueva OT
 		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
 		ot1.Alta();
+		
 		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
 				Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
