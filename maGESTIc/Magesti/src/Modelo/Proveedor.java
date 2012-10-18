@@ -344,4 +344,46 @@ public class Proveedor
 		System.out.println(this.getMail_contacto()+"     ");
 		System.out.print(this.getDireccion_retiro()+"     ");
 	}
+
+	public static boolean updateDatosProveedor(String id, String razon_social,
+			String cuit, String cond_iva, String direccion,
+			String telefono, String mail, boolean activo) {
+		
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE proveedor SET razon_social = " +
+						"'"+razon_social+"'" +
+						",cuit = "+
+						"'"+cuit+"'" 
+						+",cond_iva = " +
+						"'"+ cond_iva+ "'" +
+						",direccion = "+
+						"'" + direccion + "'"
+						+ ",telefono = " +
+						"'" + telefono+ "'" 
+						+ ",mail = " +
+						"'" + mail+ "'"
+						+ ", activo="+activo
+						+ " WHERE id_proveedor ="
+						+ Integer.parseInt(id));
+		
+		return r;		
+	}
+
+	public static boolean updateDatosContactoProveedor(String id,
+			String nombre, String telefono,
+			String mail, String dir_retiro) {
+
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE proveedor SET nombre_contacto =" +
+						"'"+ nombre + "'"
+						+ ",telefono_contacto = "+
+						"'"+telefono+"'"
+						+",mail_contacto = " +
+						"'"+ mail+ "'"
+						+ ",direccion_retiro = " +
+						"'"+ dir_retiro + "'"
+						+ " WHERE id_proveedor ="+ Integer.parseInt(id));
+		
+		return r;
+	}
 }
