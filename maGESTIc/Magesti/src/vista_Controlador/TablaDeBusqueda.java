@@ -62,7 +62,7 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.show ();
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
+				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEditable(false);
 
 				boolean sonIguales = tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada");
 				if(sonIguales)
@@ -105,10 +105,10 @@ public class TablaDeBusqueda extends JInternalFrame
 				nuevaOT.getTxtPreimpresion().setText(Integer.toString((Integer) tablaBusqueda.getValueAt(filaElegida, 8)));
 				nuevaOT.getTxtPreimpresion().setEditable(false);
 				
-				nuevaOT.getTxtAncho().setText(tablaBusqueda.getValueAt(filaElegida, 9).toString());
+				nuevaOT.getTxtAncho().setText(Metodos.valorAncho(tablaBusqueda.getValueAt(filaElegida, 9).toString()));
 				nuevaOT.getTxtAncho().setEditable(false);
 				
-				nuevaOT.getTxtAlto().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString());
+				nuevaOT.getTxtAlto().setText(Metodos.valorAncho(tablaBusqueda.getValueAt(filaElegida, 10).toString()));
 				nuevaOT.getTxtAlto().setEditable(false);
 				
 				//nuevaOT.getChbApaisado().getModel().setSelected((Boolean) tablaBusqueda.getValueAt(filaElegida, 11));
@@ -282,7 +282,6 @@ public class TablaDeBusqueda extends JInternalFrame
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 
 			setFilas();
-
 			tablaBusqueda.setModel(dtmMagesti);
 			jspTabla.add(tablaBusqueda);
 			this.setSize(500, 200);

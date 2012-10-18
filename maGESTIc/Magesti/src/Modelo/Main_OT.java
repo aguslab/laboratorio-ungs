@@ -17,8 +17,9 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
-			
-			System.out.println(Metodos.getDateTimeActual());
+			//System.out.println(a);
+			//System.out.println(Metodos.valorAncho(a));
+			//System.out.println(Metodos.getDateTimeActual());
 			
 			//System.out.println(Cliente.updateDatosContactoCliente("1", "asdasdas", "s22222222", "2222222", "dadsdasdas"));
 			
