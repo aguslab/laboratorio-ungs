@@ -726,6 +726,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			setVisible (false);
 			dispose();
 		}
+
 		
 	}
 	

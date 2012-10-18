@@ -161,10 +161,11 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
 				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-				ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(id_OT);
+				ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(Elemento.getIdElementos(id_OT));
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				nuevaOT.getTablaElementos().setEnabled(false);
 				Object nuevaFilaElemento[]= {"",""};
+				Integer total=0;
 				for (int i = 0; i < cantFilas; i++) 
 				{
 					temp.addRow(nuevaFilaElemento);
@@ -173,7 +174,8 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 					if(cantHojasUtil.size()>0){
 						temp.setValueAt(cantHojasUtil.get(i), i, 2);	
 					}
-					
+					total= total +cantHojasUtil.get(i);
+					nuevaOT.getTxtCantidadDeHojasUtilizadas().setText(total.toString());
 				}
 				nuevaOT.getTxtCantidadAEntregar().setEditable(false);
 				nuevaOT.getBtnAgregarFila().setEnabled(false);
@@ -293,40 +295,49 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		}
 
 				
-		private void setFilas() 
-		 {
-			Calendar fecha= Calendar.getInstance();
-			Integer mm=fecha.get(Calendar.MONTH)+1;
-			Integer dd=fecha.get(Calendar.DATE);
-			Integer aaaa=fecha.get(Calendar.YEAR);	
-			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
-			
-			ResultSet result;
-				result = ConexionDB.getbaseDatos().consultar(
-								"select * from orden_trabajo where f_prometida>"+fechaHoy+"order by f_prometida limit 0,5;");	
-			
-			
-				Integer CantColumnas=14;
-				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla
-	
-							try 
-							{
-								while (result.next()) 
-								{
-									
-									for (int i = 0; i < CantColumnas; i++) 
-									{
-										datos[i] = result.getObject(i + 1);
-										if (i==11)
-										{
-											datos[i]=Metodos.esApaisadaS((Boolean) datos[11]);
-										}
-									}
-									dtmMagesti.addRow(datos);
-								}
-							} 
-							catch (Exception e) 
-							{
-							}
-						}
+		private static void setFilas() 
+ {
+		Calendar fecha = Calendar.getInstance();
+		Integer mm = fecha.get(Calendar.MONTH) + 1;
+		Integer dd = fecha.get(Calendar.DATE);
+		Integer aaaa = fecha.get(Calendar.YEAR);
+		String fechaHoy = "'" + aaaa + "-" + mm + "-" + dd + "'";
+
+		ResultSet result;
+		result = ConexionDB.getbaseDatos().consultar(
+				"select * from orden_trabajo where f_prometida>" + fechaHoy
+						+ "order by f_prometida limit 0,5;");
+
+		Integer CantColumnas = 14;
+		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la
+													// tabla
+
+		try {
+			while (result.next()) {
+
+				for (int i = 0; i < CantColumnas; i++) {
+					datos[i] = result.getObject(i + 1);
+					if (i == 11) {
+						datos[i] = Metodos.esApaisadaS((Boolean) datos[11]);
+					}
+				}
+				dtmMagesti.addRow(datos);
+			}
+		} catch (Exception e) {
+		}
+	}
+		
+		
+		static void Actualizar()
+		{
+			try
+			{
+				Metodos.borrarFilas((DefaultTableModel)tablaBusquedaTop5.getModel());
+				setFilas();
+			}
+			catch(Exception e)
+			{
+				
+			}
+		}
 }

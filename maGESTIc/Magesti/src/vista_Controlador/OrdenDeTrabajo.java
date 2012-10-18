@@ -1190,6 +1190,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			txtClear ();
 		}
 		TablaDeBusqueda.Actualizar();
+		TablaDeBusqueda_Top5.Actualizar();
 	}
 	
 	//devuelve la cantHojas utilizadas. -1 en las filas que son <0 || > a lo pedido
@@ -1198,7 +1199,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Integer cantFilas= tablaElementos.getRowCount();
 		for(int i=0;i<cantFilas;i++){
 			Integer hu=(Integer) tablaElementos.getValueAt(i, 2);
-			if(hu > 0){
+			if(hu >= 0){
 				if(hu<=(Integer) tablaMateriales.getValueAt(i, 9)){
 					hojasut.add(hu);
 				}else{//hojasutilizadas es mayor a lo pedido
