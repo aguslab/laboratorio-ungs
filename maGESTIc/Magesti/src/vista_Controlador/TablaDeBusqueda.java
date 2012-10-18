@@ -24,14 +24,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda extends JInternalFrame 
 {
 	private JPanel jpMostrar = new JPanel ();
-	private DefaultTableModel dtmMagesti;
+	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
-	private JTable tablaBusqueda;
+	private static JTable tablaBusqueda;
 	
 	TablaDeBusqueda(String titulo,boolean top5) 
 	{
@@ -243,13 +245,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		
 		
 		getContentPane().add (jpMostrar);
-		dtmMagesti = new DefaultTableModel(null, getColumnas());
-		setFilas(top5);
-		tablaBusqueda.setModel(dtmMagesti);
-		jspTabla.add(tablaBusqueda);
-		jspTabla.setViewportView(tablaBusqueda);
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);	
-	
+		
 			// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas());
 
@@ -274,7 +270,7 @@ public class TablaDeBusqueda extends JInternalFrame
 
 		
 		
-		private void setFilas(boolean top5) 
+		private static void setFilas(boolean top5) 
 		 {
 			Calendar fecha= Calendar.getInstance();
 			Integer mm=fecha.get(Calendar.MONTH)+1;
@@ -283,12 +279,14 @@ public class TablaDeBusqueda extends JInternalFrame
 			String fechaHoy="'"+aaaa+"-"+mm+"-"+dd+"'";
 			
 			ResultSet result;
-			if(top5){
+			if(top5)
+			{
 				result = ConexionDB
 						.getbaseDatos()
 						.consultar(
 								"select * from orden_trabajo where f_prometida>"+fechaHoy+"order by f_prometida limit 0,5;");	
-			}else{
+			}
+			else{
 				result = ConexionDB
 						.getbaseDatos()
 						.consultar(
@@ -322,6 +320,11 @@ public class TablaDeBusqueda extends JInternalFrame
 			}
 		
 		
-		
+		static void Actualizar()
+		{
+			System.out.println("cant filas: " + tablaBusqueda.getRowCount());
+			Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
+			setFilas(false);
+		}
 		
 }
