@@ -15,10 +15,12 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 		
-					
+			System.out.println(Cliente.updateDatosContactoCliente("1", "asdasdas", "s22222222", "2222222", "dadsdasdas"));
+			
+			/*		
 			Detalle d= new Detalle(1, 123, "saa", 1, 2, 3, 12, 12.3, "KG", 134.12,false);
 			System.out.println(d.Alta());
-			
+			*/
 			
 			/*
 			String[] a=Orden_Trabajo.getId_nom_OT();
