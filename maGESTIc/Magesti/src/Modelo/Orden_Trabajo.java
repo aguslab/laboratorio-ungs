@@ -156,41 +156,51 @@ public class Orden_Trabajo implements Config
 	}
 	
 		
-	public static String [] getId_nom_OT(){
-		
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado='Pendiente'");
-		String[] id_nom_ot = null;
-		try {
-			resultado.last();
-			int cantOTPendiente = resultado.getRow();
-			id_nom_ot= new String[cantOTPendiente+1];
-			resultado.beforeFirst();
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		
-		
-		if(resultado != null){
-			int i=0;
-			try {
-				while(resultado.next()){
-					
+		public static String [] getId_nom_OT()
+		{
+			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado='Pendiente'");
+			String[] id_nom_ot = null;
+			try 
+			{
+				resultado.last();
+				int cantOTPendiente = resultado.getRow();
+				id_nom_ot= new String[cantOTPendiente+1];
+				resultado.beforeFirst();
+			} 
+			catch (SQLException e2) 
+			{
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
+			
+			
+			if(resultado != null)
+			{
+				int i=0;
+				try 
+				{
+					while(resultado.next())
+					{
+						
 						Integer id_ot=resultado.getInt("id_orden_trabajo");
 						String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
 						String nom_ot=resultado.getString("nombre_trabajo");
 						id_nom_ot[i]=id_OT_Formato+"  -  "+nom_ot;
 						i++;
+					}
+				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				String id_OT_Formato = Metodos.EnteroAFactura(0);
+				String nom_ot="Stockear";
+				id_nom_ot[i]= id_OT_Formato+"  -  "+nom_ot;
 			}
+			return id_nom_ot;
 		}
-		
-		return id_nom_ot;
-	}
 		
 		
 	public static String[] getNomColum() 
