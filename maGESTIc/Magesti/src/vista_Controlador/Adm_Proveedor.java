@@ -55,9 +55,8 @@ public class Adm_Proveedor extends JInternalFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 
-				boolean todoOK=true;
-				boolean todoOKContacto=true;
-				boolean result = true;
+				boolean todoOK=true, todoOKContacto=true;
+				boolean result = true, cuitOK=true;
 				
 				String id = "";
 				String razon_social = "";
@@ -75,34 +74,39 @@ public class Adm_Proveedor extends JInternalFrame
 				//Agregar proveedores nuevos
 				Integer cantFilasDatos = tablaDatos.getRowCount();
 				for (int i =0; i < cantFilasDatos; i++) 
-				{
-					id=tablaDatos.getValueAt(i, 0).toString();
+ {
+					id = tablaDatos.getValueAt(i, 0).toString();
 					razon_social = tablaDatos.getValueAt(i, 1).toString();
-					cuit= tablaDatos.getValueAt(i, 2).toString();
+					cuit = tablaDatos.getValueAt(i, 2).toString();
 					cond_iva = tablaDatos.getValueAt(i, 3).toString();
 					direccion = tablaDatos.getValueAt(i, 4).toString();
 					telefono = tablaDatos.getValueAt(i, 5).toString();
 					mail = tablaDatos.getValueAt(i, 6).toString();
 					boolean activo = (Boolean) tablaDatos.getValueAt(i, 7);
-					
+
 					nombre_contacto = tablaContacto.getValueAt(i, 1).toString();
-					telefono_contacto = tablaContacto.getValueAt(i, 2).toString();
+					telefono_contacto = tablaContacto.getValueAt(i, 2)
+							.toString();
 					mail_contacto = tablaContacto.getValueAt(i, 3).toString();
-					direccion_retiro = tablaContacto.getValueAt(i, 4).toString();
-					
-									
-					todoOK=todoOK && !razon_social.equals("");
-					todoOK=todoOK && !cuit.equals("");
-					todoOK=todoOK && !cond_iva.equals("");
-					todoOK=todoOK && !direccion.equals("");
-					todoOK=todoOK && !telefono.equals("");
-					todoOK=todoOK && !mail.equals("");
-					
-					todoOKContacto=todoOKContacto && !nombre_contacto.equals("");
-					todoOKContacto=todoOKContacto && !telefono_contacto.equals("");
-					todoOKContacto=todoOKContacto && !mail_contacto.equals("");
-					todoOKContacto=todoOKContacto && !direccion_retiro.equals("");
-					
+					direccion_retiro = tablaContacto.getValueAt(i, 4)
+							.toString();
+
+					todoOK = todoOK && !razon_social.equals("");
+					todoOK = todoOK && !cuit.equals("");
+					todoOK = todoOK && !cond_iva.equals("");
+					todoOK = todoOK && !direccion.equals("");
+					todoOK = todoOK && !telefono.equals("");
+					todoOK = todoOK && !mail.equals("");
+
+					todoOKContacto = todoOKContacto
+							&& !nombre_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !telefono_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !mail_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !direccion_retiro.equals("");
+
 					if (todoOK == false || todoOKContacto == false) {
 						result = false;
 						if (!todoOK) {
@@ -112,29 +116,39 @@ public class Adm_Proveedor extends JInternalFrame
 						} else {
 							JOptionPane
 									.showMessageDialog(null,
-									"Falta completar datos del contacto de Proveedor");
+											"Falta completar datos del contacto de Proveedor");
 							break;
 						}
-					} else if (id.equals("")) {
-						if(cuit.length()==11 && Metodos.esNumero(cuit)){
-							result=true;
-							Proveedor proveedor = new Proveedor(razon_social, cuit, cond_iva, direccion, telefono, mail, nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro, activo);
-								result = result && proveedor.Alta();
-						}else{
-						result=false;
-						JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
-						}	
+					} else if (cuit.length() == 11 && Metodos.esNumero(cuit)) {
+						if (id.equals("")) {
+							result = true;
+							Proveedor proveedor = new Proveedor(razon_social,
+									cuit, cond_iva, direccion, telefono, mail,
+									nombre_contacto, telefono_contacto,
+									mail_contacto, direccion_retiro, activo);
+							result = result && proveedor.Alta();
+						} else {
+							Proveedor.updateDatosProveedor(id, razon_social, cuit,
+									cond_iva, direccion, telefono, mail, activo);
+							Proveedor.updateDatosContactoProveedor(id,
+									nombre_contacto, telefono_contacto,
+									mail_contacto, direccion_retiro);
+						}
 					}else{
-						Proveedor.updateDatosProveedor(id, razon_social, cuit, cond_iva, direccion, telefono, mail, activo);
-						Proveedor.updateDatosContactoProveedor(id, nombre_contacto, telefono_contacto, mail_contacto, direccion_retiro);
+						cuitOK=false;
+						result = false;
 					}
 				}
 				if(result){
 					JOptionPane.showMessageDialog(null,"Se guardaron los cambios que realizo");
 					Actualizar();
 				}else{
-					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+					//JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
 				}
+				if(!cuitOK){
+					JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
+				}
+				
 			}
 		}
 		);

@@ -56,10 +56,8 @@ public class Adm_Cliente extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				boolean todoOK=true;
-				boolean todoOKContacto=true;
-				boolean result = true;
-				
+				boolean todoOK=true, todoOKContacto=true;
+				boolean result = true, cuitOK=true;
 				String Nro_Cliente = "";
 				String razon_social = "";
 				String cuit = "";
@@ -76,33 +74,43 @@ public class Adm_Cliente extends JInternalFrame
 				//Agregar clientes nuevos
 				Integer cantFilasDatos = tablaDatosCliente.getRowCount();
 				for (int i =0; i < cantFilasDatos; i++) 
-				{
+ {
 					Nro_Cliente = tablaDatosCliente.getValueAt(i, 0).toString();
-					razon_social = tablaDatosCliente.getValueAt(i, 1).toString();
+					razon_social = tablaDatosCliente.getValueAt(i, 1)
+							.toString();
 					cuit = tablaDatosCliente.getValueAt(i, 2).toString();
 					cond_iva = tablaDatosCliente.getValueAt(i, 3).toString();
 					direccion = tablaDatosCliente.getValueAt(i, 4).toString();
 					telefono = tablaDatosCliente.getValueAt(i, 5).toString();
 					mail = tablaDatosCliente.getValueAt(i, 6).toString();
-					boolean activo = (Boolean) tablaDatosCliente.getValueAt(i, 7);
-					
-					nombre_contacto = tablaContactoCliente.getValueAt(i, 1).toString();
-					telefono_contacto = tablaContactoCliente.getValueAt(i, 2).toString();
-					mail_contacto = tablaContactoCliente.getValueAt(i, 3).toString();
-					direccion_entrega = tablaContactoCliente.getValueAt(i, 4).toString();
-					
-					todoOK=todoOK && !razon_social.equals("");
-					todoOK=todoOK && !cuit.equals("");
-					todoOK=todoOK && !cond_iva.equals("");
-					todoOK=todoOK && !direccion.equals("");
-					todoOK=todoOK && !telefono.equals("");
-					todoOK=todoOK && !mail.equals("");
-					
-					todoOKContacto=todoOKContacto && !nombre_contacto.equals("");
-					todoOKContacto=todoOKContacto && !telefono_contacto.equals("");
-					todoOKContacto=todoOKContacto && !mail_contacto.equals("");
-					todoOKContacto=todoOKContacto && !direccion_entrega.equals("");
-					
+					boolean activo = (Boolean) tablaDatosCliente.getValueAt(i,
+							7);
+
+					nombre_contacto = tablaContactoCliente.getValueAt(i, 1)
+							.toString();
+					telefono_contacto = tablaContactoCliente.getValueAt(i, 2)
+							.toString();
+					mail_contacto = tablaContactoCliente.getValueAt(i, 3)
+							.toString();
+					direccion_entrega = tablaContactoCliente.getValueAt(i, 4)
+							.toString();
+
+					todoOK = todoOK && !razon_social.equals("");
+					todoOK = todoOK && !cuit.equals("");
+					todoOK = todoOK && !cond_iva.equals("");
+					todoOK = todoOK && !direccion.equals("");
+					todoOK = todoOK && !telefono.equals("");
+					todoOK = todoOK && !mail.equals("");
+
+					todoOKContacto = todoOKContacto
+							&& !nombre_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !telefono_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !mail_contacto.equals("");
+					todoOKContacto = todoOKContacto
+							&& !direccion_entrega.equals("");
+
 					if (todoOK == false || todoOKContacto == false) {
 						result = false;
 						if (!todoOK) {
@@ -112,31 +120,39 @@ public class Adm_Cliente extends JInternalFrame
 						} else {
 							JOptionPane
 									.showMessageDialog(null,
-									"Falta completar datos del contacto de cliente");
+											"Falta completar datos del contacto de cliente");
 							break;
 						}
-					} else if (Nro_Cliente.equals("")) {
-						if(cuit.length()==11 && Metodos.esNumero(cuit)){
-								result=true;
-								Cliente cli = new Cliente(razon_social, cuit,
-											cond_iva, direccion, telefono, mail,
-											nombre_contacto, telefono_contacto,
-											mail_contacto, direccion_entrega, activo);
-									result = result && cli.Alta();
-						}else{
-							result=false;
-							JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
-						}	
-					}else{
-						Cliente.updateDatosCliente(Nro_Cliente, razon_social, cuit, cond_iva, direccion, telefono, mail, activo);
-						Cliente.updateDatosContactoCliente(Nro_Cliente, nombre_contacto, telefono_contacto, mail_contacto, direccion_entrega);
+					} else if (cuit.length() == 11 && Metodos.esNumero(cuit)) {
+						if (Nro_Cliente.equals("")) {
+							result = true;
+							Cliente cli = new Cliente(razon_social, cuit,
+									cond_iva, direccion, telefono, mail,
+									nombre_contacto, telefono_contacto,
+									mail_contacto, direccion_entrega, activo);
+							result = result && cli.Alta();
+						} else {
+							Cliente.updateDatosCliente(Nro_Cliente,
+									razon_social, cuit, cond_iva, direccion,
+									telefono, mail, activo);
+							Cliente.updateDatosContactoCliente(Nro_Cliente,
+									nombre_contacto, telefono_contacto,
+									mail_contacto, direccion_entrega);
+						}
+					} else {
+						cuitOK=false;
+						result = false;
 					}
+
 				}
 				if(result){
 					JOptionPane.showMessageDialog(null,"Se guardaron los cambios que realizo");
 					Actualizar();
 				}else{
-					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+					//JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+				}
+				if(!cuitOK){
+					JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
 				}
 			}
 		}
