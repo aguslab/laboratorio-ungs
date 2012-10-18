@@ -272,7 +272,7 @@ public class Metodos implements Config
 		return FacturaAEntero(id);
 	}
 	
-	static boolean esNumero(String posibleNumero){
+	public static boolean esNumero(String posibleNumero){
 		boolean esNumero=posibleNumero.length()>0;
 		for (int j = 0; j < posibleNumero.length(); j++) {
 			esNumero=esNumero && (posibleNumero.charAt(j)>='0' && posibleNumero.charAt(j)<='9');
@@ -319,7 +319,7 @@ public class Metodos implements Config
     	
     }
     
-    static public boolean esApaisadaB (String dato)
+    public static boolean esApaisadaB (String dato)
     {
     	if (dato.equalsIgnoreCase("SI"))
     	{
@@ -349,5 +349,9 @@ public class Metodos implements Config
 		}
 		return f_h_actual;
 	}
+	
+	
+	
+	
 	
 }

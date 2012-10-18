@@ -369,6 +369,7 @@ public class Proveedor
 		return r;		
 	}
 
+	
 	public static boolean updateDatosContactoProveedor(String id,
 			String nombre, String telefono,
 			String mail, String dir_retiro) {
