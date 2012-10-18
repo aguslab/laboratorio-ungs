@@ -438,7 +438,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 					tablaB.show ();
 					try {
 						tablaB.setMaximum(true);
-					} catch (PropertyVetoException e) {
+					} catch (PropertyVetoException e) 
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
