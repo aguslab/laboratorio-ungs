@@ -1116,23 +1116,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					);
 				}
 				else if(estado.equals("EN PROCESO")
-						|| estado.equals("CERRADO"))
-				{
-						if(estado.equals("EN PROCESO"))
-						{
+						|| estado.equals("CERRADO")){
+						if(estado.equals("EN PROCESO")){
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");		
-						}
-						else
-						{
+						}else{
 							Orden_Trabajo.CambiarEstado(clave, "Cerrado");		
 						}
 						Orden_Trabajo.CambiarCantHojasUtil(clave, Integer.parseInt(this.txtCantidadDeHojasUtilizadas.getText()));
-						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++)
-						{
-							boolean isCumplida= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-							ConexionDB.getbaseDatos().ejecutar("UPDATE procesos_x_orden_trabajo SET cumplida = "+ "'" + isCumplida + "'" + " WHERE id_orden_trabajo =" + "'" + this.txtNro.getText() + "'");
+						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+							System.out.println(Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n));
 						}
-						System.out.println(txtNro.getText());
 						obj = btnCancelar;
 				}
 				else 
