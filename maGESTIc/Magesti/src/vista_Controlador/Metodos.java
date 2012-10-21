@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -355,14 +358,81 @@ public class Metodos implements Config
 	}
 
 	public static String valorAncho(String cadena) {
-		
-		int l= cadena.length();
-		if(l!=6){
-			cadena="0"+cadena;
+		int ind=0;
+		for(int i=0;i<cadena.length();i++){
+			if(cadena.charAt(i)=='.'){
+				ind=i;
+				break;
+			}
+		}
+		boolean f=true;
+		while(cadena.length()!=6){
+			if(cadena.substring(ind).length()!=3 && f){
+				cadena=cadena+"0";
+				f=false;
+			}else{
+				cadena="0"+cadena;
+			}
 		}
 		return cadena;
 	}
 	
+	public static String getDiaDeHoy(){
+		Calendar fecha= Calendar.getInstance();
+		Integer dd=fecha.get(Calendar.DATE);
+		
+		return dd.toString();
+	}
+	
+	public static String getMesActual(){
+		Calendar fecha= Calendar.getInstance();
+		Integer mm=fecha.get(Calendar.MONTH)+1;
+		
+		return mm.toString();
+	}
+	
+	public static String getAnioActual(){
+		Calendar fecha= Calendar.getInstance();
+		Integer aaaa=fecha.get(Calendar.YEAR);
+		
+		return aaaa.toString();
+	}
+	
+	public static boolean isFechaActualMenorFechaPrometida(String factual,
+			String fprometida) {
+		Integer anioActual = Integer.parseInt(factual.substring(6));
+		Integer mesActual = Integer.parseInt(factual.substring(3, 5));
+		Integer diaActual = Integer.parseInt(factual.substring(0, 2));
+
+		Integer anioPrometido = Integer.parseInt(fprometida.substring(6));
+		Integer mesPrometido = Integer.parseInt(fprometida.substring(3, 5));
+		Integer diaPrometido = Integer.parseInt(fprometida.substring(0, 2));
+
+		if (anioPrometido < anioActual) {
+			return false;
+		} else if (anioPrometido.equals(anioActual)) {
+			if (mesPrometido < mesActual) {
+				return false;
+			} else if (mesPrometido.equals(mesActual)) {
+				if (diaPrometido <= diaActual) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	public static String getTextoEnCombo(JComboBox combo) {
+
+		String otSelec=(String) combo.getSelectedItem();
+		
+		return otSelec.substring(16);
+	}
 	
 	
 	
