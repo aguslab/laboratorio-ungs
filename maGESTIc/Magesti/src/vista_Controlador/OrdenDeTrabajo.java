@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelListener;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -415,21 +416,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		);
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
-		Calendar fecha= Calendar.getInstance();
-		Integer mm=fecha.get(Calendar.MONTH)+1;
-		cboMes.getModel().setSelectedItem(Metodos.dameMes(mm.toString()));
+		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboMes.setBounds(695, 11, 97, 25);
 		cboMes.setEnabled(false);
 		
 		cboDia = new JComboBox ();
-		Integer dd=fecha.get(Calendar.DATE);
-		cboDia.getModel().setSelectedItem(dd.toString());
+		cboDia.getModel().setSelectedItem(Metodos.getDiaDeHoy());
 		cboDia.setEnabled(false);
 		cboDia.setBounds(792, 11, 48, 25);
 		
 		cboAnio = new JComboBox ();
-		Integer aaaa=fecha.get(Calendar.YEAR);
-		cboAnio.getModel().setSelectedItem(aaaa.toString());
+		cboAnio.getModel().setSelectedItem(Metodos.getAnioActual());
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(840, 11, 65, 25);
 		
@@ -439,10 +436,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(695, 54, 210, 25);
 		cboEstado_1.setEnabled(false);
-		
+		String dias="";
 		for (int i = 1; i <= 31; i++) 
 		{
-			String dias = "" + i;
+			if(i<10){
+				dias = "0" + i;
+			}else{
+				dias = "" + i;	
+			}
 			cboDia.addItem (dias);
 		}
 		
@@ -453,7 +454,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		
 		cboMes2 = new JComboBox (Meses);
-		
 		cboMes2.setBounds(85, 54, 97, 25);
 		
 		cboDia2 = new JComboBox ();
@@ -461,10 +461,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(230, 54, 65, 25);
-		
 		for (int i = 1; i <= 31; i++) 
 		{
-			String dias = "" + i;
+			if(i<10){
+				dias = "0" + i;
+			}else{
+				dias = "" + i;	
+			}
 			cboDia2.addItem (dias);
 		}
 		
@@ -474,6 +477,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio2.addItem (anios);
 		}
 				
+		cboDia2.setSelectedItem(Metodos.getDiaDeHoy());
+		cboMes2.setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
+		cboAnio2.setSelectedItem(Metodos.getAnioActual());
+
+		
 		btnLimpiarOT = new JButton("Limpiar", new ImageIcon ("Imagenes/limpiar.png"));
 		btnLimpiarOT.setBounds(10, 514, 121, 30);
 		btnLimpiarOT.addActionListener (this);
@@ -527,7 +535,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 		//setVisible (true);
 		
-		//Para la pestaña de la Seccion Elementos
+		
+		/*
+		 * 
+		 * Para la pestaña de la Seccion Elementos
+		 * 
+		 */
+		
 		JPanel panElementos = new JPanel();
 		panElementos.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panElementos.setBounds(0, 0, 870, 250);
@@ -669,6 +683,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		
 		
+		/*
+		 * 
+		 * Para la pestaña Materiales
+		 * 
+		 */
+		
 		panMateriales = new JPanel();
 		
 		
@@ -689,7 +709,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			new Object[][] {
 			},
 			new String[] {
-				"Elemento", "Cantidad", "Gramaje", "Formato", "Variante", "Calidad", "Pliegos en demasia", "Poses x Pliego", "Pliegos x Hoja", "Hojas", "Pliegos Netos"
+				"Elemento", "Cantidad", "Gramaje", "Formato", "Variante", "Calidad", "Pliegos en demasia", "Poses x Pliego", "Pliegos x Hoja", "Pliegos Netos", "Hojas" 
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -733,10 +753,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(8).setPreferredWidth(90);
 		tablaMateriales.getColumnModel().getColumn(8).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(45);
+		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(88);
 		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
-		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(88);
+		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
 		tablaMateriales.getTableHeader().setReorderingAllowed(false);
@@ -767,12 +787,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 								.getValueAt(i, 7).toString());
 						Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
 								/ posesXpliego);
-						tablaMateriales.setValueAt(totalPliegosNetos, i, 10);
+						tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
 
 						// Obtengo los datos de la tabla materiales necesarios
 						// para calcular la cantidad de hojas
 						Integer pliegosNetos = Integer.parseInt(tablaMateriales
-								.getValueAt(i, 10).toString());
+								.getValueAt(i, 9).toString());
 						Integer pliegosEnDemasia = Integer
 								.parseInt(tablaMateriales.getValueAt(i, 6)
 										.toString());
@@ -782,7 +802,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						Integer hojas = (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
 								/ pliegosXhoja);
 						
-						tablaMateriales.setValueAt(hojas, i, 9);
+						tablaMateriales.setValueAt(hojas, i, 10);
 					}
 
 				}
@@ -790,32 +810,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 			
 			@Override
-			public void columnRemoved(TableColumnModelEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnRemoved(TableColumnModelEvent arg0){}
 			
 			@Override
-			public void columnMoved(TableColumnModelEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnMoved(TableColumnModelEvent arg0) {}
 			
 			@Override
-			public void columnMarginChanged(ChangeEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnMarginChanged(ChangeEvent arg0) {}
 			
 			@Override
-			public void columnAdded(TableColumnModelEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnAdded(TableColumnModelEvent arg0){}
 		});
 		
 		
@@ -842,6 +846,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	        "Listado de tareas o procesos"
 		);
 	
+		
 		/*
 		 * Seccion Procesos
 		 */
@@ -891,11 +896,25 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 			boolean[] columnEditables = new boolean[] 
 			{
-				true, true, true, true, false
+				false, true, true, true, false
 			};
 			public boolean isCellEditable(int row, int column) 
 			{
-				return columnEditables[column];
+				if(column==2 || column==3){
+					return isTercerizadaSelected(row);
+				}else if(column==1){
+					return true;
+				}
+				return false;
+			}
+			private boolean isTercerizadaSelected(int row) {
+				for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+					if(!(Boolean) tablaOrdenDeEjecucion.getValueAt(i, 1)){
+						tablaOrdenDeEjecucion.setValueAt("", i, 2);
+						tablaOrdenDeEjecucion.setValueAt("", i, 3);
+					}
+				}
+				return (Boolean) tablaOrdenDeEjecucion.getValueAt(row, 1);
 			}
 		});
 		tablaOrdenDeEjecucion.getColumnModel().getColumn(0).setPreferredWidth(148);
@@ -910,6 +929,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaOrdenDeEjecucion.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaOrdenDeEjecucion.setBounds(268, 12, 612, 224);
 		tablaOrdenDeEjecucion.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		
+
 		
 		btnConfirmarSeleccion = new JButton("Confirmar", new ImageIcon ("Imagenes/ok.png"));
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
@@ -939,8 +961,27 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnConfirmarSeleccion.setBounds(67, 206, 120, 30);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
 		
+		//controlar que si se hace click en tercerizada, se bloqueen los campos proveedor y observaciones
+		tablaOrdenDeEjecucion.addMouseListener(new MouseAdapter() 
+ {
+			public void mouseClicked(MouseEvent e) {
+				int fila = tablaOrdenDeEjecucion.rowAtPoint(e.getPoint());
+				int columna = tablaOrdenDeEjecucion.columnAtPoint(e.getPoint());
+
+				for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) {
+					if (columna == 1) {
+						if (!(Boolean) tablaOrdenDeEjecucion.getValueAt(fila,
+								columna)) {
+							tablaOrdenDeEjecucion.setValueAt("", fila, 2);
+							tablaOrdenDeEjecucion.setValueAt("", fila, 3);
+						}
+					}
+				}
+			}
+		});
+		
+		
 		tabSecciones.setMnemonicAt(1, KeyEvent.VK_O);
-		//columnaTercerizada.setCellEditor(new MyCheckBoxEditor());
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setVisible(true);
 		
@@ -985,6 +1026,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Object obj = ae.getSource();
 		int flag=0;
 		String estado= (String) this.cboEstado_1.getSelectedItem();
+		String factual=cboDia.getSelectedItem().toString()+"-"+Metodos.dameNumeroMes(cboMes.getSelectedItem().toString())+"-"+cboAnio.getSelectedItem().toString();
+		String fprometida=cboDia2.getSelectedItem().toString()+"-"+Metodos.dameNumeroMes(cboMes2.getSelectedItem().toString())+"-"+cboAnio2.getSelectedItem().toString();
+		
 		if (obj == btnGuardar) 
 		{
 			ResultSet sqlOT = ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo, estado FROM orden_trabajo WHERE id_orden_trabajo = "+clave);
@@ -1088,19 +1132,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					txtTipoProducto.requestFocus ();
 					
 				}
-				else if (txtCantidadAEntregar.getText().equals("") || txtCantidadAEntregar.getText().equals("0")) 
+				else if (Metodos.isFechaActualMenorFechaPrometida(factual, fprometida)==false) 
 				{
-					
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Debe especificar un valor en la Cantidad a Entregar",
-						qTITULO + " - Campo vacío", 
+						"La fecha prometida debe ser mayor a la Fecha actual",
+						qTITULO + " - Error en Fecha prometida", 
 						JOptionPane.WARNING_MESSAGE
 					);
-					
-					txtCantidadAEntregar.requestFocus ();
-					
 				}
 				else if(!materialesOk()){
 					JOptionPane.showMessageDialog 
@@ -1179,6 +1219,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		}
+		
 		if (obj == btnCancelar) 
 		{
 			txtClear ();
@@ -1278,13 +1319,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
 			
 			//Obtengo los demas datos para la tabla de materiales
-			//Integer cantElemento = Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString());
+			
 			Integer gramaje = Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString());
 			Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
 			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());
 			Integer pliegosXhoja = Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString());
-			Integer hojas = Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString());
-			Integer pliegosNetos = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
+			Integer pliegosNetos = Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString());
+			Integer hojas = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
 			
 			//Se da de alta la tabla de materiales con todos los datos ingresados por el usuario.
 			Materiales m = new Materiales(id_Elem,gramaje,id_for,id_var,id_cal,pliegosEnDemasia,posesXpliego,

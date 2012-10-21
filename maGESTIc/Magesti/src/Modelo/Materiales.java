@@ -19,12 +19,13 @@ public class Materiales {
 	private Integer id_formato_papel;
 
 
-	public Materiales(Integer id_materiales, Integer id_elemento,
-			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
-			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
-			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
+	public Materiales(Integer id_materiales, Integer id_elemento, 
+			Integer gramaje, Integer id_formato_papel, Integer id_variante,
+			Integer id_calidad,Integer pliegos_en_demasia, Integer poses_x_pliego,
+			Integer pliegos_x_hoja, Integer hojas,Integer pliegos_netos) 
+	{
 		super();
-		this.id_materiales = id_materiales;
+		this.id_materiales= id_materiales;
 		this.id_elemento = id_elemento;
 		this.gramaje = gramaje;
 		this.poses_x_pliego = poses_x_pliego;
@@ -178,7 +179,6 @@ public class Materiales {
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+")");
-				//"SELECT id_materiale FROM elemento WHERE id_orden_trabajo ="+ id_OT);
 		
 		
 		if (resultado != null)
@@ -492,10 +492,35 @@ public class Materiales {
 	}
 
 	
-	
-	
-	
-	
+	public static Materiales Buscar(Integer id_Materiales) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM materiales where id_materiales="+id_Materiales);
+
+		Materiales Material= null;
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Material= new Materiales(new Integer(
+							resultado.getInt("id_materiales")), new Integer(
+							resultado.getInt("id_elemento")), new Integer(
+							resultado.getInt("gramaje")), new Integer(resultado.getInt("id_formato_papel")),
+							new Integer(resultado.getInt("id_variante")),
+							new Integer(resultado.getInt("id_calidad")), new Integer(
+							resultado.getInt("pliegos_en_demasia")), new Integer(resultado.getInt("poses_x_pliego")),
+							new Integer(resultado.getInt("pliegos_x_hoja")),
+							new Integer(resultado.getInt("hojas")),
+							new Integer(resultado.getInt("pliegos_netos")));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return Material;
+	}
 	
 	
 	

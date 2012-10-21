@@ -1,17 +1,36 @@
 package vista_Controlador;
 
-import java.awt.event.*;
-
-import javax.swing.*;
-
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.Font;
 import java.awt.TextArea;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -24,12 +43,11 @@ import javax.swing.table.TableColumnModel;
 import Modelo.Calidad;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
+import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
 import Modelo.Solicitud_compra;
 import Modelo.Variante;
-
-import java.awt.Font;
 
 @SuppressWarnings("serial")
 
@@ -159,16 +177,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		}
 		
 		@Override
-		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void keyPressed(KeyEvent arg0) {}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void keyReleased(KeyEvent arg0) {}
 		});
 		
 		
@@ -183,6 +195,35 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		cbNroOT.setFont(new Font("Arial", Font.BOLD, 12));
 		cbNroOT.setBounds(587, 14, 318, 25);
 		JpSolicitudDeCompra.add(cbNroOT);
+		
+		cbNroOT.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!("Stockear".equals(Metodos.getTextoEnCombo(cbNroOT)))){
+					DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
+					Metodos.borrarFilas(temp);					
+					Integer idOT=Metodos.getIdEnCombo(cbNroOT);
+					ArrayList<Integer> id_m= Materiales.getID_Materiales(idOT);
+					ArrayList<Materiales> materiales = new ArrayList<Materiales>();
+					for(int i=0;i<id_m.size();i++){
+						materiales.add(Materiales.Buscar(id_m.get(i)));						
+					}
+
+					for(int i=0;i<materiales.size();i++){
+						Object nuevo[]= {null,"","","","",null,null,"",null};
+						temp.addRow(nuevo);
+						String calidad= Calidad.getNombre(materiales.get(i).getId_calidad());
+						String variante= Variante.getNombre(materiales.get(i).getId_variante());
+						String formato= Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel());
+						
+						temp.setValueAt(calidad,i,2);
+						temp.setValueAt(variante,i,3);
+						temp.setValueAt(formato,i,4);
+					}
+				}
+			}
+		});
 		
 		JTabbedPane Secciones = new JTabbedPane(JTabbedPane.TOP);
 		Secciones.setBounds(10, 95, 895, 247);
@@ -218,16 +259,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 			
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyReleased(KeyEvent arg0) {}
 			
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyPressed(KeyEvent arg0) {}
 		});
 		
 		lbFechaEntrega = new JLabel("Fecha Entrega:");
@@ -237,29 +272,39 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		
 		cbMes = new JComboBox(Meses);
 		cbMes.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbMes.setBounds(117, 19, 82, 25);
+		cbMes.setBounds(117, 19, 97, 25);
 		panCondicionEntrega.add(cbMes);
+		cbMes.setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		
 		cbDia = new JComboBox();
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbDia.setBounds(200, 19, 61, 25);
+		cbDia.setBounds(215, 19, 48, 25);
 		panCondicionEntrega.add(cbDia);
+		String dias;
 		for (int i = 1; i <= 31; i++) 
 		{
-			String dias = "" + i;
+			if(i<10){
+				dias = "0" + i;
+			}else{
+				dias = "" + i;	
+			}
 			cbDia.addItem (dias);
 		}
+		cbDia.setSelectedItem(Metodos.getDiaDeHoy());
 		
 		cbAnio = new JComboBox();
 		cbAnio.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbAnio.setBounds(262, 19, 61, 25);
+		cbAnio.setBounds(262, 19, 65, 25);
 		panCondicionEntrega.add(cbAnio);
-		
 		for (int i = 2012; i <= 2042; i++) 
 		{
 			String anios = "" + i;
 			cbAnio.addItem (anios);
 		}
+		
+		cbDia.setSelectedItem(Metodos.getAnioActual());
+
+		
 		
 		JPanel pHorarioEntrega = new JPanel();
 		pHorarioEntrega.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Horario de entrega", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -301,7 +346,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		grupoCondicionEntrega.add(rdbtnRetirar);
 		pCondicionEntrega.add(rdbtnRetirar);
 		
-		rdbtnEnviarAProveedor = new JRadioButton("Enviar a Proveedor");
+		rdbtnEnviarAProveedor = new JRadioButton("Env\u00EDa Proveedor");
 		rdbtnEnviarAProveedor.setFont(new Font("Arial", Font.PLAIN, 12));
 		rdbtnEnviarAProveedor.addActionListener(new ActionListener() 
 		{
@@ -403,28 +448,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 			
 			@Override
-			public void columnRemoved(TableColumnModelEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnRemoved(TableColumnModelEvent arg0) {}
 			
 			@Override
-			public void columnMoved(TableColumnModelEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnMoved(TableColumnModelEvent arg0) {}
 			
 			@Override
-			public void columnMarginChanged(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnMarginChanged(ChangeEvent arg0) {}
 			
 			@Override
-			public void columnAdded(TableColumnModelEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void columnAdded(TableColumnModelEvent arg0) {}
 		});
 			
 		
@@ -651,6 +684,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) 
 	{
+		String factual=txtFecha.getText().substring(8)+"-"+txtFecha.getText().substring(5, 7)+"-"+txtFecha.getText().substring(0,4);
+		String fprometida=cbDia.getSelectedItem().toString()+"-"+Metodos.dameNumeroMes(cbMes.getSelectedItem().toString())+"-"+cbAnio.getSelectedItem().toString();
 		Object obj = e.getSource();
 		if(obj==btnConfirmar)
 		{
@@ -666,6 +701,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtVendedor.requestFocus();
+			}
+			else if (Metodos.isFechaActualMenorFechaPrometida(factual, fprometida)==false) 
+			{
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"La fecha prometida debe ser mayor a la Fecha actual",
+					qTITULO + " - Error en Fecha prometida", 
+					JOptionPane.WARNING_MESSAGE
+				);
 			}
 			else if(grupoHorario.getSelection()==null)
 			{
@@ -686,7 +731,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					qTITULO + " - Campo vacío", 
 					JOptionPane.WARNING_MESSAGE
 				);
-				//rdbtnRetirar.requestFocusInWindow();
 			}		
 			else if(txtSubtotal.getText()==null || txtSubtotal.getText().equals("")){
 				JOptionPane.showMessageDialog 
@@ -715,11 +759,12 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 								qTITULO + " - Campo vacío",
 								JOptionPane.WARNING_MESSAGE);
 						txtDireccionRetiro.requestFocus();
+					}else{
+						cargarTablas();
+						setVisible(false);
+						dispose();
 					}
 				}
-				cargarTablas();
-				setVisible(false);
-				dispose();
 			}
 		}
 		else if(obj==btnCerrar){
@@ -800,12 +845,12 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		//si la unidad de medida del precio es KG
 			}else if(unidad_medida_precio.toUpperCase().equals("KG")){
 				//calculo el formato(ancho x alto)
-				Double formato=(double) (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(0, 2))*Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(3)));
+				Double formato=(double) (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(0, 2)))/100 * (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(3)))/100;
 				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
 				//lo multiplico por el gramaje y la cantidad de hojas
-				Double peso=formato*gramaje*cant_hojas;
+				Double peso=(formato*gramaje*cant_hojas)/1000;
 				//obtengo el peso en KG y lo multiplico por precio unitario
-				importe=(peso/1000)*precio_unitario;
+				importe=peso*precio_unitario;
 		//si la unidad de medida del precio es HOJA
 			}else{
 				//preciounitario x cantidad de hojas

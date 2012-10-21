@@ -43,8 +43,8 @@ public class Splash extends JWindow implements Config
 		{
 			e.printStackTrace();
 		}
-
-		*/
+*/
+		
 		new Magesti();
 
 		toFront();

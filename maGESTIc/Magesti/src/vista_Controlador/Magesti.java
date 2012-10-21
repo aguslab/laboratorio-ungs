@@ -446,7 +446,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				}
 
 		}
-		else if (obj == consultarSolicitudDeCompra || obj==btnBuscarSolicitudDeCompra) 
+		else if (obj == consultarSolicitudDeCompra || obj==btnBuscarSolicitudDeCompra || obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido) 
 		{		
 			boolean b = Metodos.openChildWindow ("Buscador");
 			if (b == false) 
@@ -462,11 +462,9 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				}
 			}
 		}
-		else if (obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido)  
+		/*else if (obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido)  
 		{
-			/*
-			 * Código para ingresar un Registro De Pedido
-			 */
+		
 			boolean b = Metodos.openChildWindow ("SC");
 			if (b == false) 
 			{
@@ -475,7 +473,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			nSC.show ();
 			}
 				
-		}
+		}*/
 		else if (obj == reporte) 
 		{
 		boolean b = Metodos.openChildWindow ("Reporte");
