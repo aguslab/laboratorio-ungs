@@ -848,12 +848,12 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Double formato=(double) (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(0, 2)))/100 * (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(3)))/100;
 				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
 				//lo multiplico por el gramaje y la cantidad de hojas
-				Double peso=(formato*gramaje*cant_hojas)/1000;
+				Double peso_x_hoja=(formato*gramaje)/1000;
+				Double pesoTotal=peso_x_hoja*cant_hojas;
 				//obtengo el peso en KG y lo multiplico por precio unitario
-				importe=peso*precio_unitario;
+				importe=pesoTotal*precio_unitario;
 		//si la unidad de medida del precio es HOJA
-			}else{
-				//preciounitario x cantidad de hojas
+			}else{//preciounitario x cantidad de hojas
 				importe=precio_unitario*cant_hojas;
 			}
 		//}		
