@@ -1046,6 +1046,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						{
 							flag = 1;
 						}
+						else if(sqlEstado.equalsIgnoreCase("En Proceso") && cboEstado_1.getSelectedItem().toString().equalsIgnoreCase("Pendiente")){
+							flag=3;//intenta cambiar de 'En proceso' a 'Pendiente'
+						}
 						// Si esta "cerrada"
 						else if (sqlEstado.equalsIgnoreCase("Cerrada"))
 						{
@@ -1070,6 +1073,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						qTITULO + " - Error#01", 
 						JOptionPane.ERROR_MESSAGE
 						
+					);
+					flag = 0;
+				}
+				else if(flag==3){ //intenta cambiar de 'En proceso' a 'Pendiente'
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Esta orden se encuentra En Proceso\nSolo puede cambiar su estado a cerrada",
+						qTITULO + " - Error#02", 
+						JOptionPane.ERROR_MESSAGE
 					);
 					flag = 0;
 				}
