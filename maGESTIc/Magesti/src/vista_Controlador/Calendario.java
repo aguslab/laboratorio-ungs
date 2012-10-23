@@ -602,8 +602,6 @@ implements ItemListener,ActionListener, Config
 		getDesktopPane().add(nuevaOT);
 		nuevaOT.show ();
 		nuevaOT.getEstado().setEnabled(true);
-		nuevaOT.getTxtCantidadDeHojasUtilizadas().setText(ot2.get(13).toString());
-		nuevaOT.getTxtCantidadDeHojasUtilizadas().setEnabled(true);
 		nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer.valueOf(ot2.get(0)))));
 		nuevaOT.getTipoProducto().setText(ot2.get(1).toString());
 		nuevaOT.getTipoProducto().setEditable(false);
@@ -637,25 +635,7 @@ implements ItemListener,ActionListener, Config
 		nuevaOT.getCliente().setSelectedItem(ot2.get(2).toString());
 		nuevaOT.getCliente().setEnabled(false);
 		nuevaOT.getBtnLimpiarCampos().setEnabled(false);
-		//permitir ingresar solo numeros en hojas utilizadas
-		nuevaOT.getTxtCantidadDeHojasUtilizadas().addKeyListener
-		(
-			new KeyListener()
-			{
-				@Override
-				public void keyTyped(KeyEvent ke) 
-				{
-					char c = ke.getKeyChar ();
-					if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-					{
-						getToolkit().beep ();
-						ke.consume ();
-					}
-				}
-				public void keyReleased(KeyEvent arg0) {}
-				public void keyPressed(KeyEvent arg0) {}
-			}
-		);
+		
 		//Muestra los datos de la tabla Elemento
 		Integer id_OT=Metodos.FacturaAEntero(ideOT);
 		Integer cantFilas = Elemento.cantidadFilas(id_OT);

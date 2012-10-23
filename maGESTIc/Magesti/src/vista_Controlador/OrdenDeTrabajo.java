@@ -53,8 +53,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAlto,
 		lbTipoDeProducto,
 		lbCantidadAEntregar,
-		lbPreimpresion,
-		lbCantidadDeHojasUtilizadas;
+		lbPreimpresion;
 	
 	private JTextField 
 		txtNro, 
@@ -63,8 +62,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		//txtAncho,
 		//txtAlto,
 		txtCantidadAEntregar,
-		txtPreimpresion,
-		txtCantidadDeHojasUtilizadas;
+		txtPreimpresion;
 	
 	private JComboBox 
 		cboCliente,
@@ -112,7 +110,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		"Pendiente", 
 		"En proceso", 
-		"Cerrado" 
+		"Cerrada" 
 	};
 	
 	private JTextField txtTipoProducto;
@@ -130,6 +128,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	private JFormattedTextField txtAlto, txtAncho;
 	private JButton btnImprimirReporte;
+	private JButton btnUp, btnDown;
 
 	OrdenDeTrabajo()
 	{	
@@ -296,12 +295,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		);
 		
-		lbPreimpresion = new JLabel ("<html>Preimpresi\u00F3n <br>(Cantidad de<br>planchas):</html>");
-		lbPreimpresion.setBounds(310, 173, 75, 45);
+		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas): ");
+		lbPreimpresion.setBounds(310, 180, 215, 30);
 		lbPreimpresion.setForeground (Color.black);
 		
 		txtPreimpresion = new JTextField ("0");
-		txtPreimpresion.setBounds(385, 183, 210, 25);
+		txtPreimpresion.setBounds(530, 180, 210, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
 		(
@@ -310,32 +309,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				public void keyTyped(KeyEvent e)
 				{
 					if (txtPreimpresion.getText().length()== 11)
-						e.consume();
-				}
-				public void keyPressed(KeyEvent arg0) 
-				{
-				}
-				public void keyReleased(KeyEvent arg0)
-				{
-				}
-			}
-		);
-		
-		lbCantidadDeHojasUtilizadas = new JLabel ("<html>Total hojas <br>utilizadas:</html>");
-		lbCantidadDeHojasUtilizadas.setBounds(610, 180, 75, 30);
-		lbCantidadDeHojasUtilizadas.setForeground (Color.black);
-		
-		txtCantidadDeHojasUtilizadas = new JTextField ("0");
-		txtCantidadDeHojasUtilizadas.setEnabled(false);
-		txtCantidadDeHojasUtilizadas.setBounds(695,183, 210, 25);
-		txtCantidadDeHojasUtilizadas.setHorizontalAlignment (JTextField.LEFT);
-		txtCantidadDeHojasUtilizadas.addKeyListener
-		(
-			new KeyListener()
-			{
-				public void keyTyped(KeyEvent e)
-				{
-					if (txtCantidadDeHojasUtilizadas.getText().length()== 11)
 						e.consume();
 				}
 				public void keyPressed(KeyEvent arg0) 
@@ -430,9 +403,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(840, 11, 65, 25);
 		
-		//cboEstado = new JComboBox (Estados);	//Comentar esta línea si quieren utilizar el WB
-		cboEstado_1 = new JComboBox ();
-		cboEstado_1.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En Proceso", "Cerrada"}));
+		cboEstado_1 = new JComboBox (Estados);	
+		//cboEstado_1 = new JComboBox ();
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(695, 54, 210, 25);
 		cboEstado_1.setEnabled(false);
@@ -522,8 +494,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbTipoDeProducto);
 		jpOrdenDeTrabajo.add (lbCantidadAEntregar);
 		jpOrdenDeTrabajo.add (lbPreimpresion);
-		jpOrdenDeTrabajo.add (lbCantidadDeHojasUtilizadas);
-		jpOrdenDeTrabajo.add (txtCantidadDeHojasUtilizadas);
 		jpOrdenDeTrabajo.add (txtPreimpresion);
 		jpOrdenDeTrabajo.add (txtCantidadAEntregar);
 		jpOrdenDeTrabajo.add (tabSecciones);
@@ -565,14 +535,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			new Object[][] {
 			},
 			new String[] {
-				"Elemento del producto", "Cantidad", "Hojas Utilizadas"
+				"Elemento del producto", "Cantidad", "Hojas Previstas", "Hojas Utilizadas"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, Integer.class, Integer.class
+				String.class, Integer.class, Integer.class, Integer.class
 			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
 			boolean[] columnEditables = new boolean[] {
-				true, true, false
+				true, true, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -581,6 +554,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(124);
 		tablaElementos.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tablaElementos.getColumnModel().getColumn(2).setMaxWidth(200);
+		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(100);
+		tablaElementos.getColumnModel().getColumn(3).setMaxWidth(200);
 		spElementos.setViewportView(tablaElementos);
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		
@@ -869,7 +844,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return values[index];
 			}
 		});
-		
+		listaProcesos.setToolTipText("Para seleccionar más de un proceso, mantenga presionado Ctrl mientras elige los procesos");
 		String proveedores[] = Proceso.getProcesos();
 		DefaultListModel modeloList = new DefaultListModel();
 		for(int i = 0; i < proveedores.length; i ++)
@@ -879,7 +854,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		listaProcesos.setModel(modeloList);
 		
 		spOrdenEjecucion = new JScrollPane();
-		spOrdenEjecucion.setBounds(268, 12, 612, 224);
+		spOrdenEjecucion.setBounds(268, 12, 612, 184);
 		panOrdenEjecucion.add(spOrdenEjecucion);
 		
 		tablaOrdenDeEjecucion = new JTable();
@@ -960,6 +935,75 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		});
 		btnConfirmarSeleccion.setBounds(67, 206, 120, 30);
 		panOrdenEjecucion.add(btnConfirmarSeleccion);
+		
+		btnUp = new JButton(new ImageIcon("Imagenes/Up_Button.png"));
+		btnUp.setPressedIcon(new ImageIcon("Imagenes/Up_Button_pressed.png"));
+
+		//Subir una fila
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+					try
+					{	
+					DefaultTableModel tempOE = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
+					if(tempOE.getRowCount()>0){
+						int filaSelec=tablaOrdenDeEjecucion.getSelectedRow();
+						if(filaSelec==-1){
+							JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
+						}else if(filaSelec==0){
+							JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
+						}else{
+							tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
+						}
+						//tempOE.removeRow(tablaElementos.getSelectedRow());	
+					}
+					}
+					catch(ArrayIndexOutOfBoundsException e)
+					{
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(null,"error!");
+					}				
+				
+				
+				
+			}
+		});
+		btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
+		btnUp.setBounds(288, 206, 35, 35);
+		panOrdenEjecucion.add(btnUp);
+		
+		btnDown = new JButton(new ImageIcon("Imagenes/Down_Button.png"));
+		btnDown.setPressedIcon(new ImageIcon("Imagenes/Down_Button_pressed.png"));
+		btnDown.setSelectedIcon(new ImageIcon("Imagenes/Down_Button_Selected.png"));
+
+		
+		//Bajar una fila
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					DefaultTableModel tempOE = (DefaultTableModel) tablaOrdenDeEjecucion
+							.getModel();
+					if (tempOE.getRowCount() > 0) {
+						int filaSelec = tablaOrdenDeEjecucion.getSelectedRow();
+						if (filaSelec == -1) {
+							JOptionPane.showMessageDialog(null,
+									"Debe seleccionar una fila");
+						} else if (filaSelec == tempOE.getRowCount() - 1) {
+							JOptionPane.showMessageDialog(null,
+									"Este proceso ya es el Ultimo de la lista");
+						} else {
+							tempOE.moveRow(filaSelec, filaSelec, filaSelec + 1);
+						}
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "error!");
+				}
+			}
+		});
+		btnDown.setBounds(333, 207, 35, 35);
+		panOrdenEjecucion.add(btnDown);
 		
 		//controlar que si se hace click en tercerizada, se bloqueen los campos proveedor y observaciones
 		tablaOrdenDeEjecucion.addMouseListener(new MouseAdapter() 
@@ -1184,9 +1228,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					);
 				}
 
-				else if(estado.equals("En Proceso") || estado.equals("Cerrada"))
+				else if(estado.equalsIgnoreCase("En Proceso") || estado.equalsIgnoreCase("Cerrada"))
 				{
-						if(estado.equals("En Proceso"))
+						if(estado.equalsIgnoreCase("En Proceso"))
 						{
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
 						}else
@@ -1301,14 +1345,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Double alto = Double.parseDouble(txtAlto.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
-		Integer hojasUti = Integer.parseInt(txtCantidadDeHojasUtilizadas.getText());
 		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
 		Integer cliente = Cliente.getId_cliente((String) cboCliente.getSelectedItem());
 
 		
 		
 		//Se da de alta una nueva OT
-		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",hojasUti);
+		Orden_Trabajo ot1= new Orden_Trabajo(TipoProd, cliente, fechaCon, fechaProm, txtNombreOT.getText(), txtDescripcion.getText(),cantEntr,cantImp,ancho,alto,apaisado,"Pendiente",0);
 		ot1.Alta();
 		
 		//Se obtienen los valores guardados en la tabla Orden de ejecucion para crear filas en la tabla procesos_x_orden_trabajo de la BD
@@ -1332,7 +1375,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						observaciones = null;
 					}
 					
-					Procesos_x_OT pxt = new Procesos_x_OT(id_Proceso,id_OT,isTercerizada,id_Proveedor, isCumplida,observaciones);
+					Procesos_x_OT pxt = new Procesos_x_OT(id_Proceso,id_OT,isTercerizada,id_Proveedor, isCumplida,observaciones,i);
 					pxt.Alta();
 				}	
 		
@@ -1377,10 +1420,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNombreOT.setText ("");
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
-		txtCantidadDeHojasUtilizadas.setText ("0");
 		txtCantidadAEntregar.setText("1");
 		txtPreimpresion.setText("0");
-		txtCantidadDeHojasUtilizadas.setText("0");
 		chbApaisado.setSelected(false);
 	}
 	
@@ -1501,11 +1542,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtPreimpresion;
 	}
 	
-	JTextField getTxtCantidadDeHojasUtilizadas()
-	{
-		return this.txtCantidadDeHojasUtilizadas;
-	}
-	
 	JTable getTablaElementos()
 	{
 		return this.tablaElementos;
@@ -1566,7 +1602,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.btnImprimirReporte;
 	}
 	
-	
+	public JButton getBtnUp() {
+		return btnUp;
+	}
+
+	public JButton getBtnDown() {
+		return btnDown;
+	}
+
+
 	private boolean proveedorElegido()
 	{
 		Integer cantFilasProc = tablaOrdenDeEjecucion.getRowCount();
