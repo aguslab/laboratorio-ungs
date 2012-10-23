@@ -335,4 +335,32 @@ public class Procesos_x_OT
 		}
 		return cantidad;
 	}
+	
+	
+	public static Integer getCantidadFilasCumplidas(Integer id_OT)
+	{
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+" AND cumplida=true");
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
+	
+	
+	
 }

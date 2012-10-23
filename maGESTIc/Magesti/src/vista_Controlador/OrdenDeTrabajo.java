@@ -1194,7 +1194,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
 						}
 						
-						//actualziar hojas utilizadas
+						//actualizar hojas utilizadas
 						ArrayList<Integer> hojasut=new ArrayList<Integer>();
 						if(actualizarHojasUtilizadas(hojasut)){
 							ArrayList<Integer> id_elem=Elemento.getIdElementos(clave);
@@ -1209,19 +1209,43 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							
 							//actualizar tareas cumplidas
 							ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+							Integer cantTrue=0;
+							ArrayList<Integer> proc= new ArrayList<Integer>();
+							ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
 							for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
 								boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-								Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
+								if(n){
+									cantTrue++;
+								}
+								proc.add(new Integer(i));
+								cumplida.add(new Boolean(n));
+								//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
 							}
-							obj = btnCancelar;
-						}else{
-							JOptionPane.showMessageDialog 
-							(
-								this, 
-								"ERROR! Verifique la cantidad de hojas utilizadas que ingresó",
-								qTITULO + " - Campo vacío", 
-								JOptionPane.WARNING_MESSAGE
-							);
+							//si se marcan como cumplidos todos los procesos
+							if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
+								int reply = JOptionPane.showConfirmDialog 
+									    (
+									    	this,
+									    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
+									    	qTITULO + " - Cerrando Orden de Trabajo", 
+									    	JOptionPane.YES_NO_OPTION, 
+									    	JOptionPane.WARNING_MESSAGE
+									    );
+
+										if (reply == JOptionPane.YES_OPTION) 
+										{
+											for(int i=0;i<proc.size();i++){
+												Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+											}
+											Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+											obj = btnCancelar;
+										}
+							}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
+								for(int i=0;i<proc.size();i++){
+									Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+								}
+								obj = btnCancelar;			
+							}
 						}
 				}
 				else 
