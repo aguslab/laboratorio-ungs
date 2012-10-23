@@ -33,7 +33,7 @@ import java.awt.event.MouseEvent;
 public class BusquedaOrdenTrabajo extends JInternalFrame 
 {
 	
-	BusquedaOrdenTrabajo(OrdenDeTrabajo nuevaOT, JTable tablaBusqueda, int filaElegida) 
+	BusquedaOrdenTrabajo(final OrdenDeTrabajo nuevaOT, JTable tablaBusqueda, int filaElegida) 
 	{
 				nuevaOT.getEstado().setEnabled(true);
 				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
@@ -177,13 +177,13 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				//Muestra los datos de la tabla Orden de ejecucion
 				
-				cantFilas = Procesos_x_OT.getCantidadFilas(id_OT);
+				Integer cantFilasProcesos = Procesos_x_OT.getCantidadFilas(id_OT);
 				ArrayList<String> procesos = Procesos_x_OT.BuscarProc_x_OT(id_OT);
 				ArrayList<Boolean> tercerizadas = Procesos_x_OT.getTercerizada(id_OT);
 				ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
 				ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
 				ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
-				
+				final Integer cantfilastrue= Procesos_x_OT.getCantidadFilasCumplidas(id_OT);
 				//permite que la columna cumplida sea editable
 				nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel(new Object[][] {},
 						new String[] {"Proceso", "Tercerizada", "Proveedor", "Observaciones", "Cumplida"}) 
@@ -196,13 +196,29 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 						{
 							return columnTypes[columnIndex];
 						}
-						boolean[] columnEditables = new boolean[] 
-						{
-							false, false,false, false, true
-						};
 						public boolean isCellEditable(int row, int column) 
 						{
-							return columnEditables[column];
+							//verifica solo las filas cuyos procesos no esten cumplidos aun
+							if(column==4 && row >= cantfilastrue){
+								//si es la primera fila y es falsa devuelve true
+								if(row==0 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4) == false){
+									return true;
+								}else if((Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)== false){
+									//si la fila es falsa pero la anterior true, devuelve true
+									if(row>0 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row-1, 4)==true){
+										return true;
+									}
+								}else if((Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)== true){
+									//si la fila elegida es true y la siguien false, devuelve true
+									if(row<nuevaOT.getTablaOrdenEjecucion().getRowCount()-1 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row+1, 4)==false){
+										return true;
+									//si la fila elegida en la ultima y es true,devuelve true	
+									}else if(row == nuevaOT.getTablaOrdenEjecucion().getRowCount()-1 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)==true){
+											return true;
+										}
+								}
+							}
+							return false;
 						}
 					});
 				
@@ -210,7 +226,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 
 				Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
 
-				for (int i = 0; i < cantFilas; i++) 
+				for (int i = 0; i < cantFilasProcesos; i++) 
 				{
 					tempOE.addRow(nuevaFilaOrdenEjecucion);
 					tempOE.setValueAt(procesos.get(i), i, 0);
