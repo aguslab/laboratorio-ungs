@@ -1,33 +1,20 @@
 package vista_Controlador;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import Modelo.Calidad;
-import Modelo.ConexionDB;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Hojas_Utilizadas;
 import Modelo.Materiales;
-import Modelo.Orden_Trabajo;
 import Modelo.Proveedor;
 import Modelo.Variante;
 import Modelo.Procesos_x_OT;
 
-import java.awt.GridLayout;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class BusquedaOrdenTrabajo extends JInternalFrame 
@@ -36,8 +23,6 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 	BusquedaOrdenTrabajo(final OrdenDeTrabajo nuevaOT, JTable tablaBusqueda, int filaElegida) 
 	{
 				nuevaOT.getEstado().setEnabled(true);
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().setText((tablaBusqueda.getValueAt(filaElegida, 13)).toString());
-				nuevaOT.getTxtCantidadDeHojasUtilizadas().setEditable(false);
 
 				boolean sonIguales = tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada");
 				if(sonIguales)
@@ -96,7 +81,10 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				nuevaOT.getCliente().setEnabled(false);
 				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
 				
-							
+				nuevaOT.getBtnUp().setEnabled(false);			
+				nuevaOT.getBtnDown().setEnabled(false);
+				
+				
 				
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
 						new String[] {"Elemento", "Cantidad", "Hojas Utilizadas"}) 

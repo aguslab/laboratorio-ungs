@@ -12,11 +12,12 @@ public class Procesos_x_OT
 	private Integer id_proveedor;
 	private boolean cumplida;
 	private String observacion;
+	private Integer indice;
 	
 	
 	
 	public Procesos_x_OT(Integer id_proceso, Integer id_orden_trabajo, boolean tercerizada,
-			Integer id_proveedor,boolean estado, String observacion) 
+			Integer id_proveedor,boolean estado, String observacion,Integer indice) 
 	{
 		super();
 		this.id_proceso = id_proceso;
@@ -25,6 +26,7 @@ public class Procesos_x_OT
 		this.id_proveedor = id_proveedor;
 		this.cumplida=estado;
 		this.observacion = observacion;
+		this.indice=indice;
 	}
 	
 		
@@ -102,6 +104,21 @@ public class Procesos_x_OT
 	}
 	
 	
+	
+	
+	public Integer getIndice() {
+		return indice;
+	}
+
+
+
+	public void setIndice(Integer indice) {
+		this.indice = indice;
+	}
+
+	
+
+
 	public boolean Alta() {
 		Integer id_proc=this.getId_proceso();
 		Integer id_ot=this.getId_orden_trabajo();
@@ -109,11 +126,11 @@ public class Procesos_x_OT
 		boolean status=this.isCumplida();
 		boolean tercerizada = this.isTercerizada();
 		String obser="'"+this.getObservacion()+"'";
-		
+		Integer ind=this.getIndice();
 
 		if (ConexionDB.getbaseDatos()
 				.ejecutar("INSERT INTO procesos_x_orden_trabajo VALUES("+id_proc+"," + id_ot+"," + tercerizada+"," + id_prov+","
-						+ status+","+obser + ");")) 
+						+ status+","+obser +","+ ind+");")) 
 		{
 			return true;
 		}
@@ -145,7 +162,7 @@ public class Procesos_x_OT
 							resultado.getBoolean("tercerizada"), new Integer(
 									resultado.getInt("id_proveedor")),
 							resultado.getBoolean("cumplida"),
-							resultado.getString("observacion"));
+							resultado.getString("observacion"),new Integer(resultado.getInt("indice")));
 					list_prox_x_orden.add(proc_x_ot);
 				}
 			} 
@@ -164,7 +181,7 @@ public class Procesos_x_OT
 
 		ResultSet resultado = ConexionDB.getbaseDatos()
 				.consultar("SELECT id_proceso FROM procesos_x_orden_trabajo where id_orden_trabajo="
-						+ id_OT);
+						+ id_OT+" order by indice");
 		
 		ArrayList<String> list_proc = new ArrayList<String>();
 		if (resultado != null) 
@@ -206,7 +223,7 @@ public class Procesos_x_OT
 	{
 		ArrayList<Boolean> valores = new ArrayList<Boolean>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT tercerizada FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+				"SELECT tercerizada FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+" order by indice");
 
 		if (resultado != null)
 		{
@@ -229,7 +246,7 @@ public class Procesos_x_OT
 	{
 		ArrayList<Integer> valores = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_proveedor FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+				"SELECT id_proveedor FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+" order by indice");
 
 		if (resultado != null)
 		{
@@ -261,7 +278,7 @@ public class Procesos_x_OT
 	{
 		ArrayList<Boolean> valores = new ArrayList<Boolean>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT cumplida FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+				"SELECT cumplida FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+" order by indice");
 
 		if (resultado != null)
 		{
@@ -284,7 +301,7 @@ public class Procesos_x_OT
 	{
 		ArrayList<String> valores = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT observacion FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT);
+				"SELECT observacion FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+" order by indice");
 
 		if (resultado != null)
 		{
