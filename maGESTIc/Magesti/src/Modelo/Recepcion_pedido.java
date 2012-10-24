@@ -126,6 +126,30 @@ public class Recepcion_pedido {
 				}
 		return txtDescripcion;
 	}
+
+
+	public static Integer getCantidadFilasRecibidas(Integer id_SC) {
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM detalle WHERE id_solicitud_compra="+ id_SC+" AND recibido=true");
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
 	 
 	 
 	 

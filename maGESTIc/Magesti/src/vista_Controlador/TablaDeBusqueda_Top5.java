@@ -98,8 +98,8 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
-				"select * from orden_trabajo where f_prometida>=" + fechaHoy
-						+ "order by f_prometida limit 0,5;");
+				"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
+						+ "AND o.id_cliente=c.id_cliente " +"ORDER BY f_prometida LIMIT 0,5;");
 
 		Integer CantColumnas = 14;
 		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la
@@ -110,6 +110,9 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 
 				for (int i = 0; i < CantColumnas; i++) {
 					datos[i] = result.getObject(i + 1);
+					if(i==0){
+						datos[i] = Metodos.EnteroAFactura((Integer) datos[0]);
+					}
 					if (i == 11) {
 						datos[i] = Metodos.esApaisadaS((Boolean) datos[11]);
 					}

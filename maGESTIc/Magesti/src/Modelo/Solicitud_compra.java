@@ -252,6 +252,27 @@ public class Solicitud_compra {
     		return "NO";
     	}
 	}
+
+	public static Integer getId_OT(Integer id_SC) {
+		Integer id_ot = null;
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_orden_trabajo FROM solicitud_compra where id_solicitud_compra="
+						+ id_SC);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					id_ot = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return id_ot;
+	}
 	
 	
 	
