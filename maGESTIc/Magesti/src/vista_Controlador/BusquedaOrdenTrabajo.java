@@ -30,7 +30,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 					nuevaOT.getBtnImprimirReporte().setEnabled(true);
 				}
 				//Cargo en la ventana de OT los valores de la fila elegida
-				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura((Integer)tablaBusqueda.getValueAt(filaElegida, 0)));
+				nuevaOT.getTxtNro().setText((tablaBusqueda.getValueAt(filaElegida, 0).toString()));
 				
 				nuevaOT.getTipoProducto().setText((String) tablaBusqueda.getValueAt(filaElegida, 1));
 				nuevaOT.getTipoProducto().setEditable(false);

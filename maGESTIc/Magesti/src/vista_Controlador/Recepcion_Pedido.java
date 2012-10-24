@@ -9,6 +9,7 @@ import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,10 @@ import Modelo.Calidad;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
+import Modelo.Procesos_x_OT;
 import Modelo.Recepcion_pedido;
+import Modelo.Solicitud_compra;
+import Modelo.Stock;
 import Modelo.Variante;
 
 import java.awt.Font;
@@ -82,7 +86,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Object.class, Object.class, Object.class, Integer.class, Double.class, String.class, Double.class
+				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -161,7 +165,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		 * cargar tabla recibidos
 		 */
 				
-		
+		final Integer cantfilastrue= Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
+
 		spRecibido = new JScrollPane();
 		spRecibido.setViewportBorder(null);
 		spRecibido.setBounds(800, 11, 88, 219);
@@ -182,6 +187,15 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			public boolean isCellEditable(int row, int column) 
+			{
+				//verifica solo las filas que no hayan sido recibidas aun
+				if(row >= cantfilastrue){
+					return true;
+				}
+				return false;
+				
+			}
 		});
 		tablaRecibido.getColumnModel().getColumn(0).setResizable(false);
 		tablaRecibido.getColumnModel().getColumn(0).setMaxWidth(100);
@@ -194,7 +208,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			tempRecibido.addRow(nuevaFila);
-			Integer id_detalle;
+			//Integer id_detalle;
 			tablaRecibido.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 0);
 		}
 		
@@ -221,16 +235,55 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel tempRecibido = (DefaultTableModel) tablaRecibido.getModel();
-				
-				for (int i = 0; i < cantFilas; i++) 
+				int cantTrue=0;
+				ArrayList<Integer> cantHojasRP=new ArrayList<Integer>();
+				ArrayList<String> marcaRP=new ArrayList<String>();
+				ArrayList<Integer> id_calRP=new ArrayList<Integer>();
+				ArrayList<Integer> id_forRP=new ArrayList<Integer>();
+				ArrayList<Integer> id_varRP=new ArrayList<Integer>();
+				ArrayList<Integer> gramRP=new ArrayList<Integer>();
+
+				for (int i = cantfilastrue; i < cantFilas; i++) 
 				{
-					boolean estado=(Boolean) tempRecibido.getValueAt(i, 0);
-					Detalle.setAsRecibido(idDetalle[i],estado);
+					boolean recibido=(Boolean) tempRecibido.getValueAt(i, 0);
+					if(recibido){
+						cantTrue++;
+						cantHojasRP.add(Detalle.getCantHojas(idDetalle[i]));
+						marcaRP.add(Detalle.getMarca(idDetalle[i]));
+						id_calRP.add(Detalle.getidCalidad(idDetalle[i]));
+						id_forRP.add(Detalle.getidFormato(idDetalle[i]));
+						id_varRP.add(Detalle.getidVariante(idDetalle[i]));
+						gramRP.add(Detalle.getGramaje(idDetalle[i]));
+					}
+					Detalle.setAsRecibido(idDetalle[i],recibido);
+
 				}
 				String f_h_recibido=Metodos.getDateTimeActual();
-				Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Incompleto", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
-				rp.Alta();
-
+				//si estan marcadas todas las filas como recibidas, pone la RP como recibido
+				if(cantTrue==tempRecibido.getRowCount()){
+					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
+					rp.Alta();
+				}else{
+					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Incompleto", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
+					rp.Alta();
+				}
+				
+				/*
+				 * alta STOCK
+				 */
+				for(int i=0;i<cantHojasRP.size();i++){
+					Integer id_ot=Solicitud_compra.getId_OT(id_SC);
+					Integer cnth= cantHojasRP.get(i),cantusadas=0,remanente=0;
+					String marca= marcaRP.get(i);
+					Integer id_cal= id_calRP.get(i);
+					Integer id_for= id_forRP.get(i);
+					Integer id_var= id_varRP.get(i);
+					Integer gram= gramRP.get(i);
+					
+					Stock st= new Stock(id_ot, id_SC, cnth, cantusadas, marca, id_cal, id_for, id_var, gram, remanente);
+					st.Alta();
+				}
+				
 				dispose();
 				SC.dispose();
 			}

@@ -25,111 +25,60 @@ public class Orden_Trabajo implements Config
 		private boolean apaisado;
 		private String estado;
 		private Integer hojas_utilizadas;
-		private String sApaisado;
-
-		public Orden_Trabajo
-		(
-			Integer id_orden_trabajo, 
-			String nombre_Producto, 
-			Integer id_cliente,
-			String f_confeccion, 
-			String f_prometida, 
-			String nombre_trabajo,
-			String descripcion,
-			Integer cantidad_a_entregar, 
-			Integer cantidad_preimpresion,
-			Double ancho,
-			Double alto,
-			boolean apaisado,
-			String estado,
-			Integer hojas_utilizadas
-		) 
-		{
-			super();
-			this.id_orden_trabajo= id_orden_trabajo;
-			this.nombre_producto = nombre_Producto;
-			this.id_cliente = id_cliente;
-			this.f_confeccion = f_confeccion;
-			this.f_prometida = f_prometida;
-			this.nombre_trabajo = nombre_trabajo;
-			this.descripcion = descripcion;
-			this.cantidad_a_entregar=cantidad_a_entregar;
-			this.cantidad_preimpresion = cantidad_preimpresion;
-			this.ancho= ancho;
-			this.alto= alto;
-			this.apaisado = apaisado;
-			this.estado= estado;
-			this.hojas_utilizadas=hojas_utilizadas;
-		}
-
-		public Orden_Trabajo
-		(
-			String nombre_Producto, 
-			Integer id_cliente,
-			String f_confeccion, 
-			String f_prometida, 
-			String nombre_trabajo,
-			String descripcion, 
-			Integer cantidad_a_entregar,
-			Integer cantidad_preimpresion, 
-			Double ancho, 
-			Double alto,
-			boolean apaisado, 
-			String estado,
-			Integer hojas_utilizadas
-		) 
-		{
-			super();
-			this.id_orden_trabajo = getUltOT();
-			this.nombre_producto = nombre_Producto;
-			this.id_cliente = id_cliente;
-			this.f_confeccion = f_confeccion;
-			this.f_prometida = f_prometida;
-			this.nombre_trabajo = nombre_trabajo;
-			this.descripcion = descripcion;
-			this.cantidad_a_entregar = cantidad_a_entregar;
-			this.cantidad_preimpresion = cantidad_preimpresion;
-			this.ancho = ancho;
-			this.alto = alto;
-			this.apaisado = apaisado;
-			this.estado = estado;
-			this.hojas_utilizadas=hojas_utilizadas;
-		}
+		private String f_cierre;
+		private String f_entrega;
 		
-		public Orden_Trabajo
-		(
-			String nombre_Producto, 
-			Integer id_cliente,
-			String f_confeccion, 
-			String f_prometida, 
-			String nombre_trabajo,
-			String descripcion, 
-			Integer cantidad_a_entregar,
-			Integer cantidad_preimpresion, 
-			Double ancho, 
-			Double alto,
-			String sApaisado, 
-			String estado,
-			Integer hojas_utilizadas
-		) 
-		{
-			super();
-			this.id_orden_trabajo = getUltOT();
-			this.nombre_producto = nombre_Producto;
-			this.id_cliente = id_cliente;
-			this.f_confeccion = f_confeccion;
-			this.f_prometida = f_prometida;
-			this.nombre_trabajo = nombre_trabajo;
-			this.descripcion = descripcion;
-			this.cantidad_a_entregar = cantidad_a_entregar;
-			this.cantidad_preimpresion = cantidad_preimpresion;
-			this.ancho = ancho;
-			this.alto = alto;
-			this.sApaisado = sApaisado;
-			this.estado = estado;
-			this.hojas_utilizadas=hojas_utilizadas;
-		}
 		
+	public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto,
+			Integer id_cliente, String f_confeccion, String f_prometida,
+			String nombre_trabajo, String descripcion,
+			Integer cantidad_a_entregar, Integer cantidad_preimpresion,
+			Double ancho, Double alto, boolean apaisado, String estado,
+			Integer hojas_utilizadas,String f_cierre,String f_entrega) {
+		super();
+		this.id_orden_trabajo = id_orden_trabajo;
+		this.nombre_producto = nombre_Producto;
+		this.id_cliente = id_cliente;
+		this.f_confeccion = f_confeccion;
+		this.f_prometida = f_prometida;
+		this.nombre_trabajo = nombre_trabajo;
+		this.descripcion = descripcion;
+		this.cantidad_a_entregar = cantidad_a_entregar;
+		this.cantidad_preimpresion = cantidad_preimpresion;
+		this.ancho = ancho;
+		this.alto = alto;
+		this.apaisado = apaisado;
+		this.estado = estado;
+		this.hojas_utilizadas = hojas_utilizadas;
+		this.f_cierre=f_cierre;
+		this.f_entrega=f_entrega;
+	}
+
+	public Orden_Trabajo(String nombre_Producto, Integer id_cliente,
+			String f_confeccion, String f_prometida, String nombre_trabajo,
+			String descripcion, Integer cantidad_a_entregar,
+			Integer cantidad_preimpresion, Double ancho, Double alto,
+			boolean apaisado, String estado, Integer hojas_utilizadas,String f_cierre,String f_entrega) {
+		super();
+		this.id_orden_trabajo = getUltOT();
+		this.nombre_producto = nombre_Producto;
+		this.id_cliente = id_cliente;
+		this.f_confeccion = f_confeccion;
+		this.f_prometida = f_prometida;
+		this.nombre_trabajo = nombre_trabajo;
+		this.descripcion = descripcion;
+		this.cantidad_a_entregar = cantidad_a_entregar;
+		this.cantidad_preimpresion = cantidad_preimpresion;
+		this.ancho = ancho;
+		this.alto = alto;
+		this.apaisado = apaisado;
+		this.estado = estado;
+		this.hojas_utilizadas = hojas_utilizadas;
+		this.f_cierre=f_cierre;
+		this.f_entrega=f_entrega;
+	}
+		
+			
 		public static Integer getUltOT(){
 			Integer maxId = null;
 			ResultSet resultado = ConexionDB.getbaseDatos().consultar
@@ -376,9 +325,23 @@ public class Orden_Trabajo implements Config
 		{
 			this.hojas_utilizadas = hojas_utilizadas;
 		}
+				
+		public String getF_cierre() {
+			return f_cierre;
+		}
 
-		
-		
+		public void setF_cierre(String f_cierre) {
+			this.f_cierre = f_cierre;
+		}
+
+		public String getF_entrega() {
+			return f_entrega;
+		}
+
+		public void setF_entrega(String f_entrega) {
+			this.f_entrega = f_entrega;
+		}
+
 		public static boolean CambiarEstado(Integer id_OT,String estado){
 			estado="'"+estado+"'";
 			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set estado="+estado+"where id_orden_trabajo="+id_OT)){
@@ -415,7 +378,17 @@ public class Orden_Trabajo implements Config
 		boolean apaisa = isApaisado();
 		String status = getEstado();
 		Integer hojas_utiliz = this.getHojas_utilizadas();
+		String f_cierre=this.getF_cierre();
+		if(f_cierre != null){
+			f_cierre="'"+f_cierre+"'";			
+		}
+		String f_entrega=getF_entrega();
+		if(f_entrega!=null){
+			f_entrega="'"+f_entrega+"'";			
+		}
+	
 
+		
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO orden_trabajo VALUES(default," + "'" + nombre_prod
 						+ "'" + "," + id_cli + "," + "'" + f_conf + "'" + ","
@@ -423,7 +396,7 @@ public class Orden_Trabajo implements Config
 						+ "," + "'" + descr + "'" + "," + cant_a_ent + ","
 						+ cant_preimpr + "," + ancho + "," + alto + ","
 						+ apaisa + "," + "'" + status + "'" + ","
-						+ hojas_utiliz + ");")) {
+						+ hojas_utiliz +"," +f_cierre + "," +f_entrega + ");")) {
 			return true;
 		} else {
 			return false;
@@ -443,26 +416,26 @@ public class Orden_Trabajo implements Config
 		{
 
 			try 
-			{
-				while (resultado.next()) 
-				{
-					Orden_Trabajo ot = new Orden_Trabajo
-					(
-						new Integer(resultado.getInt("id_orden_trabajo")),
-						resultado.getString("nombre_producto"),
-						new Integer(resultado.getInt("id_cliente")),
-						resultado.getString("f_confeccion"),
-						resultado.getString("f_prometida"),
-						resultado.getString("nombre_trabajo"),
-						resultado.getString("descripcion"), 
-						new Integer(resultado.getInt("cantidad_a_entregar")),
-						new Integer(resultado.getInt("cantidad_preimpresion")),
-						new Double(resultado.getDouble("ancho")),
-						new Double(resultado.getDouble("alto")),
-						resultado.getBoolean("apaisado"),
-						resultado.getString("estado"),
-						new Integer(resultado.getInt("hojas_utilizadas"))
-					);
+ {
+				while (resultado.next()) {
+					Orden_Trabajo ot = new Orden_Trabajo(new Integer(
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getString("nombre_producto"),
+							new Integer(resultado.getInt("id_cliente")),
+							resultado.getString("f_confeccion"),
+							resultado.getString("f_prometida"),
+							resultado.getString("nombre_trabajo"),
+							resultado.getString("descripcion"), new Integer(
+									resultado.getInt("cantidad_a_entregar")),
+							new Integer(resultado
+									.getInt("cantidad_preimpresion")),
+							new Double(resultado.getDouble("ancho")),
+							new Double(resultado.getDouble("alto")),
+							resultado.getBoolean("apaisado"),
+							resultado.getString("estado"), new Integer(
+									resultado.getInt("hojas_utilizadas")),
+							resultado.getString("f_cierre"),
+							resultado.getString("f_entrega"));
 					list_OT.add(ot);
 				}
 			} 

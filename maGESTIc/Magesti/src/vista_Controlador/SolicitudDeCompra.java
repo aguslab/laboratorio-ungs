@@ -220,6 +220,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						temp.setValueAt(calidad,i,2);
 						temp.setValueAt(variante,i,3);
 						temp.setValueAt(formato,i,4);
+						
+						// Valores para el combo
+						String unidad_medida[] = {"Resma","Kg","Hoja"};
+						TableColumn columnaUnidMedida= tablaDetalles.getColumnModel().getColumn(7);//table es la JTable, ponele que la col n es la del combo.
+						columnaUnidMedida.setCellEditor(new MyComboBoxEditor(unidad_medida));
 					}
 				}
 			}
@@ -427,11 +432,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 
 				for (int i = 0; i < cantFilas; i++) {
 					// solo si las columnas tiene valores
-					if (tablaDetalles.getValueAt(i, 1) != null
+					if (tablaDetalles.getValueAt(i, 0) != null
 							&& tablaDetalles.getValueAt(i, 5) != null
 							&& tablaDetalles.getValueAt(i, 6) != null
 							&& tablaDetalles.getValueAt(i, 7) != null
-							&& !tablaDetalles.getValueAt(i, 1).toString()
+							&& !tablaDetalles.getValueAt(i, 0).toString()
 									.equals("")
 							&& !tablaDetalles.getValueAt(i, 5).toString()
 									.equals("")
@@ -764,6 +769,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						setVisible(false);
 						dispose();
 					}
+				}else{
+					cargarTablas();
+					setVisible(false);
+					dispose();
 				}
 			}
 		}

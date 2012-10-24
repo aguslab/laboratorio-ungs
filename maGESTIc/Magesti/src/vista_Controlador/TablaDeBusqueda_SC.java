@@ -64,7 +64,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				
-				//Cargo en la ventana de OT los valores de la fila elegida
+				//Cargo en la ventana de SC los valores de la fila elegida
 				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
 				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(id_SC));
 				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
@@ -144,9 +144,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				Object nuevaFilaElemento[]= {"",""};
 				
 				final Integer cantFilas = Detalle.cantidadFilas(id_SC);
+				
 				for (int i = 0; i < cantFilas; i++) 
 				{
-					temp.addRow(nuevaFilaElemento);
+					//temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(cantidad.get(i), i, 0);
 					temp.setValueAt(marca.get(i), i, 1);
 					temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	

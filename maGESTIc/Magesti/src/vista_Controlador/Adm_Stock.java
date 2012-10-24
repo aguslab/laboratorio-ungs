@@ -73,7 +73,6 @@ public class Adm_Stock extends JInternalFrame
 									.ejecutar("UPDATE );*/
 						}
 					}
-					Actualizar();
 				}
 			}
 			);
@@ -106,42 +105,29 @@ public class Adm_Stock extends JInternalFrame
 				new Object[][] {
 				},
 				new String[] {
-					"Orden de Trabajo", "Solicitud de Compra", "Cantidad de hojas", "Marca", "Calidad", "Formato", "Variante", "Gramaje"
+					"Orden de Trabajo", "Recepcion Pedido", "Hojas totales", "Hojas usadas", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Remanente"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, Integer.class, String.class, String.class, String.class, String.class, Double.class
+					String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 			});
-			tablaStock.getColumnModel().getColumn(0).setResizable(false);
-			tablaStock.getColumnModel().getColumn(1).setResizable(false);
-			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(90);
-			tablaStock.getColumnModel().getColumn(2).setResizable(false);
-			tablaStock.getColumnModel().getColumn(3).setResizable(false);
-			tablaStock.getColumnModel().getColumn(4).setResizable(false);
-			tablaStock.getColumnModel().getColumn(5).setResizable(false);
-			tablaStock.getColumnModel().getColumn(6).setResizable(false);
-			tablaStock.getColumnModel().getColumn(7).setResizable(false);
+			tablaStock.getColumnModel().getColumn(0).setPreferredWidth(100);
+			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(107);
 			spStock.setViewportView(tablaStock);
 			tablaStock.getTableHeader().setReorderingAllowed(false);
 			
-			// Valores para el combo
-			String calidades[] = Calidad.getCalidades();
-			TableColumn columnaCalidad = tablaStock.getColumnModel().getColumn(4);//table es la JTable, ponele que la col 0 es la del combo.
-			columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
+			setFilas();
 			
-			// Valores para el combo
-			String variantes[] = Variante.getVariantes(); 
-			TableColumn columnaVariante = tablaStock.getColumnModel().getColumn(6);//table es la JTable, ponele que la col 0 es la del combo.
-			columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
-			
-			// Valores para el combo
-			String formatos[] = Formato_Papel.getFormatos();
-			TableColumn columnaFormato = tablaStock.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
-			columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 		}
 			
 			private void setFilas() 
@@ -149,9 +135,9 @@ public class Adm_Stock extends JInternalFrame
 				ResultSet result = ConexionDB
 							.getbaseDatos()
 							.consultar(
-									"SELECT id_cliente, razon_social, cuit, cond_iva, direccion,telefono,mail, activo from cliente");
+									"SELECT o.nombre_trabajo, sc.id_solicitud_compra, s.cant_hojas_totales, s.cant_hojas_usadas, s.marca, s.id_calidad, s.id_formato, s.id_variante, s.gramaje, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc WHERE s.id_solicitud_compra=sc.id_solicitud_compra");
 			
-				Integer CantColumnas=8;
+				Integer CantColumnas=10;
 				Object datos[] = new Object[CantColumnas];
 				try 
 				{
@@ -161,6 +147,14 @@ public class Adm_Stock extends JInternalFrame
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
+							if(i==0){
+								if(datos[i]==null){
+									datos[i] = "Stockear";
+								}
+							}
+							if(i==1){
+								datos[i] = Metodos.EnteroAFactura((Integer) datos[1]);	
+							}
 						}
 						tablaTempDatos.addRow(datos);
 					}
@@ -170,9 +164,5 @@ public class Adm_Stock extends JInternalFrame
 				}
 			}
 			
-			private void Actualizar()
-			{
-				Metodos.borrarFilas((DefaultTableModel)tablaStock.getModel());
-				setFilas();
-			}
+			
 }

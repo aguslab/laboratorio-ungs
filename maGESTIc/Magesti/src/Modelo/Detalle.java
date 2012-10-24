@@ -466,5 +466,139 @@ public class Detalle {
 		ConexionDB.getbaseDatos().ejecutar(
 				"UPDATE detalle set recibido="+estado+" WHERE id_detalle="+ id_detalle);
 	}
+
+	public static Integer getCantHojas(Integer id_det) {
+		Integer cantHojas=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT cantidad FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							cantHojas=resultado.getInt("cantidad");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return cantHojas;
+	}
+
+	public static String getMarca(Integer id_det) {
+		String marca=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT marca FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							marca=resultado.getString("marca");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return marca;
+	}
+
+	public static Integer getidCalidad(Integer id_det) {
+		Integer id_cal=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_calidad FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							id_cal=resultado.getInt("id_calidad");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return id_cal;
+	}
 	
+	
+	public static Integer getidFormato(Integer id_det) {
+		Integer id_for=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_formato_papel FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							id_for=resultado.getInt("id_formato_papel");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return id_for;
+	}
+	
+	
+	public static Integer getidVariante(Integer id_det) {
+		Integer id_var=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_variante FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							id_var=resultado.getInt("id_variante");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return id_var;
+	}
+	
+	
+	public static Integer getGramaje(Integer id_det) {
+		Integer gramaje=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT gramaje FROM detalle WHERE id_detalle="+ id_det);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							gramaje=resultado.getInt("gramaje");
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return gramaje;
+	}
 }
