@@ -94,6 +94,9 @@ public class Recepcion_pedido {
 						while (resultado.next())
 						{
 							estado=resultado.getString("estado");
+							if(estado.equalsIgnoreCase("recibido")){
+								break;
+							}
 						}
 					}
 					catch (Exception e)
