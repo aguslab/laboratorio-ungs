@@ -37,14 +37,10 @@ implements ItemListener,ActionListener, Config
 	private JPanel pan1 = new JPanel();
 	private JPanel pan2 = new JPanel();
 	private JPanel pan3 = new JPanel();
-
-
-	
 	private Choice chAnio  = new Choice();
 	private Choice chMes = new Choice();
-
 	private JLabel lblAnio  = new JLabel("   Seleccione el Año: ");
-	private JLabel lblMes = new JLabel("   seleccione el Mes: ");
+	private JLabel lblMes = new JLabel("   Seleccione el Mes: ");
 	ArrayList<String> ot2 = new ArrayList();
 	private JButton btnMatriz[]= new JButton[31];
 
@@ -81,8 +77,8 @@ implements ItemListener,ActionListener, Config
 	btn_tag=1,
 	diaSeleccionado=1, 
 	Anio, 
-	DiaDeLaSemana,
-	totalDiasDelMes,
+	DiaDeLaSemana=0,
+	totalDiasDelMes=0,
 	MM, 
 	id=1;
 	boolean 
@@ -92,9 +88,7 @@ implements ItemListener,ActionListener, Config
 	TextArea ta;
 	JButton Ingresar,Modificar,Borrar,Siguiente,Anterior,Salir;
 	private final JPanel panel = new JPanel();
-	
 	private java.util.Date fechaHoy= new java.util.Date ();
-	
 	private SimpleDateFormat fechaDiaHoy = new SimpleDateFormat ("dd", Locale.getDefault());
 	private SimpleDateFormat fechaMesHoy = new SimpleDateFormat ("MM", Locale.getDefault());
 	private SimpleDateFormat fechaAnioHoy = new SimpleDateFormat ("yy", Locale.getDefault());
@@ -414,6 +408,7 @@ implements ItemListener,ActionListener, Config
 
 	public void itemStateChanged(ItemEvent ie)
 	{	
+		
 		panel3();
 	}
 	
@@ -447,12 +442,11 @@ implements ItemListener,ActionListener, Config
 
 	public void panel1()
 	{
-			pan1.setBackground(Color.GRAY);
-			pan1.setLayout(new GridLayout(0, 4, 0, 0));
-			lblAnio.setForeground(new Color(255, 255, 255));
+			pan1.setBackground(new Color(83,130,161));
+			pan1.setLayout(new GridLayout(0, 4));
+			lblAnio.setForeground(new Color(0, 0, 0));
 			pan1.add(lblAnio);
 			pan1.add(chAnio);
-			lblMes.setForeground(new Color(255, 255, 255));
 			pan1.add(lblMes);
 			pan1.add(chMes);
 			
@@ -460,18 +454,17 @@ implements ItemListener,ActionListener, Config
 
 	public void panel2()
 	{
+		pan2.setLayout(new GridLayout(1,7));
 		pan2.setForeground(Color.BLACK);
-		pan2.setBackground(Color.ORANGE);
+		pan2.setBackground(new Color(231,111,0));
 		pan2.removeAll();
-		pan2.setLayout(new GridLayout(1,7,5,5));
+		
 		for(int i=0; i<7;i++)
 			pan2.add(new JLabel(dias[i])); 
 	}
 	public void panel3()
 	{
 		pan3.removeAll(); 
-		DiaDeLaSemana=0;
-		totalDiasDelMes=0;
 		calculosNecesarios();
 		String tulTip = "";
 		for(int i=0; i<totalDiasDelMes; i++)
