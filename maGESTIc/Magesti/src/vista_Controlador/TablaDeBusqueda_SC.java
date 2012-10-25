@@ -13,6 +13,7 @@ import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
 import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
+import Modelo.Stock;
 import Modelo.Variante;
 
 import java.awt.Color;
@@ -141,13 +142,14 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				DefaultTableModel temp = (DefaultTableModel) nuevaSC.getTablaDetalles().getModel();
+				Metodos.borrarFilas(temp);
 				Object nuevaFilaElemento[]= {"",""};
-				
+
 				final Integer cantFilas = Detalle.cantidadFilas(id_SC);
-				
+
 				for (int i = 0; i < cantFilas; i++) 
 				{
-					//temp.addRow(nuevaFilaElemento);
+					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(cantidad.get(i), i, 0);
 					temp.setValueAt(marca.get(i), i, 1);
 					temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
@@ -238,8 +240,27 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						public void actionPerformed(ActionEvent e) {
 							Detalle.setAllAsRecibidos(id_SC); 
 							String f_h_recibido=Metodos.getDateTimeActual();
+							
+							//ALTA RP
 							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 							rp.Alta();
+							
+							//ALTA DE STOCK
+							ArrayList<Integer> id_det= Detalle.getIdDetalles(id_SC);
+							Integer id_ot=Solicitud_compra.getId_OT(id_SC);
+
+							for(int i=0;i<id_det.size();i++){
+								Integer cantHojasRP = (Detalle.getCantHojas(id_det.get(i)));
+								String marcaRP = (Detalle.getMarca(id_det.get(i)));
+								Integer id_calRP = (Detalle.getidCalidad(id_det.get(i)));
+								Integer id_forRP = (Detalle.getidFormato(id_det.get(i)));
+								Integer id_varRP = (Detalle.getidVariante(id_det.get(i)));
+								Integer gramRP = (Detalle.getGramaje(id_det.get(i)));
+								
+								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, 0);
+								st.Alta();
+							}
+							
 							nuevaSC.dispose();
 						}
 					});

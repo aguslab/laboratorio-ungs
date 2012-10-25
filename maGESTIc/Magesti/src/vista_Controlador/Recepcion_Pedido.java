@@ -235,7 +235,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel tempRecibido = (DefaultTableModel) tablaRecibido.getModel();
-				int cantTrue=0;
+				int cantTrue=cantfilastrue;
 				ArrayList<Integer> cantHojasRP=new ArrayList<Integer>();
 				ArrayList<String> marcaRP=new ArrayList<String>();
 				ArrayList<Integer> id_calRP=new ArrayList<Integer>();
@@ -300,11 +300,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 	public void actionPerformed(ActionEvent e) {
 		
 		Object obj = e.getSource();
-		if(obj==btnAceptar){
-			//faltaria verificar que no sean solo espacios el nombre del vendedor
-			
-		}
-		else if(obj==btnCerrar){
+		 if(obj==btnCerrar){
 			setVisible (false);
 			dispose();
 		}

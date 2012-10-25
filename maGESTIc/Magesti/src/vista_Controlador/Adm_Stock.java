@@ -51,28 +51,9 @@ public class Adm_Stock extends JInternalFrame
 				public void actionPerformed(ActionEvent e) 
 				{
 					Integer cantFilasDatos = tablaStock.getRowCount();
-					for (int i = 0; i < cantFilasDatos; i++) 
-					{
-			
-						String Nro_Cliente = tablaStock.getValueAt(i, 0).toString();
-						String razon_social = tablaStock.getValueAt(i, 1).toString();
-						String CUIT = tablaStock.getValueAt(i, 2).toString();
-						String cond_IVA = tablaStock.getValueAt(i, 3).toString();
-						String direccion = tablaStock.getValueAt(i, 4).toString();
-						String telefono = tablaStock.getValueAt(i, 5).toString();
-						String mail = tablaStock.getValueAt(i, 6).toString();
-						boolean activo = (Boolean) tablaStock.getValueAt(i, 7);
-							
-						if(Nro_Cliente.equals(""))
-						{
-						}
-						else
-						{
-							/*boolean result = ConexionDB
-									.getbaseDatos()
-									.ejecutar("UPDATE );*/
-						}
-					}
+					/*
+					 * VER SI HACE ALGO EL GUARDAR
+					 */
 				}
 			}
 			);
@@ -105,7 +86,7 @@ public class Adm_Stock extends JInternalFrame
 				new Object[][] {
 				},
 				new String[] {
-					"Orden de Trabajo", "Recepcion Pedido", "Hojas totales", "Hojas usadas", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Remanente"
+					"Orden de Trabajo", "Solicitud de Compra", "Hojas totales", "Hojas usadas", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Remanente"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
@@ -135,7 +116,7 @@ public class Adm_Stock extends JInternalFrame
 				ResultSet result = ConexionDB
 							.getbaseDatos()
 							.consultar(
-									"SELECT o.nombre_trabajo, sc.id_solicitud_compra, s.cant_hojas_totales, s.cant_hojas_usadas, s.marca, s.id_calidad, s.id_formato, s.id_variante, s.gramaje, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc WHERE s.id_solicitud_compra=sc.id_solicitud_compra");
+									"SELECT o.nombre_trabajo, sc.id_solicitud_compra, s.cant_hojas_totales, s.cant_hojas_usadas, s.marca, c.nombre, f.tamanio, v.nombre, s.gramaje, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc, calidad c,formato_papel f, variante v WHERE s.id_solicitud_compra=sc.id_solicitud_compra AND s.id_calidad=c.id_calidad AND f.id_formato_papel=s.id_formato AND v.id_variante=s.id_variante;");
 			
 				Integer CantColumnas=10;
 				Object datos[] = new Object[CantColumnas];

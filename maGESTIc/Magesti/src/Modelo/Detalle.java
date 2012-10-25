@@ -601,4 +601,30 @@ public class Detalle {
 				}
 		return gramaje;
 	}
+
+	public static ArrayList<Integer> getIdDetalles(Integer id_SC) {
+
+		ArrayList<Integer> id_det=new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_detalle FROM detalle WHERE id_solicitud_compra="+ id_SC);
+			
+				if (resultado != null)
+				{
+					try
+					{
+						while (resultado.next())
+						{
+							id_det.add(resultado.getInt("id_detalle"));
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+		return id_det;
+		
+		
+		
+	}
 }
