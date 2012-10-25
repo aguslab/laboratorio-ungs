@@ -156,20 +156,20 @@ public class Orden_Trabajo implements Config
 	{
 		String columnas[] = 
 		{ 
-			"Nro Orden Trabajo", 
+			"<html>Nro Orden<br> Trabajo</html>", 
 			"Producto", 
 			"Cliente",
-			"Fecha de confeccion", 
-			"Fecha prometida", 
-			"Nombre del trabajo", 
+			"<html>Fecha de<br> confeccion</html>", 
+			"<html>Fecha<br> prometida</html>", 
+			"<html>Nombre del<br> trabajo</html>", 
 			"Descripcion",
-			"Cantidad a entregar",
+			"<html>Cantidad a<br> entregar</html>",
 			"Preimpresiones", 
 			"Ancho", 
 			"Alto", 
 			"Apaisado", 
 			"Estado",
-			"Hojas Utilizadas"
+			"<html>Hojas<br> Utilizadas</html>"
 		};
 		return columnas;
 	}

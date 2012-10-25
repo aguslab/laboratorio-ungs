@@ -87,7 +87,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
-						new String[] {"Elemento", "Cantidad", "Hojas Utilizadas"}) 
+						new String[] {"Elemento", "Cantidad", "<html>Hojas<br> Utilizadas</html>"}) 
 					{
 						Class[] columnTypes = new Class[] 
 						{
