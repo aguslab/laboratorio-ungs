@@ -601,7 +601,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 //Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
-				tablaMateriales.removeAll();
+				Metodos.borrarFilas((DefaultTableModel) tablaMateriales.getModel());
 				
 				Integer cantFilas = tablaElementos.getRowCount();
 				DefaultTableModel temp = (DefaultTableModel) tablaMateriales.getModel();

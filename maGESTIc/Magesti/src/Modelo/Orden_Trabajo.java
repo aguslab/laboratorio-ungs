@@ -113,7 +113,7 @@ public class Orden_Trabajo implements Config
 			{
 				resultado.last();
 				int cantOTPendiente = resultado.getRow();
-				id_nom_ot= new String[cantOTPendiente+1];
+				id_nom_ot= new String[cantOTPendiente];
 				resultado.beforeFirst();
 			} 
 			catch (SQLException e2) 
@@ -144,9 +144,9 @@ public class Orden_Trabajo implements Config
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String id_OT_Formato = Metodos.EnteroAFactura(0);
-				String nom_ot="Stockear";
-				id_nom_ot[i]= id_OT_Formato+"  -  "+nom_ot;
+//				String id_OT_Formato = Metodos.EnteroAFactura(0);
+//				String nom_ot="Stockear";
+//				id_nom_ot[i]= id_OT_Formato+"  -  "+nom_ot;
 			}
 			return id_nom_ot;
 		}

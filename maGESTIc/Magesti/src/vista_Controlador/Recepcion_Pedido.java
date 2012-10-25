@@ -37,6 +37,14 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 	private JScrollPane spDetalles,spRecibido ;
 	
 	
+//	private static Recepcion_Pedido instancia=null;
+//	
+//	public static Recepcion_Pedido getInstancia(Integer id_SC, Integer cantFilas, SolicitudDeCompra SC){
+//		if(instancia == null){
+//			instancia= new Recepcion_Pedido(id_SC, cantFilas, SC);
+//		}
+//		return instancia;
+//	}
 	
 	public Recepcion_Pedido(final Integer id_SC, final Integer cantFilas, final SolicitudDeCompra SC) {
 		super ("Solicitud de Compra (SC)", false, true, false, true);
