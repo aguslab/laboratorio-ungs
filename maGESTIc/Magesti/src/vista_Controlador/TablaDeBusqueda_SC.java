@@ -202,6 +202,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							if (b == false) 
 							{
 							Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
+							//intento de singleton // Recepcion_Pedido nRP = Recepcion_Pedido.getInstancia(id_SC, cantFilas, nuevaSC);
 							Magesti.getEscritorio().add (nRP);						
 							nRP.show ();
 							}

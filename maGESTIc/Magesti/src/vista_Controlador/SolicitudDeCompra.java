@@ -18,6 +18,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -163,7 +164,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		
 		JpSolicitudDeCompra.add(txtVendedor);
 		txtVendedor.setColumns(10);
-		txtVendedor.getInputMap(txtVendedor.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtVendedor.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		//limitar la cantidad de caracteres a 30
 		txtVendedor.addKeyListener(new KeyListener(){
@@ -196,11 +197,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		cbNroOT.setBounds(587, 14, 318, 25);
 		JpSolicitudDeCompra.add(cbNroOT);
 		
+		/*
+		 * 
+		 * LLENA SECCION DETALLE SEGUN LA ORDEN DE TRABAJO
+		 * 
+		 */
 		cbNroOT.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(!("Stockear".equals(Metodos.getTextoEnCombo(cbNroOT)))){
+				if(!cbNroOT.getSelectedItem().toString().equalsIgnoreCase(Metodos.EnteroAFactura(0)+"  -  Stockear")){
 					DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 					Metodos.borrarFilas(temp);					
 					Integer idOT=Metodos.getIdEnCombo(cbNroOT);
@@ -216,11 +222,13 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						String calidad= Calidad.getNombre(materiales.get(i).getId_calidad());
 						String variante= Variante.getNombre(materiales.get(i).getId_variante());
 						String formato= Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel());
+						Integer gramaje= materiales.get(i).getGramaje(); 
 						
 						temp.setValueAt(calidad,i,2);
 						temp.setValueAt(variante,i,3);
 						temp.setValueAt(formato,i,4);
-						
+						temp.setValueAt(gramaje,i,5);
+
 						// Valores para el combo
 						String unidad_medida[] = {"Resma","Kg","Hoja"};
 						TableColumn columnaUnidMedida= tablaDetalles.getColumnModel().getColumn(7);//table es la JTable, ponele que la col n es la del combo.
@@ -250,7 +258,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtDireccionRetiro.setBounds(141, 149, 731, 25);
 		panCondicionEntrega.add(txtDireccionRetiro);
 		txtDireccionRetiro.setColumns(10);
-		txtDireccionRetiro.getInputMap(txtVendedor.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtDireccionRetiro.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		txtDireccionRetiro.addKeyListener(new KeyListener() {
 			
@@ -498,6 +506,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Object nuevo[]= {null,"","","","",null,null,"",null};
 				temp.addRow(nuevo);
 				
+								
 				String calidades[] = Calidad.getCalidades();
 				TableColumn columnaCalidad = tablaDetalles.getColumnModel().getColumn(2);//table es la JTable, ponele que la col n es la del combo.
 				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
@@ -790,7 +799,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		String fechaConfeccion = txtFecha.getText();
 		Integer id_proveedor = Proveedor.getId_Proveedor((String) cbProveedor.getSelectedItem());
 		String vendedor = (String) txtVendedor.getText();
-		Integer id_OT = Metodos.getIdEnCombo(cbNroOT);
+		Integer id_OT = -1;
+		if(!cbNroOT.getSelectedItem().toString().equalsIgnoreCase(Metodos.EnteroAFactura(0)+"  -  Stockear")){
+			id_OT = Metodos.getIdEnCombo(cbNroOT);
+		}
 		boolean envia_proveedor=rdbtnEnviarAProveedor.isSelected();
 		String direccionRetiro="";
 		if(!envia_proveedor)
@@ -810,6 +822,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		Double porcentaje_iva=Config.IVA;
 		Double monto_iva= Metodos.pasarADouble(txtMontoIVA.getText());
 		Double total=Metodos.pasarADouble(txtTotal.getText());
+		
+		
 		
 		//dar de alta SC
 		Solicitud_compra sc = new Solicitud_compra(fechaConfeccion, id_proveedor, vendedor, id_OT, envia_proveedor, direccionRetiro, fechaEntrega, horEntrega, subtotal, porcentaje_iva, monto_iva, total);

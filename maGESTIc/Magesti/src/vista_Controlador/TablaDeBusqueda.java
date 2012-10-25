@@ -94,7 +94,7 @@ public class TablaDeBusqueda extends JInternalFrame
 		 {
 
 			ResultSet result = ConexionDB.getbaseDatos().consultar(
-								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c WHERE o.id_cliente=c.id_cliente order by id_orden_trabajo");
+								"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c WHERE o.id_orden_trabajo!=1 AND o.id_cliente=c.id_cliente order by id_orden_trabajo");
 			
 				Integer CantColumnas=14;
 				Object datos[] = new Object[CantColumnas]; // Numero de columnas de la tabla

@@ -18,10 +18,13 @@ public class Main_OT {
 		public static void main(String[] args) throws SQLException {
 	
 			
-			JTextField txtFecha = new JTextField();
-			txtFecha.setText("2012-10-21");
-			String factual=txtFecha.getText().substring(8)+"-"+txtFecha.getText().substring(5, 7)+"-"+txtFecha.getText().substring(0,4);
-			System.out.println(factual);
+			System.out.println(Metodos.EnteroAFactura(0)+" - Stockear");
+			
+			
+//			JTextField txtFecha = new JTextField();
+//			txtFecha.setText("2012-10-21");
+//			String factual=txtFecha.getText().substring(8)+"-"+txtFecha.getText().substring(5, 7)+"-"+txtFecha.getText().substring(0,4);
+//			System.out.println(factual);
 			
 			//System.out.println(Metodos.isFechaActualMenorFechaPrometida("13-10-2012", "09-01-2012"));
 			

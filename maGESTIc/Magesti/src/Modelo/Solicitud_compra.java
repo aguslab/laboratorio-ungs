@@ -230,7 +230,7 @@ public class Solicitud_compra {
 				"Proveedor", 
 				"Vendedor",
 				"Nombre trabajo Ralacionado", 
-				"Envia a Proveedor",
+				"Envio Proveedor",
 				"Direccion de Retiro",
 				"Fecha de Entrega",
 				"Horario Entrega",
