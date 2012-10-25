@@ -200,7 +200,7 @@ public class Adm_Proveedor extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Nro", "Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Mail", "Activo"
+				"Nro", "Razon Social", "CUIT", "Cond. IVA", "Direccion", "Telefono", "Email", "Activo"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -251,7 +251,7 @@ public class Adm_Proveedor extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Nro", "Nombre", "Telefono", "Mail", "Direccion de retiro"
+				"Nro", "Nombre", "Telefono", "Email", "Direccion de retiro"
 			}
 		) {
 			Class[] columnTypes = new Class[] {

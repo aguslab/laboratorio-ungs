@@ -90,7 +90,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			new Object[][] {
 			},
 			new String[] {
-				"Cant. Hojas", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "Precio Unitario", "Unidad de Medida", "Importe"
+				"<html>Cantidad <br>de Hojas</html>", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "<html>Precio<br> Unitario</html>", "<html>Unidad de<br> Medida</html>", "Importe"
 			}
 		) {
 			Class[] columnTypes = new Class[] {

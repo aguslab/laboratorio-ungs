@@ -86,7 +86,7 @@ public class Adm_Stock extends JInternalFrame
 				new Object[][] {
 				},
 				new String[] {
-					"Orden de Trabajo", "Solicitud de Compra", "Hojas totales", "Hojas usadas", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Remanente"
+					"<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "Remanente"
 				}
 			) {
 				Class[] columnTypes = new Class[] {

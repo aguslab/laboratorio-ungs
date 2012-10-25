@@ -225,18 +225,18 @@ public class Solicitud_compra {
 	{
 		String columnas[] = 
 			{ 
-				"Nro Solicitud Compra", 
-				"Fecha de confeccion", 
+				"<html>Nº Solicitud<br>de Compra</html>", 
+				"<html>Fecha de<br>Confeccion</html>", 
 				"Proveedor", 
 				"Vendedor",
-				"Nombre trabajo Ralacionado", 
-				"Envio Proveedor",
-				"Direccion de Retiro",
-				"Fecha de Entrega",
-				"Horario Entrega",
-				"subtotal",
-				"% IVA",
-				"monto IVA",
+				"<html>Nombre trabajo<br>relacionado</html>", 
+				"<html>Envio<br>Proveedor",
+				"<html>Direccion <br>de Retiro</html>",
+				"<html>Fecha de<br> Entrega</html>",
+				"<html>Horario de<br> Entrega</html>",
+				"Subtotal",
+				"<html>IVA<br>(%)",
+				"<html>IVA<br>Monto</html>",
 				"Total"
 			};
 			return columnas;
