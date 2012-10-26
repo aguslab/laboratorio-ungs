@@ -940,34 +940,43 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnUp.setPressedIcon(new ImageIcon("Imagenes/Up_Button_pressed.png"));
 
 		//Subir una fila
-		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-					try
-					{	
+		btnUp.addActionListener(new ActionListener() 
+		{
+			
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				int filaSelec=tablaOrdenDeEjecucion.getSelectedRow();
+				try
+				{	
 					DefaultTableModel tempOE = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
-					if(tempOE.getRowCount()>0){
-						int filaSelec=tablaOrdenDeEjecucion.getSelectedRow();
-						if(filaSelec==-1){
-							JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
-						}else if(filaSelec==0){
-							JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
-						}else{
-							tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
-						}
-						//tempOE.removeRow(tablaElementos.getSelectedRow());	
-					}
-					}
-					catch(ArrayIndexOutOfBoundsException e)
+					if(tempOE.getRowCount()>0)
 					{
-						e.printStackTrace();
-						JOptionPane.showMessageDialog(null,"error!");
-					}				
-				
-				
-				
+						//int filaSelec=tablaOrdenDeEjecucion.getSelectedRow();
+						if(filaSelec==-1)
+						{
+							JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
+						}
+						else if(filaSelec==0)
+						{
+							JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
+						}
+						else
+						{
+							tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
+							//tablaO .setSelectionInterval(filaSelec-1,filaSelec-1);
+							tablaOrdenDeEjecucion.getSelectionModel().setSelectionInterval(filaSelec-1,filaSelec-1);
+						
+						}
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null,"error!");
+				}				
 			}
-		});
+		}
+		);
 		btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
 		btnUp.setBounds(288, 206, 35, 35);
 		panOrdenEjecucion.add(btnUp);
@@ -978,25 +987,37 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 		
 		//Bajar una fila
-		btnDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				try {
+		btnDown.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				int filaSelec = tablaOrdenDeEjecucion.getSelectedRow();
+				try 
+				{
 					DefaultTableModel tempOE = (DefaultTableModel) tablaOrdenDeEjecucion
 							.getModel();
-					if (tempOE.getRowCount() > 0) {
-						int filaSelec = tablaOrdenDeEjecucion.getSelectedRow();
-						if (filaSelec == -1) {
+					if (tempOE.getRowCount() > 0) 
+					{
+						//int filaSelec = tablaOrdenDeEjecucion.getSelectedRow();
+						if (filaSelec == -1) 
+						{
 							JOptionPane.showMessageDialog(null,
 									"Debe seleccionar una fila");
-						} else if (filaSelec == tempOE.getRowCount() - 1) {
+						} 
+						else if (filaSelec == tempOE.getRowCount() - 1) 
+						{
 							JOptionPane.showMessageDialog(null,
 									"Este proceso ya es el Ultimo de la lista");
-						} else {
+						} 
+						else 
+						{
 							tempOE.moveRow(filaSelec, filaSelec, filaSelec + 1);
+							tablaOrdenDeEjecucion.getSelectionModel().setSelectionInterval(filaSelec+1,filaSelec+1);
 						}
 					}
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} 
+				catch (ArrayIndexOutOfBoundsException e) 
+				{
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "error!");
 				}
