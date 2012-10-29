@@ -107,7 +107,6 @@ public class TablaDeBusqueda extends JInternalFrame
 						}
 						dtmMagesti.addRow(datos);
 					}
-					// result.close();
 				}
 				catch (Exception e) 
 				{
