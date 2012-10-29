@@ -164,7 +164,7 @@ public class Orden_Trabajo implements Config
 			"<html>Nombre del<br> trabajo</html>", 
 			"Descripcion",
 			"<html>Cantidad a<br> entregar</html>",
-			"Preimpresiones", 
+			"<html>Preimpresiones </html>", 
 			"Ancho", 
 			"Alto", 
 			"Apaisado", 
@@ -172,6 +172,21 @@ public class Orden_Trabajo implements Config
 			"<html>Hojas<br> Utilizadas</html>"
 		};
 		return columnas;
+	}
+	
+	public static String[] getNomColumTop5()
+	{
+		String columnas[] = 
+			{ 
+				"<html>Nro Orden<br> Trabajo</html>",
+				"Cliente",
+				"<html>Fecha de<br> confeccion</html>", 
+				"<html>Fecha<br> prometida</html>", 
+				"<html>Cantidad a<br> entregar</html>",
+				"Estado",
+				"<html>Hojas<br> Utilizadas</html>"
+			};
+			return columnas;
 	}
 	
 	public String getNombre_producto()

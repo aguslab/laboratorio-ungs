@@ -356,12 +356,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
 		escritorio.add (tablaTop5);
 		tablaTop5.show ();
-		try {
-			tablaTop5.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void actionPerformed (ActionEvent ae) 
