@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import Modelo.Calidad;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
+import Modelo.Hojas_Utilizadas;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Procesos_x_OT;
@@ -614,7 +615,7 @@ implements ItemListener,ActionListener, Config
 		nuevaOT.getTxtNombreOT().setEditable(false);
 		nuevaOT.getTxtDescripcion().setText((String) ot2.get(6));
 		nuevaOT.getTxtDescripcion().setEditable(false);
-		nuevaOT.getTxtCantidadAEntregar().setText(ot2.get(6).toString());
+		nuevaOT.getTxtCantidadAEntregar().setText(ot2.get(7).toString());
 		nuevaOT.getTxtCantidadAEntregar().setEditable(false);
 		nuevaOT.getTxtPreimpresion().setText(Integer.toString(Integer.valueOf(ot2.get(8))));
 		nuevaOT.getTxtPreimpresion().setEditable(false);
@@ -634,14 +635,17 @@ implements ItemListener,ActionListener, Config
 		Integer cantFilas = Elemento.cantidadFilas(id_OT);
 		ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
 		ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
+		ArrayList<Integer> cantHojasUtil= Hojas_Utilizadas.getCantHojas(Elemento.getIdElementos(id_OT));
 		DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 		nuevaOT.getTablaElementos().setEnabled(false);
-		Object nuevaFilaElemento[]= {"",""};
+		Object nuevaFilaElemento[]= {"",0,0,0};
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			temp.addRow(nuevaFilaElemento);
 			temp.setValueAt(elemento.get(i), i, 0);
 			temp.setValueAt(cantidad.get(i), i, 1);	
+			temp.setValueAt(0, i, 2);
+			temp.setValueAt(cantHojasUtil.get(i), i, 3);
 		}
 		nuevaOT.getBtnAgregarFila().setEnabled(false);
 		nuevaOT.getBtnBorrarFila().setEnabled(false);
@@ -687,6 +691,7 @@ implements ItemListener,ActionListener, Config
 		ArrayList<Integer> proveedor = Procesos_x_OT.getProveedor(id_OT);
 		ArrayList<String> observaciones = Procesos_x_OT.getObservaciones(id_OT);
 		ArrayList<Boolean> cumplida = Procesos_x_OT.getCumplida(id_OT);
+		final Integer cantfilastrue= Procesos_x_OT.getCantidadFilasCumplidas(id_OT);
 		
 		//permite que la columna cumplida sea editable
 		nuevaOT.getTablaOrdenEjecucion().setModel(new DefaultTableModel
@@ -710,7 +715,37 @@ implements ItemListener,ActionListener, Config
 				};
 				public boolean isCellEditable(int row, int column) 
 				{
-					return columnEditables[column];
+					//verifica solo las filas cuyos procesos no esten cumplidos aun
+					if(column==4 && row >= cantfilastrue)
+					{
+						//si es la primera fila y es falsa devuelve true
+						if(row==0 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4) == false)
+						{
+							return true;
+						}
+						else if((Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)== false)
+						{
+							//si la fila es falsa pero la anterior true, devuelve true
+							if(row>0 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row-1, 4)==true)
+							{
+								return true;
+							}
+						}
+						else if((Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)== true)
+						{
+							//si la fila elegida es true y la siguien false, devuelve true
+							if(row<nuevaOT.getTablaOrdenEjecucion().getRowCount()-1 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row+1, 4)==false)
+							{
+								return true;
+							//si la fila elegida en la ultima y es true,devuelve true	
+							}
+							else if(row == nuevaOT.getTablaOrdenEjecucion().getRowCount()-1 && (Boolean) nuevaOT.getTablaOrdenEjecucion().getValueAt(row, 4)==true)
+							{
+									return true;
+							}
+						}
+					}
+					return false;
 				}
 			}
 		);

@@ -46,7 +46,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 //		return instancia;
 //	}
 	
-	public Recepcion_Pedido(final Integer id_SC, final Integer cantFilas, final SolicitudDeCompra SC) {
+	public Recepcion_Pedido(final Integer id_SC, final Integer cantFilas, final SolicitudDeCompra SC) 
+	{
 		super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		setSize (925, 300);
@@ -296,14 +297,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				SC.dispose();
 			}
 		});
-		
-						
 	}
 		
-		
-		
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
