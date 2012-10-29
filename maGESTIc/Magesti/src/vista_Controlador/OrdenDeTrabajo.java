@@ -925,7 +925,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnConfirmarSeleccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				int selected[] = listaProcesos.getSelectedIndices( );
+				int selected[] = listaProcesos.getSelectedIndices();
 
 				DefaultTableModel temp = (DefaultTableModel) tablaOrdenDeEjecucion.getModel();
 				

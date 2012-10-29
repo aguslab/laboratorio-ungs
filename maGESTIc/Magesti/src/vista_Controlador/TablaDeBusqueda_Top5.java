@@ -1,14 +1,8 @@
 package vista_Controlador;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JInternalFrame;
@@ -18,17 +12,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 
-import Modelo.Calidad;
 import Modelo.ConexionDB;
-import Modelo.Elemento;
-import Modelo.Formato_Papel;
-import Modelo.Hojas_Utilizadas;
-import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
-import Modelo.Procesos_x_OT;
-import Modelo.Proveedor;
-import Modelo.Variante;
-
 
 public class TablaDeBusqueda_Top5 extends JInternalFrame 
 {
@@ -41,7 +26,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 	public TablaDeBusqueda_Top5()
 	{
 		super ("Consultar Orden de Trabajo", true, true, true, true);
-		setSize (475, 280);
+		tablaBusquedaTop5.setSize(100, 100);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusquedaTop5);
 		jpMostrar.add (jspTabla);
@@ -83,7 +68,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		// Encabezados de la tabla
 		private String[] getColumnas() 
 		{
-			String columna[] = Orden_Trabajo.getNomColum();
+			String columna[] = Orden_Trabajo.getNomColumTop5();
 			return columna;
 		}
 
@@ -99,10 +84,10 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
-				"SELECT o.id_orden_trabajo,o.nombre_producto, c.razon_social, o.f_confeccion,o.f_prometida,o.nombre_trabajo,o.descripcion,o.cantidad_a_entregar, o.cantidad_preimpresion, o.ancho,o.alto, o.apaisado,o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
+				"SELECT o.id_orden_trabajo, c.razon_social, o.f_confeccion,o.f_prometida,o.cantidad_a_entregar, o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
 						+ "AND o.id_cliente=c.id_cliente AND o.estado <>" + cerrada + "ORDER BY f_prometida LIMIT 0,5;");
 
-		Integer CantColumnas = 14;
+		Integer CantColumnas = 7;
 		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la
 													// tabla
 

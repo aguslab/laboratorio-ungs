@@ -251,7 +251,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		});
 		
 		JTabbedPane Secciones = new JTabbedPane(JTabbedPane.TOP);
-		Secciones.setBounds(10, 95, 895, 228);
+		Secciones.setBounds(10, 95, 895, 241);
 		JpSolicitudDeCompra.add(Secciones);
 		
 		JPanel panCondicionEntrega = new JPanel();
@@ -506,7 +506,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 			}
 		});
-		btnBorrar.setBounds(140, 178, 120, 30);
+		btnBorrar.setBounds(139, 172, 120, 30);
 		panDetalles.add(btnBorrar);
 		
 		btnAgregar= new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
@@ -540,11 +540,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				
 			}
 		});
-		btnAgregar.setBounds(10, 178, 120, 30);
+		btnAgregar.setBounds(10, 172, 120, 30);
 		panDetalles.add(btnAgregar);
 		
 		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
-		btnAlmacenar.setBounds(760, 178, 120, 30);
+		btnAlmacenar.setBounds(760, 172, 120, 30);
 		panDetalles.add(btnAlmacenar);
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
