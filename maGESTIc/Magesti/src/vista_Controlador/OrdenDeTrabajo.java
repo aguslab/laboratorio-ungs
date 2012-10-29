@@ -1090,7 +1090,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		txtClear();
 		
-		btnImprimirReporte = new JButton("Imprimir Reporte");
+		btnImprimirReporte = new JButton("Imprimir Reporte", new ImageIcon("Imagenes/imprimir.png"));
 		btnImprimirReporte.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -1098,7 +1098,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				elegirReporteAImprimir();
 			}
 		});
-		btnImprimirReporte.setBounds(524, 514, 121, 30);
+		btnImprimirReporte.setBounds(504, 514, 141, 30);
 		jpOrdenDeTrabajo.add(btnImprimirReporte);
 		
 		fechaHora = new JLabel("");

@@ -47,8 +47,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Formato,
 		Variante;
 	private	JMenuItem 
-		mostrarCalendario,
-		reporte;
+		mostrarCalendario;
+		//reporte;
 	
 	private	JMenuItem 
 		ayudaContenido, 
@@ -192,12 +192,12 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mostrarCalendario.setMnemonic ((int)'V');
 		mostrarCalendario.addActionListener (this);
 		
-		reporte = new JMenuItem ("Reporte  ", new ImageIcon ("Imagenes/imprimir.png"));
+		/*reporte = new JMenuItem ("Reporte  ", new ImageIcon ("Imagenes/imprimir.png"));
 		reporte.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
 		reporte.setMnemonic ((int)'R');
 		reporte.addActionListener (this);
 		mnuAdministracion.add (reporte);
-		mnuAdministracion.addSeparator ();
+		mnuAdministracion.addSeparator ();*/
 
 		ayudaContenido = new JMenuItem ("Contenido de la Ayuda  ", new ImageIcon ("Imagenes/ayuda1.png"));
 		ayudaContenido.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
@@ -234,8 +234,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mnuAdministracion.add (clientes);
 		mnuAdministracion.add (Proveedor);
 		
-		Stock = new JMenuItem("Registro de Stock");
-		Stock.setIcon(new ImageIcon("C:\\Documents and Settings\\Agustina\\Escritorio\\Magesti\\maGESTIc\\Magesti\\Imagenes\\clientes.png"));
+		Stock = new JMenuItem("Registro de Stock", new ImageIcon ("Imagenes/clientes.png"));
 		Stock.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnuAdministracion.add(Stock);
 		Stock.addActionListener (this);
@@ -303,7 +302,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		btnCalendario.addActionListener (this);
 		
 		btnAdministracion = new JButton (new ImageIcon ("Imagenes/administracion.png"));
-		btnAdministracion.setToolTipText ("Registrar nuevos datos en la Base");
+		btnAdministracion.setToolTipText ("Administración de Stock");
 		btnAdministracion.addActionListener (this);
 		
 		btnAyuda = new JButton (new ImageIcon ("Imagenes/ayuda.png"));
@@ -474,14 +473,14 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			}
 				
 		}*/
-		else if (obj == reporte) 
+		/*else if (obj == reporte) 
 		{
 		boolean b = Metodos.openChildWindow ("Reporte");
 		if (b == false) 
 		{
 		Metodos.imprimir (Metodos.fabricaReporte(1020), this);
 		}
-		}
+		}*/
 		
 		
 		else if (obj == btnCalendario || obj==mostrarCalendario)  
@@ -575,7 +574,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			}
 		}
 		
-		else if (obj == Stock)
+		else if (obj == Stock || obj == btnAdministracion)
 		{
 			boolean b = Metodos.openChildWindow ("Registro de Stock");
 			if (b == false) 
