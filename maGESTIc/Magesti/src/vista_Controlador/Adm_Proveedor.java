@@ -31,7 +31,7 @@ public class Adm_Proveedor extends JInternalFrame
 	
 	public Adm_Proveedor() 
 	{
-		super ("Administracion de Proveedor", false, true, false, true);
+		super ("Administracion de Proveedores", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		getContentPane().setLayout(null);
