@@ -23,12 +23,6 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 	BusquedaOrdenTrabajo(final OrdenDeTrabajo nuevaOT, JTable tablaBusqueda, int filaElegida) 
 	{
 				nuevaOT.getEstado().setEnabled(true);
-
-				boolean sonIguales = tablaBusqueda.getValueAt(filaElegida,12).equals("Cerrada");
-				if(sonIguales)
-				{
-					nuevaOT.getBtnImprimirReporte().setEnabled(true);
-				}
 				//Cargo en la ventana de OT los valores de la fila elegida
 				nuevaOT.getTxtNro().setText((tablaBusqueda.getValueAt(filaElegida, 0).toString()));
 				
@@ -87,11 +81,11 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
-						new String[] {"Elemento", "Cantidad", "<html>Hojas<br> Utilizadas</html>"}) 
+						new String[] {"Elemento", "Cantidad","Hojas Previstas" ,"Hojas Utilizadas"}) 
 					{
 						Class[] columnTypes = new Class[] 
 						{
-							String.class, Integer.class, Integer.class
+							String.class, Integer.class, Integer.class, Integer.class
 						};
 						public Class getColumnClass(int columnIndex) 
 						{
@@ -99,13 +93,14 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 						}
 						boolean[] columnEditables = new boolean[] 
 						{
-							false, false, true
+							false, false, true, true
 						};
 						public boolean isCellEditable(int row, int column) 
 						{
 							return columnEditables[column];
 						}
 					});
+				
 				//Muestra los datos de la tabla Elemento
 				Integer id_OT=Metodos.FacturaAEntero(nuevaOT.getTxtNro().getText());
 				Integer cantFilas = Elemento.cantidadFilas(id_OT);
@@ -120,7 +115,8 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(elemento.get(i), i, 0);
 					temp.setValueAt(cantidad.get(i), i, 1);	
-						temp.setValueAt(cantHojasUtil.get(i), i, 2);	
+					temp.setValueAt(0, i, 2);
+					temp.setValueAt(cantHojasUtil.get(i), i, 3);	
 
 					
 				}
@@ -212,7 +208,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				DefaultTableModel tempOE = (DefaultTableModel) nuevaOT.getTablaOrdenEjecucion().getModel();
 
-				Object nuevaFilaOrdenEjecucion[]= {"",false, "","", false};
+				Object nuevaFilaOrdenEjecucion[]= {"",false,"","", false};
 
 				for (int i = 0; i < cantFilasProcesos; i++) 
 				{

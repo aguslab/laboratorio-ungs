@@ -41,6 +41,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
 import Modelo.Calidad;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
@@ -51,9 +61,6 @@ import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
 @SuppressWarnings("serial")
-
-
-
 public class SolicitudDeCompra extends JInternalFrame implements ActionListener, Config
 {
 	private JTextField txtNumero;
@@ -77,6 +84,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private ButtonGroup grupoHorario,grupoCondicionEntrega;
 	private JComboBox cbNroOT;
 	private TextArea txtDescripcionIncidencia;
+	private JLabel fechaHora;
+	
+	private static JasperDesign jasperDesign;
+	private static JasperPrint jasperPrint;
+	private static JasperReport jasperReport;
 
 	//RP = false: Solo SC
 	//RP = true: habilita la parte de Recepcion Pedido
@@ -239,7 +251,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		});
 		
 		JTabbedPane Secciones = new JTabbedPane(JTabbedPane.TOP);
-		Secciones.setBounds(10, 95, 895, 247);
+		Secciones.setBounds(10, 95, 895, 228);
 		JpSolicitudDeCompra.add(Secciones);
 		
 		JPanel panCondicionEntrega = new JPanel();
@@ -628,7 +640,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtSubtotal.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 353, 729, 137);
+		panel.setBounds(10, 347, 729, 143);
 		JpSolicitudDeCompra.add(panel);
 		panel.setLayout(null);
 		panel.setEnabled(true);
@@ -674,6 +686,83 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		lbTotal.setFont(new Font("Arial", Font.BOLD, 12));
 		lbTotal.setBounds(749, 470, 68, 14);
 		JpSolicitudDeCompra.add(lbTotal);
+		
+		JButton btnImprimirReporte = new JButton("Imprimir Reporte", null);
+		btnImprimirReporte.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				try 
+				{
+					Double total = Metodos.pasarADouble(getTxtTotal().getText());
+					Double subtotal = Metodos.pasarADouble(getTxtSubtotal().getText());
+					Double MontoIVA = Metodos.pasarADouble(getTxtMontoIVA().getText());
+					Double porcentajeIVA = Double.parseDouble(Config.IVA.toString());
+					String fechaEntrega = getCbDia().getSelectedItem().toString()+ " de " + getCbMes().getSelectedItem().toString() + " del " + getCbAnio().getSelectedItem().toString();
+					String id_SC = getTxtNumero().getText();
+					String retirar = "";
+					String envio = "";
+					String maniana = "";
+					String tarde = "";
+					if(getRdbtnRetirar().isSelected())
+						retirar = "Si";
+					else
+						retirar = "No";
+					if(getRdbtnEnviarAProveedor().isSelected())
+						envio = "Si";
+					else
+						envio = "No";
+					if(getRbManiana().isSelected())
+						maniana = "Si";
+					else
+						maniana = "No";
+					if(getRbTarde().isSelected())
+						tarde = "Si";
+					else
+						tarde = "No";
+					
+					ArrayList<ReporteDetalles> rd = new ArrayList<ReporteDetalles>();
+					Integer cantFilas = tablaDetalles.getRowCount();
+					for (int i = 0; i < cantFilas; i++) 
+					{
+						rd.add(new ReporteDetalles((Integer) tablaDetalles.getValueAt(i, 0), (String) tablaDetalles.getValueAt(i, 1),
+								(String) tablaDetalles.getValueAt(i, 2), (String) tablaDetalles.getValueAt(i, 3), (String) tablaDetalles.getValueAt(i, 4), 
+								(Integer) tablaDetalles.getValueAt(i, 5), (Double) tablaDetalles.getValueAt(i, 6), 
+								(String) tablaDetalles.getValueAt(i, 7), (Double) tablaDetalles.getValueAt(i, 8)));
+								
+					}
+					ReporteSC r = new ReporteSC(id_SC,getCbNroOT().getSelectedItem().toString(),getTxtVendedor().getText(),
+												getCbProveedor().getSelectedItem().toString(),total, subtotal,MontoIVA, porcentajeIVA, getTxtDireccionRetiro().getText(),
+												fechaEntrega, getTxtFecha().getText(), retirar, envio, maniana, tarde, getTxtDescripcionIncidencia().getText(),rd);
+					
+					ArrayList<ReporteSC> reportes = new ArrayList<ReporteSC>();
+					reportes.add(r);
+			         //busca el reporte con ese nombre
+			         jasperDesign = JRXmlLoader.load("reporteSC.jrxml");
+			 
+			         //compila el diseño
+			         jasperReport = JasperCompileManager.compileReport(jasperDesign);
+			 
+			         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
+			         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
+			 
+			         //Mostrar el reporte
+			         JasperViewer.viewReport(jasperPrint);			         
+			 
+			     } 
+				catch (JRException e) 
+			     {
+					e.printStackTrace();
+			     }
+			}
+		});
+		btnImprimirReporte.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnImprimirReporte.setBounds(513, 501, 132, 30);
+		JpSolicitudDeCompra.add(btnImprimirReporte);
+		
+		fechaHora = new JLabel("Fecha Y Hora");
+		fechaHora.setBounds(749, 353, 156, 14);
+		JpSolicitudDeCompra.add(fechaHora);
 		
 		
 		
@@ -789,8 +878,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			setVisible (false);
 			dispose();
 		}
-
-		
+		TablaDeBusqueda_SC.Actualizar();
 	}
 	
 	
@@ -839,7 +927,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Integer id_formato = Formato_Papel.getId_Formato(tablaDetalles.getValueAt(i, 4).toString());
 				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
 				Double precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
-				String unidad_medida_del_precio=tablaDetalles.getValueAt(i, 7).toString();
+				String unidad_medida_del_precio = tablaDetalles.getValueAt(i, 7).toString();
 				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
 				
 				//dar de alta detalle
@@ -1038,9 +1126,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		return txtDescripcionIncidencia;
 	}
 	
-	
-	
-	
-	
-	
+	public JLabel getfechaHora()
+	{
+		return fechaHora;
+	}
 };

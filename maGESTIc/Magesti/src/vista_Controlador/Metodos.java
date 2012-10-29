@@ -7,13 +7,9 @@ import java.awt.PrintJob;
 import java.io.EOFException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -214,9 +210,11 @@ public class Metodos implements Config
 		PrintJob pJob = magesti.getToolkit().getPrintJob (magesti, "Imprime reporte", p);
 
 
-		if (pJob != null) {
+		if (pJob != null) 
+		{
 			Graphics gr = pJob.getGraphics ();
-			if (gr != null) {
+			if (gr != null) 
+			{
 				FontMetrics fm = gr.getFontMetrics (typeface);
 				int margin = 20;
 				int pageHeight = pJob.getPageDimension().height - margin;
@@ -226,17 +224,22 @@ public class Metodos implements Config
 				String nextLine;
 				gr.setFont (typeface);
 
-				try {
-					do {
+				try 
+				{
+					do 
+					{
 						nextLine = lnr.readLine ();
-						if (nextLine != null) {         
-							if ((curHeight + fontHeight) > pageHeight) {	//New Page.
+						if (nextLine != null) 
+						{         
+							if ((curHeight + fontHeight) > pageHeight) 
+							{	//New Page.
 								gr.dispose();
 								gr = pJob.getGraphics ();
 								curHeight = margin;
 							}							
 							curHeight += fontHeight;
-							if (gr != null) {
+							if (gr != null) 
+							{
 								gr.setFont (typeface);
 								gr.drawString (nextLine, margin, curHeight - fontDescent);
 							}
@@ -276,16 +279,19 @@ public class Metodos implements Config
 		return FacturaAEntero(id);
 	}
 	
-	public static boolean esNumero(String posibleNumero){
+	public static boolean esNumero(String posibleNumero)
+	{
 		boolean esNumero=posibleNumero.length()>0;
-		for (int j = 0; j < posibleNumero.length(); j++) {
+		for (int j = 0; j < posibleNumero.length(); j++)
+		{
 			esNumero=esNumero && (posibleNumero.charAt(j)>='0' && posibleNumero.charAt(j)<='9');
 		}
 
 		return esNumero;
 	}
 	
-	static boolean noEsVacio(String cadena){
+	static boolean noEsVacio(String cadena)
+	{
 		boolean NoesVacio=cadena.length()>0;
 		
 		for(int i=0;i<cadena.length();i++){
@@ -337,7 +343,8 @@ public class Metodos implements Config
 
 
 
-	public static String getDateTimeActual() {
+	public static String getDateTimeActual() 
+	{
 		String f_h_actual = null;
 
 		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
@@ -357,7 +364,8 @@ public class Metodos implements Config
 		return f_h_actual;
 	}
 
-	public static String valorAncho(String cadena) {
+	public static String valorAncho(String cadena) 
+	{
 		int ind=0;
 		for(int i=0;i<cadena.length();i++){
 			if(cadena.charAt(i)=='.'){
@@ -408,32 +416,44 @@ public class Metodos implements Config
 		Integer mesPrometido = Integer.parseInt(fprometida.substring(3, 5));
 		Integer diaPrometido = Integer.parseInt(fprometida.substring(0, 2));
 
-		if (anioPrometido < anioActual) {
+		if (anioPrometido < anioActual) 
+		{
 			return false;
-		} else if (anioPrometido.equals(anioActual)) {
-			if (mesPrometido < mesActual) {
+		} 
+		else if (anioPrometido.equals(anioActual)) 
+		{
+			if (mesPrometido < mesActual) 
+			{
 				return false;
-			} else if (mesPrometido.equals(mesActual)) {
-				if (diaPrometido <= diaActual) {
+			} 
+			else if (mesPrometido.equals(mesActual)) 
+			{
+				if (diaPrometido <= diaActual) 
+				{
 					return false;
-				} else {
+				} 
+				else 
+				{
 					return true;
 				}
-			} else {
+			} 
+			else 
+			{
 				return true;
 			}
-		} else {
+		}
+		else 
+		{
 			return true;
 		}
 	}
 
-	public static String getTextoEnCombo(JComboBox combo) {
+	public static String getTextoEnCombo(JComboBox combo) 
+	{
 
 		String otSelec=(String) combo.getSelectedItem();
 		
 		return otSelec.substring(16);
 	}
-	
-	
 	
 }

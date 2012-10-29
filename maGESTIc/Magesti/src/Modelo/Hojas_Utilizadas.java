@@ -1,12 +1,11 @@
 package Modelo;
 
-import java.sql.Date;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Hojas_Utilizadas {
-
-	
+public class Hojas_Utilizadas 
+{
 	private Integer id_hojas_utilizadas;
 	private Integer id_elemento;
 	private Integer cantidad;

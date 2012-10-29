@@ -1,31 +1,20 @@
 package vista_Controlador;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
-import Modelo.Calidad;
+import javax.swing.table.DefaultTableModel;
+
+
+
 import Modelo.ConexionDB;
-import Modelo.Elemento;
-import Modelo.Formato_Papel;
-import Modelo.Hojas_Utilizadas;
-import Modelo.Materiales;
+
 import Modelo.Orden_Trabajo;
-import Modelo.Proveedor;
-import Modelo.Variante;
-import Modelo.Procesos_x_OT;
+
 
 import java.awt.GridLayout;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -107,7 +96,8 @@ public class TablaDeBusqueda extends JInternalFrame
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
-							if(i==0){
+							if(i==0)
+							{
 								datos[i]=Metodos.EnteroAFactura((Integer) datos[0]);
 							}
 							if (i==11)

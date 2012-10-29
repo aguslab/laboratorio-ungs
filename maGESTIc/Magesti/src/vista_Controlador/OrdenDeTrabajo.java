@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -14,13 +13,22 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
-import javax.swing.event.TableModelListener;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import Modelo.Calidad;
 import Modelo.Cliente;
@@ -33,6 +41,7 @@ import Modelo.Orden_Trabajo;
 import Modelo.Proceso;
 import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
+import Modelo.Solicitud_compra;
 import Modelo.Variante;
 
 @SuppressWarnings("serial")
@@ -40,6 +49,9 @@ import Modelo.Variante;
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
 	private JPanel jpOrdenDeTrabajo = new JPanel();
+	private static JasperDesign jasperDesign;
+	private static JasperPrint jasperPrint;
+	private static JasperReport jasperReport;
 	
 	private JLabel 
 		lbNro, 
@@ -129,6 +141,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JFormattedTextField txtAlto, txtAncho;
 	private JButton btnImprimirReporte;
 	private JButton btnUp, btnDown;
+	private JLabel fechaHora;
 
 	OrdenDeTrabajo()
 	{	
@@ -143,12 +156,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbNro.setForeground (Color.black);
 		
 	    lbCliente = new JLabel ("Cliente:");
-	    lbCliente.setBounds(310, 11, 75, 25);
+	    lbCliente.setBounds(620, 54, 55, 25);
 		lbCliente.setForeground (Color.black);
 	    
 		lbFechaC = new JLabel ("<html>Fecha de<br>confecci\u00F3n:</html>");
 		lbFechaC.setHorizontalAlignment(SwingConstants.LEFT);
-		lbFechaC.setBounds(610, 9, 75, 30);
+		lbFechaC.setBounds(312, 52, 75, 30);
 		lbFechaC.setForeground (Color.black);
 				
 		lbFechaP = new JLabel ("<html>Fecha <br>prometida:</html>");
@@ -156,11 +169,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbFechaP.setForeground (Color.black);
 		
 		lbNombreOT = new JLabel ("Nombre OT:");
-		lbNombreOT.setBounds(310, 54, 75, 25);
+		lbNombreOT.setBounds(312, 11, 75, 25);
 		lbNombreOT.setForeground (Color.black);
 		
 		lbEstado = new JLabel ("Estado:");
-		lbEstado.setBounds(610, 54, 75, 25);
+		lbEstado.setBounds(620, 11, 55, 25);
 		lbEstado.setForeground (Color.black);
 		
 		lbDescripcion = new JLabel ("Descripci\u00F3n:");
@@ -179,10 +192,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
 		cboCliente = new JComboBox (Clientes);
-		cboCliente.setBounds(385, 11, 210, 25);
+		cboCliente.setBounds(681, 54, 224, 25);
 		
 		txtNombreOT = new JTextField ();
-		txtNombreOT.setBounds(385, 54, 210, 25);
+		txtNombreOT.setBounds(387, 11, 210, 25);
 		txtNombreOT.setHorizontalAlignment (JTextField.LEFT);
 		txtNombreOT.addKeyListener
 		(
@@ -275,7 +288,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbCantidadAEntregar.setForeground (Color.black);
 		
 		txtCantidadAEntregar = new JTextField ("1");
-		txtCantidadAEntregar.setBounds(695, 137, 210, 25);
+		txtCantidadAEntregar.setBounds(681, 137, 224, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		txtCantidadAEntregar.addKeyListener
 		(
@@ -299,7 +312,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbPreimpresion.setBounds(310, 180, 215, 30);
 		lbPreimpresion.setForeground (Color.black);
 		
-		txtPreimpresion = new JTextField ("0");
+		txtPreimpresion = new JTextField ("");
 		txtPreimpresion.setBounds(530, 180, 210, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
@@ -390,23 +403,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
-		cboMes.setBounds(695, 11, 97, 25);
+		cboMes.setBounds(387, 54, 97, 25);
 		cboMes.setEnabled(false);
 		
 		cboDia = new JComboBox ();
 		cboDia.getModel().setSelectedItem(Metodos.getDiaDeHoy());
 		cboDia.setEnabled(false);
-		cboDia.setBounds(792, 11, 48, 25);
+		cboDia.setBounds(484, 54, 48, 25);
 		
 		cboAnio = new JComboBox ();
 		cboAnio.getModel().setSelectedItem(Metodos.getAnioActual());
 		cboAnio.setEnabled(false);
-		cboAnio.setBounds(840, 11, 65, 25);
+		cboAnio.setBounds(532, 54, 65, 25);
 		
 		cboEstado_1 = new JComboBox (Estados);	
 		//cboEstado_1 = new JComboBox ();
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
-		cboEstado_1.setBounds(695, 54, 210, 25);
+		cboEstado_1.setBounds(681, 11, 224, 25);
 		cboEstado_1.setEnabled(false);
 		String dias="";
 		for (int i = 1; i <= 31; i++) 
@@ -1078,9 +1091,19 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtClear();
 		
 		btnImprimirReporte = new JButton("Imprimir Reporte");
+		btnImprimirReporte.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				elegirReporteAImprimir();
+			}
+		});
 		btnImprimirReporte.setBounds(524, 514, 121, 30);
 		jpOrdenDeTrabajo.add(btnImprimirReporte);
-		btnImprimirReporte.setEnabled(false);
+		
+		fechaHora = new JLabel("");
+		fechaHora.setBounds(681, 35, 223, 14);
+		jpOrdenDeTrabajo.add(fechaHora);
 	}
 
 	
@@ -1254,7 +1277,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						if(estado.equalsIgnoreCase("En Proceso"))
 						{
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
-						}else
+						}
+						else
 						{
 							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
 						}
@@ -1442,7 +1466,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadAEntregar.setText("1");
-		txtPreimpresion.setText("0");
+		txtPreimpresion.setText("");
+		txtAncho.setValue("000.00");
+		txtAlto.setValue("000.00");
 		chbApaisado.setSelected(false);
 	}
 	
@@ -1650,4 +1676,171 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		return true;
 	}
+	
+	private void reporteOT()
+	{
+		try 
+		{
+			String fechaConfec = getCboDia().getSelectedItem().toString()+ " de " + getCboMes().getSelectedItem().toString() + " del " + getCboAnio().getSelectedItem().toString();
+			String fechaPrometida = getCboDia2().getSelectedItem().toString()+ " de " + getCboMes2().getSelectedItem().toString() + " del " + getCboAnio2().getSelectedItem().toString();
+			Double ancho = Double.parseDouble(this.getTxtAncho().getText());
+			Double alto = Double.parseDouble(this.getTxtAlto().getText());
+		 	String nroOT = this.getTxtNro().getText();
+		 	String apaisada = "";
+		 	if(this.getChbApaisado().isSelected())
+		 		apaisada = "Si";
+		 	else
+		 		apaisada = "No";
+		 	
+		 	//guardo en un arraylist las filas de la tabla Elementos
+		 	ArrayList<ReporteElementos> rElementos = new ArrayList<ReporteElementos>();
+			Integer cantFilas = tablaElementos.getRowCount();
+			for (int i = 0; i < cantFilas; i++) 
+			{
+				rElementos.add(new ReporteElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
+						(Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
+						
+			}
+			
+			//guardo en un arraylist las filas de la tabla Materiales
+			ArrayList<ReporteMateriales> rMateriales = new ArrayList<ReporteMateriales>();
+			cantFilas = tablaMateriales.getRowCount();
+			for (int i = 0; i < cantFilas; i++) 
+			{
+				rMateriales.add(new ReporteMateriales((String) tablaMateriales.getValueAt(i, 0), (Integer) tablaMateriales.getValueAt(i, 1),
+						(Integer) tablaMateriales.getValueAt(i, 2), (String) tablaMateriales.getValueAt(i, 3), (String) tablaMateriales.getValueAt(i, 4), (String) tablaMateriales.getValueAt(i, 5),
+						(Integer) tablaMateriales.getValueAt(i, 6), (Integer) tablaMateriales.getValueAt(i, 7), (Integer) tablaMateriales.getValueAt(i, 8), (Integer) tablaMateriales.getValueAt(i, 9), 
+						(Integer) tablaMateriales.getValueAt(i,10)));
+						
+			}
+			
+			//guardo en un arraylist las filas de la tabla Orden de ejecucion
+		 	ArrayList<ReporteOEjecucion> rOEjecucion = new ArrayList<ReporteOEjecucion>();
+			cantFilas = tablaOrdenDeEjecucion.getRowCount();
+			String tercerizada = "";
+			String cumplida = "";
+			for (int i = 0; i < cantFilas; i++) 
+			{
+				if(tablaOrdenDeEjecucion.getValueAt(i, 1).equals(true))
+					tercerizada = "Si";
+				else
+					tercerizada = "No";
+				
+				if(tablaOrdenDeEjecucion.getValueAt(i, 4).equals(true))
+					cumplida = "Si";
+				else
+					cumplida = "No";
+				
+				rOEjecucion.add(new ReporteOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
+						(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
+						
+			}
+		 	
+			ReporteOT r = new ReporteOT(nroOT,getTxtNombreOT().getText(), getCliente().getSelectedItem().toString(),
+					getTxtDescripcion().getText(), getTipoProducto().getText(), getTxtPreimpresion().getText(),
+					getEstado().getSelectedItem().toString(), fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
+			
+			ArrayList<ReporteOT> reportes = new ArrayList<ReporteOT>();
+			reportes.add(r);
+	         //busca el reporte con ese nombre
+	         jasperDesign = JRXmlLoader.load("reporteOT.jrxml");
+	 
+	         //compila el diseño
+	         jasperReport = JasperCompileManager.compileReport(jasperDesign);
+	 
+	         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
+	         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
+	 
+	         //Mostrar el reporte
+	         JasperViewer.viewReport(jasperPrint);			         
+	 
+	     } 
+		catch (JRException e) 
+	     {
+	        System.out.println("Hubo un problema al generar el reporte de hojas utilizadas");
+	     }
+	}
+	
+	private void reporteHojas()
+	{
+		try 
+		{
+		 	Integer cantidadHojas = 0;
+		 	String nroOT = getTxtNro().getText();
+		 	//Consigo la cantidad de hojas utilizadas en total
+		 	for(int i = 0; i < tablaElementos.getRowCount(); i++)
+		 	{
+		 		cantidadHojas += (Integer)tablaElementos.getValueAt(i, 3);
+			}
+		 	String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
+		 	if(SC == null)
+		 	{
+		 		SC = "Solicitud de compra no asignada.";
+		 	}
+			ReporteHojas r = new ReporteHojas(nroOT, getTxtNombreOT().getText(),cantidadHojas,SC);
+			
+			ArrayList<ReporteHojas> reportes = new ArrayList<ReporteHojas>();
+			reportes.add(r);
+	         //busca el reporte con ese nombre
+	         jasperDesign = JRXmlLoader.load("reporteHojas.jrxml");
+	 
+	         //compila el diseño
+	         jasperReport = JasperCompileManager.compileReport(jasperDesign);
+	 
+	         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
+	         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
+	 
+	         //Mostrar el reporte
+	         JasperViewer.viewReport(jasperPrint);			         
+	 
+	     } 
+		catch (JRException e) 
+	     {
+	        System.out.println("Hubo un problema al generar el reporte de hojas utilizadas");
+	     }
+	}
+	
+	private void elegirReporteAImprimir() 
+	{
+		int reply = JOptionPane.showOptionDialog
+		(
+			this,
+			"Seleccione el reporte que desea imprimir\n(o presione Cancelar para salir)",
+			qTITULO + " - Imprimir Reporte", 
+			JOptionPane.DEFAULT_OPTION,
+			JOptionPane.QUESTION_MESSAGE, 
+			null,
+			new Object[] { "Orden de Trabajo", "Reporte de Hojas", "Cancelar" },
+			3
+		);
+	
+		if (reply == 0) 
+		{
+			this.reporteOT();
+		}
+		else if (reply == 1) 
+		{
+
+			if(this.getEstado().getSelectedItem().toString().equalsIgnoreCase("Cerrada"))
+			{
+				this.reporteHojas();
+			}
+			
+			else
+			{
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"La orden de trabajo no está cerrada.","Error al generar reporte", 
+					JOptionPane.ERROR_MESSAGE
+					
+				);
+			}
+		}
+		else if (reply == 2) 
+		{
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		}
+	}
+	
 }		

@@ -29,9 +29,9 @@ import java.awt.event.MouseEvent;
 public class TablaDeBusqueda_SC extends JInternalFrame 
 {
 	private JPanel jpMostrar = new JPanel ();
-	private DefaultTableModel dtmMagesti;
+	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
-	private JTable tablaBusqueda;
+	private static JTable tablaBusqueda;
 	
 	TablaDeBusqueda_SC(String titulo) 
 	{
@@ -62,8 +62,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getBtnAgregar().setEnabled(false);
 				nuevaSC.getBtnAlmacenar().setEnabled(false);
 				nuevaSC.getBtnBorrar().setEnabled(false);
-				
-				
 				
 				//Cargo en la ventana de SC los valores de la fila elegida
 				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
@@ -104,7 +102,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
 				nuevaSC.getCbAnio().setEnabled(false);
-				
 				
 				
 				
@@ -175,8 +172,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO") || Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECHAZADO")){
 					//cargar datos en seccion RP
 					String txtDescripcionincidencia=Recepcion_pedido.dametxtDescripcion(id_SC);
-					if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO")){
-						nuevaSC.getTxtDescripcionIncidencia().setText(txtDescripcionincidencia+"\n         RECIBIDO");	
+					if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO"))
+					{
+						nuevaSC.getTxtDescripcionIncidencia().setText(txtDescripcionincidencia+"\n         RECIBIDO");
+						
 					}else{
 						nuevaSC.getTxtDescripcionIncidencia().setText(txtDescripcionincidencia+"\n       RECHAZADO");
 					}			
@@ -225,7 +224,9 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 									Config.qTITULO + " SC Recibida", 
 									JOptionPane.WARNING_MESSAGE
 								);
-							}else{
+							}
+							else
+							{
 								String f_h_recibido=Metodos.getDateTimeActual();
 								Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Rechazado",f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 								rp.Alta();
@@ -261,7 +262,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, 0);
 								st.Alta();
 							}
-							
+
+							nuevaSC.getfechaHora().setText(f_h_recibido);
 							nuevaSC.dispose();
 						}
 					});
@@ -299,7 +301,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		
 
 		// Encabezados de la tabla
-		private String[] getColumnas() 
+		private static String[] getColumnas() 
 		{
 			String columna[] = Solicitud_compra.getNomColum();
 			return columna;
@@ -307,7 +309,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 
 		
 		
-		private void setFilas() 
+		private static void setFilas() 
 		 {
 			ResultSet result=ConexionDB.getbaseDatos().consultar(
 			"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor order by id_solicitud_compra");
@@ -338,5 +340,16 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				}
 			}
 		
-		
+		static void Actualizar()
+		{
+			try
+			{
+				Metodos.borrarFilas((DefaultTableModel)tablaBusqueda.getModel());
+				setFilas();
+			}
+			catch(Exception e)
+			{
+				
+			}
+		}
 }
