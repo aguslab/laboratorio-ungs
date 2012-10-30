@@ -42,9 +42,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		jpMostrar.add (jspTabla);
 		tablaBusqueda = new JTable();
 		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
-		tablaBusqueda.setSelectionBackground(Color.blue);
+		//tablaBusqueda.setSelectionBackground(Color.blue);
 
-		//tablaBusqueda.setEnabled(false);si se habilita, la fila seleccionada no se "pinta"
 
 		tablaBusqueda.addMouseListener
 		(
@@ -184,31 +183,19 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					nuevaSC.getBtnIncompleta().setEnabled(false);
 					nuevaSC.getTxtDescripcionIncidencia().setEnabled(false);
 
-				}else{
+				}
+				else if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("INCOMPLETO") ){
+					nuevaSC.getBtnRechazarRecepcion().setEnabled(false);
+					nuevaSC.getBtnConfirmarRecepcion().setEnabled(false);
+					
+					
+					
+				}
+				else{
 					nuevaSC.getBtnRechazarRecepcion().setEnabled(true);
 					nuevaSC.getBtnConfirmarRecepcion().setEnabled(true);
 					nuevaSC.getBtnIncompleta().setEnabled(true);
 					nuevaSC.getTxtDescripcionIncidencia().setEnabled(true);
-					
-					
-					//Accion boton INCOMPLETA
-					nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() {
-						
-						@Override
-							public void actionPerformed(ActionEvent e) {
-							boolean b = Metodos.openChildWindow ("SC");
-							
-							if (b == false) 
-							{
-							Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
-							//intento de singleton // Recepcion_Pedido nRP = Recepcion_Pedido.getInstancia(id_SC, cantFilas, nuevaSC);
-							Magesti.getEscritorio().add (nRP);						
-							nRP.show ();
-							}
-							
-						}
-					});
-					
 					
 					
 					//Accion boton RECHAZAR
@@ -259,7 +246,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 								Integer id_varRP = (Detalle.getidVariante(id_det.get(i)));
 								Integer gramRP = (Detalle.getGramaje(id_det.get(i)));
 								
-								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, 0);
+								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, 0,true);
 								st.Alta();
 							}
 
@@ -268,9 +255,24 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						}
 					});
 					
-								
-					
 				}
+				//Accion boton INCOMPLETA
+				nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() {
+					
+					@Override
+						public void actionPerformed(ActionEvent e) {
+						boolean b = Metodos.openChildWindow ("SC");
+						
+						if (b == false) 
+						{
+						Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
+						//intento de singleton // Recepcion_Pedido nRP = Recepcion_Pedido.getInstancia(id_SC, cantFilas, nuevaSC);
+						Magesti.getEscritorio().add (nRP);						
+						nRP.show ();
+						}
+						
+					}
+				});
 				
 				
 				
@@ -278,15 +280,23 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		});
 		
 		getContentPane().add (jpMostrar);
-		dtmMagesti = new DefaultTableModel(null, getColumnas());
-		setFilas();
-		tablaBusqueda.setModel(dtmMagesti);
-		jspTabla.add(tablaBusqueda);
-		jspTabla.setViewportView(tablaBusqueda);
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);	
+//		dtmMagesti = new DefaultTableModel(null, getColumnas());
+//		setFilas();
+//		tablaBusqueda.setModel(dtmMagesti);
+//		jspTabla.add(tablaBusqueda);
+//		jspTabla.setViewportView(tablaBusqueda);
+//		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);	
 	
 			// Llenamos el modelo
-		dtmMagesti = new DefaultTableModel(null, getColumnas());
+		dtmMagesti = new DefaultTableModel(null, getColumnas()){
+				
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false, false, false,false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};
 
 			setFilas();
 

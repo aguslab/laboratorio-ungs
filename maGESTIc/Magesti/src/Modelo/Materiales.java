@@ -19,13 +19,12 @@ public class Materiales {
 	private Integer id_formato_papel;
 
 
-	public Materiales(Integer id_materiales, Integer id_elemento, 
-			Integer gramaje, Integer id_formato_papel, Integer id_variante,
-			Integer id_calidad,Integer pliegos_en_demasia, Integer poses_x_pliego,
-			Integer pliegos_x_hoja, Integer hojas,Integer pliegos_netos) 
-	{
+	public Materiales(Integer id_materiales, Integer id_elemento,
+			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
+			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
+			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
 		super();
-		this.id_materiales= id_materiales;
+		this.id_materiales = id_materiales;
 		this.id_elemento = id_elemento;
 		this.gramaje = gramaje;
 		this.poses_x_pliego = poses_x_pliego;
@@ -37,6 +36,9 @@ public class Materiales {
 		this.id_variante = id_variante;
 		this.id_formato_papel = id_formato_papel;
 	}
+
+
+
 
 	public Materiales(Integer id_elemento, 
 			Integer gramaje, Integer id_formato_papel, Integer id_variante,
@@ -167,7 +169,7 @@ public class Materiales {
 	
 	
 	//devuelve los id_materiales de la OT pasada como parametro
-	public static String getSelectToGetId_Materiales(Integer id_OT)
+	private static String getSelectToGetId_Materiales(Integer id_OT)
 	{
 		return 	"(select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+"))";
 	}
@@ -503,16 +505,18 @@ public class Materiales {
 			try {
 
 				while (resultado.next()) {
-					Material= new Materiales(new Integer(
+					Material = new Materiales(new Integer(
 							resultado.getInt("id_materiales")), new Integer(
 							resultado.getInt("id_elemento")), new Integer(
-							resultado.getInt("gramaje")), new Integer(resultado.getInt("id_formato_papel")),
-							new Integer(resultado.getInt("id_variante")),
-							new Integer(resultado.getInt("id_calidad")), new Integer(
-							resultado.getInt("pliegos_en_demasia")), new Integer(resultado.getInt("poses_x_pliego")),
+							resultado.getInt("gramaje")), new Integer(
+							resultado.getInt("poses_x_pliego")), new Integer(
+							resultado.getInt("pliegos_netos")), new Integer(
+							resultado.getInt("pliegos_en_demasia")),
 							new Integer(resultado.getInt("pliegos_x_hoja")),
 							new Integer(resultado.getInt("hojas")),
-							new Integer(resultado.getInt("pliegos_netos")));
+							new Integer(resultado.getInt("id_calidad")),
+							new Integer(resultado.getInt("id_variante")),
+							new Integer(resultado.getInt("id_formato_papel")));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -520,6 +524,40 @@ public class Materiales {
 		}
 
 		return Material;
+	}
+	
+	
+	public static ArrayList<Materiales> getMateriales(Integer id_OT) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM materiales WHERE id_elemento in (SELECT id_elemento FROM elemento WHERE id_orden_trabajo="+id_OT+")");
+
+		ArrayList<Materiales> list_Materiales = new ArrayList<Materiales>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Materiales mater = new Materiales(new Integer(
+							resultado.getInt("id_materiales")), new Integer(
+							resultado.getInt("id_elemento")), new Integer(
+							resultado.getInt("gramaje")), new Integer(
+							resultado.getInt("poses_x_pliego")), new Integer(
+							resultado.getInt("pliegos_netos")), new Integer(
+							resultado.getInt("pliegos_en_demasia")),
+							new Integer(resultado.getInt("pliegos_x_hoja")),
+							new Integer(resultado.getInt("hojas")),
+							new Integer(resultado.getInt("id_calidad")),
+							new Integer(resultado.getInt("id_variante")),
+							new Integer(resultado.getInt("id_formato_papel")));
+					list_Materiales.add(mater);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list_Materiales;
 	}
 	
 	

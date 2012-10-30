@@ -174,4 +174,31 @@ public class Proceso
 		
 		return procesos;
 	}
+	
+	
+	public static String getNombreProceso(Integer id_proc) 
+	{
+		String nombre_proces = "";
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT nombre FROM proceso WHERE id_proceso=" + id_proc);
+
+		if (resultado != null) 
+		{
+			try {// por si llega a haber mas de un proceso con = nombre
+				while (resultado.next()) 
+				{
+					nombre_proces = resultado.getString(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+
+		return nombre_proces;
+	}
+	
 }
