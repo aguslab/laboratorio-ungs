@@ -34,7 +34,6 @@ public class TablaDeBusqueda extends JInternalFrame
 		jspTabla = new JScrollPane (tablaBusqueda);
 		jpMostrar.add (jspTabla);
 		tablaBusqueda = new JTable();
-		tablaBusqueda.setEnabled(false);
 		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
 		
 		tablaBusqueda.addMouseListener
@@ -57,8 +56,14 @@ public class TablaDeBusqueda extends JInternalFrame
 		getContentPane().add (jpMostrar);
 		
 			// Llenamos el modelo
-		dtmMagesti = new DefaultTableModel(null, getColumnas());
-
+		dtmMagesti = new DefaultTableModel(null, getColumnas()){
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+			};
 			setFilas();
 			tablaBusqueda.setModel(dtmMagesti);
 			jspTabla.add(tablaBusqueda);

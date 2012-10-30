@@ -1,5 +1,10 @@
 package Modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import vista_Controlador.Metodos;
+
 public class Stock {
 
 	 private Integer id_stock;
@@ -13,6 +18,7 @@ public class Stock {
 	 private Integer id_variante;
 	 private Integer gramaje;
 	 private Integer remanente;
+	 private boolean activo;
 	
 	 
 	 
@@ -20,7 +26,7 @@ public class Stock {
 			Integer id_solicitud_compra, Integer cant_hojas_totales,
 			Integer cant_hojas_usadas, String marca, Integer id_calidad,
 			Integer id_formato, Integer id_variante, Integer gramaje,
-			Integer remanente) {
+			Integer remanente,boolean activo) {
 		super();
 		this.id_orden_trabajo = id_orden_trabajo;
 		this.id_solicitud_compra = id_solicitud_compra;
@@ -32,6 +38,7 @@ public class Stock {
 		this.id_variante = id_variante;
 		this.gramaje = gramaje;
 		this.remanente = remanente;
+		this.activo=activo;
 	}
 
 
@@ -163,11 +170,23 @@ public class Stock {
 
 
 	public void setRemanente(Integer remanente) {
-		remanente = remanente;
+		this.remanente = remanente;
 	}
 	 
 	 
-	 
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+
+
 	public boolean Alta() {
 
 		Integer id_ot = this.getId_orden_trabajo();
@@ -180,12 +199,13 @@ public class Stock {
 		Integer id_var = this.getId_variante();
 		Integer gram = this.getGramaje();
 		Integer reman = this.getRemanente();
+		Boolean act= this.isActivo();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO stock VALUES(default," + id_ot + "," + id_sc + ","
 						+ cant_hojas_tot + "," + cant_hojas_us + "," + smarca
 						+ "," + id_cal + "," + id_for + "," + id_var + ","
-						+ gram + "," + reman + ");")) {
+						+ gram + "," + reman +"," + act+ ");")) {
 			return true;
 		} else {
 			return false;
@@ -193,9 +213,34 @@ public class Stock {
 	}
 	 
 	
-	
-	 
-	
+	public static Integer getCantFilasSC(Integer id_SC) {
+		Integer cantfilas = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(id_solicitud_compra) FROM Stock where id_solicitud_compra="
+						+ id_SC);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+
+					cantfilas = resultado.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return cantfilas;
+	}
+
+
+
+	public static boolean SacarHojas(Integer idStock, Integer cantUsadas) {
+
+		return ConexionDB.getbaseDatos().ejecutar("UPDATE stock set cant_hojas_usadas="+cantUsadas+" WHERE id_stock="+idStock);
+		
+	}	
 	
 	
 }

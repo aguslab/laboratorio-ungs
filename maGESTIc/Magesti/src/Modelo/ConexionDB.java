@@ -3,7 +3,7 @@ package Modelo;
 //clase final para que no pueda ser sobreescrita
 public final class ConexionDB {
 	
-	private static MySQLBD baseDatos = new MySQLBD().conectar();
+	private static MySQLBD baseDatos = null;
 	
 	private ConexionDB() {}
 	
@@ -12,7 +12,7 @@ public final class ConexionDB {
     // otra prueba para evitar instanciación múltiple 
 	private synchronized static void createInstance() {
         if (baseDatos == null) { 
-            baseDatos= new MySQLBD();
+            baseDatos= new MySQLBD().conectar();
         }
     }
 	

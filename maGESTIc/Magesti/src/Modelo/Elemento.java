@@ -262,7 +262,57 @@ public class Elemento {
 		
 		return id_elem;
 	}
+
+	public static ArrayList<Elemento> getElementos(Integer id_OT) {
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM elemento WHERE id_orden_trabajo="+id_OT);
+
+		ArrayList<Elemento> list_Elementos = new ArrayList<Elemento>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Elemento Elem = new Elemento(new Integer(
+							resultado.getInt("id_elemento")), new Integer(
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getString("tipo_elemento"), new Integer(
+									resultado.getInt("cantidad")));
+					list_Elementos.add(Elem);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list_Elementos;
+	}
 	
+
 	
+	public static ArrayList<Elemento> getElemento(Integer id_elem) {
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM elemento WHERE id_elemento="+id_elem);
+
+		ArrayList<Elemento> list_Elementos = new ArrayList<Elemento>();
+		if (resultado != null) {
+
+			try {
+
+				while (resultado.next()) {
+					Elemento Elem = new Elemento(new Integer(
+							resultado.getInt("id_elemento")), new Integer(
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getString("tipo_elemento"), new Integer(
+									resultado.getInt("cantidad")));
+					list_Elementos.add(Elem);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list_Elementos;
+	}
 	
 }

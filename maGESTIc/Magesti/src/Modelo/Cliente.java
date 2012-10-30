@@ -331,6 +331,27 @@ public class Cliente {
 	}
 	
 	
+	public static String getRazonSocial(Integer id_cliente) {
+
+		String razon_social = null;
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT razon_social FROM cliente where id_cliente="
+						+ id_cliente);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					razon_social = resultado.getString(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return razon_social;
+	}
+	
 	
 }
 

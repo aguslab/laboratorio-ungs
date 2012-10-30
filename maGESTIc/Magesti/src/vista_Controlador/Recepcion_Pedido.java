@@ -9,15 +9,11 @@ import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.lang.reflect.Array;
-import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Calidad;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
-import Modelo.Orden_Trabajo;
-import Modelo.Procesos_x_OT;
 import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
 import Modelo.Stock;
@@ -31,10 +27,12 @@ import java.awt.Font;
 
 public class Recepcion_Pedido extends JInternalFrame implements ActionListener, Config
 {
-	private JTable tablaDetalles,tablaRecibido;
+	private JTable tablaDetalles;
+	//tablaRecibido;
 	private JPanel JpSolicitudDeCompra;
 	private JButton btnCerrar,btnAceptar,btnSelecAll;
-	private JScrollPane spDetalles,spRecibido ;
+	private JScrollPane spDetalles;
+	//spRecibido ;
 	
 	
 //	private static Recepcion_Pedido instancia=null;
@@ -77,12 +75,11 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		
 		spDetalles = new JScrollPane();
 		spDetalles.setViewportBorder(null);
-		spDetalles.setBounds(10, 11, 795, 219);
+		spDetalles.setBounds(10, 11, 866, 219);
 		JpSolicitudDeCompra.add(spDetalles);
 
 		
 		tablaDetalles = new JTable();
-		tablaDetalles.setEnabled(false);
 		tablaDetalles.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaDetalles.setShowGrid(false);
 		tablaDetalles.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -91,23 +88,35 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			new Object[][] {
 			},
 			new String[] {
-				"<html>Cantidad <br>de Hojas</html>", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "<html>Precio<br> Unitario</html>", "<html>Unidad de<br> Medida</html>", "Importe"
+				"<html>Cantidad <br>de Hojas</html>", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "<html>Precio<br> Unitario</html>", "<html>Unidad de<br> Medida</html>", "Importe", "Recibido"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class
+				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class,Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false, false, true
+				};
+			public boolean isCellEditable(int row, int column) 
+			{
+				//verifica solo las filas que no hayan sido recibidas aun
+				if(column == 9 && row >= Recepcion_pedido.getCantidadFilasRecibidas(id_SC)){
+					return true;
+				}
+				return false;
+				
 			}
 		});
 		tablaDetalles.getColumnModel().getColumn(0).setResizable(false);
 		tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(80);
 		tablaDetalles.getColumnModel().getColumn(1).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(103);
 		tablaDetalles.getColumnModel().getColumn(1).setMaxWidth(200);
 		tablaDetalles.getColumnModel().getColumn(2).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(120);
+		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(119);
 		tablaDetalles.getColumnModel().getColumn(3).setResizable(false);
 		tablaDetalles.getColumnModel().getColumn(3).setMaxWidth(200);
 		tablaDetalles.getColumnModel().getColumn(4).setResizable(false);
@@ -120,10 +129,10 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		tablaDetalles.getColumnModel().getColumn(6).setPreferredWidth(100);
 		tablaDetalles.getColumnModel().getColumn(6).setMaxWidth(100);
 		tablaDetalles.getColumnModel().getColumn(7).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(7).setPreferredWidth(110);
+		tablaDetalles.getColumnModel().getColumn(7).setPreferredWidth(108);
 		tablaDetalles.getColumnModel().getColumn(7).setMaxWidth(110);
 		tablaDetalles.getColumnModel().getColumn(8).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(8).setPreferredWidth(95);
+		tablaDetalles.getColumnModel().getColumn(8).setPreferredWidth(85);
 		tablaDetalles.getColumnModel().getColumn(8).setMaxWidth(200);
 		spDetalles.setViewportView(tablaDetalles);
 		
@@ -167,6 +176,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			temp.setValueAt(importe.get(i), i, 8);
 			
 			idDetalle[i]=Detalle.dameIdDetalle(id_SC, cantidad.get(i), marca.get(i), id_Calidad.get(i), id_formato_Papel.get(i), id_Variante.get(i), gramaje.get(i), precio_Unitario.get(i), unidad_medida.get(i), importe.get(i));
+			
+			tablaDetalles.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 9);
 		}
 		
 		
@@ -176,50 +187,49 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				
 		final Integer cantfilastrue= Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
 
-		spRecibido = new JScrollPane();
-		spRecibido.setViewportBorder(null);
-		spRecibido.setBounds(800, 11, 88, 219);
-		JpSolicitudDeCompra.add(spRecibido);
+//		spRecibido = new JScrollPane();
+//		spRecibido.setViewportBorder(null);
+//		spRecibido.setBounds(800, 11, 88, 219);
+//		JpSolicitudDeCompra.add(spRecibido);
+//		
+//		tablaRecibido = new JTable();
+//		tablaRecibido.setBorder(new LineBorder(new Color(0, 0, 0)));
+//		tablaRecibido.setModel(new DefaultTableModel(
+//			new Object[][] {
+//			},
+//			new String[] {
+//				"<html><br>Recibido</html>"
+//			}
+//		) {
+//			Class[] columnTypes = new Class[] {
+//				Boolean.class
+//			};
+//			public Class getColumnClass(int columnIndex) {
+//				return columnTypes[columnIndex];
+//			}
+//			public boolean isCellEditable(int row, int column) 
+//			{
+//				//verifica solo las filas que no hayan sido recibidas aun
+//				if(row >= cantfilastrue){
+//					return true;
+//				}
+//				return false;
+//				
+//			}
+//		});
+//		tablaRecibido.getColumnModel().getColumn(0).setResizable(false);
+//		tablaRecibido.getColumnModel().getColumn(0).setMaxWidth(100);
+//		tablaRecibido.getTableHeader().setReorderingAllowed(false);
+//		spRecibido.setViewportView(tablaRecibido);
 		
-		tablaRecibido = new JTable();
-		tablaRecibido.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaRecibido.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Recibido"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Boolean.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			public boolean isCellEditable(int row, int column) 
-			{
-				//verifica solo las filas que no hayan sido recibidas aun
-				if(row >= cantfilastrue){
-					return true;
-				}
-				return false;
-				
-			}
-		});
-		tablaRecibido.getColumnModel().getColumn(0).setResizable(false);
-		tablaRecibido.getColumnModel().getColumn(0).setMaxWidth(100);
-		tablaRecibido.getTableHeader().setReorderingAllowed(false);
-		spRecibido.setViewportView(tablaRecibido);
-		
-		DefaultTableModel tempRecibido = (DefaultTableModel) tablaRecibido.getModel();
-		Object nuevaFila[]= {false};
-		
-		for (int i = 0; i < cantFilas; i++) 
-		{
-			tempRecibido.addRow(nuevaFila);
-			//Integer id_detalle;
-			tablaRecibido.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 0);
-		}
+//		DefaultTableModel tempDetalles = (DefaultTableModel) tablaDetalles.getModel();
+//		Object nuevaFila[]= {false};
+//		
+//		for (int i = 0; i < cantFilas; i++) 
+//		{
+//			tempDetalles.addRow(nuevaFila);
+//			tablaDetalles.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 9);
+//		}
 		
 		
 		
@@ -228,7 +238,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			public void actionPerformed(ActionEvent arg0) {
 				for (int i = 0; i < cantFilas; i++) 
 				{
-					tablaRecibido.setValueAt(true, i, 0);
+					tablaDetalles.setValueAt(true, i, 9);
 				}
 				
 			}
@@ -238,12 +248,16 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		JpSolicitudDeCompra.add(btnSelecAll);
 		
 		
-
+		/*
+		 * 
+		 * Accion boton ACEPTAR
+		 * 
+		 */
 		btnAceptar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel tempRecibido = (DefaultTableModel) tablaRecibido.getModel();
+				DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles.getModel();
 				int cantTrue=cantfilastrue;
 				ArrayList<Integer> cantHojasRP=new ArrayList<Integer>();
 				ArrayList<String> marcaRP=new ArrayList<String>();
@@ -254,7 +268,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 
 				for (int i = cantfilastrue; i < cantFilas; i++) 
 				{
-					boolean recibido=(Boolean) tempRecibido.getValueAt(i, 0);
+					boolean recibido=(Boolean) tempDet.getValueAt(i, 9);
 					if(recibido){
 						cantTrue++;
 						cantHojasRP.add(Detalle.getCantHojas(idDetalle[i]));
@@ -269,7 +283,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				}
 				String f_h_recibido=Metodos.getDateTimeActual();
 				//si estan marcadas todas las filas como recibidas, pone la RP como recibido
-				if(cantTrue==tempRecibido.getRowCount()){
+				if(cantTrue==tempDet.getRowCount()){
 					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
 					rp.Alta();
 				}else{
@@ -289,7 +303,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 					Integer id_var= id_varRP.get(i);
 					Integer gram= gramRP.get(i);
 					
-					Stock st= new Stock(id_ot, id_SC, cnth, cantusadas, marca, id_cal, id_for, id_var, gram, remanente);
+					Stock st= new Stock(id_ot, id_SC, cnth, cantusadas, marca, id_cal, id_for, id_var, gram, remanente,true);
 					st.Alta();
 				}
 				

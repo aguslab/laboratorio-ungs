@@ -1283,59 +1283,103 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
 						}
 						
-						//actualizar hojas utilizadas
-						ArrayList<Integer> hojasut=new ArrayList<Integer>();
-						if(actualizarHojasUtilizadas(hojasut)){
-							ArrayList<Integer> id_elem=Elemento.getIdElementos(clave);
-							Integer totalHojas=0;
-							for(int i =0;i<hojasut.size();i++){
-							//tiene que actualizar las hojas
-							Hojas_Utilizadas H_U= new Hojas_Utilizadas(id_elem.get(i),hojasut.get(i), Metodos.getDateTimeActual(), estado);
-							H_U.Alta();
-							totalHojas=totalHojas+H_U.getCantidad();
+						
+						//actualizar tareas cumplidas
+						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+						Integer cantTrue=0;
+						ArrayList<Integer> proc= new ArrayList<Integer>();
+						ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
+						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+							if(n){
+								cantTrue++;
 							}
-							Orden_Trabajo.CambiarCantHojasUtil(clave, totalHojas);
-							
-							//actualizar tareas cumplidas
-							ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-							Integer cantTrue=0;
-							ArrayList<Integer> proc= new ArrayList<Integer>();
-							ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
-							for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
-								boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-								if(n){
-									cantTrue++;
-								}
-								proc.add(new Integer(i));
-								cumplida.add(new Boolean(n));
-								//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
-							}
-							//si se marcan como cumplidos todos los procesos
-							if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
-								int reply = JOptionPane.showConfirmDialog 
-									    (
-									    	this,
-									    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
-									    	qTITULO + " - Cerrando Orden de Trabajo", 
-									    	JOptionPane.YES_NO_OPTION, 
-									    	JOptionPane.WARNING_MESSAGE
-									    );
-
-										if (reply == JOptionPane.YES_OPTION) 
-										{
-											for(int i=0;i<proc.size();i++){
-												Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
-											}
-											Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-											obj = btnCancelar;
-										}
-							}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
-								for(int i=0;i<proc.size();i++){
-									Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
-								}
-								obj = btnCancelar;			
-							}
+							proc.add(new Integer(i));
+							cumplida.add(new Boolean(n));
+							//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
 						}
+						//si se marcan como cumplidos todos los procesos
+						if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
+							int reply = JOptionPane.showConfirmDialog 
+								    (
+								    	this,
+								    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
+								    	qTITULO + " - Cerrando Orden de Trabajo", 
+								    	JOptionPane.YES_NO_OPTION, 
+								    	JOptionPane.WARNING_MESSAGE
+								    );
+
+									if (reply == JOptionPane.YES_OPTION) 
+									{
+										for(int i=0;i<proc.size();i++){
+											Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+										}
+										Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+										obj = btnCancelar;
+									}
+						}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
+							for(int i=0;i<proc.size();i++){
+								Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+							}
+							obj = btnCancelar;			
+						}
+						
+						
+						
+						
+						//actualizar hojas utilizadas
+						//ArrayList<Integer> hojasut=new ArrayList<Integer>();
+//						if(actualizarHojasUtilizadas(hojasut)){
+//							ArrayList<Integer> id_elem=Elemento.getIdElementos(clave);
+//							Integer totalHojas=0;
+//							for(int i =0;i<hojasut.size();i++){
+//							//tiene que actualizar las hojas
+//							Hojas_Utilizadas H_U= new Hojas_Utilizadas(id_elem.get(i),hojasut.get(i), Metodos.getDateTimeActual(), estado);
+//							H_U.Alta();
+//							totalHojas=totalHojas+H_U.getCantidad();
+//							}
+//							Orden_Trabajo.CambiarCantHojasUtil(clave, totalHojas);
+//							
+//							//actualizar tareas cumplidas
+//							ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
+//							Integer cantTrue=0;
+//							ArrayList<Integer> proc= new ArrayList<Integer>();
+//							ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
+//							for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
+//								boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
+//								if(n){
+//									cantTrue++;
+//								}
+//								proc.add(new Integer(i));
+//								cumplida.add(new Boolean(n));
+//								//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
+//							}
+//							//si se marcan como cumplidos todos los procesos
+//							if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
+//								int reply = JOptionPane.showConfirmDialog 
+//									    (
+//									    	this,
+//									    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
+//									    	qTITULO + " - Cerrando Orden de Trabajo", 
+//									    	JOptionPane.YES_NO_OPTION, 
+//									    	JOptionPane.WARNING_MESSAGE
+//									    );
+//
+//										if (reply == JOptionPane.YES_OPTION) 
+//										{
+//											for(int i=0;i<proc.size();i++){
+//												Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+//											}
+//											Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+//											obj = btnCancelar;
+//										}
+//							}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
+//								for(int i=0;i<proc.size();i++){
+//									Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+//								}
+//								obj = btnCancelar;			
+//							}
+//						}
 				}
 				else 
 				{
@@ -1360,24 +1404,24 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		TablaDeBusqueda_Top5.Actualizar();
 	}
 	
-	//devuelve la cantHojas utilizadas. -1 en las filas que son <0 || > a lo pedido
-	private boolean actualizarHojasUtilizadas(ArrayList<Integer> hojasut) {
-
-		Integer cantFilas= tablaElementos.getRowCount();
-		for(int i=0;i<cantFilas;i++){
-			Integer hu=(Integer) tablaElementos.getValueAt(i, 2);
-			if(hu >= 0){
-				if(hu<=(Integer) tablaMateriales.getValueAt(i, 9)){
-					hojasut.add(hu);
-				}else{//hojasutilizadas es mayor a lo pedido
-					return false;
-					}
-			}else{//hojas utilizadas es negativo
-				return false;
-			}
-		}
-		return true;
-	}
+//	//devuelve la cantHojas utilizadas. -1 en las filas que son <0 || > a lo pedido
+//	private boolean actualizarHojasUtilizadas(ArrayList<Integer> hojasut) {
+//
+//		Integer cantFilas= tablaElementos.getRowCount();
+//		for(int i=0;i<cantFilas;i++){
+//			Integer hu=(Integer) tablaElementos.getValueAt(i, 2);
+//			if(hu >= 0){
+//				if(hu<=(Integer) tablaMateriales.getValueAt(i, 9)){
+//					hojasut.add(hu);
+//				}else{//hojasutilizadas es mayor a lo pedido
+//					return false;
+//					}
+//			}else{//hojas utilizadas es negativo
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 
 	void cargarTablas() 

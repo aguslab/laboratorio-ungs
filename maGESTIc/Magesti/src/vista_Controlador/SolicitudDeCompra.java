@@ -221,26 +221,43 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				if(!cbNroOT.getSelectedItem().toString().equalsIgnoreCase(Metodos.EnteroAFactura(0)+"  -  Stockear")){
 					DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 					Metodos.borrarFilas(temp);					
+					
 					Integer idOT=Metodos.getIdEnCombo(cbNroOT);
 					ArrayList<Integer> id_m= Materiales.getID_Materiales(idOT);
 					ArrayList<Materiales> materiales = new ArrayList<Materiales>();
+					
 					for(int i=0;i<id_m.size();i++){
 						materiales.add(Materiales.Buscar(id_m.get(i)));						
 					}
+					
 
+					Object nuevo[]= {null,"","","","",null,null,"",null};
 					for(int i=0;i<materiales.size();i++){
-						Object nuevo[]= {null,"","","","",null,null,"",null};
 						temp.addRow(nuevo);
 						String calidad= Calidad.getNombre(materiales.get(i).getId_calidad());
 						String variante= Variante.getNombre(materiales.get(i).getId_variante());
 						String formato= Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel());
-						Integer gramaje= materiales.get(i).getGramaje(); 
+						Integer gramaje= materiales.get(i).getGramaje();
+						Integer cantHojas=materiales.get(i).getHojas();
+						
+						String cant[] = new String[50001 - cantHojas];
+						for (int j = 0; j < cant.length; j++) {
+							int a=j+cantHojas;
+							cant[j] = "" + a;
+						}
+						//pongo un JSpinner en el lugar de Cantidad de hojas
+						TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
+						columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
 						
 						temp.setValueAt(calidad,i,2);
 						temp.setValueAt(variante,i,3);
 						temp.setValueAt(formato,i,4);
 						temp.setValueAt(gramaje,i,5);
 
+						
+						
+						
+						
 						// Valores para el combo
 						String unidad_medida[] = {"Resma","Kg","Hoja"};
 						TableColumn columnaUnidMedida= tablaDetalles.getColumnModel().getColumn(7);//table es la JTable, ponele que la col n es la del combo.
@@ -403,7 +420,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Object.class, Object.class, Object.class, Integer.class, Double.class, String.class, Double.class
+				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -440,6 +457,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		tablaDetalles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
+		tablaDetalles.setRowHeight(23);
 		//
 		//Autocalcular importe
 		//
@@ -518,7 +536,18 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Object nuevo[]= {null,"","","","",null,null,"",null};
 				temp.addRow(nuevo);
 				
-								
+			
+				String cant[] = new String[50001];
+				for (int j = 0; j < cant.length; j++) {
+					int a=j;
+					cant[j] = "" + a;
+				}
+				//pongo un JSpinner en el lugar de Cantidad de hojas
+				TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
+				columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
+				
+				
+				
 				String calidades[] = Calidad.getCalidades();
 				TableColumn columnaCalidad = tablaDetalles.getColumnModel().getColumn(2);//table es la JTable, ponele que la col n es la del combo.
 				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
@@ -920,7 +949,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		//cargar datos en detalles para esa SC
 		int cantFilas=tablaDetalles.getRowCount();
 		for(int i=0;i<cantFilas;i++){
-				Integer cantidad=(Integer) tablaDetalles.getValueAt(i, 0);
+				Integer cantidad=Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString());
 				String marca=tablaDetalles.getValueAt(i, 1).toString();
 				Integer id_calidad = Calidad.getId_Calidad(tablaDetalles.getValueAt(i, 2).toString());
 				Integer id_variante = Variante.getId_Variante(tablaDetalles.getValueAt(i, 3).toString());
@@ -943,7 +972,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		Integer cant_hojas=0;
 		Double precio_unitario=0.0;
 		//for(int i=0;i<tablaDetalles.getRowCount();i++){
-			cant_hojas=(Integer) tablaDetalles.getValueAt(i, 0);
+			cant_hojas=Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString());
 			precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
 			unidad_medida_precio=tablaDetalles.getValueAt(i, 7).toString();
 			
