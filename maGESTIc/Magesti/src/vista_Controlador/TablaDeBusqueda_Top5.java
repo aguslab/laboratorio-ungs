@@ -14,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
 import Modelo.Orden_Trabajo;
+import Modelo.Proceso;
+import Modelo.Procesos_x_OT;
 
 public class TablaDeBusqueda_Top5 extends JInternalFrame 
 {
@@ -26,7 +28,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 	public TablaDeBusqueda_Top5()
 	{
 		super ("Consultar Orden de Trabajo", true, true, true, true);
-		tablaBusquedaTop5.setSize(100, 100);
+		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusquedaTop5);
 		jpMostrar.add (jspTabla);
@@ -90,22 +92,24 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		Integer CantColumnas = 7;
 		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la
 													// tabla
-
-		try {
-			while (result.next()) {
-
-				for (int i = 0; i < CantColumnas; i++) {
+		try 
+		{
+			while (result.next())
+			{
+				for (int i = 0; i < CantColumnas; i++) 
+				{
 					datos[i] = result.getObject(i + 1);
-					if(i==0){
+					if(i==0)
+					{
 						datos[i] = Metodos.EnteroAFactura((Integer) datos[0]);
 					}
-					if (i == 11) {
-						datos[i] = Metodos.esApaisadaS((Boolean) datos[11]);
-					}
+					
 				}
 				dtmMagesti.addRow(datos);
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 		}
 	}
 		

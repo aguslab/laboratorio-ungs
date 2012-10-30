@@ -1,9 +1,7 @@
 package Modelo;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vista_Controlador.Config;
@@ -184,7 +182,8 @@ public class Orden_Trabajo implements Config
 				"<html>Fecha<br> prometida</html>", 
 				"<html>Cantidad a<br> entregar</html>",
 				"Estado",
-				"<html>Hojas<br> Utilizadas</html>"
+				"<html>Hojas<br> Utilizadas</html>",
+				"<html>Tarea en<br> ejecucion<html>"
 			};
 			return columnas;
 	}
@@ -516,7 +515,8 @@ public class Orden_Trabajo implements Config
 		return OT;	
 	}
 	
-	public static String getId_Con_nom_OT(String nom_ot) {
+	public static String getId_Con_nom_OT(String nom_ot) 
+	{
 		
 		String Id_Con_nom_OT="";
 		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
@@ -537,5 +537,5 @@ public class Orden_Trabajo implements Config
 		
 		return Id_Con_nom_OT;
 	}
-		
+	
 }
