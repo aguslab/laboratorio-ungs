@@ -3,6 +3,7 @@ package vista_Controlador;
 import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -43,15 +44,15 @@ implements ItemListener,ActionListener, Config
 	ArrayList<String> ot2 = new ArrayList();
 	private JButton btnMatriz[]= new JButton[31];
 
-  	String dias[] = 
+	String dias[] = 
   	{
-		"DOMINGO", 
-		"LUNES", 
-		"MARTES", 
-		"MIÉRCOLES",
-		"JUEVES",
-		"VIERNES", 
-		"SÁBADO"
+		"    DOMINGO", 
+		"       LUNES", 
+		"      MARTES", 
+		"   MIÉRCOLES",
+		"      JUEVES",
+		"     VIERNES", 
+		"     SÁBADO"
   	};
 
   	String meses[]=
@@ -457,8 +458,10 @@ implements ItemListener,ActionListener, Config
 		pan2.setBackground(new Color(231,111,0));
 		pan2.removeAll();
 		
-		for(int i=0; i<7;i++)
-			pan2.add(new JLabel(dias[i])); 
+		 for(int i=0; i<7;i++)
+		{
+			pan2.add(new JLabel(dias[i])).setFont(new Font("Arial", Font.PLAIN, 9));
+		}
 	}
 	public void panel3()
 	{
@@ -565,27 +568,29 @@ implements ItemListener,ActionListener, Config
 		totalDiasDelMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 
-	public void db(int diaS)
-	{
-		String fecha=anio+"-"+ mm + "-" + diaS;
-		ArrayList<String> ot= Orden_Trabajo.getId_OTSegunFecha(fecha);
-		String id_ot="";
-		String msg="";
-		if(ot.size()>0)
+	 public void db(int diaS)
 		{
-			for(int i=0;i<ot.size();i++)
+			String fecha=anio+"-"+ mm + "-" + diaS;
+			ArrayList<String> ot= Orden_Trabajo.getId_OTSegunFecha(fecha);
+			String id_ot="";
+			String msg="";
+			if(ot.size()>0)
 			{
-				id_ot=Metodos.EnteroAFactura(Integer.parseInt(ot.get(i)));
-				muestra(id_ot);
+				for(int i=0;i<ot.size();i++)
+				{
+					id_ot=Metodos.EnteroAFactura(Integer.parseInt(ot.get(i)));
+					muestra(id_ot);
+					diaSeleccionado=1;
+				}
+	                        
+			}
+			else
+			{
+				msg="No existen Ordenes de Trabajo para la fecha seleccionada";
+				JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
-		else
-		{
-			msg="No existen Ordenes de Trabajo para la fecha seleccionada";
-			JOptionPane.showInternalMessageDialog(this, msg, "ORDEN TRABAJO", JOptionPane.PLAIN_MESSAGE);
-		}
-	}
-		
+	
 	public void muestra(String ideOT)
 	{
 		ot2 = Orden_Trabajo.getOT_SegunID(ideOT.replaceAll("0001-",""));

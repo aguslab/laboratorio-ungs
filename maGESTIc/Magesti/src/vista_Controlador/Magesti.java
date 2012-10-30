@@ -98,9 +98,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		//setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setJMenuBar (barra);
 		
-		
-		
-
 		for(UIManager.LookAndFeelInfo laf:UIManager.getInstalledLookAndFeels())
 		{
 	        if("Nimbus".equals(laf.getName()))
@@ -130,6 +127,23 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				(Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2
 		);
 
+
+		Calendario cal = new Calendario();
+		escritorio.add (cal);
+		cal.setBounds
+		(
+				0,0,503,216
+		);
+		cal.show ();
+		
+		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
+		escritorio.add (tablaTop5);
+		tablaTop5.setBounds
+		(
+				503,0,Toolkit.getDefaultToolkit().getScreenSize().width  - cal.getWidth(),216
+		);
+		tablaTop5.show ();
+		
 		mnuOrdenDeTrabajo = new JMenu ("Orden de Trabajo  ");
 		mnuOrdenDeTrabajo.setMnemonic ((int)'O');
 		
@@ -352,10 +366,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		getContentPane().add (barraDeEstado, BorderLayout.SOUTH);
 
 		setVisible (true);
-		
-		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
-		escritorio.add (tablaTop5);
-		tablaTop5.show ();
 	}
 
 	public void actionPerformed (ActionEvent ae) 
@@ -484,7 +494,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Calendario cal = new Calendario();
 				escritorio.add (cal);
-				cal.show ();
 			}
 		}
 		

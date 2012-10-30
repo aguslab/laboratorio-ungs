@@ -378,6 +378,27 @@ public class Procesos_x_OT
 		return cantidad;
 	}
 	
-	
-	
+	public static Integer getPrimerTarea(Integer id_OT)
+	{
+		Integer id_tarea = null; 
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_proceso FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT +" AND cumplida=true");
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					id_tarea=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return id_tarea;
+	}
 }
