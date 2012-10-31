@@ -494,6 +494,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Calendario cal = new Calendario();
 				escritorio.add (cal);
+				cal.setBounds
+				(
+						0,0,503,216
+				);
 			}
 		}
 		

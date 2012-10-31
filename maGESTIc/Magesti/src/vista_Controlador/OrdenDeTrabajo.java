@@ -33,15 +33,16 @@ import net.sf.jasperreports.view.JasperViewer;
 import Modelo.Calidad;
 import Modelo.Cliente;
 import Modelo.ConexionDB;
+import Modelo.Egreso_Stock;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
-import Modelo.Hojas_Utilizadas;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
 import Modelo.Proceso;
 import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
 import Modelo.Solicitud_compra;
+import Modelo.Stock;
 import Modelo.Variante;
 
 @SuppressWarnings("serial")
@@ -122,7 +123,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		"Pendiente", 
 		"En proceso", 
-		"Cerrada" 
+		//"Cerrada" 
 	};
 	
 	private JTextField txtTipoProducto;
@@ -141,7 +142,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JFormattedTextField txtAlto, txtAncho;
 	private JButton btnImprimirReporte;
 	private JButton btnUp, btnDown;
-	private JLabel fechaHora;
+	private JLabel fechaHoraCierreOT;
 
 	OrdenDeTrabajo()
 	{	
@@ -1101,9 +1102,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnImprimirReporte.setBounds(504, 514, 141, 30);
 		jpOrdenDeTrabajo.add(btnImprimirReporte);
 		
-		fechaHora = new JLabel("");
-		fechaHora.setBounds(681, 35, 223, 14);
-		jpOrdenDeTrabajo.add(fechaHora);
+		fechaHoraCierreOT = new JLabel("");
+		fechaHoraCierreOT.setBounds(681, 35, 223, 14);
+		jpOrdenDeTrabajo.add(fechaHoraCierreOT);
 	}
 
 	
@@ -1198,6 +1199,21 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						this, 
 						"Esta orden no tiene nombre asignado",
 						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtNombreOT.requestFocus ();
+					
+				}
+				
+				else if (txtNombreOT.getText().equalsIgnoreCase("stockear")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"El nombre asignado a la Orden de Trabajo debe ser distinto.",
+						qTITULO + " - Elija otro nombre", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					
@@ -1315,6 +1331,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 											Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
 										}
 										Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+										
+										/*
+										 *Si sobran hojas, quedan como remanente en Stock 
+										 */
+										//Elementos de esta OT
+										ArrayList<Integer> id_elementos= Elemento.getIdElementos(clave);
+										for(int i=0;i<id_elementos.size();i++){
+											Integer id_Stock=Egreso_Stock.getIdStockSegunIdMaterial(id_elementos.get(i));
+											Integer hojas_usadas=Stock.getHojasUsadas(id_Stock);
+											Integer hojas_totales=Stock.getHojasTotales(id_Stock);
+											if(hojas_usadas < hojas_totales){
+												Stock.setStockComoRemanente(id_Stock);
+											}else{
+												Stock.setStockInactivo(id_Stock);
+											}
+											
+										}
+										
+										//if()
+										
 										obj = btnCancelar;
 									}
 						}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
@@ -1323,63 +1359,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							}
 							obj = btnCancelar;			
 						}
-						
-						
-						
-						
-						//actualizar hojas utilizadas
-						//ArrayList<Integer> hojasut=new ArrayList<Integer>();
-//						if(actualizarHojasUtilizadas(hojasut)){
-//							ArrayList<Integer> id_elem=Elemento.getIdElementos(clave);
-//							Integer totalHojas=0;
-//							for(int i =0;i<hojasut.size();i++){
-//							//tiene que actualizar las hojas
-//							Hojas_Utilizadas H_U= new Hojas_Utilizadas(id_elem.get(i),hojasut.get(i), Metodos.getDateTimeActual(), estado);
-//							H_U.Alta();
-//							totalHojas=totalHojas+H_U.getCantidad();
-//							}
-//							Orden_Trabajo.CambiarCantHojasUtil(clave, totalHojas);
-//							
-//							//actualizar tareas cumplidas
-//							ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-//							Integer cantTrue=0;
-//							ArrayList<Integer> proc= new ArrayList<Integer>();
-//							ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
-//							for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
-//								boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-//								if(n){
-//									cantTrue++;
-//								}
-//								proc.add(new Integer(i));
-//								cumplida.add(new Boolean(n));
-//								//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
-//							}
-//							//si se marcan como cumplidos todos los procesos
-//							if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
-//								int reply = JOptionPane.showConfirmDialog 
-//									    (
-//									    	this,
-//									    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
-//									    	qTITULO + " - Cerrando Orden de Trabajo", 
-//									    	JOptionPane.YES_NO_OPTION, 
-//									    	JOptionPane.WARNING_MESSAGE
-//									    );
-//
-//										if (reply == JOptionPane.YES_OPTION) 
-//										{
-//											for(int i=0;i<proc.size();i++){
-//												Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
-//											}
-//											Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-//											obj = btnCancelar;
-//										}
-//							}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
-//								for(int i=0;i<proc.size();i++){
-//									Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
-//								}
-//								obj = btnCancelar;			
-//							}
-//						}
 				}
 				else 
 				{
@@ -1404,24 +1383,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		TablaDeBusqueda_Top5.Actualizar();
 	}
 	
-//	//devuelve la cantHojas utilizadas. -1 en las filas que son <0 || > a lo pedido
-//	private boolean actualizarHojasUtilizadas(ArrayList<Integer> hojasut) {
-//
-//		Integer cantFilas= tablaElementos.getRowCount();
-//		for(int i=0;i<cantFilas;i++){
-//			Integer hu=(Integer) tablaElementos.getValueAt(i, 2);
-//			if(hu >= 0){
-//				if(hu<=(Integer) tablaMateriales.getValueAt(i, 9)){
-//					hojasut.add(hu);
-//				}else{//hojasutilizadas es mayor a lo pedido
-//					return false;
-//					}
-//			}else{//hojas utilizadas es negativo
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
 
 
 	void cargarTablas() 

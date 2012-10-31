@@ -754,7 +754,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					Integer cantFilas = tablaDetalles.getRowCount();
 					for (int i = 0; i < cantFilas; i++) 
 					{
-						rd.add(new ReporteDetalles((Integer) tablaDetalles.getValueAt(i, 0), (String) tablaDetalles.getValueAt(i, 1),
+						rd.add(new ReporteDetalles(Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString()), (String) tablaDetalles.getValueAt(i, 1),
 								(String) tablaDetalles.getValueAt(i, 2), (String) tablaDetalles.getValueAt(i, 3), (String) tablaDetalles.getValueAt(i, 4), 
 								(Integer) tablaDetalles.getValueAt(i, 5), (Double) tablaDetalles.getValueAt(i, 6), 
 								(String) tablaDetalles.getValueAt(i, 7), (Double) tablaDetalles.getValueAt(i, 8)));

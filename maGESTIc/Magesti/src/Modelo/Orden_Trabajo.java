@@ -139,16 +139,58 @@ public class Orden_Trabajo implements Config
 				} 
 				catch (SQLException e) 
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				String id_OT_Formato = Metodos.EnteroAFactura(0);
-//				String nom_ot="Stockear";
-//				id_nom_ot[i]= id_OT_Formato+"  -  "+nom_ot;
+
 			}
 			return id_nom_ot;
 		}
 		
+		
+		
+		public static String [] getId_nom_OT_SinStock()
+		{
+			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE id_orden_trabajo!=1 AND (estado='Pendiente' OR estado='En Proceso')");
+			String[] id_nom_ot = null;
+			try 
+			{
+				resultado.last();
+				int cantOTPendiente = resultado.getRow();
+				id_nom_ot= new String[cantOTPendiente];
+				resultado.beforeFirst();
+			} 
+			catch (SQLException e2) 
+			{
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
+			
+			
+			if(resultado != null)
+			{
+				int i=0;
+				try 
+				{
+					while(resultado.next())
+					{
+						
+						Integer id_ot=resultado.getInt("id_orden_trabajo");
+						String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
+						String nom_ot=resultado.getString("nombre_trabajo");
+						id_nom_ot[i]=id_OT_Formato+"  -  "+nom_ot;
+						i++;
+					}
+				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			return id_nom_ot;
+		}
 		
 	public static String[] getNomColum() 
 	{
@@ -178,9 +220,9 @@ public class Orden_Trabajo implements Config
 			{ 
 				"<html>Nro Orden<br> Trabajo</html>",
 				"Cliente",
+				"<html>Cantidad a<br> entregar</html>",
 				"<html>Fecha de<br> confeccion</html>", 
 				"<html>Fecha<br> prometida</html>", 
-				"<html>Cantidad a<br> entregar</html>",
 				"Estado",
 				"<html>Hojas<br> Utilizadas</html>",
 				"<html>Tarea en<br> ejecucion<html>"
@@ -367,7 +409,7 @@ public class Orden_Trabajo implements Config
 		
 		
 		public static boolean CambiarCantHojasUtil(Integer id_OT,Integer cantHojas){
-			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set hojas_utilizadas="+cantHojas+" where id_orden_trabajo="+id_OT)){
+			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set hojas_utilizadas=hojas_utilizadas+"+cantHojas+" where id_orden_trabajo="+id_OT)){
 				return true;
 			}else{
 				return false;
@@ -530,12 +572,70 @@ public class Orden_Trabajo implements Config
 						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
 		return Id_Con_nom_OT;
+	}
+	
+	
+	public static Orden_Trabajo getOT(Integer id_OT) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM orden_trabajo WHERE id_orden_trabajo=" + id_OT);
+
+		Orden_Trabajo OT = null;
+
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					OT = new Orden_Trabajo(new Integer(
+							resultado.getInt("id_orden_trabajo")),
+							resultado.getString("nombre_producto"),
+							new Integer(resultado.getInt("id_cliente")),
+							resultado.getString("f_confeccion"),
+							resultado.getString("f_prometida"),
+							resultado.getString("nombre_trabajo"),
+							resultado.getString("descripcion"), new Integer(
+									resultado.getInt("cantidad_a_entregar")),
+							new Integer(resultado
+									.getInt("cantidad_preimpresion")),
+							new Double(resultado.getDouble("ancho")),
+							new Double(resultado.getDouble("alto")),
+							resultado.getBoolean("apaisado"),
+							resultado.getString("estado"), new Integer(
+									resultado.getInt("hojas_utilizadas")),
+							resultado.getString("f_cierre"),
+							resultado.getString("f_entrega"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return OT;
+	}
+
+	public static Integer getHojasUtilizadas(Integer id_OT) {
+
+		Integer hojas=0;
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT hojas_utilizadas FROM orden_trabajo WHERE id_orden_trabajo="+id_OT);
+
+		if(resultado != null){
+			
+			try {
+				while(resultado.next()){
+					hojas=resultado.getInt("hojas_utilizadas");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return hojas;	
 	}
 	
 }

@@ -265,7 +265,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		
 		
 		//si no es para Stockear, cargo la tabla de los elementos de esa OT seleccionada
-		if(!Stock_Disponible.getValueAt(filaElegida, 1).toString().equalsIgnoreCase("Stockear")){
+		if(!Stock_Disponible.getValueAt(filaElegida, 1).toString().equalsIgnoreCase("Stockear") && !(Boolean) Stock_Disponible.getValueAt(filaElegida, 10)){
 			String [] numot_nombreot = new String[1];
 			numot_nombreot[0] = Stock_Disponible.getValueAt(filaElegida, 1).toString();
 			cboOT = new JComboBox(numot_nombreot);
@@ -465,10 +465,14 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				boolean ok = Stock.SacarHojas(id_Stock, hojasUsadas);
 				if (ok) {// registrar retiro
 					Integer id_mat=Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 10).toString());
-					System.out.println(id_mat);
 					Egreso_Stock es = new Egreso_Stock(id_Stock, id_mat, txtEmpleado.getText(), hojasUsadas,
 							Metodos.getDateTimeActual());
 					es.Alta();
+					
+					Integer id_OT=Metodos.getIdEnCombo(cboOT);
+//					Integer hojasUtilizadas_x_OT=Egreso_Stock.getHojasUsadasPorOT(id_OT);
+					
+					Orden_Trabajo.CambiarCantHojasUtil(id_OT, Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 9).toString()));
 				}
 			}
 		}

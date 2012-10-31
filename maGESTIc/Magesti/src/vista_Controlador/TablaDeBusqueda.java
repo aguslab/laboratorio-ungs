@@ -48,7 +48,10 @@ public class TablaDeBusqueda extends JInternalFrame
 				
 				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
-				BusquedaOrdenTrabajo bot= new BusquedaOrdenTrabajo(nuevaOT, tablaBusqueda,filaElegida);
+				
+				Integer id_OT=Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
+				
+				new BusquedaOrdenTrabajo(nuevaOT, id_OT);
 			}
 		});
 		
