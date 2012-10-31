@@ -45,11 +45,12 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 			{
 				int filaElegida = tablaBusquedaTop5.rowAtPoint(arg0.getPoint());
 				final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-				
-				
 				getDesktopPane().add(nuevaOT);
 				nuevaOT.show ();
-				BusquedaOrdenTrabajo bot= new BusquedaOrdenTrabajo(nuevaOT, tablaBusquedaTop5,filaElegida);
+				
+				Integer id_OT=Metodos.FacturaAEntero(tablaBusquedaTop5.getValueAt(filaElegida, 0).toString());
+				
+				new BusquedaOrdenTrabajo(nuevaOT, id_OT);
 			}
 		});
 		getContentPane().add (jpMostrar);
@@ -68,7 +69,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 }
 		
 		// Encabezados de la tabla
-		private String[] getColumnas() 
+		private static String[] getColumnas() 
 		{
 			String columna[] = Orden_Trabajo.getNomColumTop5();
 			return columna;
@@ -84,26 +85,39 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		String fechaHoy = "'" + aaaa + "-" + mm + "-" + dd + "'";
 		String cerrada = "'" + "Cerrada" + "'";
 
+		
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
-				"SELECT o.id_orden_trabajo, c.razon_social, o.f_confeccion,o.f_prometida,o.cantidad_a_entregar, o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
-						+ "AND o.id_cliente=c.id_cliente AND o.estado <>" + cerrada + "ORDER BY f_prometida LIMIT 0,5;");
+				"SELECT DISTINCT o.id_orden_trabajo, c.razon_social,o.cantidad_a_entregar, o.f_confeccion,o.f_prometida, o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
+						+ "AND o.id_cliente=c.id_cliente AND o.estado <>" + cerrada + " ORDER BY f_prometida LIMIT 0,5;");
 
-		Integer CantColumnas = 7;
+
+		Integer CantColumnas = getColumnas().length;
+
 		Object datos[] = new Object[CantColumnas]; // Numero de columnas de la
 													// tabla
+		
 		try 
 		{
 			while (result.next())
 			{
+				Integer id_ot=null;
 				for (int i = 0; i < CantColumnas; i++) 
 				{
-					datos[i] = result.getObject(i + 1);
-					if(i==0)
-					{
-						datos[i] = Metodos.EnteroAFactura((Integer) datos[0]);
+					if(i<CantColumnas-1){
+						datos[i] = result.getObject(i + 1);	
+
 					}
 					
+					if(i==0)
+					{
+						id_ot=(Integer) datos[i];
+						datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
+					}
+
+					if(i==7){
+						datos[i]=Proceso.getNombreProceso(Procesos_x_OT.getIdProcEnEjecucion(id_ot));
+					}
 				}
 				dtmMagesti.addRow(datos);
 			}

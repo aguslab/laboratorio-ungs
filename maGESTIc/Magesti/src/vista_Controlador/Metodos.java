@@ -456,4 +456,19 @@ public class Metodos implements Config
 		return otSelec.substring(16);
 	}
 	
+
+	public static String getNombreOTsinNumero(String cadena) {		
+		return cadena.substring(16);
+	}
+
+	
+	static Integer getIdOTsinNombre(String cadena)
+	{
+		String id="";
+		for(int i=0;cadena.charAt(i)!= ' ';i++)
+		{
+				id=id+cadena.charAt(i);
+		}
+		return FacturaAEntero(id);
+	}
 }

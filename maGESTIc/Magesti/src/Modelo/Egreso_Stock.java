@@ -21,6 +21,7 @@ public class Egreso_Stock {
 		super();
 		this.id_stock = id_stock;
 		this.id_materiales=id_materiales;
+		this.empleado=empleado;
 		this.cant_hojas_retiradas = cant_hojas_retiradas;
 		this.fecha = fecha;
 	}
@@ -135,7 +136,48 @@ public class Egreso_Stock {
 			}
 		}
 		return maxId + 1;
-	}	
+	}
+	
+	
+	public static Integer getHojasUsadas(Integer id_materiales) {
+		Integer cantHojas = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT MAX(cant_hojas_retiradas) FROM egreso_stock WHERE id_materiales="+id_materiales);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					cantHojas = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return cantHojas;
+	}
+
+
+	public static Integer getIdStockSegunIdMaterial(Integer id_materiales) {
+		Integer idStock = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					idStock = resultado.getInt(1);
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return idStock;
+	}
+
+	
 	
 	
 }

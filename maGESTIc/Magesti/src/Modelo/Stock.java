@@ -240,6 +240,62 @@ public class Stock {
 
 		return ConexionDB.getbaseDatos().ejecutar("UPDATE stock set cant_hojas_usadas="+cantUsadas+" WHERE id_stock="+idStock);
 		
+	}
+
+
+
+	public static Integer getHojasUsadas(Integer id_Stock) {
+		Integer hojasUsadas = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT cant_hojas_usadas FROM stock WHERE id_stock="+id_Stock);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					hojasUsadas = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return hojasUsadas;
+	}
+
+
+
+	public static Integer getHojasTotales(Integer id_Stock) {
+		Integer hojasTotales= 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT cant_hojas_totales FROM stock WHERE id_stock="+id_Stock);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					hojasTotales = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return hojasTotales;
+	}
+
+
+
+	public static boolean setStockComoRemanente(Integer id_Stock) {
+
+		return ConexionDB.getbaseDatos().ejecutar("UPDATE stock set remanente=true WHERE id_stock="+id_Stock);
+
+	}
+
+
+
+	public static boolean setStockInactivo(Integer id_Stock) {
+
+		return ConexionDB.getbaseDatos().ejecutar("UPDATE stock set activo=false WHERE id_stock="+id_Stock);
+		
 	}	
 	
 	

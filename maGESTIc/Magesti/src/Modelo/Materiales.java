@@ -560,6 +560,30 @@ public class Materiales {
 		return list_Materiales;
 	}
 	
+
+	
+	public static Integer getCantHojas(Integer id_materiales)
+	{
+		Integer cantHojas=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT hojas FROM materiales WHERE id_materiales ="+ id_materiales);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					cantHojas= resultado.getInt("hojas");
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantHojas;
+	}
 	
 	
 }

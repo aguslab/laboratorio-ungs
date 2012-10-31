@@ -21,9 +21,7 @@ import Modelo.ConexionDB;
 public class Adm_Stock extends JInternalFrame 
 {
 	private static JTable tablaStock;
-	private JButton btnRetirarStock;
-	
-		public Adm_Stock() 
+	public Adm_Stock() 
 		{
 			super ("Administracion de Stock", false, true, false, true);
 			Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
