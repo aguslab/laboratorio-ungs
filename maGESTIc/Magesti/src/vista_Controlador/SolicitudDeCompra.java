@@ -178,11 +178,13 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtVendedor.setColumns(10);
 		txtVendedor.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
+		
+		
 		//limitar la cantidad de caracteres a 30
 		txtVendedor.addKeyListener(new KeyListener(){
 		public void keyTyped(KeyEvent e){
 			int limite=30;
-			if (txtVendedor.getText().length()== limite){
+			if (txtVendedor.getText().length()== limite || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-'){
 				getToolkit().beep ();
 				e.consume();
 			}
@@ -294,7 +296,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int limite=100;
-				if (txtVendedor.getText().length()== limite){
+				if (txtVendedor.getText().length()== limite || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-'){
 					getToolkit().beep ();
 					e.consume();
 				}				
@@ -801,6 +803,33 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			btnRechazarRecepcion.setEnabled(true);
 			btnIncompleta.setEnabled(true);
 			txtDescripcionIncidencia.setEnabled(true);
+			txtDescripcionIncidencia.addKeyListener(new KeyListener()
+			{
+				public void keyTyped(KeyEvent e)
+				{
+					int limite=30;
+					if (txtDescripcionIncidencia.getText().length()== limite || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-')
+					{
+						getToolkit().beep ();
+						e.consume();
+					}
+						
+				}
+
+				@Override
+				public void keyPressed(KeyEvent arg0) 
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyReleased(KeyEvent arg0) 
+				{
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 		else
 		{
