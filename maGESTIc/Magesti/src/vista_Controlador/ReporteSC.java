@@ -11,13 +11,13 @@ public class ReporteSC
 	private  Double total, subtotal, montoIVA, IVA;
 	private  String direccionRetiro,retirar,envioProveedor,maniana, tarde;	
 	private  String fechaEntrega,fechaConfec,descripcionIncidencia;
-	private ArrayList<ReporteDetalles> detalles;
+	private ArrayList<FilaDetalles> detalles;
 	
 	public ReporteSC(String idSC, String nroOT, String vendedor,
 			String proveedor, Double total, Double subtotal, Double montoIVA,
 			Double iVA, String direccionRetiro,String fechaEntrega, String fechaConfec, String retirar,
 			String envioProveedor, String maniana, String tarde,
-			String descripcionIncidencia, ArrayList<ReporteDetalles> detalles) 
+			String descripcionIncidencia, ArrayList<FilaDetalles> detalles) 
 	{
 		this.idSC = idSC;
 		this.NroOT = nroOT;
@@ -196,12 +196,12 @@ public class ReporteSC
 		this.descripcionIncidencia = descripcionIncidencia;
 	}
 
-	public ArrayList<ReporteDetalles> getDetalles()
+	public ArrayList<FilaDetalles> getDetalles()
 	{
 		return detalles;
 	}
 
-	public void setDetalles(ArrayList<ReporteDetalles> detalles) 
+	public void setDetalles(ArrayList<FilaDetalles> detalles) 
 	{
 		this.detalles = detalles;
 	}

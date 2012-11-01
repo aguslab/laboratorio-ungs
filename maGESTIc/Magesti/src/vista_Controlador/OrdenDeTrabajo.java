@@ -1699,28 +1699,28 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			apaisada = "No";
 		
 		//guardo en un arraylist las filas de la tabla Elementos
-		ArrayList<ReporteElementos> rElementos = new ArrayList<ReporteElementos>();
+		ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
 		Integer cantFilas = tablaElementos.getRowCount();
 		for (int i = 0; i < cantFilas; i++) 
 		{
-			rElementos.add(new ReporteElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
+			rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
 					(Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
 					
 		}
 		
 		//guardo en un arraylist las filas de la tabla Materiales
-		ArrayList<filaMateriales> rMateriales = new ArrayList<filaMateriales>();
+		ArrayList<FilaMateriales> rMateriales = new ArrayList<FilaMateriales>();
 		cantFilas = tablaMateriales.getRowCount();
 		for (int i = 0; i < cantFilas; i++) 
 		{
-			rMateriales.add(new filaMateriales((String) tablaMateriales.getValueAt(i, 0), (Integer) tablaMateriales.getValueAt(i, 1),
+			rMateriales.add(new FilaMateriales((String) tablaMateriales.getValueAt(i, 0), (Integer) tablaMateriales.getValueAt(i, 1),
 					(Integer) tablaMateriales.getValueAt(i, 2), (String) tablaMateriales.getValueAt(i, 3), (String) tablaMateriales.getValueAt(i, 4), (String) tablaMateriales.getValueAt(i, 5),
 					(Integer) tablaMateriales.getValueAt(i, 6), (Integer) tablaMateriales.getValueAt(i, 7), (Integer) tablaMateriales.getValueAt(i, 8), (Integer) tablaMateriales.getValueAt(i, 9), 
 					(Integer) tablaMateriales.getValueAt(i,10)));
 					
 		}
 		//guardo en un arraylist las filas de la tabla Orden de ejecucion
-		ArrayList<ReporteOEjecucion> rOEjecucion = new ArrayList<ReporteOEjecucion>();
+		ArrayList<FilaOEjecucion> rOEjecucion = new ArrayList<FilaOEjecucion>();
 		cantFilas = tablaOrdenDeEjecucion.getRowCount();
 		String tercerizada = "";
 		String cumplida = "";
@@ -1736,7 +1736,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			else
 				cumplida = "No";
 			
-			rOEjecucion.add(new ReporteOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
+			rOEjecucion.add(new FilaOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
 					(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
 					
 		}

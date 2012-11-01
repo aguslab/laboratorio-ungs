@@ -1,13 +1,13 @@
 package vista_Controlador;
 
-public class ReporteElementos 
+public class FilaElementos 
 {
 	private String elemento;
 	private Integer cantidad;
 	private Integer hojasPrevistas;
 	private Integer hojasUtilizada;
 	
-	public ReporteElementos(String elemento, Integer cantidad,
+	public FilaElementos(String elemento, Integer cantidad,
 			Integer hojasEstimada, Integer hojasUtilizada) 
 	{
 		this.elemento = elemento;
