@@ -204,7 +204,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			{
 				public void keyTyped(KeyEvent e)
 				{
-					if (txtNombreOT.getText().length()== 50)
+					if (txtNombreOT.getText().length()== 50 || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-')
 						e.consume();
 				}
 				public void keyPressed(KeyEvent arg0) 
@@ -226,7 +226,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			{
 				public void keyTyped(KeyEvent e)
 				{
-					if (txtDescripcion.getText().length()== 100)
+					if (txtDescripcion.getText().length()== 100 || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-')
 						e.consume();
 				}
 				public void keyPressed(KeyEvent arg0) 
@@ -238,6 +238,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 		);
 		txtDescripcion.getInputMap(txtDescripcion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtDescripcion.getText().replace('\'', ' ');
 		
 		lbAncho = new JLabel ("Ancho:");
 		lbAncho.setHorizontalAlignment(SwingConstants.LEFT);
@@ -333,10 +334,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		
+		txtPreimpresion.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		tabSecciones = new JTabbedPane();
 		tabSecciones.setBounds(10, 228, 895, 275);
-
+		txtCantidadAEntregar.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtCantidadAEntregar.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -1077,7 +1078,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			{
 				public void keyTyped(KeyEvent e)
 				{
-					if (txtTipoProducto.getText().length()== 50)
+					if (txtTipoProducto.getText().length()== 50 || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-')
 						e.consume();
 				}
 				public void keyPressed(KeyEvent arg0) 
@@ -1088,6 +1089,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
+		txtTipoProducto.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		txtClear();
 		
