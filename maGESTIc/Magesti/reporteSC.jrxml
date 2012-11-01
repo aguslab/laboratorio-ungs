@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteSC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2122c608-da0b-43a2-a77e-e85e65bd8721">
 	<property name="ireport.zoom" value="1.2100000000000026"/>
 	<property name="ireport.x" value="12"/>
-	<property name="ireport.y" value="244"/>
+	<property name="ireport.y" value="399"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
@@ -355,8 +355,8 @@
 			</textField>
 		</band>
 	</detail>
-	<lastPageFooter>
-		<band height="20">
+	<pageFooter>
+		<band height="21">
 			<textField pattern="dd/MM/yyyy h.mm a">
 				<reportElement uuid="f60b70d6-5201-4e28-adc8-5121d4a42bb0" x="448" y="0" width="106" height="20"/>
 				<textElement>
@@ -365,5 +365,5 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</lastPageFooter>
+	</pageFooter>
 </jasperReport>
