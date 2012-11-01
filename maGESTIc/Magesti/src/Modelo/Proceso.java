@@ -10,20 +10,22 @@ public class Proceso
 	private String nombre;
 	private Boolean activo;
 	
-	
-	public Proceso(Integer id_proceso, String nombre) 
+	public Proceso(Integer id_proceso, String nombre, Boolean activo) 
 	{
 		super();
 		this.id_proceso = id_proceso;
 		this.nombre = nombre;
+		this.activo=activo;
 	}
 	
 	
-	public Proceso(String nombre, Boolean activo) 
+
+	public Proceso(String nombre,Boolean activo) 
+
 	{
 		super();
 		this.nombre = nombre;
-		this.activo = activo;
+		this.activo=activo;
 	}
 	
 	
@@ -87,6 +89,7 @@ public class Proceso
 		this.activo = activo;
 	}
 	
+
 	public static boolean updateProceso(String id, String nombre, Boolean activo)
 	{
 		boolean r=ConexionDB.getbaseDatos().ejecutar(
@@ -99,10 +102,11 @@ public class Proceso
 	
 	public boolean Alta() 
 	{
-		String nombre = this.getNombre();
-
+		String nombre = "'"+this.getNombre()+"'";
+		Boolean act=this.getActivo();
+		
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO proceso VALUES(default," + "'"+nombre+"'"+");")) 
+				.ejecutar("INSERT INTO proceso VALUES(default," +nombre+","+act+");")) 
 		{
 			return true;
 		} 
@@ -130,7 +134,7 @@ public class Proceso
 				{
 					Proceso proceso= new Proceso(new Integer(
 							resultado.getInt("id_proceso")),
-							resultado.getString("nombre"));
+							resultado.getString("nombre"),resultado.getBoolean("activo"));
 					list_Proc.add(proceso);
 				}
 			} 

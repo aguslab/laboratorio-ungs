@@ -1762,7 +1762,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			jasperPrint = JasperFillManager.fillReport(reporte, null,
 					new JRBeanCollectionDataSource(reportes));
-			JasperViewer.viewReport(jasperPrint);
+			JasperViewer.viewReport(jasperPrint,false);
 		} 
 		catch (Exception e) 
 		{
@@ -1791,27 +1791,28 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		ArrayList<ReporteHojas> reportes = new ArrayList<ReporteHojas>();
 		reportes.add(r);
-		
 		JasperReport reporte = null;
+
 		try 
 		{
-			reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteHojas.jasper");
+		reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteHojas.jasper");
 		} 
 		catch (Exception e1) 
 		{
-			e1.printStackTrace();
+		e1.printStackTrace();
 		}
 		JasperPrint jasperPrint = null;
 		try 
 		{
-			jasperPrint = JasperFillManager.fillReport(reporte, null,
-					new JRBeanCollectionDataSource(reportes));
-			JasperViewer.viewReport(jasperPrint);
+		jasperPrint = JasperFillManager.fillReport(reporte, null,
+		new JRBeanCollectionDataSource(reportes));
+		JasperViewer.viewReport(jasperPrint,false);
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+		e.printStackTrace();
 		}
+
 	}
 	
 	private void elegirReporteAImprimir() 
@@ -1834,7 +1835,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		else if (reply == 1) 
 		{
-			if(this.getEstado().getSelectedItem().toString().equalsIgnoreCase("Cerrada"))
+			String estado=Orden_Trabajo.getEstadoOT(Metodos.FacturaAEntero(this.getTxtNro().getText()));
+			if(estado.equalsIgnoreCase("Cerrada"))
 			{
 				this.reporteHojas();
 			}
