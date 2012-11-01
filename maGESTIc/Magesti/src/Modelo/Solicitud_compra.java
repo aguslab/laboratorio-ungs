@@ -301,6 +301,4 @@ public class Solicitud_compra {
 
 		return id_sc;
 	}
-	
-
 }

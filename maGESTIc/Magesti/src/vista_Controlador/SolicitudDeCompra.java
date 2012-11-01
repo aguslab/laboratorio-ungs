@@ -792,7 +792,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		JpSolicitudDeCompra.add(btnImprimirReporte);
 		btnImprimirReporte.setEnabled(false);
 		
-		fechaHora = new JLabel("Fecha Y Hora");
+		fechaHora = new JLabel("");
 		fechaHora.setBounds(749, 353, 156, 14);
 		JpSolicitudDeCompra.add(fechaHora);
 		

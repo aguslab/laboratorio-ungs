@@ -1,6 +1,9 @@
 package vista_Controlador;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +27,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 	
 	BusquedaOrdenTrabajo(final OrdenDeTrabajo nuevaOT, Integer id_OT) 
 	{
+		System.out.println("?");
 				nuevaOT.getEstado().setEnabled(true);
 				//Cargo en la ventana de OT los valores de la fila elegida
 				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura(id_OT));
@@ -81,9 +85,15 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				nuevaOT.getBtnUp().setEnabled(false);			
 				nuevaOT.getBtnDown().setEnabled(false);
 				
+				nuevaOT.getLbFechaHoraCerrada().setVisible(false);
+				
 				nuevaOT.getBtnImprimirReporte().setEnabled(true);
-				
-				
+
+				if(nuevaOT.getEstado().getSelectedItem().equals("Cerrada"))
+				{
+					nuevaOT.getLbFechaHoraCerrada().setText(Orden_Trabajo.getF_cierre());
+					nuevaOT.getLbFechaHoraCerrada().setVisible(true);
+				}
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
 
 						new String[] {"Elemento", "Cantidad","Hojas Previstas" ,"Hojas Utilizadas"}) 

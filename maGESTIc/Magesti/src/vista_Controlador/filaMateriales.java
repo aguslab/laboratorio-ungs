@@ -1,11 +1,11 @@
 package vista_Controlador;
 
-public class FilaMateriales 
+public class filaMateriales 
 {
 	private String elemento, formato, variante, calidad;
 	private Integer cantidad, gramaje,pliegosDemasia,posesXpliego,pliegosXhoja,pliegosNetos,hojas;
 	
-	public FilaMateriales(String elemento, Integer cantidad, Integer gramaje, String formato,
+	public filaMateriales(String elemento, Integer cantidad, Integer gramaje, String formato,
 			String variante,String calidad,Integer pliegosDemasia, Integer posesXpliego,
 			Integer pliegosXhoja,Integer pliegosNetos, Integer hojas)
 	{

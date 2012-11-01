@@ -23,10 +23,10 @@ public class Orden_Trabajo implements Config
 		private boolean apaisado;
 		private String estado;
 		private Integer hojas_utilizadas;
-		private String f_cierre;
+		private static String f_cierre;
 		private String f_entrega;
 		
-		
+
 	public Orden_Trabajo(Integer id_orden_trabajo, String nombre_Producto,
 			Integer id_cliente, String f_confeccion, String f_prometida,
 			String nombre_trabajo, String descripcion,
@@ -383,7 +383,7 @@ public class Orden_Trabajo implements Config
 			this.hojas_utilizadas = hojas_utilizadas;
 		}
 				
-		public String getF_cierre() {
+		public static String getF_cierre() {
 			return f_cierre;
 		}
 
@@ -505,8 +505,6 @@ public class Orden_Trabajo implements Config
 		return list_OT;
 	}
 	
-
-	
 	public static ArrayList<String> getId_OTSegunFecha(String fechaprom){
 		fechaprom="'"+fechaprom+"'";
 		ArrayList<String> id_nomOT=new ArrayList<String>();
@@ -527,6 +525,16 @@ public class Orden_Trabajo implements Config
 		}
 		
 		return id_nomOT;	
+	}
+	
+	public static boolean setF_h_cierre(Integer id_OT, String f_h_cierre) 
+	{
+		String fhcierre = "'" + f_h_cierre + "'";
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE orden_trabajo SET f_cierre =" + fhcierre +
+						 " WHERE id_orden_trabajo ="+ id_OT);
+		return r;
+		
 	}
 	
 	public static ArrayList<String> getOT_SegunID(String id)

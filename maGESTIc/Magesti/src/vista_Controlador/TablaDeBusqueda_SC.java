@@ -104,7 +104,15 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
+				nuevaSC.getLbFechaEntrega().setVisible(false);
 				
+				nuevaSC.getBtnImprimirReporte().setEnabled(true);
+
+				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO"))
+				{
+					nuevaSC.getfechaHora().setText(Recepcion_pedido.getF_h_recibido());
+					nuevaSC.getfechaHora().setVisible(true);
+				}
 				
 				//si horario entrega es M
 				if(tablaBusqueda.getValueAt(filaElegida, 8).equals("M")){
@@ -203,8 +211,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					nuevaSC.getBtnRechazarRecepcion().addActionListener(new ActionListener() {
 						
 						@Override
-						public void actionPerformed(ActionEvent e) {
-							if(Recepcion_pedido.dameEstado(id_SC).equals("Recibido")){
+						public void actionPerformed(ActionEvent e)
+						{
+							if(Recepcion_pedido.dameEstado(id_SC).equals("Recibido"))
+							{
 								JOptionPane.showMessageDialog 
 								(
 									nuevaSC, 
@@ -227,7 +237,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					nuevaSC.getBtnConfirmarRecepcion().addActionListener(new ActionListener() {
 						
 						@Override
-						public void actionPerformed(ActionEvent e) {
+						public void actionPerformed(ActionEvent e) 
+						{
 							Detalle.setAllAsRecibidos(id_SC); 
 							String f_h_recibido=Metodos.getDateTimeActual();
 							
