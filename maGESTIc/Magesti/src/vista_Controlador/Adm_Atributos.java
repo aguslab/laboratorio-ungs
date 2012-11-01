@@ -227,11 +227,11 @@ public class Adm_Atributos extends JInternalFrame
 		{
 			public void stateChanged(ChangeEvent arg0) 
 			{
-				if (tabAtributos.getTitleAt(tabAtributos.getSelectedIndex()).equals("Calidades")) 
+				if (tabAtributos.getTitleAt(tabAtributos.getSelectedIndex()).equals("Calidades                         ")) 
 			    {
 					tabSeleccionado = 0;
 			    }
-				else if (tabAtributos.getTitleAt(tabAtributos.getSelectedIndex()).equals("Formatos")) 
+				else if (tabAtributos.getTitleAt(tabAtributos.getSelectedIndex()).equals("Formatos                         ")) 
 			    {
 					tabSeleccionado = 1;
 			    }
@@ -241,7 +241,7 @@ public class Adm_Atributos extends JInternalFrame
 				}
 			}
 		});
-		tabAtributos.setBounds(10, 11, d.width-32, d.height-190);
+		tabAtributos.setBounds(10, 11, d.width-842, d.height-190);
 		getContentPane().add(tabAtributos);
 		
 		JPanel panelCalidad = new JPanel();
@@ -259,7 +259,7 @@ public class Adm_Atributos extends JInternalFrame
 
 		JScrollPane spCalidad = new JScrollPane();
 		spCalidad.setViewportBorder(null);
-		spCalidad.setBounds(0, 0, d.width-190, d.height-190);
+		spCalidad.setBounds(0, 0, d.width-1000, d.height-190);
 		panelCalidad.add(spCalidad);
 		
 		//Tabla Calidad
@@ -274,27 +274,19 @@ public class Adm_Atributos extends JInternalFrame
 				"Nro", "Nombre", "Activo"
 			}
 		) {
-			Class[] columnTypes = new Class[] 
-			{
+			Class[] columnTypes = new Class[] {
 				String.class, String.class, Boolean.class
 			};
-			public Class getColumnClass(int columnIndex) 
-			{
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] 
-			{
-					false, true, true
-			};
-			public boolean isCellEditable(int row, int column) 
-			{
-				return columnEditables[column];
 			}
 		});
 		tablaCalidad.getColumnModel().getColumn(0).setResizable(false);
-		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(55);
 		tablaCalidad.getColumnModel().getColumn(1).setResizable(false);
-		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(233);
+		tablaCalidad.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaCalidad.getTableHeader().setReorderingAllowed(false);
 		
 		
 		
@@ -313,7 +305,7 @@ public class Adm_Atributos extends JInternalFrame
 		tabAtributos.addTab("Formatos                         ",null, panelFormato, null);
 			
 		JScrollPane spFormato = new JScrollPane();
-		spFormato.setBounds(0, 0, d.width-190, d.height-190);
+		spFormato.setBounds(0, 0, d.width-1000, d.height-190);
 		panelFormato.add(spFormato);
 		
 		tablaFormato = new JTable();
@@ -321,32 +313,22 @@ public class Adm_Atributos extends JInternalFrame
 		tablaFormato.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
-			new String[] 
-			{
-				"Nro", "Tamaño", "Activo"
+			new String[] {
+				"Nro", "Tama\u00F1o", "Activo"
 			}
 		) {
-			Class[] columnTypes = new Class[] 
-			{
+			Class[] columnTypes = new Class[] {
 				String.class, String.class, Boolean.class
 			};
-			public Class getColumnClass(int columnIndex) 
-			{
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] 
-			{
-				false, true, true
-			};
-			public boolean isCellEditable(int row, int column) 
-			{
-				return columnEditables[column];
 			}
 		});
 		tablaFormato.getColumnModel().getColumn(0).setResizable(false);
-		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(55);
 		tablaFormato.getColumnModel().getColumn(1).setResizable(false);
-		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(195);
+		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(233);
+		tablaFormato.getColumnModel().getColumn(2).setPreferredWidth(29);
 		tablaFormato.getTableHeader().setReorderingAllowed(false);
 		
 	
@@ -364,33 +346,28 @@ public class Adm_Atributos extends JInternalFrame
 			tabAtributos.addTab("Variantes                         ", null, panelVariante, null);
 				
 			JScrollPane spVariante = new JScrollPane();
-			spVariante.setBounds(0, 0, d.width-190, d.height-190);
+			spVariante.setBounds(0, 0, d.width-1000, d.height-190);
 			panelVariante.add(spVariante);
 			
 			tablaVariante = new JTable();
 			spVariante.setViewportView(tablaVariante);
-			tablaVariante.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] 
-				{
+			tablaVariante.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
 					"Nro", "Nombre", "Activo"
-				}){
-				Class[] columnTypes = new Class[] 
-				{
+				}
+			) {
+				Class[] columnTypes = new Class[] {
 					String.class, String.class, Boolean.class
 				};
-				public Class getColumnClass(int columnIndex) 
-				{
+				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-				boolean[] columnEditables = new boolean[] 
-				{
-					false, true, true
-				};
-				public boolean isCellEditable(int row, int column) 
-				{
-					return columnEditables[column];
-				}
 			});
+			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(55);
+			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(233);
+			tablaVariante.getColumnModel().getColumn(2).setPreferredWidth(29);
 			tablaVariante.getTableHeader().setReorderingAllowed(false);
 			this.setFilas();
 			
