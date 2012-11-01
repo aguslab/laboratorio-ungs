@@ -65,7 +65,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	{
 		super ("Retiro de Stock", false, true, false, true);
 		
-		setSize (1024, 643);
+		setSize (1023, 616);
 		
 		getContentPane().setLayout(null);
 		
@@ -138,7 +138,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		panDetalles.setLayout(null);
 		
 		JScrollPane spDetalles = new JScrollPane();
-		spDetalles.setBounds(10, 11, 963, 164);
+		spDetalles.setBounds(10, 11, 963, 156);
 		panDetalles.add(spDetalles);
 		
 		tablaStock = new JTable();
@@ -202,7 +202,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		
 		btncerrar = new JButton("Cerrar", null);
 		btncerrar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btncerrar.setBounds(838, 550, 120, 30);
+		btncerrar.setBounds(878, 539, 120, 30);
 		JpAdmStock.add(btncerrar);
 		btncerrar.addActionListener(new ActionListener() {
 			
@@ -214,11 +214,11 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		
 		btnRetirarStock = new JButton("Retirar de Stock", null);
 		btnRetirarStock.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnRetirarStock.setBounds(699, 550, 120, 30);
+		btnRetirarStock.setBounds(739, 539, 120, 30);
 		JpAdmStock.add(btnRetirarStock);
 		
 		tpElementos = new JTabbedPane(JTabbedPane.TOP);
-		tpElementos.setBounds(10, 322, 623, 206);
+		tpElementos.setBounds(10, 322, 988, 206);
 		JpAdmStock.add(tpElementos);
 		
 		panElementos = new JPanel();
@@ -227,7 +227,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		tpElementos.addTab("Elementos", null, panElementos, null);
 		
 		spElementos = new JScrollPane();
-		spElementos.setBounds(10, 11, 605, 164);
+		spElementos.setBounds(10, 11, 963, 156);
 		panElementos.add(spElementos);
 		
 		tablaElementos = new JTable();
@@ -243,12 +243,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(100);

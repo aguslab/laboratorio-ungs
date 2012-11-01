@@ -86,11 +86,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JComboBox cbNroOT;
 	private TextArea txtDescripcionIncidencia;
 	private JLabel fechaHora;
+	private JButton btnImprimirReporte;
 	
-	private static JasperDesign jasperDesign;
-	private static JasperPrint jasperPrint;
-	private static JasperReport jasperReport;
-
 	//RP = false: Solo SC
 	//RP = true: habilita la parte de Recepcion Pedido
 	public SolicitudDeCompra(boolean  RP) 
@@ -244,7 +241,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						Integer gramaje= materiales.get(i).getGramaje();
 						Integer cantHojas=materiales.get(i).getHojas();
 						
-						System.out.println("cant hojas" + cantHojas);
 						String cant[] = new String[4];
 						for (int j = 0; j < cant.length; j++) 
 						{
@@ -252,10 +248,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 							cant[j] = "" + a;
 							
 						}
-						//pongo un JSpinner en el lugar de Cantidad de hojas
-						
-						TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
-						columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
+					//	SpinnerEditor se = new SpinnerEditor(cantHojas);
+						//tablaDetalles.setValueAt(se,i,0);
 						
 						temp.setValueAt(calidad,i,2);
 						temp.setValueAt(variante,i,3);
@@ -724,7 +718,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		lbTotal.setBounds(749, 470, 68, 14);
 		JpSolicitudDeCompra.add(lbTotal);
 		
-		JButton btnImprimirReporte = new JButton("Imprimir Reporte", null);
+		btnImprimirReporte = new JButton("Imprimir Reporte", null);
 		btnImprimirReporte.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -800,6 +794,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		btnImprimirReporte.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnImprimirReporte.setBounds(513, 501, 132, 30);
 		JpSolicitudDeCompra.add(btnImprimirReporte);
+		btnImprimirReporte.setEnabled(false);
 		
 		fechaHora = new JLabel("Fecha Y Hora");
 		fechaHora.setBounds(749, 353, 156, 14);
@@ -1197,5 +1192,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	public JLabel getfechaHora()
 	{
 		return fechaHora;
+	}
+	
+	public JButton getBtnImprimirReporte()
+	{
+		return this.btnImprimirReporte;
 	}
 };

@@ -81,6 +81,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				nuevaOT.getBtnUp().setEnabled(false);			
 				nuevaOT.getBtnDown().setEnabled(false);
 				
+				nuevaOT.getBtnImprimirReporte().setEnabled(true);
 				
 				
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},

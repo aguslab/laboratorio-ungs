@@ -11,14 +11,14 @@ public class ReporteOT
 	private String fechaProm, fechaConfec,apasiado,cantEntregar;
 	private Double ancho, alto;
 	private ArrayList<FilaElementos> elementos;
-	private ArrayList<FilaMateriales> materiales;
+	private ArrayList<filaMateriales> materiales;
 	private ArrayList<FilaOEjecucion> ordenEjecucion;
 	
 	public ReporteOT(String nroOT, String nombreOT, String cliente,
 			String descripcion, String tipoProducto, String preimpresion,
 			String estado, String fechaProm, String fechaConfec, Double ancho, Double alto,
 			String cantEntregar, String apasiado, ArrayList<FilaElementos> elementos,
-			ArrayList<FilaMateriales> materiales,ArrayList<FilaOEjecucion> ordenEjecucion) 
+			ArrayList<filaMateriales> materiales,ArrayList<FilaOEjecucion> ordenEjecucion) 
 	{
 		super();
 		this.nroOT = nroOT;
@@ -181,12 +181,12 @@ public class ReporteOT
 		this.elementos = elementos;
 	}
 
-	public ArrayList<FilaMateriales> getMateriales() 
+	public ArrayList<filaMateriales> getMateriales() 
 	{
 		return materiales;
 	}
 
-	public void setMateriales(ArrayList<FilaMateriales> materiales) 
+	public void setMateriales(ArrayList<filaMateriales> materiales) 
 	{
 		this.materiales = materiales;
 	}
