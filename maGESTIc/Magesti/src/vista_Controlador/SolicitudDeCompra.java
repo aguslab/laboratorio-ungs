@@ -118,6 +118,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			};
 		
 		
+		System.out.println(Orden_Trabajo.getOTFechaProm(1));
 		
 		
 		JpSolicitudDeCompra = new JPanel();
@@ -852,7 +853,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	{
 		String factual=txtFecha.getText().substring(8)+"-"+txtFecha.getText().substring(5, 7)+"-"+txtFecha.getText().substring(0,4);
 		String fprometida=cbDia.getSelectedItem().toString()+"-"+Metodos.dameNumeroMes(cbMes.getSelectedItem().toString())+"-"+cbAnio.getSelectedItem().toString();
+
 		Object obj = e.getSource();
+
+	
 		if(obj==btnConfirmar)
 		{
 			String sVendedor = txtVendedor.getText().trim();
@@ -867,6 +871,22 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtVendedor.requestFocus();
+			}
+			//////////////////////////////////////////////
+			else if 
+			(
+					(Metodos.isFechaActualMenorFechaPrometida(Orden_Trabajo.getOTFechaProm(cbNroOT.getSelectedIndex()+1), fprometida)==true)
+					|| (Orden_Trabajo.getOTFechaProm(cbNroOT.getSelectedIndex()+1).equals(fprometida))
+			)
+			{
+				
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"La fecha de entrega no debe ser igual\n o mayor que la fecha prometida de la OT",
+					qTITULO + " - Error en Fecha prometida", 
+					JOptionPane.WARNING_MESSAGE
+				);
 			}
 			else if (Metodos.isFechaActualMenorFechaPrometida(factual, fprometida)==false) 
 			{

@@ -74,6 +74,7 @@ public class Orden_Trabajo implements Config
 		this.hojas_utilizadas = hojas_utilizadas;
 		this.f_cierre=f_cierre;
 		this.f_entrega=f_entrega;
+		
 	}
 		
 			
@@ -83,7 +84,7 @@ public class Orden_Trabajo implements Config
 			(
 				"SELECT MAX(id_orden_trabajo) FROM orden_trabajo"
 			);
-
+			
 		if (resultado != null) 
 		{
 			try 
@@ -577,6 +578,31 @@ public class Orden_Trabajo implements Config
 		}
 		
 		return Id_Con_nom_OT;
+	}
+	//////
+	
+	public static String  getOTFechaProm(int id_ot) 
+	{
+		
+		String f_prom=null, f_promR=null;
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,f_prometida FROM orden_trabajo WHERE id_orden_trabajo="+ id_ot);
+		
+		if(resultado != null){
+			try {
+				while(resultado.next()){
+					
+						f_prom= resultado.getString("f_prometida");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String[] retorno;
+		retorno = f_prom.split("\\-");
+		f_promR = retorno[2]+"-"+retorno[1]+"-"+retorno[0];
+		
+		return f_promR;
 	}
 	
 	
