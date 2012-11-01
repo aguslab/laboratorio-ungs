@@ -69,11 +69,11 @@ public class Adm_Stock extends JInternalFrame
 					nuevaSC.show ();
 				}
 			});
-			button.setBounds(d.width-455, d.height-210, 160, 35);
+			button.setBounds(d.width-317, d.height-210, 160, 35);
 			getContentPane().add(button);
 			
 			spStock= new JScrollPane();
-			spStock.setBounds(0, 100, d.width-35, d.height-230);
+			spStock.setBounds(0, 52, 1325, 486);
 			
 			panStock= new JPanel();
 			panStock.setBounds(10, 11, d.width-35, d.height-230);
@@ -92,16 +92,16 @@ public class Adm_Stock extends JInternalFrame
 			panStock.add(lblGramaje);
 			
 			JLabel lblFormato = new JLabel("Formato: ");
-			lblFormato.setBounds(10, 35, 52, 25);
+			lblFormato.setBounds(181, 5, 52, 25);
 			panStock.add(lblFormato);
 			
 			JLabel lblVariante = new JLabel("Variante: ");
-			lblVariante.setBounds(182, 5, 63, 25);
+			lblVariante.setBounds(344, 5, 63, 25);
 			panStock.add(lblVariante);
 			
 			String[] gramajes= Stock.getGramajesEnStock();
 			cbGramaje = new JComboBox(gramajes);
-			cbGramaje.setBounds(83, 7, 70, 23);
+			cbGramaje.setBounds(83, 6, 70, 23);
 			panStock.add(cbGramaje);
 			cbGramaje.addActionListener(new ActionListener() {
 				
@@ -122,7 +122,7 @@ public class Adm_Stock extends JInternalFrame
 				formatos[i]=Formato_Papel.getTamanio(Integer.parseInt(id_form));
 			}
 			cbFormato = new JComboBox(formatos);
-			cbFormato.setBounds(83, 37, 70, 23);
+			cbFormato.setBounds(243, 6, 70, 23);
 			panStock.add(cbFormato);
 			cbFormato.addActionListener(new ActionListener() {
 				
@@ -135,7 +135,7 @@ public class Adm_Stock extends JInternalFrame
 			});
 			
 			JLabel lblOT = new JLabel("Orden Trabajo: ");
-			lblOT.setBounds(173, 35, 87, 25);
+			lblOT.setBounds(613, 5, 87, 25);
 			panStock.add(lblOT);
 			
 			String[] variantes=Stock.getVariantesDeStock();
@@ -145,7 +145,7 @@ public class Adm_Stock extends JInternalFrame
 			}
 				
 			cbVariante = new JComboBox(variantes);
-			cbVariante.setBounds(255, 7, 165, 23);
+			cbVariante.setBounds(417, 6, 165, 23);
 			panStock.add(cbVariante);
 			cbVariante.addActionListener(new ActionListener() {
 				
@@ -160,7 +160,7 @@ public class Adm_Stock extends JInternalFrame
 			
 			String[] OTs=Stock.getOTsDeStock();
 			cbOT = new JComboBox(OTs);
-			cbOT.setBounds(255, 37, 165, 23);
+			cbOT.setBounds(710, 6, 285, 23);
 			panStock.add(cbOT);
 			
 			JButton btnVerTodo = new JButton("Ver Todo");
@@ -170,7 +170,7 @@ public class Adm_Stock extends JInternalFrame
 					setFilas();
 				}
 			});
-			btnVerTodo.setBounds(171, 71, 89, 23);
+			btnVerTodo.setBounds(1023, 6, 89, 23);
 			panStock.add(btnVerTodo);
 			
 			cbOT.addActionListener(new ActionListener() {

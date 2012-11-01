@@ -61,6 +61,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getBtnAgregar().setEnabled(false);
 				nuevaSC.getBtnAlmacenar().setEnabled(false);
 				nuevaSC.getBtnBorrar().setEnabled(false);
+				nuevaSC.getBtnImprimirReporte().setEnabled(true);
 				
 				//Cargo en la ventana de SC los valores de la fila elegida
 				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
