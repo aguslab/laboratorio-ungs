@@ -41,6 +41,7 @@ CREATE TABLE formato_papel (
 
 
 
+
 -- 
 -- TABLE: materiales 
 CREATE TABLE materiales (
@@ -99,10 +100,6 @@ CREATE TABLE procesos_x_orden_trabajo (
     indice INT NOT NULL,
     PRIMARY KEY (id_proceso , id_orden_trabajo)
 );
-
-
-
-
 
 
 -- 
@@ -225,9 +222,6 @@ CREATE TABLE solicitud_compra (
 
 
 
-
-
-
 -- 
 
 CREATE TABLE Stock (
@@ -241,15 +235,32 @@ CREATE TABLE Stock (
     id_formato INT NOT NULL,
     id_variante INT NOT NULL,
 	gramaje		INT	NOT NULL,
-	Remanente		  INT	NOT NULL,
+	Remanente		  BOOLEAN	NOT NULL,
+	activo 		BOOLEAN NOT NULL,
     
     PRIMARY KEY (id_stock , id_solicitud_compra)
 );
 
 
+CREATE TABLE Egreso_Stock (
+    id_egreso_stock 	 INT AUTO_INCREMENT,
+    id_stock 			 INT NOT NULL,
+	id_materiales		 INT,
+	empleado			 VARCHAR(50) NOT NULL,
+	cant_hojas_retiradas INT	NOT NULL,
+    fecha				 DATE	NOT NULL,
+
+    PRIMARY KEY (id_egreso_stock)
+);
 
 
 
+alter table stock
+change remanente remanente BOOLEAN NOT NULL;
+
+
+SELECT * FROM elemento WHERE id_orden_trabajo=2;
+SELECT * FROM materiales;
 
 --
 -- 			ALTER TABLES
@@ -406,6 +417,24 @@ ALTER TABLE Stock ADD CONSTRAINT Reforden_trabajo_stock
     FOREIGN KEY (id_orden_trabajo)
     REFERENCES orden_trabajo(id_orden_trabajo)
 ;
+
+
+
+
+-- 
+-- TABLE: Egreso_Stock 
+--
+
+ALTER TABLE Egreso_Stock ADD CONSTRAINT RefStock 
+    FOREIGN KEY (id_stock)
+    REFERENCES stock(id_stock)
+;
+
+ALTER TABLE Egreso_Stock ADD CONSTRAINT RefMateriales 
+    FOREIGN KEY (id_materiales)
+    REFERENCES materiales(id_materiales)
+;
+
 
 
 
@@ -641,5 +670,5 @@ CABA", "45221238","ventas@pap.com.ar", "Juana Gaiani","45735932","mayorista@pap.
 
 
 -- para Stock
-insert into orden_trabajo values(1,"Stockear", 1, "2012-01-01", "2012-01-01", "Stockear", "",0, 0,0.0,0.0,false,"Pendiente",null,null,null);
+insert into orden_trabajo values(2,"Stockear", 1, "2012-01-01", "2012-01-01", "Stockear", "",0, 0,0.0,0.0,false,"Pendiente",null,null,null);
 

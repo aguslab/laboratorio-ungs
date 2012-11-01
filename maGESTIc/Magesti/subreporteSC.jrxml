@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSC.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ee0ce584-1f85-4455-b0d7-d96ee679fd05">
-	<property name="ireport.zoom" value="2.3579476910000037"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="18"/>
+	<property name="ireport.zoom" value="2.5937424601000054"/>
+	<property name="ireport.x" value="142"/>
+	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -55,7 +55,7 @@
 				<text><![CDATA[Cant.Hojas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="99ac0069-0ca7-4755-84b5-e8e73dd2b494" x="62" y="0" width="53" height="20"/>
+				<reportElement uuid="99ac0069-0ca7-4755-84b5-e8e73dd2b494" x="62" y="0" width="49" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -68,7 +68,7 @@
 				<text><![CDATA[Marca]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1227a987-0b07-454f-a1b1-721f7983c19b" x="115" y="0" width="93" height="20"/>
+				<reportElement uuid="1227a987-0b07-454f-a1b1-721f7983c19b" x="111" y="0" width="97" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -161,7 +161,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="177" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement uuid="b8f26c4d-0ee7-43f2-82a7-d2a1312c062b" x="0" y="0" width="62" height="20"/>
 				<box>
@@ -176,7 +176,7 @@
 				<textFieldExpression><![CDATA[$F{cantHojas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3fe27652-0ce3-4002-b5cc-ede2ac6776d6" x="62" y="0" width="53" height="20"/>
+				<reportElement uuid="3fe27652-0ce3-4002-b5cc-ede2ac6776d6" x="62" y="0" width="49" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -189,7 +189,7 @@
 				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="79f655e5-d9c0-4f64-ab8d-f6d9c3de5630" x="115" y="0" width="93" height="20"/>
+				<reportElement uuid="79f655e5-d9c0-4f64-ab8d-f6d9c3de5630" x="111" y="0" width="97" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

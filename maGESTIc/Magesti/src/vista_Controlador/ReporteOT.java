@@ -11,14 +11,14 @@ public class ReporteOT
 	private String fechaProm, fechaConfec,apasiado,cantEntregar;
 	private Double ancho, alto;
 	private ArrayList<ReporteElementos> elementos;
-	private ArrayList<ReporteMateriales> materiales;
+	private ArrayList<filaMateriales> materiales;
 	private ArrayList<ReporteOEjecucion> ordenEjecucion;
 	
 	public ReporteOT(String nroOT, String nombreOT, String cliente,
 			String descripcion, String tipoProducto, String preimpresion,
 			String estado, String fechaProm, String fechaConfec, Double ancho, Double alto,
 			String cantEntregar, String apasiado, ArrayList<ReporteElementos> elementos,
-			ArrayList<ReporteMateriales> materiales,ArrayList<ReporteOEjecucion> ordenEjecucion) 
+			ArrayList<filaMateriales> materiales,ArrayList<ReporteOEjecucion> ordenEjecucion) 
 	{
 		super();
 		this.nroOT = nroOT;
@@ -181,12 +181,12 @@ public class ReporteOT
 		this.elementos = elementos;
 	}
 
-	public ArrayList<ReporteMateriales> getMateriales() 
+	public ArrayList<filaMateriales> getMateriales() 
 	{
 		return materiales;
 	}
 
-	public void setMateriales(ArrayList<ReporteMateriales> materiales) 
+	public void setMateriales(ArrayList<filaMateriales> materiales) 
 	{
 		this.materiales = materiales;
 	}
@@ -199,21 +199,6 @@ public class ReporteOT
 	public void setOrdenEjecucion(ArrayList<ReporteOEjecucion> ordenEjecucion) 
 	{
 		this.ordenEjecucion = ordenEjecucion;
-	}
-	
-	public JRDataSource getElementosDS()    
-	{
-		    return new JRBeanCollectionDataSource(elementos);   
-	}
-	
-	public JRDataSource getMaterialesDS()    
-	{
-		    return new JRBeanCollectionDataSource(materiales);   
-	}
-	
-	public JRDataSource getOEjecucionDS()    
-	{
-		    return new JRBeanCollectionDataSource(ordenEjecucion);   
 	}
 	
 }

@@ -7,17 +7,21 @@ public class Variante {
 	
 	private Integer id_variante;
 	private String nombre;
+	private Boolean activo;
 	
-	
-	public Variante(Integer id_variante, String nombre) {
+	public Variante(Integer id_variante, String nombre, Boolean activo) 
+	{
 		super();
 		this.id_variante = id_variante;
 		this.nombre = nombre;
+		this.activo = activo;
 	}
 
-	public Variante(String nombre) {
+	public Variante(String nombre, Boolean activo) 
+	{
 		super();
 		this.nombre = nombre;
+		this.activo = activo;
 	}
 
 	public static Integer getId_Variante(String nombreElegido)
@@ -69,7 +73,7 @@ public class Variante {
 	{
 		ArrayList<String> var=new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM variante");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM variante WHERE activo = true");
 		
 		if (resultado != null) 
 		{
@@ -119,12 +123,23 @@ public class Variante {
 		return valor;
 	}
 	
+	public Boolean getActivo() 
+	{
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) 
+	{
+		this.activo = activo;
+	}
+	
 	public boolean Alta() {
 		String nombre = this.getNombre();
-
+		Boolean activoVariante = this.getActivo();
+		
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO variante VALUES(default," + "'" + nombre
-						+ "'" + ");")) {
+				.ejecutar("INSERT INTO variante VALUES(default," + "'" + nombre + "'" + "," + activoVariante
+						+ ");")) {
 			return true;
 		} else {
 			return false;
@@ -145,7 +160,7 @@ public class Variante {
 				while (resultado.next()) {
 					Variante variante = new Variante(new Integer(
 							resultado.getInt("id_variante")),
-							resultado.getString("nombre"));
+							resultado.getString("nombre"), resultado.getBoolean("activo"));
 					list_Var.add(variante);
 				}
 			} catch (Exception e) {
@@ -156,6 +171,14 @@ public class Variante {
 		return list_Var;
 	}
 	
+	public static boolean updateVariante(String id, String nombre, Boolean activo)
+	{
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE variante SET nombre = " + "'"+nombre+"'" + ", activo=" + activo
+						+ " WHERE id_variante =" 
+						+ Integer.parseInt(id));
+		return r;
+	}
 	
 	
 	

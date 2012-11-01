@@ -7,17 +7,20 @@ public class Formato_Papel {
 	
 	private Integer id_formato_papel;
 	private String tamanio;
+	private Boolean activo;
 	
-	
-	public Formato_Papel(Integer id_formato, String tamanio) {
+	public Formato_Papel(Integer id_formato, String tamanio, Boolean activo) {
 		super();
 		this.id_formato_papel= id_formato;
 		this.tamanio = tamanio;
+		this.activo = activo;
 	}
 	
-	public Formato_Papel(String tamanio) {
+	public Formato_Papel(String tamanio, Boolean activo) 
+	{
 		super();
 		this.tamanio= tamanio;
+		this.activo = activo;
 	}
 
 	
@@ -38,11 +41,21 @@ public class Formato_Papel {
 		this.tamanio = tamanio;
 	}
 
+	public Boolean getActivo() 
+	{
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) 
+	{
+		this.activo = activo;
+	}
+	
 	public static  String[] getFormatos()
 	{
 		ArrayList<String> fmt=new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT tamanio FROM formato_papel");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT tamanio FROM formato_papel WHERE activo = true");
 		
 		if (resultado != null) 
 		{
@@ -74,9 +87,9 @@ public class Formato_Papel {
 	
 	public boolean Alta() {
 		String tam="'"+this.getTamanio()+"'";
-
+		Boolean activoFormato = this.getActivo();
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO formato_papel VALUES(default," + tam+ ");")) {
+				.ejecutar("INSERT INTO formato_papel VALUES(default," + tam + "," +  activoFormato + ");")) {
 			return true;
 		} else {
 			return false;
@@ -96,7 +109,7 @@ public class Formato_Papel {
 
 				while (resultado.next()) {
 					Formato_Papel for_papel= new Formato_Papel(new Integer(
-							resultado.getInt("id_formato_papel")),resultado.getString("tamanio"));
+							resultado.getInt("id_formato_papel")),resultado.getString("tamanio"), resultado.getBoolean("activo"));
 					list_formato.add(for_papel);
 				}
 			} catch (Exception e) {
@@ -153,5 +166,14 @@ public class Formato_Papel {
 			}
 		}
 		return valor;
+	}
+	
+	public static boolean updateFormato(String id, String tamanio, Boolean activo)
+	{
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE formato_papel SET tamanio = "
+						+ "'" + tamanio + "'" + ", activo=" + activo +" WHERE id_formato_papel ="
+						+ Integer.parseInt(id));
+		return r;
 	}
 }

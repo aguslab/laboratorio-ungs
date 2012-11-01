@@ -42,10 +42,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	
 	private	JMenuItem 
 		clientes,
-		Proveedor,
-		Calidad,
-		Formato,
-		Variante;
+		Proveedor;
 	private	JMenuItem 
 		mostrarCalendario;
 		//reporte;
@@ -82,6 +79,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	
 	private String fecha = fechaFormateada.format (fechaActual);
 	private JMenuItem Stock;
+	private JMenuItem Atributos;
 	
 
 	public Magesti() 
@@ -229,8 +227,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		acercaDe.addActionListener (this);
 		
 		cerrarAplicacion = new JMenuItem ("Salir del sistema  ", new ImageIcon ("Imagenes/cerrar.png"));
-		cerrarAplicacion.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		cerrarAplicacion.setMnemonic ((int)'S');	
+		cerrarAplicacion.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
+		cerrarAplicacion.setMnemonic ((int)'Q');	
 		cerrarAplicacion.addActionListener (this);
 
 		mnuOrdenDeTrabajo.add (ingresarOrdenDeTrabajo);
@@ -253,26 +251,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mnuAdministracion.add(Stock);
 		Stock.addActionListener (this);
 		
-		JMenu mnAdministracionAtributosPapel = new JMenu("Administracion Atributos de Papel");
-		mnuAdministracion.add(mnAdministracionAtributosPapel);
-		
-		Calidad= new JMenuItem ("Administracion Calidad  ", new ImageIcon ("Imagenes/clientes.png"));
-		mnAdministracionAtributosPapel.add(Calidad);
-		Calidad.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Calidad.setMnemonic ((int)'C');
-		
-		Formato= new JMenuItem ("Administracion Formato  ", new ImageIcon ("Imagenes/clientes.png"));
-		mnAdministracionAtributosPapel.add(Formato);
-		Formato.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Formato.setMnemonic ((int)'F');
-		
-		Variante= new JMenuItem ("Administracion Variante  ", new ImageIcon ("Imagenes/clientes.png"));
-		mnAdministracionAtributosPapel.add(Variante);
-		Variante.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
-		Variante.setMnemonic ((int)'G');
-		Variante.addActionListener (this);
-		Formato.addActionListener (this);
-		Calidad.addActionListener (this);
+		Atributos = new JMenuItem("Registro de Atributos de papel", new ImageIcon ("Imagenes/clientes.png"));
+		Atributos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		mnuAdministracion.add(Atributos);
+		Atributos.addActionListener (this);
 		
 
 		mnuAyuda.add (ayudaContenido);
@@ -544,40 +526,22 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			
 		}
 		
-		else if (obj == Calidad) 
+		else if (obj == Atributos) 
 		{
-			
-			boolean b = Metodos.openChildWindow ("Registro de Calidad");
+			boolean b = Metodos.openChildWindow ("Registro de Atributos de papel");
 			if (b == false) 
 			{
-				Adm_Calidad admCal= new Adm_Calidad();
-				escritorio.add (admCal);
-				admCal.show ();
-			}
-		}
-		
-		else if (obj == Formato) 
-		{
-			
-			boolean b = Metodos.openChildWindow ("Registro de Formato");
-			if (b == false) 
-			{
-				Adm_Formato admFor= new Adm_Formato();
-				escritorio.add (admFor);
-				admFor.show ();
-			}
-		}
-		
-		
-		else if (obj == Variante) 
-		{
-			
-			boolean b = Metodos.openChildWindow ("Registro de Variante");
-			if (b == false) 
-			{
-				Adm_Variante admVar= new Adm_Variante();
-				escritorio.add (admVar);
-				admVar.show ();
+				Adm_Atributos admAtributos= new Adm_Atributos();
+				escritorio.add (admAtributos);
+				try 
+				{
+					admAtributos.setMaximum(true);
+				} 
+				catch (PropertyVetoException e) 
+				{
+					e.printStackTrace();
+				}
+				admAtributos.show ();
 			}
 		}
 		
