@@ -8,7 +8,7 @@ public class Recepcion_pedido {
 	 private Integer id_recepcion_pedido;
 	 private Integer id_solicitud_compra;
 	 private String estado;
-	 private String f_h_recibido;
+	 private static String f_h_recibido;
 	 private String incidente;
 	
 	 
@@ -42,7 +42,7 @@ public class Recepcion_pedido {
 	}
 
 
-	public String getF_h_recibido() {
+	public static String getF_h_recibido() {
 		return f_h_recibido;
 	}
 
@@ -152,6 +152,25 @@ public class Recepcion_pedido {
 			}
 		}
 		return cantidad;
+	}
+	
+	public static boolean setf_h_recibido(Integer id_rp, String f_h_recibido) 
+	{
+		String fhrecibido = "'" + f_h_recibido + "'";
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE recepcion_pedido SET f_recibido =" + fhrecibido +
+						 " WHERE id_recepcion_pedido ="+ id_rp);
+		return r;
+	}
+
+
+	public Integer getId_recepcion_pedido() {
+		return id_recepcion_pedido;
+	}
+
+
+	public void setId_recepcion_pedido(Integer id_recepcion_pedido) {
+		this.id_recepcion_pedido = id_recepcion_pedido;
 	}
 	 
 	 
