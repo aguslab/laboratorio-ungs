@@ -1773,43 +1773,45 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	private void reporteHojas()
 	{
+		Integer cantidadHojas = 0;
+		String nroOT = getTxtNro().getText();
+		//Consigo la cantidad de hojas utilizadas en total
+		for(int i = 0; i < tablaElementos.getRowCount(); i++)
+		{
+			cantidadHojas += (Integer)tablaElementos.getValueAt(i, 3);
+		}
+		System.out.println(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
+		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
+		System.out.println(SC);
+		if(SC.equals(""))
+		{
+			SC = "Sin Solicitud de compra asignada.";
+		}
+		ReporteHojas r = new ReporteHojas(nroOT, getTxtNombreOT().getText(),cantidadHojas,SC);
+		
+		ArrayList<ReporteHojas> reportes = new ArrayList<ReporteHojas>();
+		reportes.add(r);
+		
+		JasperReport reporte = null;
 		try 
 		{
-		 	Integer cantidadHojas = 0;
-		 	String nroOT = getTxtNro().getText();
-		 	//Consigo la cantidad de hojas utilizadas en total
-		 	for(int i = 0; i < tablaElementos.getRowCount(); i++)
-		 	{
-		 		cantidadHojas += (Integer)tablaElementos.getValueAt(i, 3);
-			}
-		 	System.out.println(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
-		 	String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
-		 	System.out.println(SC);
-		 	if(SC.equals(""))
-		 	{
-		 		SC = "Sin Solicitud de compra asignada.";
-		 	}
-			ReporteHojas r = new ReporteHojas(nroOT, getTxtNombreOT().getText(),cantidadHojas,SC);
-			
-			ArrayList<ReporteHojas> reportes = new ArrayList<ReporteHojas>();
-			reportes.add(r);
-	         //busca el reporte con ese nombre
-	         jasperDesign = JRXmlLoader.load("reporteHojas.jrxml");
-	 
-	         //compila el diseño
-	         jasperReport = JasperCompileManager.compileReport(jasperDesign);
-	 
-	         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
-	         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
-	 
-	         //Mostrar el reporte
-	         JasperViewer.viewReport(jasperPrint);    
-	 
-	     } 
-		catch (JRException e) 
-	     {
-	        System.out.println("Hubo un problema al generar el reporte de hojas utilizadas");
-	     }
+			reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteHojas.jasper");
+		} 
+		catch (Exception e1) 
+		{
+			e1.printStackTrace();
+		}
+		JasperPrint jasperPrint = null;
+		try 
+		{
+			jasperPrint = JasperFillManager.fillReport(reporte, null,
+					new JRBeanCollectionDataSource(reportes));
+			JasperViewer.viewReport(jasperPrint);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void elegirReporteAImprimir() 
