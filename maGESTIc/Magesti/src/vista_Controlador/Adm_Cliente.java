@@ -35,11 +35,10 @@ public class Adm_Cliente extends JInternalFrame
 	{
 		super ("Administracion de Clientes", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-
 		getContentPane().setLayout(null);
 		
-		JButton button = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
-		button.addActionListener(new ActionListener() 
+		JButton btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
+		btnCerrar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -47,8 +46,8 @@ public class Adm_Cliente extends JInternalFrame
 				dispose();
 			}
 		});
-		button.setBounds(10, d.height-250, 120, 30);
-		getContentPane().add(button);
+		btnCerrar.setBounds(10, d.height-250, 120, 30);
+		getContentPane().add(btnCerrar);
 		
 		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setBounds(10, d.height-210, 120, 30);
@@ -199,7 +198,7 @@ public class Adm_Cliente extends JInternalFrame
 
 		JScrollPane spDatosCliente = new JScrollPane();
 		spDatosCliente.setViewportBorder(null);
-		spDatosCliente.setBounds(0, 0, d.width-193, d.height-190);
+		spDatosCliente.setBounds(0, 0, d.width-196, d.height-190);
 		panelDatos.add(spDatosCliente);
 		
 		tablaDatosCliente = new JTable();
@@ -263,7 +262,7 @@ public class Adm_Cliente extends JInternalFrame
 		tabbedPane.addTab("Contacto                   ",  new ImageIcon ("Imagenes/contacto.png"), panelContacto, null);
 			
 		JScrollPane spClienteContacto = new JScrollPane();
-		spClienteContacto.setBounds(0, 0, d.width-193, d.height-190);
+		spClienteContacto.setBounds(0, 0, d.width-196, d.height-190);
 		panelContacto.add(spClienteContacto);
 		
 		tablaContactoCliente = new JTable();

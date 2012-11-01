@@ -33,7 +33,7 @@
 		</band>
 	</title>
 	<detail>
-		<band height="210" splitType="Stretch">
+		<band height="179" splitType="Stretch">
 			<rectangle>
 				<reportElement uuid="1de41b28-968c-4760-ae74-0ac68e5724e0" x="48" y="0" width="472" height="176"/>
 			</rectangle>
@@ -65,7 +65,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantHojasUsadas}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="false">
 				<reportElement uuid="c7baa9c3-8b4a-443f-8d74-e78b803d09de" x="285" y="87" width="221" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="14"/>
@@ -93,11 +93,15 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreOT}]]></textFieldExpression>
 			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="21">
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement uuid="5635ef91-7f7b-4f85-9275-d10faf880d0e" x="420" y="184" width="100" height="20"/>
+				<reportElement uuid="5635ef91-7f7b-4f85-9275-d10faf880d0e" x="420" y="0" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</detail>
+	</lastPageFooter>
 </jasperReport>

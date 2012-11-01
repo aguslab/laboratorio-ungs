@@ -305,9 +305,17 @@ public class Metodos implements Config
 	
     static public String EnteroAFactura(Integer valor) 
     {
-       DecimalFormat elFormato = new DecimalFormat("00000000");
-       String salida = qSUCURSAL + elFormato.format(valor);
-       return salida;
+    	if(valor == null)
+    	{
+    		return "";
+    	}
+    	else
+    	{
+    		 DecimalFormat elFormato = new DecimalFormat("00000000");
+    	     String salida = qSUCURSAL + elFormato.format(valor);
+    	     return salida;
+    	}
+      
     }
 	
     static public Integer FacturaAEntero(String valor ) 

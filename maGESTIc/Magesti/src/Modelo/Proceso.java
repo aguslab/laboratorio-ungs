@@ -68,29 +68,6 @@ public class Proceso
 		return nombre;
 	}
 
-	public static String getNombre(Integer id_proceso)
-	{
-		String nombre = "";
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT nombre FROM proceso WHERE id_proceso =" + id_proceso);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					nombre = resultado.getString(1);
-					break;
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return nombre;
-	}
 
 	public void setNombre(String nombre) 
 	{

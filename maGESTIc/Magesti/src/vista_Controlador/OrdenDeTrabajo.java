@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -1686,86 +1687,87 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 	private void reporteOT()
 	{
+		String fechaConfec = getCboDia().getSelectedItem().toString()+ " de " + getCboMes().getSelectedItem().toString() + " del " + getCboAnio().getSelectedItem().toString();
+		String fechaPrometida = getCboDia2().getSelectedItem().toString()+ " de " + getCboMes2().getSelectedItem().toString() + " del " + getCboAnio2().getSelectedItem().toString();
+		Double ancho = Double.parseDouble(this.getTxtAncho().getText());
+		Double alto = Double.parseDouble(this.getTxtAlto().getText());
+		String nroOT = this.getTxtNro().getText();
+		String apaisada = "";
+		if(this.getChbApaisado().isSelected())
+			apaisada = "Si";
+		else
+			apaisada = "No";
+		
+		//guardo en un arraylist las filas de la tabla Elementos
+		ArrayList<ReporteElementos> rElementos = new ArrayList<ReporteElementos>();
+		Integer cantFilas = tablaElementos.getRowCount();
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			rElementos.add(new ReporteElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
+					(Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
+					
+		}
+		
+		//guardo en un arraylist las filas de la tabla Materiales
+		ArrayList<filaMateriales> rMateriales = new ArrayList<filaMateriales>();
+		cantFilas = tablaMateriales.getRowCount();
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			rMateriales.add(new filaMateriales((String) tablaMateriales.getValueAt(i, 0), (Integer) tablaMateriales.getValueAt(i, 1),
+					(Integer) tablaMateriales.getValueAt(i, 2), (String) tablaMateriales.getValueAt(i, 3), (String) tablaMateriales.getValueAt(i, 4), (String) tablaMateriales.getValueAt(i, 5),
+					(Integer) tablaMateriales.getValueAt(i, 6), (Integer) tablaMateriales.getValueAt(i, 7), (Integer) tablaMateriales.getValueAt(i, 8), (Integer) tablaMateriales.getValueAt(i, 9), 
+					(Integer) tablaMateriales.getValueAt(i,10)));
+					
+		}
+		//guardo en un arraylist las filas de la tabla Orden de ejecucion
+		ArrayList<ReporteOEjecucion> rOEjecucion = new ArrayList<ReporteOEjecucion>();
+		cantFilas = tablaOrdenDeEjecucion.getRowCount();
+		String tercerizada = "";
+		String cumplida = "";
+		for (int i = 0; i < cantFilas; i++) 
+		{
+			if(tablaOrdenDeEjecucion.getValueAt(i, 1).equals(true))
+				tercerizada = "Si";
+			else
+				tercerizada = "No";
+			
+			if(tablaOrdenDeEjecucion.getValueAt(i, 4).equals(true))
+				cumplida = "Si";
+			else
+				cumplida = "No";
+			
+			rOEjecucion.add(new ReporteOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
+					(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
+					
+		}
+		ReporteOT r = new ReporteOT(nroOT,getTxtNombreOT().getText(), getCliente().getSelectedItem().toString(),
+				getTxtDescripcion().getText(), getTipoProducto().getText(), getTxtPreimpresion().getText(),
+				getEstado().getSelectedItem().toString(), fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
+		
+		ArrayList<ReporteOT> reportes = new ArrayList<ReporteOT>();
+		reportes.add(r);
+		
+		JasperReport reporte = null;
 		try 
 		{
-			String fechaConfec = getCboDia().getSelectedItem().toString()+ " de " + getCboMes().getSelectedItem().toString() + " del " + getCboAnio().getSelectedItem().toString();
-			String fechaPrometida = getCboDia2().getSelectedItem().toString()+ " de " + getCboMes2().getSelectedItem().toString() + " del " + getCboAnio2().getSelectedItem().toString();
-			Double ancho = Double.parseDouble(this.getTxtAncho().getText());
-			Double alto = Double.parseDouble(this.getTxtAlto().getText());
-		 	String nroOT = this.getTxtNro().getText();
-		 	String apaisada = "";
-		 	if(this.getChbApaisado().isSelected())
-		 		apaisada = "Si";
-		 	else
-		 		apaisada = "No";
-		 	
-		 	//guardo en un arraylist las filas de la tabla Elementos
-		 	ArrayList<ReporteElementos> rElementos = new ArrayList<ReporteElementos>();
-			Integer cantFilas = tablaElementos.getRowCount();
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				rElementos.add(new ReporteElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
-						(Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
-						
-			}
-			
-			//guardo en un arraylist las filas de la tabla Materiales
-			ArrayList<ReporteMateriales> rMateriales = new ArrayList<ReporteMateriales>();
-			cantFilas = tablaMateriales.getRowCount();
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				rMateriales.add(new ReporteMateriales((String) tablaMateriales.getValueAt(i, 0), (Integer) tablaMateriales.getValueAt(i, 1),
-						(Integer) tablaMateriales.getValueAt(i, 2), (String) tablaMateriales.getValueAt(i, 3), (String) tablaMateriales.getValueAt(i, 4), (String) tablaMateriales.getValueAt(i, 5),
-						(Integer) tablaMateriales.getValueAt(i, 6), (Integer) tablaMateriales.getValueAt(i, 7), (Integer) tablaMateriales.getValueAt(i, 8), (Integer) tablaMateriales.getValueAt(i, 9), 
-						(Integer) tablaMateriales.getValueAt(i,10)));
-						
-			}
-			
-			//guardo en un arraylist las filas de la tabla Orden de ejecucion
-		 	ArrayList<ReporteOEjecucion> rOEjecucion = new ArrayList<ReporteOEjecucion>();
-			cantFilas = tablaOrdenDeEjecucion.getRowCount();
-			String tercerizada = "";
-			String cumplida = "";
-			for (int i = 0; i < cantFilas; i++) 
-			{
-				if(tablaOrdenDeEjecucion.getValueAt(i, 1).equals(true))
-					tercerizada = "Si";
-				else
-					tercerizada = "No";
-				
-				if(tablaOrdenDeEjecucion.getValueAt(i, 4).equals(true))
-					cumplida = "Si";
-				else
-					cumplida = "No";
-				
-				rOEjecucion.add(new ReporteOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
-						(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
-						
-			}
-		 	
-			ReporteOT r = new ReporteOT(nroOT,getTxtNombreOT().getText(), getCliente().getSelectedItem().toString(),
-					getTxtDescripcion().getText(), getTipoProducto().getText(), getTxtPreimpresion().getText(),
-					getEstado().getSelectedItem().toString(), fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
-			
-			ArrayList<ReporteOT> reportes = new ArrayList<ReporteOT>();
-			reportes.add(r);
-	         //busca el reporte con ese nombre
-	         jasperDesign = JRXmlLoader.load("reporteOT.jrxml");
-	 
-	         //compila el diseño
-	         jasperReport = JasperCompileManager.compileReport(jasperDesign);
-	 
-	         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
-	         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
-	 
-	         //Mostrar el reporte
-	         JasperViewer.viewReport(jasperPrint);			         
-	 
-	     } 
-		catch (JRException e) 
-	     {
-	        System.out.println("Hubo un problema al generar el reporte de hojas utilizadas");
-	     }
+			reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteOT.jasper");
+		} 
+		catch (Exception e1) 
+		{
+			e1.printStackTrace();
+		}
+		JasperPrint jasperPrint = null;
+		try 
+		{
+			jasperPrint = JasperFillManager.fillReport(reporte, null,
+					new JRBeanCollectionDataSource(reportes));
+			JasperViewer.viewReport(jasperPrint);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void reporteHojas()
@@ -1779,10 +1781,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		 	{
 		 		cantidadHojas += (Integer)tablaElementos.getValueAt(i, 3);
 			}
+		 	System.out.println(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
 		 	String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
-		 	if(SC == null)
+		 	System.out.println(SC);
+		 	if(SC.equals(""))
 		 	{
-		 		SC = "Solicitud de compra no asignada.";
+		 		SC = "Sin Solicitud de compra asignada.";
 		 	}
 			ReporteHojas r = new ReporteHojas(nroOT, getTxtNombreOT().getText(),cantidadHojas,SC);
 			
@@ -1798,7 +1802,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
 	 
 	         //Mostrar el reporte
-	         JasperViewer.viewReport(jasperPrint);			         
+	         JasperViewer.viewReport(jasperPrint);    
 	 
 	     } 
 		catch (JRException e) 
@@ -1827,7 +1831,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		else if (reply == 1) 
 		{
-
 			if(this.getEstado().getSelectedItem().toString().equalsIgnoreCase("Cerrada"))
 			{
 				this.reporteHojas();

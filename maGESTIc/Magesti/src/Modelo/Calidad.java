@@ -6,18 +6,21 @@ public class Calidad
 {
 	private Integer id_calidad;
 	private String nombre;
+	private Boolean activo;
 	
-	public Calidad(String nombre) 
+	public Calidad(String nombre, Boolean activo) 
 	{
 		super();
 		this.nombre = nombre;
+		this.activo = activo;
 	}
 	
-	public Calidad(Integer calidad, String nombre) 
+	public Calidad(Integer calidad, String nombre, Boolean activo) 
 	{
 		super();
 		this.id_calidad = calidad;
 		this.nombre = nombre;
+		this.activo = activo;
 	}
 	
 	public Integer getId_calidad()
@@ -44,7 +47,7 @@ public class Calidad
 	{
 		ArrayList<String> cal=new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM calidad");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM calidad WHERE activo = true");
 		
 		if (resultado != null) 
 		{
@@ -73,9 +76,10 @@ public class Calidad
 	
 	public boolean Alta()
 	{
-		String nom = this.getNombre();
+		String nom = "'" + this.getNombre() + "'";
+		Boolean activoCal = this.getActivo();
 
-		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO formato_papel VALUES(default," + nom + ");")) 
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO formato_papel VALUES(default," + nom + "," + activoCal + ");")) 
 		{
 			return true;
 		} 
@@ -121,7 +125,7 @@ public class Calidad
             {
          	    while (resultado.next()) 
                 {
-                    Calidad c = new Calidad(new Integer(resultado.getInt("id_calidad")),resultado.getString("nombre"));
+                    Calidad c = new Calidad(new Integer(resultado.getInt("id_calidad")),resultado.getString("nombre"), resultado.getBoolean("activo"));
                     list_calidad.add(c);
                 }
             } 
@@ -179,5 +183,24 @@ public class Calidad
 			}
 		}
 		return valor;
+	}
+	
+	public Boolean getActivo() 
+	{
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) 
+	{
+		this.activo = activo;
+	}
+
+	public static boolean updateCalidad(String id, String nombre, Boolean activo)
+	{
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE calidad SET nombre = " + "'"+nombre+"'" + ", activo=" + activo
+						+ " WHERE id_calidad ="
+						+ Integer.parseInt(id));
+		return r;
 	}
 }
