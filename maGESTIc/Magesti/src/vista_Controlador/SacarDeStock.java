@@ -417,8 +417,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			else{
 				//modificar Stock y Registrar Retiro de Stock
 				modificarHojasDeStockYRegistrarRetiro();
-				DefaultTableModel st=(DefaultTableModel) Adm_Stock.getTablaStock().getModel();
-				st.fireTableDataChanged();
 				dispose();
 			}
 		}

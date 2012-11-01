@@ -163,6 +163,16 @@ public class Adm_Stock extends JInternalFrame
 			cbOT.setBounds(255, 37, 165, 23);
 			panStock.add(cbOT);
 			
+			JButton btnVerTodo = new JButton("Ver Todo");
+			btnVerTodo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					setFilas();
+				}
+			});
+			btnVerTodo.setBounds(171, 71, 89, 23);
+			panStock.add(btnVerTodo);
+			
 			cbOT.addActionListener(new ActionListener() {
 				
 				@Override
@@ -173,15 +183,6 @@ public class Adm_Stock extends JInternalFrame
 					filtro(select, columOT);
 				}
 			});
-			
-			
-				
-			
-			
-			tablaStock.getColumnModel().getColumn(0).setPreferredWidth(100);
-			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(100);
-			tablaStock.getColumnModel().getColumn(2).setPreferredWidth(107);
-			tablaStock.getTableHeader().setReorderingAllowed(false);
 
 			
 			/*
@@ -269,11 +270,16 @@ public class Adm_Stock extends JInternalFrame
 					}
 				}
 				modelo.addRow(datos);
-				//TableRowSorter<TableModel> modeloOrdenado = new TableRowSorter<TableModel>(modelo);
-				//modeloOrdenado.setRowFilter(RowFilter.regexFilter("S", 1));
 				tablaStock = new JTable(modelo);
-				//tablaStock.setRowSorter(modeloOrdenado);
+
+				spStock.setViewportView(tablaStock);
+				getContentPane().add(panStock);
+				panStock.add(spStock);
 				
+				tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
+				tablaStock.getColumnModel().getColumn(1).setPreferredWidth(130);
+				tablaStock.getColumnModel().getColumn(2).setPreferredWidth(107);
+				tablaStock.getTableHeader().setReorderingAllowed(false);
 
 			}
 		} catch (Exception e) {
@@ -282,7 +288,9 @@ public class Adm_Stock extends JInternalFrame
 	}
 			
 			
-	public static JTable getTablaStock() {
-		return tablaStock;
+	void Actualizar()
+	{
+		Metodos.borrarFilas((DefaultTableModel)tablaStock.getModel());
+		setFilas();
 	}
 }
