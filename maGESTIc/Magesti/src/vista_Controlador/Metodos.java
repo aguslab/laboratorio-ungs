@@ -415,14 +415,18 @@ public class Metodos implements Config
 	}
 	
 	public static boolean isFechaActualMenorFechaPrometida(String factual,
-			String fprometida) {
-		Integer anioActual = Integer.parseInt(factual.substring(6));
-		Integer mesActual = Integer.parseInt(factual.substring(3, 5));
-		Integer diaActual = Integer.parseInt(factual.substring(0, 2));
-
-		Integer anioPrometido = Integer.parseInt(fprometida.substring(6));
-		Integer mesPrometido = Integer.parseInt(fprometida.substring(3, 5));
-		Integer diaPrometido = Integer.parseInt(fprometida.substring(0, 2));
+			String fprometida) 
+	{
+		String[] ReParseIntA;
+		ReParseIntA = factual.split("\\-");
+		Integer anioActual = Integer.parseInt(ReParseIntA[2]);
+		Integer mesActual = Integer.parseInt(ReParseIntA[1]);
+		Integer diaActual = Integer.parseInt(ReParseIntA[0]);
+		String[] ReParseIntP;
+		ReParseIntP = fprometida.split("\\-");
+		Integer anioPrometido = Integer.parseInt(ReParseIntP[2]);
+		Integer mesPrometido = Integer.parseInt(ReParseIntP[1]);
+		Integer diaPrometido = Integer.parseInt(ReParseIntP[0]);
 
 		if (anioPrometido < anioActual) 
 		{

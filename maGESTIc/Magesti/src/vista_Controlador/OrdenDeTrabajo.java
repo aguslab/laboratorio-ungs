@@ -654,6 +654,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				TableColumn columnaCalidad = tablaMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
 				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
 				
+				
 				// Valores para el combo
 				String variantes[] = Variante.getVariantes(); 
 				TableColumn columnaVariante = tablaMateriales.getColumnModel().getColumn(4);//table es la JTable, ponele que la col 0 es la del combo.
