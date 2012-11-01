@@ -1,10 +1,10 @@
 package vista_Controlador;
 
-public class ReporteOEjecucion 
+public class FilaOEjecucion 
 {
 	private String proceso, tercerizada,proveedor,observaciones, cumplida;
 	
-	public ReporteOEjecucion(String proceso, String tercerizada,
+	public FilaOEjecucion(String proceso, String tercerizada,
 			String proveedor, String observaciones, String cumplida) 
 	{
 		super();

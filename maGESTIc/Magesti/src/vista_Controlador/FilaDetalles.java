@@ -1,12 +1,12 @@
 package vista_Controlador;
 
-public class ReporteDetalles 
+public class FilaDetalles 
 {
 	private Integer cantHojas, gramaje;
 	private String marca, calidad, variante, formato, UnidadMedida;
 	private Double precioUnitario, Importe;
 	
-	public ReporteDetalles(Integer cantHojas, String marca, String calidad, String variante, 
+	public FilaDetalles(Integer cantHojas, String marca, String calidad, String variante, 
 			String formato,Integer gramaje, Double precioUnitario,String unidadMedida, Double importe)
 	{
 		this.cantHojas = cantHojas;

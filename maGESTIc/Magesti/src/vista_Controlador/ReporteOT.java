@@ -10,15 +10,15 @@ public class ReporteOT
 	private String nroOT, nombreOT, cliente, descripcion, tipoProducto, preimpresion, estado;
 	private String fechaProm, fechaConfec,apasiado,cantEntregar;
 	private Double ancho, alto;
-	private ArrayList<ReporteElementos> elementos;
-	private ArrayList<filaMateriales> materiales;
-	private ArrayList<ReporteOEjecucion> ordenEjecucion;
+	private ArrayList<FilaElementos> elementos;
+	private ArrayList<FilaMateriales> materiales;
+	private ArrayList<FilaOEjecucion> ordenEjecucion;
 	
 	public ReporteOT(String nroOT, String nombreOT, String cliente,
 			String descripcion, String tipoProducto, String preimpresion,
 			String estado, String fechaProm, String fechaConfec, Double ancho, Double alto,
-			String cantEntregar, String apasiado, ArrayList<ReporteElementos> elementos,
-			ArrayList<filaMateriales> materiales,ArrayList<ReporteOEjecucion> ordenEjecucion) 
+			String cantEntregar, String apasiado, ArrayList<FilaElementos> elementos,
+			ArrayList<FilaMateriales> materiales,ArrayList<FilaOEjecucion> ordenEjecucion) 
 	{
 		super();
 		this.nroOT = nroOT;
@@ -171,32 +171,32 @@ public class ReporteOT
 		this.apasiado = apasiado;
 	}
 	
-	public ArrayList<ReporteElementos> getElementos()
+	public ArrayList<FilaElementos> getElementos()
 	{
 		return elementos;
 	}
 
-	public void setElementos(ArrayList<ReporteElementos> elementos) 
+	public void setElementos(ArrayList<FilaElementos> elementos) 
 	{
 		this.elementos = elementos;
 	}
 
-	public ArrayList<filaMateriales> getMateriales() 
+	public ArrayList<FilaMateriales> getMateriales() 
 	{
 		return materiales;
 	}
 
-	public void setMateriales(ArrayList<filaMateriales> materiales) 
+	public void setMateriales(ArrayList<FilaMateriales> materiales) 
 	{
 		this.materiales = materiales;
 	}
 
-	public ArrayList<ReporteOEjecucion> getOrdenEjecucion() 
+	public ArrayList<FilaOEjecucion> getOrdenEjecucion() 
 	{
 		return ordenEjecucion;
 	}
 
-	public void setOrdenEjecucion(ArrayList<ReporteOEjecucion> ordenEjecucion) 
+	public void setOrdenEjecucion(ArrayList<FilaOEjecucion> ordenEjecucion) 
 	{
 		this.ordenEjecucion = ordenEjecucion;
 	}
