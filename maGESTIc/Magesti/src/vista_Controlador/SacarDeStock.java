@@ -245,7 +245,9 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				return columnTypes[columnIndex];
 			}
 		});
-		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(100);
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(110);
+		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(110);
+		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(120);
 		tablaElementos.getColumnModel().getColumn(4).setPreferredWidth(80);
 		tablaElementos.getColumnModel().getColumn(5).setPreferredWidth(100);
 		tablaElementos.getColumnModel().getColumn(6).setPreferredWidth(100);
@@ -256,7 +258,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		spElementos.setViewportView(tablaElementos);
 		btnRetirarStock.addActionListener(this);
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
-
+		tablaElementos.setEnabled(false);
 		
 		
 		//si no es para Stockear, cargo la tabla de los elementos de esa OT seleccionada
@@ -306,7 +308,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	{
 		DefaultTableModel ts= (DefaultTableModel) tablaStock.getModel();
 		//Cambia el alto de la fila para que entre el JSpinner
-		tablaStock.setRowHeight(23);
+		//tablaStock.setRowHeight(23);
 		
 		Object nuevaFilaDetalles[]= {"","",0,"","","","",0,false,0,""};
 		
@@ -327,7 +329,11 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			tablaStock.setValueAt(detalles.get(i).getCantidad(), i, 6);
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 9), i, 7);
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 10), i, 8);
+			//dejo en 0 hojas a retirar
+			tablaStock.setValueAt(0, i, 9);
 			
+			
+			/*
 			Integer hojasTotal=detalles.get(i).getCantidad();
 			Integer hojasUsadas=Integer.parseInt(stock.getValueAt(filaElegida, 9).toString());
 			String cant[] = new String[(hojasTotal+1) - hojasUsadas];
@@ -335,14 +341,17 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				int a=j;
 				cant[j] = "" + a;
 			}
-			//pongo un JSpinner en el lugar de hojas a retirar
 			
-			TableColumn columnaCantHojasRetirar=tablaStock.getColumnModel().getColumn(9);
+			//pongo un JSpinner en el lugar de hojas a retirar
+						TableColumn columnaCantHojasRetirar=tablaStock.getColumnModel().getColumn(9);
 			columnaCantHojasRetirar.setCellEditor(new SpinnerEditor(cant));
+			*/
+			
+			
+			
 			
 			//Un comboBox con el nro del elemento de la tabla de elementos
 			//debreria elegir segun el elemento para el cual desea sacar hojas
-			Integer id_OT=Metodos.getIdEnCombo(cboOT);
 			String[] elem= new String[tablaElementos.getRowCount()+1];
 			for(int k=0;k<elem.length-1;k++){
 				elem[k]=tablaElementos.getValueAt(k, 0).toString();
@@ -408,6 +417,15 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
+			else if(!hojasRetirarOK()){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Verifique que las hojas a retirar y las hojas usadas no exceda el total de hojas disponibles",
+					qTITULO + " - Hojas a Retirar debe ser Menor", 
+					JOptionPane.WARNING_MESSAGE
+				);
+			}
 			else{
 				//modificar Stock y Registrar Retiro de Stock
 				modificarHojasDeStockYRegistrarRetiro();
@@ -417,6 +435,25 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	}
 	
 
+
+	private boolean hojasRetirarOK() {
+
+		ArrayList<Integer> filasMoficadas = this.dameFilasModificadas();
+
+		if (filasMoficadas.size() > 0) {
+
+			for (int i = 0; i < filasMoficadas.size(); i++) {
+				Integer hojasAUsar = Integer.parseInt(tablaStock.getValueAt(filasMoficadas.get(i), 7).toString())
+									  + Integer.parseInt(tablaStock.getValueAt(filasMoficadas.get(i), 9).toString());
+
+				if (hojasAUsar > Integer.parseInt(tablaStock.getValueAt(filasMoficadas.get(i), 6).toString())) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	private boolean itemsSeCorresponden() {
 		ArrayList<Integer > filasMoficadas = this.dameFilasModificadas();
@@ -436,7 +473,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			!tablaStock.getValueAt(filasMoficadas.get(i), 5).toString().equalsIgnoreCase(gramaje.toString())){
 				return false;
 			}
-			//HAY QUE VERIFICAR QUE NO SE SAQUEN MAS HOJAS DE LAS PREVISTAS???¿¿¿
 		}
 		}else{
 			return false;
@@ -463,7 +499,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 					es.Alta();
 					
 					Integer id_OT=Metodos.getIdEnCombo(cboOT);
-//					Integer hojasUtilizadas_x_OT=Egreso_Stock.getHojasUsadasPorOT(id_OT);
 					
 					Orden_Trabajo.CambiarCantHojasUtil(id_OT, Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 9).toString()));
 				}

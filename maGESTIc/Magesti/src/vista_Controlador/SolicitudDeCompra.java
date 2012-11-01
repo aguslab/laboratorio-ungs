@@ -87,6 +87,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private TextArea txtDescripcionIncidencia;
 	private JLabel fechaHora;
 	private JButton btnImprimirReporte;
+	private ArrayList<Integer> hojasMateriales= new ArrayList<Integer>();
 	
 	//RP = false: Solo SC
 	//RP = true: habilita la parte de Recepcion Pedido
@@ -242,16 +243,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						Integer gramaje= materiales.get(i).getGramaje();
 						Integer cantHojas=materiales.get(i).getHojas();
 						
-						String cant[] = new String[4];
-						for (int j = 0; j < cant.length; j++) 
-						{
-							int a=j+cantHojas;
-							cant[j] = "" + a;
-							
-						}
-					//	SpinnerEditor se = new SpinnerEditor(cantHojas);
-						//tablaDetalles.setValueAt(se,i,0);
-						
+
+						hojasMateriales.add(cantHojas);
+						temp.setValueAt(cantHojas,i,0);
 						temp.setValueAt(calidad,i,2);
 						temp.setValueAt(variante,i,3);
 						temp.setValueAt(formato,i,4);
@@ -539,7 +533,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Object nuevo[]= {null,"","","","",null,null,"",null};
 				temp.addRow(nuevo);
 				
-			
+			/*
 				String cant[] = new String[50001];
 				for (int j = 0; j < cant.length; j++) {
 					int a=j;
@@ -547,8 +541,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 				//pongo un JSpinner en el lugar de Cantidad de hojas
 				TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
-			//	columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
+				columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
 				
+			*/	
 				
 				
 				String calidades[] = Calidad.getCalidades();
@@ -823,18 +818,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 
 				@Override
-				public void keyPressed(KeyEvent arg0) 
-				{
-					// TODO Auto-generated method stub
-					
-				}
+				public void keyPressed(KeyEvent arg0){}
 
 				@Override
-				public void keyReleased(KeyEvent arg0) 
-				{
-					// TODO Auto-generated method stub
-					
-				}
+				public void keyReleased(KeyEvent arg0){}
 			});
 		}
 		else
@@ -861,7 +848,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		{
 			String sVendedor = txtVendedor.getText().trim();
 			String sDirRetiro = txtDireccionRetiro.getText().trim();
-			//faltaria verificar que no sean solo espacios el nombre del vendedor
+
 			if(txtVendedor.getText()==null || txtVendedor.getText().equals("") || sVendedor.length() == 0){
 				JOptionPane.showMessageDialog 
 				(
@@ -927,6 +914,33 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
+			else if ((Metodos
+					.isFechaActualMenorFechaPrometida(Orden_Trabajo
+							.getOTFechaProm(cbNroOT.getSelectedIndex() + 1),
+							fprometida) == true)
+					|| (Orden_Trabajo
+							.getOTFechaProm(cbNroOT.getSelectedIndex() + 1)
+							.equals(fprometida))) {
+				JOptionPane.showMessageDialog(
+								this,
+								"La fecha de entrega no debe ser igual\n o mayor que la fecha prometida de la OT",
+								qTITULO + " - Error en Fecha",
+								JOptionPane.WARNING_MESSAGE);
+			}
+			else if(hojasEsMayorAlasPedidas().size()>0){
+				//pos0=fila - pors1=cantHojas minima
+				ArrayList<Integer> fila_CantHojas=hojasEsMayorAlasPedidas();
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"La cantidad de Hojas en la "+fila_CantHojas.get(0)+"° fila deben ser al menos "+fila_CantHojas.get(1)+" Hojas",
+					qTITULO + " - Cantidad de Hojas debe ser mayor", 
+					JOptionPane.WARNING_MESSAGE
+				);
+				txtTotal.setText("");
+				
+			}
+			
 			else if(txtTotal.getText().toString().equals("$ 0,00")){
 				JOptionPane.showMessageDialog 
 				(
@@ -965,6 +979,22 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	}
 	
 	
+	private ArrayList<Integer> hojasEsMayorAlasPedidas() {
+		
+		//va a tener dos posiciones,la 1ra es la fila, la 2da es la cantHojas minima que debe tener esa fila
+		ArrayList<Integer> fila_CantHojas=new ArrayList<Integer>();
+		for(int i=0;i<tablaDetalles.getRowCount();i++){
+			if(Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString()) < hojasMateriales.get(i)){
+				fila_CantHojas.add(i+1);
+				fila_CantHojas.add(hojasMateriales.get(i));
+				
+				return fila_CantHojas; 
+			}
+		}
+		
+		return fila_CantHojas;		
+	}
+
 	private void cargarTablas()
 	{
 		String fechaConfeccion = txtFecha.getText();

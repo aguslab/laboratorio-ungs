@@ -33,7 +33,7 @@ public class Adm_Stock extends JInternalFrame
 	private JPanel panStock;
 	private TableRowSorter<DefaultTableModel> trsfiltro;
 	private JComboBox cbGramaje,cbVariante,cbFormato,cbOT;
-	private DefaultTableModel modelo;
+	private static DefaultTableModel modelo;
 	
 	public Adm_Stock() 
 		{
@@ -53,10 +53,6 @@ public class Adm_Stock extends JInternalFrame
 			});
 			btnCerrar.setBounds(d.width-145, d.height-210, 120, 35);
 			getContentPane().add(btnCerrar);
-			
-//			JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-//			btnConfirmar.setBounds(d.width-280, d.height-210, 120, 35);
-//			getContentPane().add(btnConfirmar);
 			
 			
 			JButton button = new JButton("Solicitud de compra", new ImageIcon ("Imagenes/clientes.png"));
@@ -80,6 +76,7 @@ public class Adm_Stock extends JInternalFrame
 			panStock.setLayout(null);
 
 			setFilas();
+			mostrarTabla();
 
 			
 			
@@ -162,17 +159,6 @@ public class Adm_Stock extends JInternalFrame
 			cbOT = new JComboBox(OTs);
 			cbOT.setBounds(710, 6, 285, 23);
 			panStock.add(cbOT);
-			
-			JButton btnVerTodo = new JButton("Ver Todo");
-			btnVerTodo.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					
-					setFilas();
-				}
-			});
-			btnVerTodo.setBounds(1023, 6, 89, 23);
-			panStock.add(btnVerTodo);
-			
 			cbOT.addActionListener(new ActionListener() {
 				
 				@Override
@@ -183,6 +169,20 @@ public class Adm_Stock extends JInternalFrame
 					filtro(select, columOT);
 				}
 			});
+			
+			
+			JButton btnVerTodo = new JButton("Ver Todo");
+			btnVerTodo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					setFilas();
+					mostrarTabla();
+				}
+			});
+			btnVerTodo.setBounds(1023, 6, 89, 23);
+			panStock.add(btnVerTodo);
+			
+			
 
 			
 			/*
@@ -208,17 +208,29 @@ public class Adm_Stock extends JInternalFrame
 			
 		}
 			
+	private void mostrarTabla() {
+		spStock.setViewportView(tablaStock);
+		getContentPane().add(panStock);
+		panStock.add(spStock);
+		
+		tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
+		tablaStock.getColumnModel().getColumn(1).setPreferredWidth(150);
+		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(90);
+		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(110);
+		tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
+		tablaStock.getTableHeader().setReorderingAllowed(false);		
+	}
+
 	private void filtro(String cadena, int columna) {
 		
 		
 		trsfiltro = new TableRowSorter<DefaultTableModel>(modelo);
 		trsfiltro.setRowFilter(RowFilter.regexFilter(cadena, columna));
-		//Metodos.borrarFilas(modelo);
 		tablaStock.setModel(modelo);
 		tablaStock.setRowSorter(trsfiltro);
 	}
 
-	private void setFilas() {
+	private static void setFilas() {
 		ResultSet result = ConexionDB
 				.getbaseDatos()
 				.consultar(
@@ -272,14 +284,6 @@ public class Adm_Stock extends JInternalFrame
 				modelo.addRow(datos);
 				tablaStock = new JTable(modelo);
 
-				spStock.setViewportView(tablaStock);
-				getContentPane().add(panStock);
-				panStock.add(spStock);
-				
-				tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
-				tablaStock.getColumnModel().getColumn(1).setPreferredWidth(130);
-				tablaStock.getColumnModel().getColumn(2).setPreferredWidth(107);
-				tablaStock.getTableHeader().setReorderingAllowed(false);
 
 			}
 		} catch (Exception e) {
@@ -288,9 +292,10 @@ public class Adm_Stock extends JInternalFrame
 	}
 			
 			
-	void Actualizar()
+	public static void Actualizar()
 	{
 		Metodos.borrarFilas((DefaultTableModel)tablaStock.getModel());
 		setFilas();
+		//mostrarTabla();
 	}
 }
