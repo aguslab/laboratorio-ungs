@@ -18,6 +18,9 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
 	private static JDesktopPane escritorio = new JDesktopPane ();
 	
+	private JInternalFrame OT, SC, top5OT, buscarOT, stock ,consultaSC, RP, ayuda, salir,
+	atajos, cliente, proveedor, atributo, proceso;
+	
 	private JMenuBar barra;
 	
 	private JMenu 
@@ -364,29 +367,33 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
 			boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
-			if (b == false) 
+			if (b == false && OT == null) 
 			{
-				OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-				escritorio.add (nuevaOT);
-				nuevaOT.show ();
+				OT = new OrdenDeTrabajo ();
+				escritorio.add (OT);
+				OT.show ();
 			}
+			OT.setVisible(true);
 		}
 		else if (obj == consultarOrdenDeTrabajo)
 		{
 
 				boolean b = Metodos.openChildWindow ("Buscador");
-				if (b == false) 
+				if (b == false && top5OT == null) 
 				{
-					TablaDeBusqueda_Top5 tablaConsultar = new TablaDeBusqueda_Top5();
-					escritorio.add (tablaConsultar);
-					tablaConsultar.show ();
-					try {
-						tablaConsultar.setMaximum(true);
-					} catch (PropertyVetoException e) {
+					top5OT = new TablaDeBusqueda_Top5();
+					escritorio.add (top5OT);
+					top5OT.show ();
+					try 
+					{
+						top5OT.setMaximum(true);
+					} 
+					catch (PropertyVetoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+				top5OT.setVisible(true);
 
 		}
 		/*else if (obj == btnBuscarSolicitudDeCompra) 
@@ -405,20 +412,19 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		{
 			salirDelPrograma();
 		}
+		
 		else if (obj == ingresarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
 		{
-			/*
-			 * Código para ingresar la Solicitud de Compra
-			 */
 			{
 				boolean b = Metodos.openChildWindow ("SC");
-				if (b == false) 
+				if (b == false && SC == null) 
 				{
-				SolicitudDeCompra nSC = new SolicitudDeCompra(false);
-				escritorio.add (nSC);
-				nSC.show ();
+					SolicitudDeCompra nSC = new SolicitudDeCompra(false);
+					escritorio.add (nSC);
+					nSC.show ();
 				}
-				}
+				SC.setVisible(true);
+			}
 		}
 		else if (obj == btnBuscarOrdenDeTrabajo) 
 		{
@@ -556,7 +562,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == Procesos) 
 		{
 			boolean b = Metodos.openChildWindow ("Registro de Procesos");
-			System.out.println("sads");
 			if (b == false) 
 			{
 				Adm_Proceso admProceso= new Adm_Proceso();
