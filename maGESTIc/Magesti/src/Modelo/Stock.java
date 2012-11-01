@@ -443,9 +443,12 @@ public class Stock {
 				while (resultado.next()) {
 					// como solo devuelve un valor, le pido el del registro (1)
 					Integer id_ot=resultado.getInt("id_orden_trabajo");
-					String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
+					String id_OT_Formato="";
+					if(id_ot!=1){
+						id_OT_Formato = Metodos.EnteroAFactura(id_ot) +" - ";
+					}
 					String nom_ot=resultado.getString("nombre_trabajo");
-					OTs[i]=id_OT_Formato+" - "+nom_ot;
+					OTs[i]=id_OT_Formato+nom_ot;
 					i++;
 				}
 			} catch (Exception e) {

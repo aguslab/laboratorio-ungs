@@ -1301,6 +1301,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						else
 						{
 							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
+							Integer id_ot = Metodos.FacturaAEntero(this.txtNro.getText());
+							//Calendar cal = Calendar.getInstance();
+							//DateFormat df = DateFormat.getDateTimeInstance(DateFormat.DATE_FIELD, DateFormat.SHORT);
+							//Orden_Trabajo.setF_h_cierre(id_ot, df.format(cal.getTime()));
+							Orden_Trabajo.setF_h_cierre(id_ot, Metodos.getDateTimeActual());
 						}
 						
 						

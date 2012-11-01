@@ -106,7 +106,7 @@ public class Orden_Trabajo implements Config
 		
 		public static String [] getId_nom_OT()
 		{
-			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado!='Cerrrada'");
+			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado!='Cerrada'");
 			String[] id_nom_ot = null;
 			try 
 			{
@@ -683,6 +683,16 @@ public class Orden_Trabajo implements Config
 		}
 
 		return estado;
+	}
+	
+	public static boolean setF_h_cierre(Integer id_OT, String f_h_cierre)
+	{
+	String fhcierre = "'" + f_h_cierre + "'";
+	boolean r=ConexionDB.getbaseDatos().ejecutar(
+	"UPDATE orden_trabajo SET f_cierre =" + fhcierre +
+	" WHERE id_orden_trabajo ="+ id_OT);
+	return r;
+
 	}
 	
 }
