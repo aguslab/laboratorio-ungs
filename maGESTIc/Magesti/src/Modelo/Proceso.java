@@ -147,7 +147,7 @@ public class Proceso
 	{
 		ArrayList<String> pros = new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso WHERE activo = true");
 		
 		if (resultado != null) 
 		{

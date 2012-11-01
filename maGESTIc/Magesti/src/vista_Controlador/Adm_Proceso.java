@@ -54,25 +54,19 @@ public class Adm_Proceso extends JInternalFrame
 			{
 				boolean todoOKCalidad = true, todoOKFormato = true, todoOKVariante = true;
 				boolean result = true;
-				String nro_Calidad = "";
-				String nombreCalidad = "";
+				String nro_Proceso = "";
+				String nombreProceso = "";
 				Boolean activo = true;
-				String nro_Formato = "";
-				String tamanioFormato = "";
-				Boolean activoFor = true;
-				String nro_Variante = "";
-				String nombreVariante = "";
-				Boolean activoVar = true;
 				
 				//Agregar calidades nuevas
 				Integer cantFilasCalidad = tablaProcesos.getRowCount();
 				for (int i =0; i < cantFilasCalidad; i++) 
 				{
-					nro_Calidad = tablaProcesos.getValueAt(i, 0).toString();
-					nombreCalidad = tablaProcesos.getValueAt(i, 1).toString();
+					nro_Proceso = tablaProcesos.getValueAt(i, 0).toString();
+					nombreProceso = tablaProcesos.getValueAt(i, 1).toString();
 					activo = (Boolean) tablaProcesos.getValueAt(i, 2);
 
-					todoOKCalidad = todoOKCalidad && !nombreCalidad.equals("");
+					todoOKCalidad = todoOKCalidad && !nombreProceso.equals("");
 					
 					if (todoOKCalidad == false) 
 					{
@@ -82,15 +76,15 @@ public class Adm_Proceso extends JInternalFrame
 					} 
 					else if (todoOKCalidad) 
 					{
-						if (nro_Calidad.equals("")) 
+						if (nro_Proceso.equals("")) 
 						{
 							result = true;
-							Proceso pro = new Proceso(nombreCalidad,activo);
+							Proceso pro = new Proceso(nro_Proceso,activo);
 							result = result && pro.Alta();
 						} 
 						else 
 						{
-							Proceso.updateProceso(nro_Calidad,nombreCalidad,activo);
+							Proceso.updateProceso(nro_Proceso,nombreProceso,activo);
 						}
 					} 
 					else 
@@ -98,6 +92,17 @@ public class Adm_Proceso extends JInternalFrame
 						result = false;
 					}
 				}
+				
+				if(result)
+				{
+					JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
+					Actualizar();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+				}
+				
 			}
 		}
 		);
@@ -119,7 +124,7 @@ public class Adm_Proceso extends JInternalFrame
 		
 		//
 		final JTabbedPane tabProcesos = new JTabbedPane(JTabbedPane.LEFT);
-		tabProcesos.setBounds(10, 11, d.width-32, d.height-190);
+		tabProcesos.setBounds(10, 11, d.width-846, d.height-190);
 		getContentPane().add(tabProcesos);
 		
 		JPanel panelProceso = new JPanel();
@@ -137,7 +142,7 @@ public class Adm_Proceso extends JInternalFrame
 
 		JScrollPane spProceso = new JScrollPane();
 		spProceso.setViewportBorder(null);
-		spProceso.setBounds(0, 0, d.width-190, d.height-190);
+		spProceso.setBounds(0, 0, d.width-1000, d.height-190);
 		panelProceso.add(spProceso);
 		
 		//Tabla Calidad
@@ -152,27 +157,21 @@ public class Adm_Proceso extends JInternalFrame
 				"Nro", "Nombre", "Activo"
 			}
 		) {
-			Class[] columnTypes = new Class[] 
-			{
+			Class[] columnTypes = new Class[] {
 				String.class, String.class, Boolean.class
 			};
-			public Class getColumnClass(int columnIndex) 
-			{
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] 
-			{
-					false, true, true
-			};
-			public boolean isCellEditable(int row, int column) 
-			{
-				return columnEditables[column];
 			}
 		});
 		tablaProcesos.getColumnModel().getColumn(0).setResizable(false);
-		tablaProcesos.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tablaProcesos.getColumnModel().getColumn(0).setPreferredWidth(55);
 		tablaProcesos.getColumnModel().getColumn(1).setResizable(false);
-		tablaProcesos.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tablaProcesos.getColumnModel().getColumn(1).setPreferredWidth(233);
+		tablaProcesos.getColumnModel().getColumn(2).setResizable(false);
+		tablaProcesos.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaProcesos.getTableHeader().setReorderingAllowed(false);
+		this.setFilas();
 	}
 	
 	private void setFilas() 
@@ -180,20 +179,20 @@ public class Adm_Proceso extends JInternalFrame
 		ResultSet result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT * FROM calidad");
+							"SELECT * FROM proceso");
 		
 			Integer CantColumnas = 3;
-			Object datosCalidad[] = new Object[CantColumnas];
+			Object datosProceso[] = new Object[CantColumnas];
 			try 
 			{
-				DefaultTableModel tablaTempCalidad = (DefaultTableModel) tablaProcesos.getModel();
+				DefaultTableModel tablaTempProceso = (DefaultTableModel) tablaProcesos.getModel();
 				while (result.next()) 
 				{
 					for (int i = 0; i < CantColumnas; i++) 
 					{
-						datosCalidad[i] = result.getObject(i + 1);
+						datosProceso[i] = result.getObject(i + 1);
 					}
-					tablaTempCalidad.addRow(datosCalidad);
+					tablaTempProceso.addRow(datosProceso);
 				}
 			} 
 			catch (Exception e) 

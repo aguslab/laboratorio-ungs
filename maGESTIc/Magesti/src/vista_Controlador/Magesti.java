@@ -42,7 +42,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	
 	private	JMenuItem 
 		clientes,
-		Proveedor;
+		Proveedor,
+		Stock,
+		Atributos,
+		Procesos;
 	private	JMenuItem 
 		mostrarCalendario;
 		//reporte;
@@ -78,8 +81,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	private SimpleDateFormat fechaFormateada = new SimpleDateFormat ("dd MMMM yyyy", Locale.getDefault());
 	
 	private String fecha = fechaFormateada.format (fechaActual);
-	private JMenuItem Stock;
-	private JMenuItem Atributos;
 	
 
 	public Magesti() 
@@ -190,7 +191,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		registrarRecepcionDePedido.addActionListener (this);
 
 		clientes = new JMenuItem ("Registro de Clientes  ", new ImageIcon ("Imagenes/clientes.png"));
-		clientes.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_G, Event.CTRL_MASK));
+		clientes.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
 		clientes.setMnemonic ((int)'G');
 		clientes.addActionListener (this);
 		
@@ -269,6 +270,13 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		barra.add (mnuSolicitudDeCompra);
 		barra.add (mnuRecepcionDePedido);
 		barra.add (mnuAdministracion);
+		
+		Procesos = new JMenuItem("Registro de Procesos", new ImageIcon ("Imagenes/clientes.png"));
+		Procesos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+		mnuAdministracion.add(Procesos);
+		Procesos.addActionListener (this);
+		
+		
 		barra.add (mnuCalendario);
 		barra.add (mnuAyuda);
 		barra.add (mnuSalir);
@@ -542,6 +550,26 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 					e.printStackTrace();
 				}
 				admAtributos.show ();
+			}
+		}
+		
+		else if (obj == Procesos) 
+		{
+			boolean b = Metodos.openChildWindow ("Registro de Procesos");
+			System.out.println("sads");
+			if (b == false) 
+			{
+				Adm_Proceso admProceso= new Adm_Proceso();
+				escritorio.add (admProceso);
+				try 
+				{
+					admProceso.setMaximum(true);
+				} 
+				catch (PropertyVetoException e) 
+				{
+					e.printStackTrace();
+				}
+				admProceso.show ();
 			}
 		}
 		
