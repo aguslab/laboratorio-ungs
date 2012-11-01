@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -728,68 +729,69 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				Double total = Metodos.pasarADouble(getTxtTotal().getText());
+				Double subtotal = Metodos.pasarADouble(getTxtSubtotal().getText());
+				Double MontoIVA = Metodos.pasarADouble(getTxtMontoIVA().getText());
+				Double porcentajeIVA = Double.parseDouble(Config.IVA.toString());
+				String fechaEntrega = getCbDia().getSelectedItem().toString()+ " de " + getCbMes().getSelectedItem().toString() + " del " + getCbAnio().getSelectedItem().toString();
+				String id_SC = getTxtNumero().getText();
+				String retirar = "";
+				String envio = "";
+				String maniana = "";
+				String tarde = "";
+				if(getRdbtnRetirar().isSelected())
+					retirar = "Si";
+				else
+					retirar = "No";
+				if(getRdbtnEnviarAProveedor().isSelected())
+					envio = "Si";
+				else
+					envio = "No";
+				if(getRbManiana().isSelected())
+					maniana = "Si";
+				else
+					maniana = "No";
+				if(getRbTarde().isSelected())
+					tarde = "Si";
+				else
+					tarde = "No";
+				
+				ArrayList<FilaDetalles> rd = new ArrayList<FilaDetalles>();
+				Integer cantFilas = tablaDetalles.getRowCount();
+				for (int i = 0; i < cantFilas; i++) 
+				{
+					rd.add(new FilaDetalles(Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString()), (String) tablaDetalles.getValueAt(i, 1),
+							(String) tablaDetalles.getValueAt(i, 2), (String) tablaDetalles.getValueAt(i, 3), (String) tablaDetalles.getValueAt(i, 4), 
+							(Integer) tablaDetalles.getValueAt(i, 5), (Double) tablaDetalles.getValueAt(i, 6), 
+							(String) tablaDetalles.getValueAt(i, 7), (Double) tablaDetalles.getValueAt(i, 8)));
+							
+				}
+				ReporteSC r = new ReporteSC(id_SC,getCbNroOT().getSelectedItem().toString(),getTxtVendedor().getText(),
+											getCbProveedor().getSelectedItem().toString(),total, subtotal,MontoIVA, porcentajeIVA, getTxtDireccionRetiro().getText(),
+											fechaEntrega, getTxtFecha().getText(), retirar, envio, maniana, tarde, getTxtDescripcionIncidencia().getText(),rd);
+				
+				ArrayList<ReporteSC> reportes = new ArrayList<ReporteSC>();
+				reportes.add(r);
+				JasperReport reporte = null;
 				try 
 				{
-					Double total = Metodos.pasarADouble(getTxtTotal().getText());
-					Double subtotal = Metodos.pasarADouble(getTxtSubtotal().getText());
-					Double MontoIVA = Metodos.pasarADouble(getTxtMontoIVA().getText());
-					Double porcentajeIVA = Double.parseDouble(Config.IVA.toString());
-					String fechaEntrega = getCbDia().getSelectedItem().toString()+ " de " + getCbMes().getSelectedItem().toString() + " del " + getCbAnio().getSelectedItem().toString();
-					String id_SC = getTxtNumero().getText();
-					String retirar = "";
-					String envio = "";
-					String maniana = "";
-					String tarde = "";
-					if(getRdbtnRetirar().isSelected())
-						retirar = "Si";
-					else
-						retirar = "No";
-					if(getRdbtnEnviarAProveedor().isSelected())
-						envio = "Si";
-					else
-						envio = "No";
-					if(getRbManiana().isSelected())
-						maniana = "Si";
-					else
-						maniana = "No";
-					if(getRbTarde().isSelected())
-						tarde = "Si";
-					else
-						tarde = "No";
-					
-					ArrayList<FilaDetalles> rd = new ArrayList<FilaDetalles>();
-					Integer cantFilas = tablaDetalles.getRowCount();
-					for (int i = 0; i < cantFilas; i++) 
-					{
-						rd.add(new FilaDetalles(Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString()), (String) tablaDetalles.getValueAt(i, 1),
-								(String) tablaDetalles.getValueAt(i, 2), (String) tablaDetalles.getValueAt(i, 3), (String) tablaDetalles.getValueAt(i, 4), 
-								(Integer) tablaDetalles.getValueAt(i, 5), (Double) tablaDetalles.getValueAt(i, 6), 
-								(String) tablaDetalles.getValueAt(i, 7), (Double) tablaDetalles.getValueAt(i, 8)));
-								
-					}
-					ReporteSC r = new ReporteSC(id_SC,getCbNroOT().getSelectedItem().toString(),getTxtVendedor().getText(),
-												getCbProveedor().getSelectedItem().toString(),total, subtotal,MontoIVA, porcentajeIVA, getTxtDireccionRetiro().getText(),
-												fechaEntrega, getTxtFecha().getText(), retirar, envio, maniana, tarde, getTxtDescripcionIncidencia().getText(),rd);
-					
-					ArrayList<ReporteSC> reportes = new ArrayList<ReporteSC>();
-					reportes.add(r);
-			         //busca el reporte con ese nombre
-			         jasperDesign = JRXmlLoader.load("reporteSC.jrxml");
-			 
-			         //compila el diseño
-			         jasperReport = JasperCompileManager.compileReport(jasperDesign);
-			 
-			         //Le setea al reporte vacio los datos del reporte r (si no lo guardaba en una lista no se mostraba nada)
-			         jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(reportes));
-			 
-			         //Mostrar el reporte
-			         JasperViewer.viewReport(jasperPrint);			         
-			 
-			     } 
-				catch (JRException e) 
-			     {
+					reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteSC.jasper");
+				} 
+				catch (Exception e1) 
+				{
+					e1.printStackTrace();
+				}
+				JasperPrint jasperPrint = null;
+				try 
+				{
+					jasperPrint = JasperFillManager.fillReport(reporte, null,
+							new JRBeanCollectionDataSource(reportes));
+					JasperViewer.viewReport(jasperPrint,false);
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
-			     }
+				}
 			}
 		});
 		btnImprimirReporte.setFont(new Font("Arial", Font.PLAIN, 12));
