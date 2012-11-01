@@ -8,6 +8,7 @@ public class Proceso
 	
 	private Integer id_proceso;
 	private String nombre;
+	private Boolean activo;
 	
 	
 	public Proceso(Integer id_proceso, String nombre) 
@@ -18,10 +19,11 @@ public class Proceso
 	}
 	
 	
-	public Proceso(String nombre) 
+	public Proceso(String nombre, Boolean activo) 
 	{
 		super();
 		this.nombre = nombre;
+		this.activo = activo;
 	}
 	
 	
@@ -72,6 +74,26 @@ public class Proceso
 	public void setNombre(String nombre) 
 	{
 		this.nombre = nombre;
+	}
+	
+	public Boolean getActivo() 
+	{
+		return this.activo;
+	}
+
+
+	public void setActivo(Boolean activo) 
+	{
+		this.activo = activo;
+	}
+	
+	public static boolean updateProceso(String id, String nombre, Boolean activo)
+	{
+		boolean r=ConexionDB.getbaseDatos().ejecutar(
+				"UPDATE proceso SET nombre = " + "'"+nombre+"'" + ", activo=" + activo
+						+ " WHERE id_proceso ="
+						+ Integer.parseInt(id));
+		return r;
 	}
 	
 	

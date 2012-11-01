@@ -2,9 +2,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteOT" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5dba5076-39bb-46e4-b451-e4f88ac0a30f">
 	<property name="ireport.zoom" value="0.9090909090909096"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="182"/>
+	<property name="ireport.y" value="134"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
-		<defaultValueExpression><![CDATA["C:\\Escritorio\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[]]>
