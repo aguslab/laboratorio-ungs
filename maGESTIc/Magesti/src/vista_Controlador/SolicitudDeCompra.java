@@ -234,7 +234,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					
 
 					Object nuevo[]= {null,"","","","",null,null,"",null};
-					for(int i=0;i<materiales.size();i++){
+					for(int i=0;i<materiales.size();i++)
+					{
 						temp.addRow(nuevo);
 						String calidad= Calidad.getNombre(materiales.get(i).getId_calidad());
 						String variante= Variante.getNombre(materiales.get(i).getId_variante());
@@ -242,12 +243,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						Integer gramaje= materiales.get(i).getGramaje();
 						Integer cantHojas=materiales.get(i).getHojas();
 						
-						String cant[] = new String[50001 - cantHojas];
-						for (int j = 0; j < cant.length; j++) {
+						System.out.println("cant hojas" + cantHojas);
+						String cant[] = new String[4];
+						for (int j = 0; j < cant.length; j++) 
+						{
 							int a=j+cantHojas;
 							cant[j] = "" + a;
+							
 						}
 						//pongo un JSpinner en el lugar de Cantidad de hojas
+						
 						TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
 						columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
 						
@@ -546,7 +551,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 				//pongo un JSpinner en el lugar de Cantidad de hojas
 				TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
-				columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
+			//	columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
 				
 				
 				
