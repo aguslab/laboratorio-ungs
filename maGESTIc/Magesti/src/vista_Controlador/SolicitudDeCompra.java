@@ -772,26 +772,29 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				
 				ArrayList<ReporteSC> reportes = new ArrayList<ReporteSC>();
 				reportes.add(r);
+				
 				JasperReport reporte = null;
+
 				try 
 				{
-					reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteSC.jasper");
+				reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteSC.jasper");
 				} 
 				catch (Exception e1) 
 				{
-					e1.printStackTrace();
+				e1.printStackTrace();
 				}
 				JasperPrint jasperPrint = null;
 				try 
 				{
-					jasperPrint = JasperFillManager.fillReport(reporte, null,
-							new JRBeanCollectionDataSource(reportes));
-					JasperViewer.viewReport(jasperPrint,false);
+				jasperPrint = JasperFillManager.fillReport(reporte, null,
+				new JRBeanCollectionDataSource(reportes));
+				JasperViewer.viewReport(jasperPrint,false);
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
+				e.printStackTrace();
 				}
+
 			}
 		});
 		btnImprimirReporte.setFont(new Font("Arial", Font.PLAIN, 12));

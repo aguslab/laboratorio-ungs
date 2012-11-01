@@ -296,6 +296,164 @@ public class Stock {
 
 		return ConexionDB.getbaseDatos().ejecutar("UPDATE stock set activo=false WHERE id_stock="+id_Stock);
 		
+	}
+
+
+
+	public static String[] getGramajesEnStock() {
+		
+		String[] gramajes= null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT DISTINCT gramaje FROM stock WHERE activo=true");
+		try 
+		{
+			resultado.last();
+			int cantGramajes = resultado.getRow();
+			gramajes= new String[cantGramajes];
+			resultado.beforeFirst();
+		} 
+		catch (SQLException e2) 
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+
+		if (resultado != null) {
+			int i=0;
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					Integer gr=resultado.getInt(1);
+					gramajes[i] = gr.toString();
+					i++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return gramajes;
+	}
+
+
+
+	public static String[] getVariantesDeStock() {
+		String[] variantes= null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT DISTINCT id_variante FROM stock WHERE activo=true");
+		try 
+		{
+			resultado.last();
+			int cantVariantes= resultado.getRow();
+			variantes= new String[cantVariantes];
+			resultado.beforeFirst();
+		} 
+		catch (SQLException e2) 
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+
+		if (resultado != null) {
+			int i=0;
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					Integer gr=resultado.getInt(1);
+					variantes[i] = gr.toString();
+					i++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return variantes;
+	}
+
+
+
+	public static String[] getFormatosEnStock() {
+
+		String[] formatos= null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT DISTINCT id_formato FROM stock WHERE activo=true");
+		try 
+		{
+			resultado.last();
+			int cantFormatos= resultado.getRow();
+			formatos= new String[cantFormatos];
+			resultado.beforeFirst();
+		} 
+		catch (SQLException e2) 
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+
+		if (resultado != null) {
+			int i=0;
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					Integer form=resultado.getInt(1);
+					formatos[i] = form.toString();
+					i++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return formatos;
+	}
+
+
+
+	public static String[] getOTsDeStock() {
+		
+		String[] OTs= null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT DISTINCT s.id_orden_trabajo,o.nombre_trabajo FROM stock s,orden_trabajo o WHERE s.activo=true AND s.id_orden_trabajo=o.id_orden_trabajo");
+		try 
+		{
+			resultado.last();
+			int cantOTs= resultado.getRow();
+			OTs= new String[cantOTs];
+			resultado.beforeFirst();
+		} 
+		catch (SQLException e2) 
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+
+		if (resultado != null) {
+			int i=0;
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					Integer id_ot=resultado.getInt("id_orden_trabajo");
+					String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
+					String nom_ot=resultado.getString("nombre_trabajo");
+					OTs[i]=id_OT_Formato+" - "+nom_ot;
+					i++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return OTs;
+		
 	}	
 	
 	

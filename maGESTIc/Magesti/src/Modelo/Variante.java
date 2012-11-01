@@ -160,7 +160,8 @@ public class Variante {
 				while (resultado.next()) {
 					Variante variante = new Variante(new Integer(
 							resultado.getInt("id_variante")),
-							resultado.getString("nombre"), resultado.getBoolean("activo"));
+							resultado.getString("nombre"),
+							resultado.getBoolean("activo"));
 					list_Var.add(variante);
 				}
 			} catch (Exception e) {

@@ -32,6 +32,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import Modelo.Calidad;
+import Modelo.Detalle;
 import Modelo.Egreso_Stock;
 import Modelo.Elemento;
 import Modelo.Formato_Papel;
@@ -317,23 +318,23 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		
 		
 		Integer id_stock=Metodos.FacturaAEntero(stock.getValueAt(filaElegida, 2).toString());
-		Integer cantF=Stock.getCantFilasSC(id_stock);
+		ArrayList<Detalle> detalles=Detalle.getDetallesRecibidos(id_stock);
 		
-		for(int i=0;i<cantF;i++){
+		for(int i=0;i<detalles.size();i++){
 			ts.addRow(nuevaFilaDetalles);
 			
 			//NO ES NECESARIO MOSTRAR ORDEN DE TRABAJO, SE MUESTRA EN EL COMBOBOX
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 0), i, 0);
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 2), i, 1);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 4), i, 2);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 5), i, 3);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 6), i, 4);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 7), i, 5);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 8), i, 6);
+			tablaStock.setValueAt(Calidad.getNombre(detalles.get(i).getId_calidad()), i, 2);
+			tablaStock.setValueAt(Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel()), i, 3);
+			tablaStock.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 4);
+			tablaStock.setValueAt(detalles.get(i).getGramaje(), i, 5);
+			tablaStock.setValueAt(detalles.get(i).getCantidad(), i, 6);
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 9), i, 7);
 			tablaStock.setValueAt(stock.getValueAt(filaElegida, 10), i, 8);
 			
-			Integer hojasTotal=Integer.parseInt(stock.getValueAt(filaElegida, 8).toString());
+			Integer hojasTotal=detalles.get(i).getCantidad();
 			Integer hojasUsadas=Integer.parseInt(stock.getValueAt(filaElegida, 9).toString());
 			String cant[] = new String[(hojasTotal+1) - hojasUsadas];
 			for (int j = 0; j < cant.length; j++) {
@@ -341,9 +342,9 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				cant[j] = "" + a;
 			}
 			//pongo un JSpinner en el lugar de hojas a retirar
+			
 			TableColumn columnaCantHojasRetirar=tablaStock.getColumnModel().getColumn(9);
 			columnaCantHojasRetirar.setCellEditor(new SpinnerEditor(cant));
-			
 			
 			//Un comboBox con el nro del elemento de la tabla de elementos
 			//debreria elegir segun el elemento para el cual desea sacar hojas

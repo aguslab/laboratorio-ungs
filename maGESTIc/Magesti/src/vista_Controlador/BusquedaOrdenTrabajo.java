@@ -26,7 +26,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 	{
 				nuevaOT.getEstado().setEnabled(true);
 				//Cargo en la ventana de OT los valores de la fila elegida
-				nuevaOT.getTxtNro().setText(id_OT.toString());
+				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura(id_OT));
 				
 				Orden_Trabajo OT= Orden_Trabajo.getOT(id_OT);
 				

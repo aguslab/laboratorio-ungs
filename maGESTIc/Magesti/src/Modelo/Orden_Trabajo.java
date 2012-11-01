@@ -105,7 +105,7 @@ public class Orden_Trabajo implements Config
 		
 		public static String [] getId_nom_OT()
 		{
-			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado='Pendiente'");
+			ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo,nombre_trabajo FROM orden_trabajo WHERE estado!='Cerrrada'");
 			String[] id_nom_ot = null;
 			try 
 			{
@@ -636,6 +636,27 @@ public class Orden_Trabajo implements Config
 		}
 		
 		return hojas;	
+	}
+
+	public static String getEstadoOT(Integer id_OT) {
+
+		String estado = "";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT estado FROM orden_trabajo WHERE id_orden_trabajo="
+						+ id_OT);
+
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					estado = resultado.getString("estado");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return estado;
 	}
 	
 }

@@ -14,13 +14,27 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import Modelo.ConexionDB;
+import Modelo.Formato_Papel;
+import Modelo.Stock;
+import Modelo.Variante;
+
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class Adm_Stock extends JInternalFrame 
 {
 	private static JTable tablaStock;
+	private JScrollPane spStock;
+	private JPanel panStock;
+	private TableRowSorter<DefaultTableModel> trsfiltro;
+	private JComboBox cbGramaje,cbVariante,cbFormato,cbOT;
+	private DefaultTableModel modelo;
+	
 	public Adm_Stock() 
 		{
 			super ("Administracion de Stock", false, true, false, true);
@@ -40,20 +54,10 @@ public class Adm_Stock extends JInternalFrame
 			btnCerrar.setBounds(d.width-145, d.height-210, 120, 35);
 			getContentPane().add(btnCerrar);
 			
-			JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-			btnConfirmar.setBounds(d.width-280, d.height-210, 120, 35);
-			btnConfirmar.addActionListener(new ActionListener() 
-			{
-				public void actionPerformed(ActionEvent e) 
-				{
-					Integer cantFilasDatos = tablaStock.getRowCount();
-					/*
-					 * VER SI HACE ALGO EL GUARDAR
-					 */
-				}
-			}
-			);
-			getContentPane().add(btnConfirmar);
+//			JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
+//			btnConfirmar.setBounds(d.width-280, d.height-210, 120, 35);
+//			getContentPane().add(btnConfirmar);
+			
 			
 			JButton button = new JButton("Solicitud de compra", new ImageIcon ("Imagenes/clientes.png"));
 			button.addActionListener(new ActionListener() 
@@ -68,43 +72,117 @@ public class Adm_Stock extends JInternalFrame
 			button.setBounds(d.width-455, d.height-210, 160, 35);
 			getContentPane().add(button);
 			
-			JPanel panStock = new JPanel();
-			panStock.setBounds(10, 11, d.width-35, d.height-230);
-			getContentPane().add(panStock);
-			panStock.setLayout(null);
+			spStock= new JScrollPane();
+			spStock.setBounds(0, 100, d.width-35, d.height-230);
 			
-			JScrollPane spStock = new JScrollPane();
-			spStock.setBounds(0, 0, d.width-35, d.height-230);
+			panStock= new JPanel();
+			panStock.setBounds(10, 11, d.width-35, d.height-230);
+			panStock.setLayout(null);
+
+			setFilas();
+
+			
+			
+			spStock.setViewportView(tablaStock);
+			getContentPane().add(panStock);
 			panStock.add(spStock);
 			
-			tablaStock = new JTable();
-			tablaStock.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
-				}
-			) {
-				Class[] columnTypes = new Class[] {
-					Object.class, String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false, false, false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
+			JLabel lblGramaje = new JLabel("Gramaje: ");
+			lblGramaje.setBounds(10, 5, 63, 25);
+			panStock.add(lblGramaje);
+			
+			JLabel lblFormato = new JLabel("Formato: ");
+			lblFormato.setBounds(10, 35, 52, 25);
+			panStock.add(lblFormato);
+			
+			JLabel lblVariante = new JLabel("Variante: ");
+			lblVariante.setBounds(182, 5, 63, 25);
+			panStock.add(lblVariante);
+			
+			String[] gramajes= Stock.getGramajesEnStock();
+			cbGramaje = new JComboBox(gramajes);
+			cbGramaje.setBounds(83, 7, 70, 23);
+			panStock.add(cbGramaje);
+			cbGramaje.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					String selec=cbGramaje.getSelectedItem().toString();
+					int columGramaje=7;
+					filtro(selec, columGramaje);
 				}
 			});
+			
+			
+
+			String[] formatos= Stock.getFormatosEnStock();
+			for(int i=0;i<formatos.length;i++){
+				String id_form=formatos[i];
+				formatos[i]=Formato_Papel.getTamanio(Integer.parseInt(id_form));
+			}
+			cbFormato = new JComboBox(formatos);
+			cbFormato.setBounds(83, 37, 70, 23);
+			panStock.add(cbFormato);
+			cbFormato.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String select=cbFormato.getSelectedItem().toString();
+					int columFormato=5;
+					filtro(select, columFormato);
+				}
+			});
+			
+			JLabel lblOT = new JLabel("Orden Trabajo: ");
+			lblOT.setBounds(173, 35, 87, 25);
+			panStock.add(lblOT);
+			
+			String[] variantes=Stock.getVariantesDeStock();
+			for(int i=0;i<variantes.length;i++){
+				String id_var=variantes[i];
+				variantes[i]=Variante.getNombre(Integer.parseInt(id_var));
+			}
+				
+			cbVariante = new JComboBox(variantes);
+			cbVariante.setBounds(255, 7, 165, 23);
+			panStock.add(cbVariante);
+			cbVariante.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					String select=cbVariante.getSelectedItem().toString();
+					int columVariante=6;
+					filtro(select, columVariante);
+				}
+			});
+			
+			String[] OTs=Stock.getOTsDeStock();
+			cbOT = new JComboBox(OTs);
+			cbOT.setBounds(255, 37, 165, 23);
+			panStock.add(cbOT);
+			
+			cbOT.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					String select=cbOT.getSelectedItem().toString();
+					int columOT=1;
+					filtro(select, columOT);
+				}
+			});
+			
+			
+				
+			
+			
 			tablaStock.getColumnModel().getColumn(0).setPreferredWidth(100);
 			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(100);
 			tablaStock.getColumnModel().getColumn(2).setPreferredWidth(107);
-			spStock.setViewportView(tablaStock);
 			tablaStock.getTableHeader().setReorderingAllowed(false);
-			
-			setFilas();
+
 			
 			/*
 			 * 
@@ -129,6 +207,16 @@ public class Adm_Stock extends JInternalFrame
 			
 		}
 			
+	private void filtro(String cadena, int columna) {
+		
+		
+		trsfiltro = new TableRowSorter<DefaultTableModel>(modelo);
+		trsfiltro.setRowFilter(RowFilter.regexFilter(cadena, columna));
+		//Metodos.borrarFilas(modelo);
+		tablaStock.setModel(modelo);
+		tablaStock.setRowSorter(trsfiltro);
+	}
+
 	private void setFilas() {
 		ResultSet result = ConexionDB
 				.getbaseDatos()
@@ -138,8 +226,28 @@ public class Adm_Stock extends JInternalFrame
 		Integer CantColumnas = 11;
 		Object datos[] = new Object[CantColumnas];
 		try {
-			DefaultTableModel tablaTempDatos = (DefaultTableModel) tablaStock.getModel();
-			while (result.next()) {
+			modelo= new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+							"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
+					}
+				) {
+					Class[] columnTypes = new Class[] {
+						Object.class, String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class
+					};
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+					boolean[] columnEditables = new boolean[] {
+						false, false, false, false, false, false, false, false, false, false, false
+					};
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
+				
+				while (result.next()) {
 				for (int i = 0; i < CantColumnas; i++) {
 					datos[i] = result.getObject(i + 2);
 					if(i==0){
@@ -160,7 +268,13 @@ public class Adm_Stock extends JInternalFrame
 						datos[i] = Metodos.EnteroAFactura(n);
 					}
 				}
-				tablaTempDatos.addRow(datos);
+				modelo.addRow(datos);
+				//TableRowSorter<TableModel> modeloOrdenado = new TableRowSorter<TableModel>(modelo);
+				//modeloOrdenado.setRowFilter(RowFilter.regexFilter("S", 1));
+				tablaStock = new JTable(modelo);
+				//tablaStock.setRowSorter(modeloOrdenado);
+				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,7 +285,4 @@ public class Adm_Stock extends JInternalFrame
 	public static JTable getTablaStock() {
 		return tablaStock;
 	}
-
-	
-			
 }

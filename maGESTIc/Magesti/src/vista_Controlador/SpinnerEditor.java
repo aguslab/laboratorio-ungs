@@ -42,8 +42,3 @@ public class SpinnerEditor extends AbstractCellEditor
 }
 
 
-//String maxId = Metodos.EnteroAFactura(Solicitud_compra.getUltId_SC());
-//String[] proveedores=Proveedor.getProveedores();
-//String [] numot_nombreot=Orden_Trabajo.getId_nom_OT();
-
-

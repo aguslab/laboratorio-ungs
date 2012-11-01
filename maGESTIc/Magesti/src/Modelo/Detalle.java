@@ -622,9 +622,44 @@ public class Detalle {
 						e.printStackTrace();
 					}
 				}
-		return id_det;
-		
-		
-		
+		return id_det;	
 	}
+	
+	
+	public static ArrayList<Detalle> getDetallesRecibidos(Integer id_SC) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM detalle WHERE id_solicitud_compra=" + id_SC + " AND recibido=true");
+
+		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
+
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					Detalle det = new Detalle(new Integer(
+							resultado.getInt("id_detalle")),new Integer(
+									resultado.getInt("id_solicitud_compra")),new Integer(
+											resultado.getInt("cantidad")),
+							resultado.getString("marca"),
+							new Integer(resultado.getInt("id_calidad")),new Integer(
+									resultado.getInt("id_formato_papel")),new Integer(
+											resultado.getInt("id_variante")),new Integer(
+													resultado.getInt("gramaje")),
+							new Double(resultado.getDouble("precio_unitario")),resultado.getString("unidad_medida_del_precio"),
+							new Double(resultado.getDouble("importe")),
+							resultado.getBoolean("recibido"));
+					
+					detalles.add(det);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return detalles;
+	}
+	
+	
 }
