@@ -355,7 +355,8 @@ public class Metodos implements Config
 	{
 		String f_h_actual = null;
 
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
+		//ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select DATE_FORMAT(NOW(),'%d/%m/%Y %H:%i:%s')");
 		if(resultado != null)
 		{
 			try 
@@ -377,7 +378,8 @@ public class Metodos implements Config
 	{
 		String f_actual = null;
 
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT curdate();");
+		//ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT curdate();");
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT DATE_FORMAT(curdate(),'%d/%m/%Y')");
 		if(resultado != null)
 		{
 			try 
@@ -392,6 +394,13 @@ public class Metodos implements Config
 			}
 		}
 		return f_actual;
+	}
+	
+	public static String YMDaDMY(String ymd) 
+	{
+    	//Dada una fecha 'yyyy-mm-dd' la pasa a 'dd/mm/yyyy'
+    	String[] dmy = ymd.split("\\-");
+    	return dmy[2]+"/"+dmy[1]+"/"+dmy[0];
 	}
 	
 	public static String valorAncho(String cadena) 
