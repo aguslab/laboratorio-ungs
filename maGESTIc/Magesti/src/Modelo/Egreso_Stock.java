@@ -2,6 +2,7 @@ package Modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import vista_Controlador.Metodos;
 
@@ -142,13 +143,12 @@ public class Egreso_Stock {
 	public static Integer getHojasUsadas(Integer id_materiales) {
 		Integer cantHojas = 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT MAX(cant_hojas_retiradas) FROM egreso_stock WHERE id_materiales="+id_materiales);
+				"SELECT cant_hojas_retiradas FROM egreso_stock WHERE id_materiales="+id_materiales);
 
 		if (resultado != null) {
 			try {
 				while (resultado.next()) {
-					// como solo devuelve un valor, le pido el del registro (1)
-					cantHojas = resultado.getInt(1);
+					cantHojas=cantHojas + resultado.getInt("cant_hojas_retiradas");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -158,23 +158,23 @@ public class Egreso_Stock {
 	}
 
 
-	public static Integer getIdStockSegunIdMaterial(Integer id_materiales) {
-		Integer idStock = 0;
+	public static ArrayList<Integer> getIdStockSegunIdMaterial(Integer id_materiales) {
+		ArrayList<Integer> ids_stock=new ArrayList<Integer>();
+		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales);
+				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales+" ORDER BY id_stock");
 
 		if (resultado != null) {
 			try {
 				while (resultado.next()) {
 					// como solo devuelve un valor, le pido el del registro (1)
-					idStock = resultado.getInt(1);
-					break;
+					ids_stock.add(resultado.getInt("id_stock"));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return idStock;
+		return ids_stock;
 	}
 
 	

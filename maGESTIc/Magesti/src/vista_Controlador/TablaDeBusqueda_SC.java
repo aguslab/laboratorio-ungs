@@ -64,7 +64,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getBtnImprimirReporte().setEnabled(true);
 				
 				//Cargo en la ventana de SC los valores de la fila elegida
-				final Integer id_SC=(Integer)tablaBusqueda.getValueAt(filaElegida, 0);
+				final Integer id_SC=Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
 				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(id_SC));
 				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
 				
@@ -258,7 +258,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 								Integer id_varRP = (Detalle.getidVariante(id_det.get(i)));
 								Integer gramRP = (Detalle.getGramaje(id_det.get(i)));
 								
-								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, 0,true);
+								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, false,true);
 								st.Alta();
 							}
 
@@ -292,14 +292,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 		});
 		
 		getContentPane().add (jpMostrar);
-//		dtmMagesti = new DefaultTableModel(null, getColumnas());
-//		setFilas();
-//		tablaBusqueda.setModel(dtmMagesti);
-//		jspTabla.add(tablaBusqueda);
-//		jspTabla.setViewportView(tablaBusqueda);
-//		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);	
-	
-			// Llenamos el modelo
+		
+		// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas()){
 				
 				boolean[] columnEditables = new boolean[] {
@@ -345,10 +339,16 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 					while (result.next()) 
 					{
-						
+						Integer id_sc=null;
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
+							if(i==0)
+							{
+								id_sc=(Integer) datos[i];
+								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
+							}
+							
 							if (i==5)
 							{
 								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);

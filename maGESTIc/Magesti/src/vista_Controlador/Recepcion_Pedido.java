@@ -187,52 +187,6 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				
 		final Integer cantfilastrue= Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
 
-//		spRecibido = new JScrollPane();
-//		spRecibido.setViewportBorder(null);
-//		spRecibido.setBounds(800, 11, 88, 219);
-//		JpSolicitudDeCompra.add(spRecibido);
-//		
-//		tablaRecibido = new JTable();
-//		tablaRecibido.setBorder(new LineBorder(new Color(0, 0, 0)));
-//		tablaRecibido.setModel(new DefaultTableModel(
-//			new Object[][] {
-//			},
-//			new String[] {
-//				"<html><br>Recibido</html>"
-//			}
-//		) {
-//			Class[] columnTypes = new Class[] {
-//				Boolean.class
-//			};
-//			public Class getColumnClass(int columnIndex) {
-//				return columnTypes[columnIndex];
-//			}
-//			public boolean isCellEditable(int row, int column) 
-//			{
-//				//verifica solo las filas que no hayan sido recibidas aun
-//				if(row >= cantfilastrue){
-//					return true;
-//				}
-//				return false;
-//				
-//			}
-//		});
-//		tablaRecibido.getColumnModel().getColumn(0).setResizable(false);
-//		tablaRecibido.getColumnModel().getColumn(0).setMaxWidth(100);
-//		tablaRecibido.getTableHeader().setReorderingAllowed(false);
-//		spRecibido.setViewportView(tablaRecibido);
-		
-//		DefaultTableModel tempDetalles = (DefaultTableModel) tablaDetalles.getModel();
-//		Object nuevaFila[]= {false};
-//		
-//		for (int i = 0; i < cantFilas; i++) 
-//		{
-//			tempDetalles.addRow(nuevaFila);
-//			tablaDetalles.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 9);
-//		}
-		
-		
-		
 		btnSelecAll = new JButton("Seleccionar todos", null);
 		btnSelecAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -296,7 +250,8 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				 */
 				for(int i=0;i<cantHojasRP.size();i++){
 					Integer id_ot=Solicitud_compra.getId_OT(id_SC);
-					Integer cnth= cantHojasRP.get(i),cantusadas=0,remanente=0;
+					Integer cnth= cantHojasRP.get(i),cantusadas=0;
+					Boolean remanente=false;
 					String marca= marcaRP.get(i);
 					Integer id_cal= id_calRP.get(i);
 					Integer id_for= id_forRP.get(i);

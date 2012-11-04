@@ -69,6 +69,7 @@ public class TablaDeBusqueda extends JInternalFrame
 			};
 			setFilas();
 			tablaBusqueda.setModel(dtmMagesti);
+			tablaBusqueda.getColumnModel().getColumn(0).setPreferredWidth(85);
 			jspTabla.add(tablaBusqueda);
 			this.setSize(500, 200);
 

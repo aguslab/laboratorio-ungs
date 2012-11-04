@@ -23,7 +23,7 @@ public class Orden_Trabajo implements Config
 		private boolean apaisado;
 		private String estado;
 		private Integer hojas_utilizadas;
-		private static String f_cierre;
+		private String f_cierre;
 		private String f_entrega;
 		
 
@@ -78,25 +78,18 @@ public class Orden_Trabajo implements Config
 	}
 		
 			
-		public static Integer getUltOT(){
-			Integer maxId = null;
-			ResultSet resultado = ConexionDB.getbaseDatos().consultar
-			(
-				"SELECT MAX(id_orden_trabajo) FROM orden_trabajo"
-			);
-			
-		if (resultado != null) 
-		{
-			try 
-			{
-				while (resultado.next()) 
-				{
+	public static Integer getUltOT() {
+		Integer maxId = null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT MAX(id_orden_trabajo) FROM orden_trabajo");
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
 					// como solo devuelve un valor, le pido el del registro (1)
 					maxId = resultado.getInt(1);
 				}
-			} 
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -383,7 +376,7 @@ public class Orden_Trabajo implements Config
 			this.hojas_utilizadas = hojas_utilizadas;
 		}
 				
-		public static String getF_cierre() {
+		public String getF_cierre() {
 			return f_cierre;
 		}
 
@@ -410,16 +403,14 @@ public class Orden_Trabajo implements Config
 		
 		
 		public static boolean CambiarCantHojasUtil(Integer id_OT,Integer cantHojas){
-			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set hojas_utilizadas=hojas_utilizadas+"+cantHojas+" where id_orden_trabajo="+id_OT)){
+			if(ConexionDB.getbaseDatos().ejecutar("UPDATE orden_trabajo set hojas_utilizadas=hojas_utilizadas+"+cantHojas+" WHERE id_orden_trabajo="+id_OT)){
 				return true;
 			}else{
 				return false;
 			}
 		}
 		
-		// R: una orden de trabajo
-		// A: devuelve true si se inserto la orden de trabajo en la tabla. False
-		// lo contrario.
+		// A: devuelve true si se inserto la orden de trabajo en la tabla. False lo contrario.
 		public boolean Alta() {
 
 		String nombre_prod = getNombre_Producto();
@@ -534,7 +525,6 @@ public class Orden_Trabajo implements Config
 				"UPDATE orden_trabajo SET f_cierre =" + fhcierre +
 						 " WHERE id_orden_trabajo ="+ id_OT);
 		return r;
-		
 	}
 	
 	public static ArrayList<String> getOT_SegunID(String id)
@@ -691,16 +681,6 @@ public class Orden_Trabajo implements Config
 		}
 
 		return estado;
-	}
-	
-	public static boolean setF_h_cierre(Integer id_OT, String f_h_cierre)
-	{
-	String fhcierre = "'" + f_h_cierre + "'";
-	boolean r=ConexionDB.getbaseDatos().ejecutar(
-	"UPDATE orden_trabajo SET f_cierre =" + fhcierre +
-	" WHERE id_orden_trabajo ="+ id_OT);
-	return r;
-
 	}
 	
 }

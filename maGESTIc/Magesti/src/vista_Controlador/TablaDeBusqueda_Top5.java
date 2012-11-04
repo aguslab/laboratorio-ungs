@@ -1,10 +1,12 @@
 package vista_Controlador;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.util.Calendar;
 
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,9 +27,12 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 	private JScrollPane jspTabla;
 	private static JTable tablaBusquedaTop5;
 	
+	private JComponent Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+	private Dimension dimBarra = null; 
+	
 	public TablaDeBusqueda_Top5()
 	{
-		super ("Consultar Orden de Trabajo", true, true, true, true);
+		super ("5 Ordenes de Trabajo más Proximas", false, false, false, false);
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusquedaTop5);
@@ -35,6 +40,8 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		tablaBusquedaTop5 = new JTable();
 		tablaBusquedaTop5.setEnabled(false);
 		tablaBusquedaTop5.getTableHeader().setReorderingAllowed(false);
+		
+		ocultarBarraTitulo();
 		
 		tablaBusquedaTop5.addMouseListener
 		(
@@ -140,4 +147,13 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 				
 			}
 		}
+		
+	public void ocultarBarraTitulo() {
+		Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI())
+				.getNorthPane();
+		dimBarra = Barra.getPreferredSize();
+		Barra.setSize(0, 0);
+		Barra.setPreferredSize(new Dimension(0, 0));
+		repaint();
+	}
 }

@@ -206,13 +206,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mostrarCalendario.setMnemonic ((int)'V');
 		mostrarCalendario.addActionListener (this);
 		
-		/*reporte = new JMenuItem ("Reporte  ", new ImageIcon ("Imagenes/imprimir.png"));
-		reporte.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
-		reporte.setMnemonic ((int)'R');
-		reporte.addActionListener (this);
-		mnuAdministracion.add (reporte);
-		mnuAdministracion.addSeparator ();*/
-
 		ayudaContenido = new JMenuItem ("Contenido de la Ayuda  ", new ImageIcon ("Imagenes/ayuda1.png"));
 		ayudaContenido.setAccelerator (KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
 		ayudaContenido.setMnemonic ((int)'Y');
@@ -365,7 +358,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
 			boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
-			if (b == false && OT == null) 
+			if (b == false) 
 			{
 				OT = new OrdenDeTrabajo ();
 				escritorio.add (OT);
@@ -454,27 +447,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				}
 			}
 		}
-		/*else if (obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido)  
-		{
-		
-			boolean b = Metodos.openChildWindow ("SC");
-			if (b == false) 
-			{
-			SolicitudDeCompra nSC = new SolicitudDeCompra(true);
-			escritorio.add (nSC);
-			nSC.show ();
-			}
 				
-		}*/
-		/*else if (obj == reporte) 
-		{
-		boolean b = Metodos.openChildWindow ("Reporte");
-		if (b == false) 
-		{
-		Metodos.imprimir (Metodos.fabricaReporte(1020), this);
-		}
-		}*/
-		
 		
 		else if (obj == btnCalendario || obj==mostrarCalendario)  
 		{

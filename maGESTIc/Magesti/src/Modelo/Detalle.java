@@ -629,7 +629,7 @@ public class Detalle {
 	public static ArrayList<Detalle> getDetallesRecibidos(Integer id_SC) {
 
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT * FROM detalle WHERE id_solicitud_compra=" + id_SC + " AND recibido=true");
+				"SELECT * FROM detalle WHERE id_solicitud_compra=" + id_SC + " AND recibido=true ORDER BY id_solicitud_compra");
 
 		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
 

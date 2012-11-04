@@ -3,6 +3,7 @@ package vista_Controlador;
 import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextArea;
@@ -17,16 +18,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import Modelo.Calidad;
-import Modelo.Elemento;
-import Modelo.Formato_Papel;
-import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
-import Modelo.Procesos_x_OT;
-import Modelo.Proveedor;
-import Modelo.Variante;
 
 @SuppressWarnings("serial")
 public class Calendario 
@@ -40,8 +32,11 @@ implements ItemListener,ActionListener, Config
 	private Choice chMes = new Choice();
 	private JLabel lblAnio  = new JLabel("   Seleccione el Año: ");
 	private JLabel lblMes = new JLabel("   Seleccione el Mes: ");
-	ArrayList<String> ot2 = new ArrayList();
+	ArrayList<String> ot2 = new ArrayList<String>();
 	private JButton btnMatriz[]= new JButton[31];
+	
+	private JComponent Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+	private Dimension dimBarra = null; 
 
 	String dias[] = 
   	{
@@ -98,15 +93,26 @@ implements ItemListener,ActionListener, Config
 	private String anioHoy = fechaAnioHoy.format (fechaHoy);
 	private String mesNHoy = fechaMesNombreHoy.format (fechaHoy);
 	private String anio4Hoy = fechaAnio4Hoy.format (fechaHoy);
+	
 	Calendario()
 	{
 		super("Calendario");
-		setIconifiable(true);
-		setClosable(true);			
+		setIconifiable(false);
+		setClosable(false);			
 		aplylisteners();		
 		startup();
 	}
 	
+	
+	
+	public void ocultarBarraTitulo()
+	{
+	Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+	dimBarra = Barra.getPreferredSize();
+	Barra.setSize(0,0);
+	Barra.setPreferredSize(new Dimension(0,0));
+	repaint();
+	}
 
 	public Choice getChAnio() 
 	{
@@ -398,6 +404,7 @@ implements ItemListener,ActionListener, Config
 
 	public void startup()
 	{
+		ocultarBarraTitulo();
 		fixItems();
 		panel1();		
 		panel2();	
