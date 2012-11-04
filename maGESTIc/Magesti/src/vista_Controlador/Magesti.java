@@ -18,7 +18,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
 	private static JDesktopPane escritorio = new JDesktopPane ();
 	
-	private JInternalFrame OT, SC, consultaOT, buscarOT, stock;
+	private JInternalFrame OT, SC, buscarOT, stock;
+	private JInternalFrame Calendario;
 	private JMenuBar barra;
 	
 	private JMenu 
@@ -128,19 +129,19 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		);
 
 
-		Calendario cal = new Calendario();
-		escritorio.add (cal);
-		cal.setBounds
+		Calendario = new Calendario();
+		escritorio.add (Calendario);
+		Calendario.setBounds
 		(
 				0,0,503,216
 		);
-		cal.show ();
+		Calendario.show ();
 		
 		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
 		escritorio.add (tablaTop5);
 		tablaTop5.setBounds
 		(
-				503,0,Toolkit.getDefaultToolkit().getScreenSize().width  - cal.getWidth(),216
+				503,0,Toolkit.getDefaultToolkit().getScreenSize().width  - Calendario.getWidth(),216
 		);
 		tablaTop5.show ();
 		
@@ -451,16 +452,17 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == btnCalendario || obj==mostrarCalendario)  
 		{
-			boolean b = Metodos.openChildWindow ("Calendario");
-			if (b == false) 
-			{
-				Calendario cal = new Calendario();
-				escritorio.add (cal);
-				cal.setBounds
-				(
-						0,0,503,216
-				);
-			}
+			Calendario.toFront();
+//			boolean b = Metodos.openChildWindow ("Calendario");
+//			if (b == false) 
+//			{
+//				Calendario cal = new Calendario();
+//				escritorio.add (cal);
+//				cal.setBoundsf
+//				(
+//						0,0,503,216
+//				);
+//			}
 		}
 		
 		else if (obj == clientes) 
