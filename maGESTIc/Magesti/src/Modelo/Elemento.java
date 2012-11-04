@@ -241,12 +241,12 @@ public class Elemento {
 			return list_Elementos;
 		}
 
-	public static ArrayList<Integer> getIdElementos(int clave) {
+	public static ArrayList<Integer> getIdElementos(int id_OT) {
 		ArrayList<Integer> id_elem = new ArrayList<Integer>();
 
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_elemento FROM elemento where id_orden_trabajo="
-						+ clave);
+				"SELECT id_elemento FROM elemento WHERE id_orden_trabajo="
+						+ id_OT+" ORDER BY id_elemento");
 
 		if (resultado != null) {
 

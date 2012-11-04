@@ -75,9 +75,64 @@ public class Adm_Stock extends JInternalFrame
 			panStock.setBounds(10, 11, d.width-35, d.height-230);
 			panStock.setLayout(null);
 
-			setFilas();
-			mostrarTabla();
+			tablaStock= new JTable();
+			
+			modelo= new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+							"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
+					}
+				) {
+					Class[] columnTypes = new Class[] {
+						Object.class, String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class
+					};
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+					boolean[] columnEditables = new boolean[] {
+						false, false, false, false, false, false, false, false, false, false, false
+					};
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
 
+			setFilas();
+			tablaStock.setModel(modelo);
+			
+			spStock.setViewportView(tablaStock);
+			getContentPane().add(panStock);
+			panStock.add(spStock);
+			
+			
+			tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
+			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(150);
+			tablaStock.getColumnModel().getColumn(2).setPreferredWidth(90);
+			tablaStock.getColumnModel().getColumn(3).setPreferredWidth(110);
+			tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
+			tablaStock.getTableHeader().setReorderingAllowed(false);
+			
+			//mostrarTabla();
+
+			/*
+			 * ACCION AL SELECCIONAR UNA FILA DE STOCK
+			 */
+			tablaStock.addMouseListener
+			(new MouseAdapter()
+			
+			{
+				@Override
+				public void mouseClicked(MouseEvent arg0) 
+				{
+					int filaElegida = tablaStock.rowAtPoint(arg0.getPoint());
+					final SacarDeStock ss = new SacarDeStock(tablaStock,filaElegida);
+					getDesktopPane().add(ss);
+					ss.show ();
+				}
+			});
+			
+			
 			
 			
 			spStock.setViewportView(tablaStock);
@@ -175,97 +230,44 @@ public class Adm_Stock extends JInternalFrame
 			btnVerTodo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					setFilas();
-					mostrarTabla();
+					String select="0";
+					int columOT=0;
+					filtro(select, columOT);
 				}
 			});
 			btnVerTodo.setBounds(1023, 6, 89, 23);
 			panStock.add(btnVerTodo);
 			
 			
-
-			
-			/*
-			 * 
-			 * Accion al seleccionar una fila de Stock
-			 * 
-			 */
-			
-			tablaStock.addMouseListener
-			(new MouseAdapter()
-			
-			{
-				@Override
-				public void mouseClicked(MouseEvent arg0) 
-				{
-					int filaElegida = tablaStock.rowAtPoint(arg0.getPoint());
-					final SacarDeStock ss = new SacarDeStock(tablaStock,filaElegida);
-					getDesktopPane().add(ss);
-					ss.show ();
-				}
-			});
-			
-			
+	
 		}
-			
-	private void mostrarTabla() {
-		spStock.setViewportView(tablaStock);
-		getContentPane().add(panStock);
-		panStock.add(spStock);
-		
-		tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
-		tablaStock.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(90);
-		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(110);
-		tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
-		tablaStock.getTableHeader().setReorderingAllowed(false);		
-	}
+	
+	
 
 	private void filtro(String cadena, int columna) {
-		
 		
 		trsfiltro = new TableRowSorter<DefaultTableModel>(modelo);
 		trsfiltro.setRowFilter(RowFilter.regexFilter(cadena, columna));
 		tablaStock.setModel(modelo);
 		tablaStock.setRowSorter(trsfiltro);
+		
 	}
 
 	private static void setFilas() {
 		ResultSet result = ConexionDB
 				.getbaseDatos()
 				.consultar(
-						"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, s.marca, c.nombre, f.tamanio, v.nombre, s.gramaje, s.cant_hojas_totales, s.cant_hojas_usadas, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc, calidad c,formato_papel f, variante v WHERE s.activo=true AND s.id_orden_trabajo=o.id_orden_trabajo AND s.id_solicitud_compra=sc.id_solicitud_compra AND s.id_calidad=c.id_calidad AND f.id_formato_papel=s.id_formato AND v.id_variante=s.id_variante;");
+						"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, s.marca, c.nombre, f.tamanio, v.nombre, s.gramaje, s.cant_hojas_totales, s.cant_hojas_usadas, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc, calidad c,formato_papel f, variante v WHERE s.activo=true AND s.id_orden_trabajo=o.id_orden_trabajo AND s.id_solicitud_compra=sc.id_solicitud_compra AND s.id_calidad=c.id_calidad AND f.id_formato_papel=s.id_formato AND v.id_variante=s.id_variante ORDER BY id_stock;");
 
 		Integer CantColumnas = 11;
 		Object datos[] = new Object[CantColumnas];
 		try {
-			modelo= new DefaultTableModel(
-					new Object[][] {
-					},
-					new String[] {
-							"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
-					}
-				) {
-					Class[] columnTypes = new Class[] {
-						Object.class, String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class
-					};
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-					boolean[] columnEditables = new boolean[] {
-						false, false, false, false, false, false, false, false, false, false, false
-					};
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				};
+			
 				
 				while (result.next()) {
 				for (int i = 0; i < CantColumnas; i++) {
 					datos[i] = result.getObject(i + 2);
-					if(i==0){
-						
-					}
+					
 					if (i == 1) {
 						if (datos[i].equals(1)) {
 							datos[i] = "Stockear";
@@ -282,9 +284,6 @@ public class Adm_Stock extends JInternalFrame
 					}
 				}
 				modelo.addRow(datos);
-				tablaStock = new JTable(modelo);
-
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -296,6 +295,5 @@ public class Adm_Stock extends JInternalFrame
 	{
 		Metodos.borrarFilas((DefaultTableModel)tablaStock.getModel());
 		setFilas();
-		//mostrarTabla();
 	}
 }

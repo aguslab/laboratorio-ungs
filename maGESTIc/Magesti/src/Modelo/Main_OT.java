@@ -17,9 +17,11 @@ public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 	
+//			System.out.println(Metodos.volverA_IdElemento("E-91001"));
 			
-			System.out.println(Metodos.EnteroAFactura(0)+" - Stockear");
+//			System.out.println(Metodos.formatoElemento(1234567));
 			
+//			System.out.println(Metodos.EnteroAFactura(0)+" - Stockear");
 			
 //			JTextField txtFecha = new JTextField();
 //			txtFecha.setText("2012-10-21");

@@ -2,6 +2,7 @@ package Modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import vista_Controlador.Metodos;
 
@@ -17,7 +18,7 @@ public class Stock {
 	 private Integer id_formato;
 	 private Integer id_variante;
 	 private Integer gramaje;
-	 private Integer remanente;
+	 private Boolean remanente;
 	 private boolean activo;
 	
 	 
@@ -26,7 +27,7 @@ public class Stock {
 			Integer id_solicitud_compra, Integer cant_hojas_totales,
 			Integer cant_hojas_usadas, String marca, Integer id_calidad,
 			Integer id_formato, Integer id_variante, Integer gramaje,
-			Integer remanente,boolean activo) {
+			Boolean remanente,boolean activo) {
 		super();
 		this.id_orden_trabajo = id_orden_trabajo;
 		this.id_solicitud_compra = id_solicitud_compra;
@@ -163,13 +164,13 @@ public class Stock {
 
 
 
-	public Integer getRemanente() {
+	public Boolean getRemanente() {
 		return remanente;
 	}
 
 
 
-	public void setRemanente(Integer remanente) {
+	public void setRemanente(Boolean remanente) {
 		this.remanente = remanente;
 	}
 	 
@@ -198,7 +199,7 @@ public class Stock {
 		Integer id_for = this.getId_formato();
 		Integer id_var = this.getId_variante();
 		Integer gram = this.getGramaje();
-		Integer reman = this.getRemanente();
+		Boolean reman = this.getRemanente();
 		Boolean act= this.isActivo();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
@@ -457,6 +458,48 @@ public class Stock {
 		}
 		return OTs;
 		
+	}
+
+
+
+	public static ArrayList<Integer> dameIdsStock(Integer id_SC) {
+		
+		ArrayList<Integer> idsStock= new ArrayList<Integer>();
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_stock FROM stock WHERE id_solicitud_compra="+id_SC+" ORDER BY id_stock" );
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					idsStock.add(resultado.getInt("id_stock"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return idsStock;
+	}
+
+
+
+	public static Boolean isRemanente(Integer id_Stock) {
+		Boolean isRemanente = null;
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT remanente FROM stock WHERE id_stock="+id_Stock);
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					isRemanente=resultado.getBoolean("remanente");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return isRemanente;
 	}	
 	
 	

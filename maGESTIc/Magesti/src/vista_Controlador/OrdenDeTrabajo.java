@@ -20,15 +20,12 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import Modelo.Calidad;
@@ -51,9 +48,9 @@ import Modelo.Variante;
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
 	private JPanel jpOrdenDeTrabajo = new JPanel();
-	private static JasperDesign jasperDesign;
-	private static JasperPrint jasperPrint;
-	private static JasperReport jasperReport;
+//	private static JasperDesign jasperDesign;
+//	private static JasperPrint jasperPrint;
+//	private static JasperReport jasperReport;
 	
 	private JLabel 
 		lbNro, 
@@ -143,7 +140,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JFormattedTextField txtAlto, txtAncho;
 	private JButton btnImprimirReporte;
 	private JButton btnUp, btnDown;
-	private JLabel fechaHoraCierreOT;
+	private JTextField fechaHoraCierreOT;
+	private JLabel lblFechaCierre;
 
 	OrdenDeTrabajo()
 	{	
@@ -158,7 +156,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbNro.setForeground (Color.black);
 		
 	    lbCliente = new JLabel ("Cliente:");
-	    lbCliente.setBounds(620, 54, 55, 25);
+	    lbCliente.setBounds(620, 58, 55, 25);
 		lbCliente.setForeground (Color.black);
 	    
 		lbFechaC = new JLabel ("<html>Fecha de<br>confecci\u00F3n:</html>");
@@ -194,7 +192,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
 		cboCliente = new JComboBox (Clientes);
-		cboCliente.setBounds(681, 54, 224, 25);
+		cboCliente.setBounds(681, 58, 224, 25);
 		
 		txtNombreOT = new JTextField ();
 		txtNombreOT.setBounds(387, 11, 210, 25);
@@ -238,7 +236,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		txtDescripcion.getInputMap(txtDescripcion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtDescripcion.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtDescripcion.getText().replace('\'', ' ');
 		
 		lbAncho = new JLabel ("Ancho:");
@@ -316,7 +314,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbPreimpresion.setForeground (Color.black);
 		
 		txtPreimpresion = new JTextField ("");
-		txtPreimpresion.setBounds(530, 180, 210, 25);
+		txtPreimpresion.setBounds(530, 180, 171, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
 		(
@@ -335,10 +333,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		txtPreimpresion.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtPreimpresion.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		tabSecciones = new JTabbedPane();
 		tabSecciones.setBounds(10, 228, 895, 275);
-		txtCantidadAEntregar.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtCantidadAEntregar.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		txtCantidadAEntregar.addKeyListener 
 		(
 				new KeyAdapter() 
@@ -1091,7 +1089,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		txtTipoProducto.getInputMap(txtPreimpresion.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtTipoProducto.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		jpOrdenDeTrabajo.add(txtTipoProducto);
 		txtClear();
 		
@@ -1106,12 +1104,23 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnImprimirReporte.setBounds(504, 514, 141, 30);
 		jpOrdenDeTrabajo.add(btnImprimirReporte);
 		
-		fechaHoraCierreOT = new JLabel("");
-		fechaHoraCierreOT.setBounds(681, 35, 223, 14);
+		fechaHoraCierreOT = new JTextField("");
+		fechaHoraCierreOT.setBounds(691, 35, 213, 25);
 		jpOrdenDeTrabajo.add(fechaHoraCierreOT);
+		fechaHoraCierreOT.setEditable(false);
+		fechaHoraCierreOT.setVisible(false);
+		
+		lblFechaCierre = new JLabel("Fecha Cierre:");
+		lblFechaCierre.setForeground(Color.BLACK);
+		lblFechaCierre.setBounds(600, 35, 85, 25);
+		jpOrdenDeTrabajo.add(lblFechaCierre);
+		lblFechaCierre.setVisible(false);
 	}
 
 	
+	
+
+
 	//Chequear un poco lo ingresado antes de guardar
 	public void actionPerformed (ActionEvent ae) 
 	{
@@ -1292,20 +1301,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					);
 				}
 
-				else if(estado.equalsIgnoreCase("En Proceso") || estado.equalsIgnoreCase("Cerrada"))
+				else if(estado.equalsIgnoreCase("En Proceso"))
 				{
 						if(estado.equalsIgnoreCase("En Proceso"))
 						{
 							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
-						}
-						else
-						{
-							Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-							Integer id_ot = Metodos.FacturaAEntero(this.txtNro.getText());
-							//Calendar cal = Calendar.getInstance();
-							//DateFormat df = DateFormat.getDateTimeInstance(DateFormat.DATE_FIELD, DateFormat.SHORT);
-							//Orden_Trabajo.setF_h_cierre(id_ot, df.format(cal.getTime()));
-							Orden_Trabajo.setF_h_cierre(id_ot, Metodos.getDateTimeActual());
 						}
 						
 						
@@ -1321,7 +1321,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							}
 							proc.add(new Integer(i));
 							cumplida.add(new Boolean(n));
-							//Procesos_x_OT.setAvanceOT(clave, id_proc.get(i),n);
 						}
 						//si se marcan como cumplidos todos los procesos
 						if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
@@ -1340,23 +1339,26 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 											Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
 										}
 										Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-										
+										Orden_Trabajo.setF_h_cierre(clave, Metodos.getDateTimeActual());							
+
 										/*
 										 *Si sobran hojas, quedan como remanente en Stock 
 										 */
-										//Elementos de esta OT
-										ArrayList<Integer> id_elementos= Elemento.getIdElementos(clave);
-										for(int i=0;i<id_elementos.size();i++){
-											Integer id_Stock=Egreso_Stock.getIdStockSegunIdMaterial(id_elementos.get(i));
-											Integer hojas_usadas=Stock.getHojasUsadas(id_Stock);
-											Integer hojas_totales=Stock.getHojasTotales(id_Stock);
-											if(hojas_usadas < hojas_totales){
-												Stock.setStockComoRemanente(id_Stock);
-											}else{
-												Stock.setStockInactivo(id_Stock);
-											}
-											
-										}
+									//Elementos de esta OT
+									ArrayList<Integer> id_elementos= Elemento.getIdElementos(clave);
+							for (int i = 0; i < id_elementos.size(); i++) {
+								ArrayList<Integer> id_Stock = Egreso_Stock.getIdStockSegunIdMaterial(id_elementos.get(i));
+								
+								for (int j = 0; j < id_Stock.size(); j++) {
+									Integer hojas_usadas = Stock.getHojasUsadas(id_Stock.get(j));
+									Integer hojas_totales = Stock.getHojasTotales(id_Stock.get(j));
+									if (hojas_usadas < hojas_totales) {
+										Stock.setStockComoRemanente(id_Stock.get(j));
+									} else {
+										Stock.setStockInactivo(id_Stock.get(j));
+									}
+								}
+							}
 										
 										//if()
 										
@@ -1670,6 +1672,20 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	public JButton getBtnDown() {
 		return btnDown;
 	}
+	
+	public JTextField getFechaHoraCerrada()
+    {
+            return fechaHoraCierreOT;
+    }
+	
+	
+	
+	public JLabel getLblFechaCierre() {
+		return lblFechaCierre;
+	}
+
+
+
 
 
 	private boolean proveedorElegido()
@@ -1862,5 +1878,4 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		}
 	}
-	
 }		

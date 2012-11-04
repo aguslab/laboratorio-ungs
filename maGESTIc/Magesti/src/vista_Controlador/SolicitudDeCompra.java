@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -41,15 +40,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import Modelo.Calidad;
@@ -96,10 +91,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		super ("Solicitud de Compra (SC)", false, true, false, true);
 		
 		setSize (925, 580);
-		Calendar fecha= Calendar.getInstance();
-		Integer mm=fecha.get(Calendar.MONTH)+1;
-		Integer dd=fecha.get(Calendar.DATE);
-		Integer aaaa=fecha.get(Calendar.YEAR);
+		String mm=Metodos.getMesActual();
+		String dd=Metodos.getDiaDeHoy();
+		String aaaa=Metodos.getAnioActual();
 		getContentPane().setLayout(null);
 		
 		String Meses[] = 
@@ -118,8 +112,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				"Diciembre"
 			};
 		
-		
-		System.out.println(Orden_Trabajo.getOTFechaProm(1));
 		
 		
 		JpSolicitudDeCompra = new JPanel();
@@ -206,6 +198,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		
 		String [] numot_nombreot=Orden_Trabajo.getId_nom_OT();
 		cbNroOT = new JComboBox(numot_nombreot);
+		cbNroOT.setSelectedItem(null);
 		cbNroOT.setForeground(new Color(70, 130, 180));
 		cbNroOT.setFont(new Font("Arial", Font.BOLD, 12));
 		cbNroOT.setBounds(587, 14, 318, 25);
@@ -220,10 +213,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
 				if(!cbNroOT.getSelectedItem().toString().equalsIgnoreCase(Metodos.EnteroAFactura(0)+"  -  Stockear")){
 					DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 					Metodos.borrarFilas(temp);					
-					
+
 					Integer idOT=Metodos.getIdEnCombo(cbNroOT);
 					ArrayList<Integer> id_m= Materiales.getID_Materiales(idOT);
 					ArrayList<Materiales> materiales = new ArrayList<Materiales>();
@@ -251,10 +245,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						temp.setValueAt(formato,i,4);
 						temp.setValueAt(gramaje,i,5);
 
-						
-						
-						
-						
+
 						// Valores para el combo
 						String unidad_medida[] = {"Resma","Kg","Hoja"};
 						TableColumn columnaUnidMedida= tablaDetalles.getColumnModel().getColumn(7);//table es la JTable, ponele que la col n es la del combo.
@@ -529,23 +520,14 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				//cada elemento agregado debe tener al menos 1 hoja
+				hojasMateriales.add(1);
+
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 				Object nuevo[]= {null,"","","","",null,null,"",null};
 				temp.addRow(nuevo);
 				
-			/*
-				String cant[] = new String[50001];
-				for (int j = 0; j < cant.length; j++) {
-					int a=j;
-					cant[j] = "" + a;
-				}
-				//pongo un JSpinner en el lugar de Cantidad de hojas
-				TableColumn columnaCantHojas=tablaDetalles.getColumnModel().getColumn(0);
-				columnaCantHojas.setCellEditor(new SpinnerEditor(cant));
-				
-			*/	
-				
-				
+
 				String calidades[] = Calidad.getCalidades();
 				TableColumn columnaCalidad = tablaDetalles.getColumnModel().getColumn(2);//table es la JTable, ponele que la col n es la del combo.
 				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
@@ -570,8 +552,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		btnAgregar.setBounds(10, 172, 120, 30);
 		panDetalles.add(btnAgregar);
 		
-		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
-		btnAlmacenar.setBounds(760, 172, 120, 30);
+		btnAlmacenar = new JButton("Calcular Totales", new ImageIcon ("Imagenes/ok.png"));
+		btnAlmacenar.setBounds(732, 172, 140, 30);
 		panDetalles.add(btnAlmacenar);
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
@@ -859,28 +841,24 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				);
 				txtVendedor.requestFocus();
 			}
-			//////////////////////////////////////////////
-			else if 
-			(
-					(Metodos.isFechaActualMenorFechaPrometida(Orden_Trabajo.getOTFechaProm(cbNroOT.getSelectedIndex()+1), fprometida)==true)
-					|| (Orden_Trabajo.getOTFechaProm(cbNroOT.getSelectedIndex()+1).equals(fprometida))
-			)
-			{
-				
+			else if(cbNroOT.getSelectedIndex() == -1){
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"La fecha de entrega no debe ser igual\n o mayor que la fecha prometida de la OT",
-					qTITULO + " - Error en Fecha prometida", 
+					"Debe seleccionar una Orden de Trabajo y luego completar la seccion Detalles",
+					qTITULO + " - Selecione OT", 
 					JOptionPane.WARNING_MESSAGE
 				);
+				cbNroOT.setRequestFocusEnabled(true);
 			}
+			//////////////////////////////////////////////
+			
 			else if (Metodos.isFechaActualMenorFechaPrometida(factual, fprometida)==false) 
 			{
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"La fecha prometida debe ser mayor a la Fecha actual",
+					"La fecha prometida no puede ser menor a la Fecha actual",
 					qTITULO + " - Error en Fecha prometida", 
 					JOptionPane.WARNING_MESSAGE
 				);
@@ -914,19 +892,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
-			else if ((Metodos
-					.isFechaActualMenorFechaPrometida(Orden_Trabajo
-							.getOTFechaProm(cbNroOT.getSelectedIndex() + 1),
-							fprometida) == true)
-					|| (Orden_Trabajo
-							.getOTFechaProm(cbNroOT.getSelectedIndex() + 1)
-							.equals(fprometida))) {
-				JOptionPane.showMessageDialog(
-								this,
-								"La fecha de entrega no debe ser igual\n o mayor que la fecha prometida de la OT",
-								qTITULO + " - Error en Fecha",
-								JOptionPane.WARNING_MESSAGE);
-			}
+		
 			else if(hojasEsMayorAlasPedidas().size()>0){
 				//pos0=fila - pors1=cantHojas minima
 				ArrayList<Integer> fila_CantHojas=hojasEsMayorAlasPedidas();

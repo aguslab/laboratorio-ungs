@@ -26,6 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -146,7 +150,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			new Object[][] {
 			},
 			new String[] {
-				"Nro Partida Stock", "Solicitud de Compra", "Calidad", "Formato", "Variante", "Gramaje", "Hojas totales", "Hojas usadas", "Remanente", "Hojas a Retirar", "Nro Elemento"
+				"<html>Nro<br> Partida Stock</html>", "<html>Solicitud<br> de Compra</html>", "<html>Calidad</html>", "<html>Formato</html>", "<html>Variante</html>", "<html>Gramaje</html>", "<html>Hojas<br> totales</html>", "<html>Hojas<br> usadas</html>", "<html>Remanente</html>", "<html>Hojas<br>a Retirar</html>", "<html>Codigo<br> Elemento</html>"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -164,12 +168,14 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		});
 		tablaStock.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tablaStock.getColumnModel().getColumn(1).setPreferredWidth(120);
-		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(100);
-		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(110);
+		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(120);
+		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(80);
 		tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
-		tablaStock.getColumnModel().getColumn(6).setPreferredWidth(80);
-		tablaStock.getColumnModel().getColumn(8).setPreferredWidth(90);
-		tablaStock.getColumnModel().getColumn(9).setPreferredWidth(100);
+		tablaStock.getColumnModel().getColumn(5).setPreferredWidth(70);
+		tablaStock.getColumnModel().getColumn(6).setPreferredWidth(70);
+		tablaStock.getColumnModel().getColumn(7).setPreferredWidth(70);
+		tablaStock.getColumnModel().getColumn(8).setPreferredWidth(80);
+		tablaStock.getColumnModel().getColumn(9).setPreferredWidth(70);
 		spDetalles.setViewportView(tablaStock);
 		tablaStock.getTableHeader().setReorderingAllowed(false);
 		
@@ -187,13 +193,15 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		lblFechaDeRetiro.setBounds(10, 52, 95, 30);
 		JpAdmStock.add(lblFechaDeRetiro);
 		
-		textField = new JTextField("2012-10-25");
+		String aaaa=Metodos.getAnioActual();
+		String mm=Metodos.getMesActual();
+		String dd=Metodos.getDiaDeHoy();
+		textField = new JTextField(aaaa+"-"+mm+"-"+dd);
 		textField.setHorizontalAlignment(SwingConstants.LEFT);
 		textField.setFont(new Font("Arial", Font.PLAIN, 12));
 		textField.setEditable(false);
 		textField.setBounds(115, 57, 148, 25);
 		JpAdmStock.add(textField);
-
 		
 		lblOT = new JLabel("Para OT Nro");
 		lblOT.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -217,6 +225,10 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		btnRetirarStock.setBounds(739, 539, 120, 30);
 		JpAdmStock.add(btnRetirarStock);
 		
+		/*
+		 * TABLA ELEMENTOS DE UNA OT
+		 */
+		
 		tpElementos = new JTabbedPane(JTabbedPane.TOP);
 		tpElementos.setBounds(10, 322, 988, 206);
 		JpAdmStock.add(tpElementos);
@@ -235,7 +247,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			new Object[][] {
 			},
 			new String[] {
-				"Nro Elemento", "Elemento", "Gramaje", "Calidad", "Formato", "Variante", "Hojas Previstas"
+				"Codigo", "Elemento", "Gramaje", "Calidad", "Formato", "Variante", "Hojas Previstas"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -245,7 +257,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				return columnTypes[columnIndex];
 			}
 		});
-		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(110);
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(110);
 		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(120);
 		tablaElementos.getColumnModel().getColumn(4).setPreferredWidth(80);
@@ -261,7 +273,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		tablaElementos.setEnabled(false);
 		
 		
-		//si no es para Stockear, cargo la tabla de los elementos de esa OT seleccionada
+		//si no es para Stockear y no es remanente, cargo la tabla de los elementos de esa OT seleccionada
 		if(!Stock_Disponible.getValueAt(filaElegida, 1).toString().equalsIgnoreCase("Stockear") && !(Boolean) Stock_Disponible.getValueAt(filaElegida, 10)){
 			String [] numot_nombreot = new String[1];
 			numot_nombreot[0] = Stock_Disponible.getValueAt(filaElegida, 1).toString();
@@ -307,59 +319,39 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	private void cargarTablaStock(JTable stock, Integer filaElegida)
 	{
 		DefaultTableModel ts= (DefaultTableModel) tablaStock.getModel();
-		//Cambia el alto de la fila para que entre el JSpinner
-		//tablaStock.setRowHeight(23);
-		
+				
 		Object nuevaFilaDetalles[]= {"","",0,"","","","",0,false,0,""};
 		
 		
-		Integer id_stock=Metodos.FacturaAEntero(stock.getValueAt(filaElegida, 2).toString());
-		ArrayList<Detalle> detalles=Detalle.getDetallesRecibidos(id_stock);
+		Integer id_SC=Metodos.FacturaAEntero(stock.getValueAt(filaElegida, 2).toString());
+		ArrayList<Detalle> detalles=Detalle.getDetallesRecibidos(id_SC);
 		
 		for(int i=0;i<detalles.size();i++){
 			ts.addRow(nuevaFilaDetalles);
+			ArrayList<Integer> ids_stock=Stock.dameIdsStock(id_SC);
+//			Integer id_stock=Metodos.FacturaAEntero(stock.getValueAt(filaElegida, 0).toString());
 			
-			//NO ES NECESARIO MOSTRAR ORDEN DE TRABAJO, SE MUESTRA EN EL COMBOBOX
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 0), i, 0);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 2), i, 1);
-			tablaStock.setValueAt(Calidad.getNombre(detalles.get(i).getId_calidad()), i, 2);
-			tablaStock.setValueAt(Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel()), i, 3);
-			tablaStock.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 4);
-			tablaStock.setValueAt(detalles.get(i).getGramaje(), i, 5);
-			tablaStock.setValueAt(detalles.get(i).getCantidad(), i, 6);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 9), i, 7);
-			tablaStock.setValueAt(stock.getValueAt(filaElegida, 10), i, 8);
-			//dejo en 0 hojas a retirar
-			tablaStock.setValueAt(0, i, 9);
-			
-			
-			/*
-			Integer hojasTotal=detalles.get(i).getCantidad();
-			Integer hojasUsadas=Integer.parseInt(stock.getValueAt(filaElegida, 9).toString());
-			String cant[] = new String[(hojasTotal+1) - hojasUsadas];
-			for (int j = 0; j < cant.length; j++) {
-				int a=j;
-				cant[j] = "" + a;
-			}
-			
-			//pongo un JSpinner en el lugar de hojas a retirar
-						TableColumn columnaCantHojasRetirar=tablaStock.getColumnModel().getColumn(9);
-			columnaCantHojasRetirar.setCellEditor(new SpinnerEditor(cant));
-			*/
-			
-			
-			
-			
-			//Un comboBox con el nro del elemento de la tabla de elementos
-			//debreria elegir segun el elemento para el cual desea sacar hojas
-			String[] elem= new String[tablaElementos.getRowCount()+1];
-			for(int k=0;k<elem.length-1;k++){
-				elem[k]=tablaElementos.getValueAt(k, 0).toString();
-			}
-			
-			TableColumn columnaElemento=tablaStock.getColumnModel().getColumn(10);
-			columnaElemento.setCellEditor(new MyComboBoxEditor(elem));
+			tablaStock.setValueAt(ids_stock.get(i), i, 0);//nro stock
+			tablaStock.setValueAt(stock.getValueAt(filaElegida, 2), i, 1);//nro SC
+			tablaStock.setValueAt(Calidad.getNombre(detalles.get(i).getId_calidad()), i, 2);//Calidad
+			tablaStock.setValueAt(Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel()), i, 3);//formato
+			tablaStock.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 4);//variante
+			tablaStock.setValueAt(detalles.get(i).getGramaje(), i, 5);//gramaje
+			tablaStock.setValueAt(detalles.get(i).getCantidad(), i, 6);//hojas totales
+			tablaStock.setValueAt(Stock.getHojasUsadas(ids_stock.get(i)), i, 7);//hojas usadas
+			tablaStock.setValueAt(Stock.isRemanente(ids_stock.get(i)), i, 8);//remanente
+			//dejo en 0 hojas a retirar por defecto
+			tablaStock.setValueAt(0, i, 9);//hojas a retirar 
 		}
+		//Un comboBox con el nro del elemento de la tabla de elementos
+		//debreria elegir segun el elemento para el cual desea sacar hojas
+		String[] elem= new String[tablaElementos.getRowCount()+1];
+		for(int k=0;k<elem.length-1;k++){
+			elem[k]=tablaElementos.getValueAt(k, 0).toString();
+		}
+		
+		TableColumn columnaElemento=tablaStock.getColumnModel().getColumn(10);//codigo elemento
+		columnaElemento.setCellEditor(new MyComboBoxEditor(elem));
 	}
 	
 	
@@ -371,7 +363,8 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 
 		for(int i=0;i<elementos.size();i++){
 			telem.addRow(nuevaFilaElementos);
-			tablaElementos.setValueAt(elementos.get(i).getId_elemento(), i, 0);
+
+			tablaElementos.setValueAt(Metodos.formatoElemento(elementos.get(i).getId_elemento()), i, 0);
 			tablaElementos.setValueAt(elementos.get(i).getTipo_elemento(), i, 1);
 			tablaElementos.setValueAt(materiales.get(i).getGramaje(), i, 2);
 			tablaElementos.setValueAt(Calidad.getNombre(materiales.get(i).getId_calidad()), i, 3);
@@ -387,6 +380,12 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	public void actionPerformed(ActionEvent e) 
 	{
 		Object obj = e.getSource();
+		
+		for(int i = 0; i<tablaStock.getRowCount();i++){
+			if(tablaStock.getValueAt(i, 9)==null || tablaStock.getValueAt(i, 9).toString().equals("")){
+				tablaStock.setValueAt(0, i, 9);
+			}
+		}
 
 		if(obj==btnRetirarStock){
 			//CHEAQUEAR LAS COSAS
@@ -429,6 +428,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			else{
 				//modificar Stock y Registrar Retiro de Stock
 				modificarHojasDeStockYRegistrarRetiro();
+				Adm_Stock.Actualizar();
 				dispose();
 			}
 		}
@@ -461,8 +461,8 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		if(filasMoficadas.size()>0){
 			
 		for(int i=0; i < filasMoficadas.size();i++){
-
-			Materiales m=Materiales.Buscar(Integer.parseInt(tablaStock.getValueAt(filasMoficadas.get(i), 10).toString()));
+			String fomatoIdMaterial=tablaStock.getValueAt(filasMoficadas.get(i), 10).toString();
+			Materiales m=Materiales.Buscar(Metodos.volverA_IdElemento(fomatoIdMaterial));
 			String calidad=Calidad.getNombre(m.getId_calidad());
 			String formato=Formato_Papel.getTamanio(m.getId_formato_papel());
 			String variante=Variante.getNombre(m.getId_variante());
@@ -486,21 +486,22 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 
 		for (int i = 0; i < fmodif.size(); i++) {
 			Integer id_Stock = Metodos.FacturaAEntero(tablaStock.getValueAt(fmodif.get(i),0).toString());
-
 			
-			if (tablaStock.getValueAt(fmodif.get(i), 9) != null && !tablaStock.getValueAt(fmodif.get(i), 9).toString().equals("0")) {
+			if (!tablaStock.getValueAt(fmodif.get(i), 9).toString().equals("0")) {
 				Integer hojasUsadas = Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 7).toString()) + Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 9).toString());
+				Integer hojasRetiradas=(Integer) tablaStock.getValueAt(fmodif.get(i), 9);
 				//Actualizar la cant de Hojas usadas en Stock
 				boolean ok = Stock.SacarHojas(id_Stock, hojasUsadas);
 				if (ok) {// registrar retiro
-					Integer id_mat=Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 10).toString());
-					Egreso_Stock es = new Egreso_Stock(id_Stock, id_mat, txtEmpleado.getText(), hojasUsadas,
+					String formatoElem=tablaStock.getValueAt(fmodif.get(i), 10).toString();
+					Integer id_mat=Metodos.volverA_IdElemento(formatoElem);
+					Egreso_Stock es = new Egreso_Stock(id_Stock, id_mat, txtEmpleado.getText(), hojasRetiradas,
 							Metodos.getDateTimeActual());
 					es.Alta();
 					
 					Integer id_OT=Metodos.getIdEnCombo(cboOT);
 					
-					Orden_Trabajo.CambiarCantHojasUtil(id_OT, Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 9).toString()));
+					Orden_Trabajo.CambiarCantHojasUtil(id_OT, hojasRetiradas);
 				}
 			}
 		}

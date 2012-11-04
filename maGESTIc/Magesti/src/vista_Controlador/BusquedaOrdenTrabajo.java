@@ -27,7 +27,6 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 	
 	BusquedaOrdenTrabajo(final OrdenDeTrabajo nuevaOT, Integer id_OT) 
 	{
-		System.out.println("?");
 				nuevaOT.getEstado().setEnabled(true);
 				//Cargo en la ventana de OT los valores de la fila elegida
 				nuevaOT.getTxtNro().setText(Metodos.EnteroAFactura(id_OT));
@@ -85,14 +84,14 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				nuevaOT.getBtnUp().setEnabled(false);			
 				nuevaOT.getBtnDown().setEnabled(false);
 				
-				nuevaOT.getLbFechaHoraCerrada().setVisible(false);
-				
 				nuevaOT.getBtnImprimirReporte().setEnabled(true);
 
-				if(nuevaOT.getEstado().getSelectedItem().equals("Cerrada"))
+				if(nuevaOT.getEstado().getSelectedItem().toString().equalsIgnoreCase("Cerrada"))
 				{
-					nuevaOT.getLbFechaHoraCerrada().setText(Orden_Trabajo.getF_cierre());
-					nuevaOT.getLbFechaHoraCerrada().setVisible(true);
+					nuevaOT.getEstado().setEnabled(false);
+					nuevaOT.getFechaHoraCerrada().setText(OT.getF_cierre());
+					nuevaOT.getFechaHoraCerrada().setVisible(true);
+					nuevaOT.getLblFechaCierre().setVisible(true);
 				}
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
 
@@ -118,14 +117,8 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 					});
 
 				//Muestra los datos de la tabla Elemento
-				//Integer id_OT=Metodos.FacturaAEntero(nuevaOT.getTxtNro().getText());
-				
 				ArrayList<Elemento> elementos= Elemento.getElementos(id_OT);
-//				Integer cantFilas = Elemento.cantidadFilas(id_OT);
-//				ArrayList<String> elemento = Elemento.nombreDeElemento(id_OT);
-//				ArrayList<Integer> cantidad = Elemento.cantidadDeElemento(id_OT);
-				
-				
+
 				DefaultTableModel temp = (DefaultTableModel) nuevaOT.getTablaElementos().getModel();
 				nuevaOT.getTablaElementos().setEnabled(false);
 				Object nuevaFilaElemento[]= {"",""};
