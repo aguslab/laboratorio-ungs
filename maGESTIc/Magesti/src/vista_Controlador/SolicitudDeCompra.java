@@ -929,11 +929,13 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 						cargarTablas();
 						setVisible(false);
 						dispose();
+						TablaDeBusqueda_SC.Actualizar();
 					}
 				}else{
 					cargarTablas();
 					setVisible(false);
 					dispose();
+					TablaDeBusqueda_SC.Actualizar();
 				}
 			}
 		}
@@ -941,7 +943,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			setVisible (false);
 			dispose();
 		}
-		TablaDeBusqueda_SC.Actualizar();
 	}
 	
 	

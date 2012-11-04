@@ -16,14 +16,15 @@ import Modelo.Solicitud_compra;
 import Modelo.Stock;
 import Modelo.Variante;
 
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class TablaDeBusqueda_SC extends JInternalFrame 
@@ -36,10 +37,15 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 	TablaDeBusqueda_SC(String titulo) 
 	{
 		super (titulo, true, true, true, true);
-		setSize (475, 280);
-		jpMostrar.setLayout (new GridLayout (1,1));
+		
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize (d.width, d.height);
+		
+		jpMostrar.setLayout(null);
 		jspTabla = new JScrollPane (tablaBusqueda);
+		jspTabla.setBounds(10, 70,d.width-30, d.height-250);
 		jpMostrar.add (jspTabla);
+		jpMostrar.setBounds(10, 11, d.width-35, d.height-230);
 		tablaBusqueda = new JTable();
 		tablaBusqueda.getTableHeader().setReorderingAllowed(false);
 		//tablaBusqueda.setSelectionBackground(Color.blue);
@@ -291,7 +297,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			}
 		});
 		
-		getContentPane().add (jpMostrar);
+		getContentPane().add (jpMostrar, BorderLayout.CENTER);
 		
 		// Llenamos el modelo
 		dtmMagesti = new DefaultTableModel(null, getColumnas()){
@@ -311,6 +317,52 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			this.setSize(500, 200);
 
 			jspTabla.setViewportView(tablaBusqueda);
+			
+			/*
+			 * Ocultar SC que ya fueron recibidas
+			 */
+			JButton btnOcultarRecibidos = new JButton("Ocultar Recibidos");
+			btnOcultarRecibidos.setToolTipText("Ocultar las Solicitudes de Compra que ya fueron recibidas");
+			btnOcultarRecibidos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Metodos.borrarFilas((DefaultTableModel) tablaBusqueda.getModel());
+					setFilasSinRecibidos();
+					
+				}
+			});
+			btnOcultarRecibidos.setBounds(24, 21, 134, 23);
+			jpMostrar.add(btnOcultarRecibidos);
+			
+			
+			/*
+			 * Ocultar SC que fueron rechazadas
+			 */
+			JButton btnOcultarRechazados = new JButton("Ocultar Rechazados");
+			btnOcultarRechazados.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Metodos.borrarFilas((DefaultTableModel) tablaBusqueda.getModel());
+					setFilasSinRechazos();
+					
+				}
+			});
+			btnOcultarRechazados.setBounds(183, 21, 145, 23);
+			jpMostrar.add(btnOcultarRechazados);
+			
+			
+			/*
+			 * Mostrar Todas las SC
+			 */
+			JButton btnMostrarTodos = new JButton("Mostrar Todo");
+			btnMostrarTodos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Actualizar();
+				}
+			});
+			btnMostrarTodos.setBounds(338, 21, 136, 23);
+			jpMostrar.add(btnMostrarTodos);
 
 			setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 	}
@@ -361,6 +413,86 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 				}
 			}
+		
+		
+		
+		private static void setFilasSinRecibidos() 
+		 {
+			ResultSet result=ConexionDB.getbaseDatos().consultar(
+			"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor AND id_solicitud_compra not in (SELECT id_solicitud_compra FROM Recepcion_pedido WHERE estado='Recibido') order by id_solicitud_compra;");
+						
+			
+				Integer CantColumnas=13;
+				// Numero de columnas de la tabla.Si se agregan columnas, se agregan aca tmb
+				Object datos[] = new Object[getColumnas().length]; 
+
+				try 
+				{
+					while (result.next()) 
+					{
+						Integer id_sc=null;
+						for (int i = 0; i < CantColumnas; i++) 
+						{
+							datos[i] = result.getObject(i + 1);
+							if(i==0)
+							{
+								id_sc=(Integer) datos[i];
+								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
+							}
+							
+							if (i==5)
+							{
+								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
+							}
+						}
+						dtmMagesti.addRow(datos);
+					}
+				} 
+				catch (Exception e) 
+				{
+				}
+			}
+		
+		
+		
+		private static void setFilasSinRechazos() 
+		 {
+			ResultSet result=ConexionDB.getbaseDatos().consultar(
+			"SELECT s.id_solicitud_compra, s.f_confeccion, p.razon_social, s.vendedor, o.nombre_trabajo, s.envia_proveedor, s.direccion_retiro, s.f_entrega, s.horario_entrega, s.subtotal, s.porcentaje_iva, s.monto_iva, s.total FROM solicitud_compra s, orden_trabajo o, proveedor p where o.id_orden_trabajo=s.id_orden_trabajo AND s.id_proveedor=p.id_proveedor AND id_solicitud_compra not in (SELECT id_solicitud_compra FROM Recepcion_pedido WHERE estado='Rechazado') order by id_solicitud_compra;");
+						
+			
+				Integer CantColumnas=13;
+				// Numero de columnas de la tabla.Si se agregan columnas, se agregan aca tmb
+				Object datos[] = new Object[getColumnas().length]; 
+
+				try 
+				{
+					while (result.next()) 
+					{
+						Integer id_sc=null;
+						for (int i = 0; i < CantColumnas; i++) 
+						{
+							datos[i] = result.getObject(i + 1);
+							if(i==0)
+							{
+								id_sc=(Integer) datos[i];
+								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
+							}
+							
+							if (i==5)
+							{
+								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
+							}
+						}
+						dtmMagesti.addRow(datos);
+					}
+				} 
+				catch (Exception e) 
+				{
+				}
+			}
+		
+		
 		
 		static void Actualizar()
 		{
