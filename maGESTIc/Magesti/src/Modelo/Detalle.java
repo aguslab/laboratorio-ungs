@@ -428,30 +428,30 @@ public class Detalle {
 		return estado;
 	}
 	
-	public static Integer dameIdDetalle(Integer SC,Integer cant,String marca,Integer id_cal,Integer id_formato,Integer id_var,Integer gram,Double precioUnit,String unidadMed,Double importe){
-		Integer idDetalle=null;
-		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_detalle FROM detalle WHERE id_solicitud_compra="+SC+" AND cantidad="+cant+" AND marca="+"'"+marca+"'"+" AND id_calidad="+id_cal+
-				" AND id_formato_papel="+id_formato+" AND id_variante="+id_var+" AND gramaje="+gram+" AND precio_unitario="+precioUnit+ " AND unidad_medida_del_precio="+"'"+unidadMed+"'"+
-				" AND importe="+importe);
-			
-				if (resultado != null)
-				{
-					try
-					{
-						while (resultado.next())
-						{
-							idDetalle=resultado.getInt(1);
-						}
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-		return idDetalle;
-	}
+//	public static Integer dameIdDetalle(Integer SC,Integer cant,String marca,Integer id_cal,Integer id_formato,Integer id_var,Integer gram,Double precioUnit,String unidadMed,Double importe){
+//		Integer idDetalle=null;
+//		
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT id_detalle FROM detalle WHERE id_solicitud_compra="+SC+" AND cantidad="+cant+" AND marca="+"'"+marca+"'"+" AND id_calidad="+id_cal+
+//				" AND id_formato_papel="+id_formato+" AND id_variante="+id_var+" AND gramaje="+gram+" AND precio_unitario="+precioUnit+ " AND unidad_medida_del_precio="+"'"+unidadMed+"'"+
+//				" AND importe="+importe);
+//			
+//				if (resultado != null)
+//				{
+//					try
+//					{
+//						while (resultado.next())
+//						{
+//							idDetalle=resultado.getInt(1);
+//						}
+//					}
+//					catch (Exception e)
+//					{
+//						e.printStackTrace();
+//					}
+//				}
+//		return idDetalle;
+//	}
 	
 	
 	public static void setAllAsRecibidos(Integer id_SC) {
@@ -660,6 +660,41 @@ public class Detalle {
 
 		return detalles;
 	}
+
 	
+	public static ArrayList<Detalle> getDetalles(Integer id_SC) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM detalle WHERE id_solicitud_compra=" + id_SC + " ORDER BY id_detalle");
+
+		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
+
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					Detalle det = new Detalle(new Integer(
+							resultado.getInt("id_detalle")),new Integer(
+									resultado.getInt("id_solicitud_compra")),new Integer(
+											resultado.getInt("cantidad")),
+							resultado.getString("marca"),
+							new Integer(resultado.getInt("id_calidad")),new Integer(
+									resultado.getInt("id_formato_papel")),new Integer(
+											resultado.getInt("id_variante")),new Integer(
+													resultado.getInt("gramaje")),
+							new Double(resultado.getDouble("precio_unitario")),resultado.getString("unidad_medida_del_precio"),
+							new Double(resultado.getDouble("importe")),
+							resultado.getBoolean("recibido"));
+					
+					detalles.add(det);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return detalles;
+	}
 	
 }

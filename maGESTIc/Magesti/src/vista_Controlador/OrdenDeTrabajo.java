@@ -24,7 +24,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -137,7 +136,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JButton btnBorrarFila;
 	JButton btnAlmacenar;
 
-	private JFormattedTextField txtAlto, txtAncho;
+	private JFormattedTextField txtAncho, txtAlto;
 	private JButton btnImprimirReporte;
 	private JButton btnUp, btnDown;
 	private JTextField fechaHoraCierreOT;
@@ -214,7 +213,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 			}
 		);
-		txtNombreOT.getInputMap(txtNombreOT.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		txtNombreOT.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		
 		txtDescripcion = new JTextField ();
 		txtDescripcion.setBounds(85, 97, 819, 25);
@@ -248,14 +247,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		try
         {
             MaskFormatter mascara = new MaskFormatter("###.##");
-            txtAncho = new JFormattedTextField(mascara);
-            txtAncho.setValue("000.00");
+            txtAlto = new JFormattedTextField(mascara);
+            txtAlto.setValue("000.00");
         } catch (Exception e)
         {
             e.printStackTrace();
         }
 		
-	    txtAncho.setBounds(338, 137, 100, 25);
+	    txtAlto.setBounds(338, 137, 100, 25);
 		
 		lbAlto = new JLabel ("Alto:");
 		lbAlto.setHorizontalAlignment(SwingConstants.LEFT);
@@ -266,14 +265,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		try
         {
             MaskFormatter mascara = new MaskFormatter("###.##");
-            txtAlto = new JFormattedTextField(mascara);
-            txtAlto.setValue("000.00");
+            txtAncho = new JFormattedTextField(mascara);
+            txtAncho.setValue("000.00");
         } catch (Exception e)
         {
             e.printStackTrace();
         }
 		
-	    txtAlto.setBounds(170, 140, 100, 25);
+	    txtAncho.setBounds(170, 140, 100, 25);
 		
 		
 		chbApaisado = new JCheckBox ("Apaisado");
@@ -291,23 +290,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar = new JTextField ("1");
 		txtCantidadAEntregar.setBounds(681, 137, 224, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
-		txtCantidadAEntregar.addKeyListener
-		(
-			new KeyListener()
-			{
-				public void keyTyped(KeyEvent e)
-				{
-					if (txtCantidadAEntregar.getText().length()== 11)
-						e.consume();
-				}
-				public void keyPressed(KeyEvent arg0) 
-				{
-				}
-				public void keyReleased(KeyEvent arg0)
-				{
-				}
-			}
-		);
+
 		
 		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas): ");
 		lbPreimpresion.setBounds(310, 180, 215, 30);
@@ -318,20 +301,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
 		(
-			new KeyListener()
-			{
-				public void keyTyped(KeyEvent e)
+				new KeyAdapter() 
 				{
-					if (txtPreimpresion.getText().length()== 11)
-						e.consume();
+					public void keyTyped (KeyEvent ke) 
+					{
+						char c = ke.getKeyChar ();
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtPreimpresion.getText().length() == 11) 
+						{
+							getToolkit().beep ();
+							ke.consume ();
+						}
+					}
 				}
-				public void keyPressed(KeyEvent arg0) 
-				{
-				}
-				public void keyReleased(KeyEvent arg0)
-				{
-				}
-			}
 		);
 		txtPreimpresion.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		tabSecciones = new JTabbedPane();
@@ -344,7 +325,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtCantidadAEntregar.getText().length()== 11) 
 						{
 							getToolkit().beep ();
 							ke.consume ();
@@ -352,56 +333,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					}
 				}
 		);
-		txtCantidadAEntregar.addKeyListener
-		(
-			new KeyListener()
-			{
-				public void keyTyped(KeyEvent e)
-				{
-					if (txtCantidadAEntregar.getText().length()== 11)
-						e.consume();
-				}
-				public void keyPressed(KeyEvent arg0) 
-				{
-				}
-				public void keyReleased(KeyEvent arg0)
-				{
-				}
-			}
-		);
-		txtPreimpresion.addKeyListener 
-		(
-				new KeyAdapter() 
-				{
-					public void keyTyped (KeyEvent ke) 
-					{
-						char c = ke.getKeyChar ();
-						
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE)))) 
-						{
-							getToolkit().beep ();
-							ke.consume ();
-						}
-					}
-				}
-		);
-		txtPreimpresion.addKeyListener
-		(
-			new KeyListener()
-			{
-				public void keyTyped(KeyEvent e)
-				{
-					if (txtPreimpresion.getText().length()== 11)
-						e.consume();
-				}
-				public void keyPressed(KeyEvent arg0) 
-				{
-				}
-				public void keyReleased(KeyEvent arg0)
-				{
-				}
-			}
-		);
+		
+		
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboMes.setBounds(387, 54, 97, 25);
@@ -503,8 +436,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add (lbAlto);
 		jpOrdenDeTrabajo.add (lbAncho);
 		jpOrdenDeTrabajo.add (chbApaisado);
-		jpOrdenDeTrabajo.add (txtAlto);
 		jpOrdenDeTrabajo.add (txtAncho);
+		jpOrdenDeTrabajo.add (txtAlto);
 		jpOrdenDeTrabajo.add (lbTipoDeProducto);
 		jpOrdenDeTrabajo.add (lbCantidadAEntregar);
 		jpOrdenDeTrabajo.add (lbPreimpresion);
@@ -1262,6 +1195,67 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					txtTipoProducto.requestFocus ();
 					
 				}
+				
+				else if (txtPreimpresion.getText().equals("")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Ingrese cantidad de planchas",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					
+					txtPreimpresion.requestFocus();
+				}
+				
+				else if (txtCantidadAEntregar.getText().equals("")) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Ingrese cantidad a entregar",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					txtCantidadAEntregar.requestFocus();
+				}
+				else if (Double.parseDouble(txtAlto.getText()) == 0) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"El alto no puede ser 0",
+						qTITULO + " - Ancho nulo", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					txtAlto.requestFocus();
+				}
+				else if (Double.parseDouble(txtAncho.getText()) == 0) 
+				{
+					
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"El ancho no puede ser 0",
+						qTITULO + " - Alto nulo", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					txtAncho.requestFocus();
+				}
+				else if (elementosIguales()) 
+				{	
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"No puede haber 2 elementos iguales, si necesita más, aumente la cantidad de ese elemento",
+						qTITULO + " - Elementos repetidos",
+						JOptionPane.WARNING_MESSAGE
+					);					
+				}
 				else if (Metodos.isFechaActualMenorFechaPrometida(factual, fprometida)==false) 
 				{
 					JOptionPane.showMessageDialog 
@@ -1339,7 +1333,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 											Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
 										}
 										Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-										Orden_Trabajo.setF_h_cierre(clave, Metodos.getDateTimeActual());							
+										Orden_Trabajo.setF_h_cierre(clave, Metodos.getDateTimeActual(0));							
 
 										/*
 										 *Si sobran hojas, quedan como remanente en Stock 
@@ -1396,14 +1390,34 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	
 
 
+	private boolean elementosIguales() {
+		
+		for(int i=0;i < tablaElementos.getRowCount(); i++){
+			
+			for(int j=i+1;j<tablaElementos.getRowCount();j++){
+				
+				if(tablaElementos.getValueAt(i, 0).toString().equalsIgnoreCase(tablaElementos.getValueAt(j, 0).toString())){
+					return true;
+				}	
+			}
+			
+		}
+		
+		return false;
+	}
+
+
+
+
+
 	void cargarTablas() 
 	{	
 		//Se obtienen las variables para crear una nueva OT
 		String fechaCon = (String) cboAnio.getSelectedItem() +"-"+ Metodos.dameNumeroMes((String)cboMes.getSelectedItem()) +"-"+ cboDia.getSelectedItem();
 		String fechaProm = (String) cboAnio2.getSelectedItem() +"-"+ Metodos.dameNumeroMes((String) cboMes2.getSelectedItem()) +"-"+ cboDia2.getSelectedItem();
 		Integer cantImp =  Integer.parseInt(txtPreimpresion.getText());
-		Double ancho = Double.parseDouble(txtAncho.getText());
 		Double alto = Double.parseDouble(txtAlto.getText());
+		Double ancho = Double.parseDouble(txtAncho.getText());
 		String TipoProd= txtTipoProducto.getText();
 		boolean apaisado=chbApaisado.isSelected();
 		Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
@@ -1482,9 +1496,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadAEntregar.setText("1");
-		txtPreimpresion.setText("");
-		txtAncho.setValue("000.00");
+		txtPreimpresion.setText("0");
 		txtAlto.setValue("000.00");
+		txtAncho.setValue("000.00");
 		chbApaisado.setSelected(false);
 	}
 	
@@ -1577,12 +1591,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	JTextField getTxtAncho()
 	{
-		return this.txtAncho;
+		return this.txtAlto;
 	}
 	
 	JTextField getTxtAlto()
 	{
-		return this.txtAlto;
+		return this.txtAncho;
 	}
 	
 	JCheckBox getChbApaisado()

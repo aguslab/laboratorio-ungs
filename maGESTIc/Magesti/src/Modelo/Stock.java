@@ -11,42 +11,42 @@ public class Stock {
 	 private Integer id_stock;
 	 private Integer id_orden_trabajo;
 	 private Integer id_solicitud_compra;
-	 private Integer cant_hojas_totales;
+	 private Integer id_detalle;
 	 private Integer cant_hojas_usadas;
-	 private String marca;
-	 private Integer id_calidad;
-	 private Integer id_formato;
-	 private Integer id_variante;
-	 private Integer gramaje;
 	 private Boolean remanente;
 	 private boolean activo;
 	
 	 
 	 
-	 public Stock(Integer id_orden_trabajo,
-			Integer id_solicitud_compra, Integer cant_hojas_totales,
-			Integer cant_hojas_usadas, String marca, Integer id_calidad,
-			Integer id_formato, Integer id_variante, Integer gramaje,
-			Boolean remanente,boolean activo) {
-		super();
+	public Stock(Integer id_stock, Integer id_orden_trabajo,
+			Integer id_solicitud_compra, Integer id_detalle,
+			Integer cant_hojas_usadas, Boolean remanente, boolean activo) {
+		this.id_stock = id_stock;
 		this.id_orden_trabajo = id_orden_trabajo;
 		this.id_solicitud_compra = id_solicitud_compra;
-		this.cant_hojas_totales = cant_hojas_totales;
+		this.id_detalle = id_detalle;
 		this.cant_hojas_usadas = cant_hojas_usadas;
-		this.marca = marca;
-		this.id_calidad = id_calidad;
-		this.id_formato = id_formato;
-		this.id_variante = id_variante;
-		this.gramaje = gramaje;
 		this.remanente = remanente;
-		this.activo=activo;
+		this.activo = activo;
 	}
 
-
+	
+	public Stock( Integer id_orden_trabajo,
+			Integer id_solicitud_compra, Integer id_detalle,
+			Integer cant_hojas_usadas, Boolean remanente, boolean activo) {
+		this.id_orden_trabajo = id_orden_trabajo;
+		this.id_solicitud_compra = id_solicitud_compra;
+		this.id_detalle = id_detalle;
+		this.cant_hojas_usadas = cant_hojas_usadas;
+		this.remanente = remanente;
+		this.activo = activo;
+	}
+	
 
 	public Integer getId_stock() {
 		return id_stock;
 	}
+
 
 
 
@@ -56,9 +56,11 @@ public class Stock {
 
 
 
+
 	public Integer getId_orden_trabajo() {
 		return id_orden_trabajo;
 	}
+
 
 
 
@@ -68,9 +70,11 @@ public class Stock {
 
 
 
+
 	public Integer getId_solicitud_compra() {
 		return id_solicitud_compra;
 	}
+
 
 
 
@@ -80,15 +84,18 @@ public class Stock {
 
 
 
-	public Integer getCant_hojas_totales() {
-		return cant_hojas_totales;
+
+	public Integer getId_detalle() {
+		return id_detalle;
 	}
 
 
 
-	public void setCant_hojas_totales(Integer cant_hojas_totales) {
-		this.cant_hojas_totales = cant_hojas_totales;
+
+	public void setId_detalle(Integer id_detalle) {
+		this.id_detalle = id_detalle;
 	}
+
 
 
 
@@ -98,69 +105,11 @@ public class Stock {
 
 
 
+
 	public void setCant_hojas_usadas(Integer cant_hojas_usadas) {
 		this.cant_hojas_usadas = cant_hojas_usadas;
 	}
 
-
-
-	public String getMarca() {
-		return marca;
-	}
-
-
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
-
-
-	public Integer getId_calidad() {
-		return id_calidad;
-	}
-
-
-
-	public void setId_calidad(Integer id_calidad) {
-		this.id_calidad = id_calidad;
-	}
-
-
-
-	public Integer getId_formato() {
-		return id_formato;
-	}
-
-
-
-	public void setId_formato(Integer id_formato) {
-		this.id_formato = id_formato;
-	}
-
-
-
-	public Integer getId_variante() {
-		return id_variante;
-	}
-
-
-
-	public void setId_variante(Integer id_variante) {
-		this.id_variante = id_variante;
-	}
-
-
-
-	public Integer getGramaje() {
-		return gramaje;
-	}
-
-
-
-	public void setGramaje(Integer gramaje) {
-		this.gramaje = gramaje;
-	}
 
 
 
@@ -170,15 +119,18 @@ public class Stock {
 
 
 
+
 	public void setRemanente(Boolean remanente) {
 		this.remanente = remanente;
 	}
-	 
-	 
+
+
+
 
 	public boolean isActivo() {
 		return activo;
 	}
+
 
 
 
@@ -188,25 +140,20 @@ public class Stock {
 
 
 
+
 	public boolean Alta() {
 
 		Integer id_ot = this.getId_orden_trabajo();
 		Integer id_sc = this.getId_solicitud_compra();
-		Integer cant_hojas_tot = this.getCant_hojas_totales();
+		Integer id_det = this.getId_detalle();
 		Integer cant_hojas_us = this.getCant_hojas_usadas();
-		String smarca = "'"+this.getMarca()+"'";
-		Integer id_cal = this.getId_calidad();
-		Integer id_for = this.getId_formato();
-		Integer id_var = this.getId_variante();
-		Integer gram = this.getGramaje();
 		Boolean reman = this.getRemanente();
-		Boolean act= this.isActivo();
+		Boolean act = this.isActivo();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO stock VALUES(default," + id_ot + "," + id_sc + ","
-						+ cant_hojas_tot + "," + cant_hojas_us + "," + smarca
-						+ "," + id_cal + "," + id_for + "," + id_var + ","
-						+ gram + "," + reman +"," + act+ ");")) {
+						+  id_det + "," + cant_hojas_us + "," + reman + ","
+						+ act + ");")) {
 			return true;
 		} else {
 			return false;
@@ -268,7 +215,7 @@ public class Stock {
 	public static Integer getHojasTotales(Integer id_Stock) {
 		Integer hojasTotales= 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT cant_hojas_totales FROM stock WHERE id_stock="+id_Stock);
+				"SELECT d.cantidad FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE id_stock="+id_Stock);
 
 		if (resultado != null) {
 			try {
@@ -306,7 +253,7 @@ public class Stock {
 		String[] gramajes= null;
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT DISTINCT gramaje FROM stock WHERE activo=true");
+				"SELECT DISTINCT d.gramaje FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE activo=true");
 		try 
 		{
 			resultado.last();
@@ -344,7 +291,7 @@ public class Stock {
 		String[] variantes= null;
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT DISTINCT id_variante FROM stock WHERE activo=true");
+				"SELECT DISTINCT d.id_variante FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE activo=true");
 		try 
 		{
 			resultado.last();
@@ -365,8 +312,8 @@ public class Stock {
 			try {
 				while (resultado.next()) {
 					// como solo devuelve un valor, le pido el del registro (1)
-					Integer gr=resultado.getInt(1);
-					variantes[i] = gr.toString();
+					Integer var=resultado.getInt(1);
+					variantes[i] = var.toString();
 					i++;
 				}
 			} catch (Exception e) {
@@ -383,7 +330,7 @@ public class Stock {
 		String[] formatos= null;
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT DISTINCT id_formato FROM stock WHERE activo=true");
+				"SELECT DISTINCT d.id_formato_papel FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE activo=true");
 		try 
 		{
 			resultado.last();
@@ -500,6 +447,29 @@ public class Stock {
 			}
 		}
 		return isRemanente;
+	}
+
+
+	public static Stock getStock(Integer id_stock) {
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM Stock WHERE id_stock="+id_stock);
+		Stock stock=null;
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					stock= new Stock(new Integer(resultado.getInt("id_stock")),
+							new Integer(resultado.getInt("id_orden_trabajo")),new Integer(resultado.getInt("id_solicitud_compra")),
+							new Integer(resultado.getInt("id_detalle")),
+							new Integer(resultado.getInt("cant_hojas_usadas")),
+							resultado.getBoolean("remanente"), resultado.getBoolean("activo"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return stock;
 	}	
 	
 	

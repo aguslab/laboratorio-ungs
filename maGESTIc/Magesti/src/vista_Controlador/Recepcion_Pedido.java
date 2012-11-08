@@ -97,14 +97,12 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false, false, false, false, true
-				};
 			public boolean isCellEditable(int row, int column) 
 			{
 				//verifica solo las filas que no hayan sido recibidas aun
-				if(column == 9 && row >= Recepcion_pedido.getCantidadFilasRecibidas(id_SC)){
-					return true;
+				boolean recibido[]= Recepcion_pedido.dameOrdenRecibidos(id_SC);
+				if(column == 9){
+					return !recibido[row];//si esta recibido, devuelve false.sino true
 				}
 				return false;
 				
@@ -146,38 +144,50 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		 * cargar tabla Detalles
 		 */
 		
+		final ArrayList<Detalle> detalles=Detalle.getDetalles(id_SC);
 		
-		ArrayList<Integer> cantidad = Detalle.cantidadDeDetalle(id_SC);
-		ArrayList<String> marca = Detalle.marcaDeDetalle(id_SC);
-		ArrayList<Integer> id_Calidad = Detalle.calidadDeDetalle(id_SC);
-		ArrayList<Integer> id_formato_Papel = Detalle.formato_papel_DeDetalle(id_SC);
-		ArrayList<Integer> id_Variante = Detalle.varianteDeDetalle(id_SC);
-		ArrayList<Integer> gramaje = Detalle.gramajeDeDetalle(id_SC);
-		ArrayList<Double> precio_Unitario= Detalle.precioUnitarioDeDetalle(id_SC);
-		ArrayList<String> unidad_medida= Detalle.unidadMedidaDeDetalle(id_SC);
-		ArrayList<Double> importe= Detalle.importeDeDetalle(id_SC);
+//		ArrayList<Integer> cantidad = Detalle.cantidadDeDetalle(id_SC);
+//		ArrayList<String> marca = Detalle.marcaDeDetalle(id_SC);
+//		ArrayList<Integer> id_Calidad = Detalle.calidadDeDetalle(id_SC);
+//		ArrayList<Integer> id_formato_Papel = Detalle.formato_papel_DeDetalle(id_SC);
+//		ArrayList<Integer> id_Variante = Detalle.varianteDeDetalle(id_SC);
+//		ArrayList<Integer> gramaje = Detalle.gramajeDeDetalle(id_SC);
+//		ArrayList<Double> precio_Unitario= Detalle.precioUnitarioDeDetalle(id_SC);
+//		ArrayList<String> unidad_medida= Detalle.unidadMedidaDeDetalle(id_SC);
+//		ArrayList<Double> importe= Detalle.importeDeDetalle(id_SC);
 		
 		
 		DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 		Object nuevaFilaDetalles[]= {"",""};
 		
-		final Integer[] idDetalle= new Integer[cantFilas];
+		//final Integer[] idDetalle= new Integer[cantFilas];
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			temp.addRow(nuevaFilaDetalles);
-			temp.setValueAt(cantidad.get(i), i, 0);
-			temp.setValueAt(marca.get(i), i, 1);
-			temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
-			temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 3);
-			temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 4);
-			temp.setValueAt(gramaje.get(i), i, 5);
-			temp.setValueAt(precio_Unitario.get(i), i, 6);
-			temp.setValueAt(unidad_medida.get(i), i, 7);
-			temp.setValueAt(importe.get(i), i, 8);
+			temp.setValueAt(detalles.get(i).getCantidad(), i, 0);//cantidad
+			temp.setValueAt(detalles.get(i).getMarca(), i, 1);//marca
+			temp.setValueAt(Calidad.getNombre(detalles.get(i).getId_calidad()), i, 2);//calidad	
+			temp.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 3);//variante
+			temp.setValueAt((Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel())), i, 4);//formatoPapel
+			temp.setValueAt(detalles.get(i).getGramaje(), i, 5);//gramaje
+			temp.setValueAt(detalles.get(i).getPrecio_unitario(), i, 6);//precioUnitario
+			temp.setValueAt(detalles.get(i).getUnidad_medida_del_precio(), i, 7);//unidadMEdida
+			temp.setValueAt(detalles.get(i).getImporte(), i, 8);//importe
 			
-			idDetalle[i]=Detalle.dameIdDetalle(id_SC, cantidad.get(i), marca.get(i), id_Calidad.get(i), id_formato_Papel.get(i), id_Variante.get(i), gramaje.get(i), precio_Unitario.get(i), unidad_medida.get(i), importe.get(i));
+//			temp.addRow(nuevaFilaDetalles);
+//			temp.setValueAt(cantidad.get(i), i, 0);
+//			temp.setValueAt(marca.get(i), i, 1);
+//			temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
+//			temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 3);
+//			temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 4);
+//			temp.setValueAt(gramaje.get(i), i, 5);
+//			temp.setValueAt(precio_Unitario.get(i), i, 6);
+//			temp.setValueAt(unidad_medida.get(i), i, 7);
+//			temp.setValueAt(importe.get(i), i, 8);
 			
-			tablaDetalles.setValueAt(Detalle.isRecibido(idDetalle[i]), i, 9);
+			//idDetalle[i]=Detalle.dameIdDetalle(id_SC, cantidad.get(i), marca.get(i), id_Calidad.get(i), id_formato_Papel.get(i), id_Variante.get(i), gramaje.get(i), precio_Unitario.get(i), unidad_medida.get(i), importe.get(i));
+			
+			tablaDetalles.setValueAt(Detalle.isRecibido(detalles.get(i).getId_detalle()), i, 9);
 		}
 		
 		
@@ -185,8 +195,6 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		 * cargar tabla recibidos
 		 */
 				
-		final Integer cantfilastrue= Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
-
 		btnSelecAll = new JButton("Seleccionar todos", null);
 		btnSelecAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -212,30 +220,22 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles.getModel();
-				int cantTrue=cantfilastrue;
-				ArrayList<Integer> cantHojasRP=new ArrayList<Integer>();
-				ArrayList<String> marcaRP=new ArrayList<String>();
-				ArrayList<Integer> id_calRP=new ArrayList<Integer>();
-				ArrayList<Integer> id_forRP=new ArrayList<Integer>();
-				ArrayList<Integer> id_varRP=new ArrayList<Integer>();
-				ArrayList<Integer> gramRP=new ArrayList<Integer>();
+				int cantTrue=Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
+				ArrayList<Integer> posiciones=new ArrayList<Integer>();
 
-				for (int i = cantfilastrue; i < cantFilas; i++) 
-				{
-					boolean recibido=(Boolean) tempDet.getValueAt(i, 9);
-					if(recibido){
-						cantTrue++;
-						cantHojasRP.add(Detalle.getCantHojas(idDetalle[i]));
-						marcaRP.add(Detalle.getMarca(idDetalle[i]));
-						id_calRP.add(Detalle.getidCalidad(idDetalle[i]));
-						id_forRP.add(Detalle.getidFormato(idDetalle[i]));
-						id_varRP.add(Detalle.getidVariante(idDetalle[i]));
-						gramRP.add(Detalle.getGramaje(idDetalle[i]));
+				for (int i = 0; i < cantFilas; i++) 
+ {
+					if (tempDet.isCellEditable(i, 9)) {
+						boolean recibido = (Boolean) tempDet.getValueAt(i, 9);
+						if (recibido) {
+							cantTrue++;
+							posiciones.add(new Integer(i));
+						}
+						Detalle.setAsRecibido(detalles.get(i).getId_detalle(),
+								recibido);
 					}
-					Detalle.setAsRecibido(idDetalle[i],recibido);
-
 				}
-				String f_h_recibido=Metodos.getDateTimeActual();
+				String f_h_recibido=Metodos.getDateTimeActual(0);
 				//si estan marcadas todas las filas como recibidas, pone la RP como recibido
 				if(cantTrue==tempDet.getRowCount()){
 					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
@@ -248,17 +248,12 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				/*
 				 * alta STOCK
 				 */
-				for(int i=0;i<cantHojasRP.size();i++){
+				for(int i=0;i<posiciones.size();i++){
 					Integer id_ot=Solicitud_compra.getId_OT(id_SC);
-					Integer cnth= cantHojasRP.get(i),cantusadas=0;
+					Integer cantusadas=0;
 					Boolean remanente=false;
-					String marca= marcaRP.get(i);
-					Integer id_cal= id_calRP.get(i);
-					Integer id_for= id_forRP.get(i);
-					Integer id_var= id_varRP.get(i);
-					Integer gram= gramRP.get(i);
 					
-					Stock st= new Stock(id_ot, id_SC, cnth, cantusadas, marca, id_cal, id_for, id_var, gram, remanente,true);
+					Stock st= new Stock(id_ot, id_SC, detalles.get(posiciones.get(i)).getId_detalle(),cantusadas, remanente,true);
 					st.Alta();
 				}
 				
