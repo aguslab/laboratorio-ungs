@@ -1,6 +1,5 @@
 package Modelo;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 
 public class Recepcion_pedido {
@@ -8,7 +7,7 @@ public class Recepcion_pedido {
 	 private Integer id_recepcion_pedido;
 	 private Integer id_solicitud_compra;
 	 private String estado;
-	 private static String f_h_recibido;
+	 private String f_h_recibido;
 	 private String incidente;
 	
 	 
@@ -42,7 +41,7 @@ public class Recepcion_pedido {
 	}
 
 
-	public static String getF_h_recibido() {
+	public String getF_h_recibido() {
 		return f_h_recibido;
 	}
 
@@ -171,6 +170,83 @@ public class Recepcion_pedido {
 
 	public void setId_recepcion_pedido(Integer id_recepcion_pedido) {
 		this.id_recepcion_pedido = id_recepcion_pedido;
+	}
+
+
+	public static Integer getCantidadFilasPorSC(Integer id_SC) {
+		Integer cantidad = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT COUNT(*) FROM detalle WHERE id_solicitud_compra="+ id_SC);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					cantidad=resultado.getInt(1);
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
+	
+	
+	public static boolean[] dameOrdenRecibidos(Integer id_SC) {
+		
+		Integer cantFilas=Recepcion_pedido.getCantidadFilasPorSC(id_SC);
+		boolean[] cantDetalles= new boolean[cantFilas];//se inicializan en false
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT recibido FROM detalle d WHERE id_solicitud_compra="+ id_SC);
+
+		if (resultado != null)
+		{
+			try
+			{
+				int i=0;
+				while (resultado.next())
+				{
+					cantDetalles[i]=resultado.getBoolean("recibido");
+					i++;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantDetalles;
+		
+	}
+
+
+	public static String dameF_h_recibido(Integer id_SC) {
+		String f_h="";
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT f_h_recibido FROM recepcion_pedido WHERE estado='Recibido' AND id_solicitud_compra="+ id_SC);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					f_h=resultado.getString("f_h_recibido");
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return f_h;
 	}
 	 
 	 

@@ -1,17 +1,9 @@
 package vista_Controlador;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.PrintJob;
-import java.io.EOFException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.swing.JComboBox;
@@ -350,13 +342,19 @@ public class Metodos implements Config
     }
 
 
-
-	public static String getDateTimeActual() 
+    //parametro==0 --> para la base de datos
+	public static String getDateTimeActual(int n) 
 	{
 		String f_h_actual = null;
-
-		//ResultSet resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("select DATE_FORMAT(NOW(),'%d/%m/%Y %H:%i:%s')");
+		ResultSet resultado;
+		
+		if(n == 0){
+			resultado=ConexionDB.getbaseDatos().consultar("select CURRENT_TIMESTAMP()");	
+		}else{
+			resultado=ConexionDB.getbaseDatos().consultar("select DATE_FORMAT(NOW(),'%d/%m/%Y %H:%i:%s')");	
+		}
+		
+		
 		if(resultado != null)
 		{
 			try 
@@ -374,12 +372,19 @@ public class Metodos implements Config
 	}
 
 	
-	public static String getDateActual() 
+	//	parametro==0 --> para la base de datos
+	public static String getDateActual(int n) 
 	{
 		String f_actual = null;
-
-		//ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT curdate();");
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT DATE_FORMAT(curdate(),'%d/%m/%Y')");
+		ResultSet resultado;
+		
+		if(n == 0){
+			resultado=ConexionDB.getbaseDatos().consultar("SELECT curdate();");	
+		}else{
+			resultado=ConexionDB.getbaseDatos().consultar("SELECT DATE_FORMAT(curdate(),'%d/%m/%Y')");
+		}
+		
+		
 		if(resultado != null)
 		{
 			try 

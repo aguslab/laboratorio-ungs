@@ -16,7 +16,8 @@ import vista_Controlador.Metodos;
 public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
-	
+			
+				
 //			System.out.println(Metodos.volverA_IdElemento("E-91001"));
 			
 //			System.out.println(Metodos.formatoElemento(1234567));

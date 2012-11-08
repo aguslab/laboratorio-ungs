@@ -257,7 +257,7 @@ public class Adm_Stock extends JInternalFrame
 		ResultSet result = ConexionDB
 				.getbaseDatos()
 				.consultar(
-						"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, s.marca, c.nombre, f.tamanio, v.nombre, s.gramaje, s.cant_hojas_totales, s.cant_hojas_usadas, s.remanente FROM stock s, orden_trabajo o, solicitud_compra sc, calidad c,formato_papel f, variante v WHERE s.activo=true AND s.id_orden_trabajo=o.id_orden_trabajo AND s.id_solicitud_compra=sc.id_solicitud_compra AND s.id_calidad=c.id_calidad AND f.id_formato_papel=s.id_formato AND v.id_variante=s.id_variante ORDER BY id_stock;");
+					"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, d.marca, c.nombre, f.tamanio, v.nombre, d.gramaje, d.cantidad, s.cant_hojas_usadas, s.remanente FROM stock s inner join detalle d on s.id_detalle=d.id_detalle inner join orden_trabajo o on o.id_orden_trabajo=s.id_orden_trabajo inner join solicitud_compra sc on s.id_solicitud_compra=sc.id_solicitud_compra inner join calidad c on c.id_calidad=d.id_calidad inner join formato_papel f on f.id_formato_papel=d.id_formato_papel inner join variante v on v.id_variante=d.id_variante WHERE s.activo=true  ORDER BY id_stock;");
 
 		Integer CantColumnas = 11;
 		Object datos[] = new Object[CantColumnas];

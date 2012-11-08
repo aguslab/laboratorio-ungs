@@ -49,6 +49,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import Modelo.Calidad;
 import Modelo.Detalle;
+import Modelo.Elemento;
 import Modelo.Formato_Papel;
 import Modelo.Materiales;
 import Modelo.Orden_Trabajo;
@@ -83,6 +84,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JLabel fechaHora;
 	private JButton btnImprimirReporte;
 	private ArrayList<Integer> hojasMateriales= new ArrayList<Integer>();
+	private Integer id_OT;
+	
 	
 	//RP = false: Solo SC
 	//RP = true: habilita la parte de Recepcion Pedido
@@ -205,21 +208,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		JpSolicitudDeCompra.add(cbNroOT);
 		
 		/*
-		 * 
 		 * LLENA SECCION DETALLE SEGUN LA ORDEN DE TRABAJO
-		 * 
 		 */
 		cbNroOT.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				if(!cbNroOT.getSelectedItem().toString().equalsIgnoreCase(Metodos.EnteroAFactura(0)+"  -  Stockear")){
-					DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
-					Metodos.borrarFilas(temp);					
-
-					Integer idOT=Metodos.getIdEnCombo(cbNroOT);
-					ArrayList<Integer> id_m= Materiales.getID_Materiales(idOT);
+				id_OT=Metodos.getIdEnCombo(cbNroOT);
+				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
+				Metodos.borrarFilas(temp);
+				if(!id_OT.equals(1)){//si no es para stockear
+					ArrayList<Integer> id_m= Materiales.getID_Materiales(id_OT);
 					ArrayList<Materiales> materiales = new ArrayList<Materiales>();
 					
 					for(int i=0;i<id_m.size();i++){
@@ -417,7 +415,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				true, true, true, true, true, true, true, true, false
 			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				Integer c=Elemento.cantidadFilas(id_OT);
+				if(row < c && column!=1 && column!=6 && column != 7 && column != 8 ){
+					return false;
+				}
+				return true;
 			}
 		});
 		tablaDetalles.getColumnModel().getColumn(0).setResizable(false);
@@ -605,7 +607,14 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		btnCerrar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCerrar.setBounds(785, 501, 120, 30);
 		JpSolicitudDeCompra.add(btnCerrar);
-		btnCerrar.addActionListener(this);
+		btnCerrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+					setVisible (false);
+					dispose();				
+			}
+		});
 		
 		btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -887,7 +896,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"Debe completar la seccion detalles y luego presionar el botón 'Almacenar'",
+					"Debe completar la seccion detalles y luego presionar el botón 'Calcular Totales'",
 					qTITULO + " - Campo vacío", 
 					JOptionPane.WARNING_MESSAGE
 				);
@@ -938,10 +947,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					TablaDeBusqueda_SC.Actualizar();
 				}
 			}
-		}
-		else if(obj==btnCerrar){
-			setVisible (false);
-			dispose();
 		}
 	}
 	

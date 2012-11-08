@@ -77,7 +77,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getCbProveedor().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2));
 				nuevaSC.getCbProveedor().setEnabled(false);
 				
-				nuevaSC.getTxtFecha().setText(f.toString());
+				nuevaSC.getTxtFecha().setText(Metodos.YMDaDMY(f.toString()));
 				nuevaSC.getTxtVendedor().setText((String) tablaBusqueda.getValueAt(filaElegida, 3));
 				nuevaSC.getTxtVendedor().setEditable(false);
 				
@@ -116,7 +116,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 
 				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO"))
 				{
-					nuevaSC.getfechaHora().setText(Recepcion_pedido.getF_h_recibido());
+					nuevaSC.getfechaHora().setText(Recepcion_pedido.dameF_h_recibido(id_SC));
 					nuevaSC.getfechaHora().setVisible(true);
 				}
 				
@@ -213,6 +213,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					nuevaSC.getTxtDescripcionIncidencia().setEnabled(true);
 					
 					
+
 					//Accion boton RECHAZAR
 					nuevaSC.getBtnRechazarRecepcion().addActionListener(new ActionListener() {
 						
@@ -231,7 +232,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							}
 							else
 							{
-								String f_h_recibido=Metodos.getDateTimeActual();
+								String f_h_recibido=Metodos.getDateTimeActual(0);
 								Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Rechazado",f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
 								rp.Alta();
 								nuevaSC.dispose();	
@@ -246,7 +247,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						public void actionPerformed(ActionEvent e) 
 						{
 							Detalle.setAllAsRecibidos(id_SC); 
-							String f_h_recibido=Metodos.getDateTimeActual();
+							String f_h_recibido=Metodos.getDateTimeActual(0);
 							
 							//ALTA RP
 							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
@@ -256,19 +257,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							ArrayList<Integer> id_det= Detalle.getIdDetalles(id_SC);
 							Integer id_ot=Solicitud_compra.getId_OT(id_SC);
 
-							for(int i=0;i<id_det.size();i++){
-								Integer cantHojasRP = (Detalle.getCantHojas(id_det.get(i)));
-								String marcaRP = (Detalle.getMarca(id_det.get(i)));
-								Integer id_calRP = (Detalle.getidCalidad(id_det.get(i)));
-								Integer id_forRP = (Detalle.getidFormato(id_det.get(i)));
-								Integer id_varRP = (Detalle.getidVariante(id_det.get(i)));
-								Integer gramRP = (Detalle.getGramaje(id_det.get(i)));
-								
-								Stock st= new Stock(id_ot, id_SC, cantHojasRP, 0, marcaRP, id_calRP, id_forRP, id_varRP, gramRP, false,true);
+							for(int i=0;i<id_det.size();i++){								
+								Stock st= new Stock(id_ot, id_SC,id_det.get(i), 0, false,true);
 								st.Alta();
 							}
 
-							nuevaSC.getfechaHora().setText(f_h_recibido);
 							nuevaSC.dispose();
 						}
 					});
@@ -391,13 +384,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 					while (result.next()) 
 					{
-						Integer id_sc=null;
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
 							if(i==0)
 							{
-								id_sc=(Integer) datos[i];
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
 							
@@ -430,13 +421,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 					while (result.next()) 
 					{
-						Integer id_sc=null;
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
 							if(i==0)
 							{
-								id_sc=(Integer) datos[i];
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
 							
@@ -469,13 +458,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 					while (result.next()) 
 					{
-						Integer id_sc=null;
 						for (int i = 0; i < CantColumnas; i++) 
 						{
 							datos[i] = result.getObject(i + 1);
 							if(i==0)
 							{
-								id_sc=(Integer) datos[i];
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
 							
