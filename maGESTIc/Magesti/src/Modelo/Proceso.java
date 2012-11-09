@@ -8,23 +8,26 @@ public class Proceso
 	
 	private Integer id_proceso;
 	private String nombre;
+	private Integer orden;
 	private Boolean activo;
 	
-	public Proceso(Integer id_proceso, String nombre, Boolean activo) 
+	public Proceso(Integer id_proceso, String nombre, Integer orden, Boolean activo) 
 	{
 		super();
 		this.id_proceso = id_proceso;
 		this.nombre = nombre;
+		this.orden=orden;
 		this.activo=activo;
 	}
 	
 	
 
-	public Proceso(String nombre,Boolean activo) 
+	public Proceso(String nombre,Integer orden, Boolean activo) 
 
 	{
 		super();
 		this.nombre = nombre;
+		this.orden=orden;
 		this.activo=activo;
 	}
 	
@@ -39,7 +42,7 @@ public class Proceso
 
 		if (resultado != null) 
 		{
-			try {// por si llega a haber mas de un proceso con = nombre
+			try {// no se permite que haya mas de un proceso con = nombre
 				while (resultado.next()) 
 				{
 					id_proces = resultado.getInt(1);
@@ -53,6 +56,25 @@ public class Proceso
 		}
 
 		return id_proces;
+	}
+	
+	
+	public static Integer getUltProceso() {
+		Integer maxId = null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT MAX(id_proceso) FROM proceso");
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					// como solo devuelve un valor, le pido el del registro (1)
+					maxId = resultado.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return maxId;
 	}
 	
 	public Integer getId_proceso() 
@@ -89,24 +111,37 @@ public class Proceso
 		this.activo = activo;
 	}
 	
+	
 
-	public static boolean updateProceso(String id, String nombre, Boolean activo)
+	public Integer getOrden() {
+		return orden;
+	}
+
+
+
+	public void setOrden(Integer orden) {
+		this.orden = orden;
+	}
+
+
+
+	public static boolean updateProceso(Integer id, String nombre, Integer orden, Boolean activo)
 	{
 		boolean r=ConexionDB.getbaseDatos().ejecutar(
-				"UPDATE proceso SET nombre = " + "'"+nombre+"'" + ", activo=" + activo
-						+ " WHERE id_proceso ="
-						+ Integer.parseInt(id));
+				"UPDATE proceso SET nombre = " + "'"+nombre+"'"+", orden="+orden + ", activo=" + activo
+						+ " WHERE id_proceso ="+ id);
 		return r;
 	}
 	
-	
+		
 	public boolean Alta() 
 	{
 		String nombre = "'"+this.getNombre()+"'";
+		Integer ord=this.getOrden();
 		Boolean act=this.getActivo();
 		
 		if (ConexionDB.getbaseDatos()
-				.ejecutar("INSERT INTO proceso VALUES(default," +nombre+","+act+");")) 
+				.ejecutar("INSERT INTO proceso VALUES(default," +nombre+ "," + ord +","+ act+");")) 
 		{
 			return true;
 		} 
@@ -134,7 +169,7 @@ public class Proceso
 				{
 					Proceso proceso= new Proceso(new Integer(
 							resultado.getInt("id_proceso")),
-							resultado.getString("nombre"),resultado.getBoolean("activo"));
+							resultado.getString("nombre"),new Integer(resultado.getInt("orden")), resultado.getBoolean("activo"));
 					list_Proc.add(proceso);
 				}
 			} 
@@ -151,7 +186,7 @@ public class Proceso
 	{
 		ArrayList<String> pros = new ArrayList<String>();
 		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso WHERE activo = true");
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT nombre FROM proceso WHERE activo = true ORDER BY orden");
 		
 		if (resultado != null) 
 		{
