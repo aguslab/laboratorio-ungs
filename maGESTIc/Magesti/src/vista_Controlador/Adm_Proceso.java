@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
@@ -124,7 +123,7 @@ public class Adm_Proceso extends JInternalFrame
 		
 		//
 		final JTabbedPane tabProcesos = new JTabbedPane(JTabbedPane.LEFT);
-		tabProcesos.setBounds(10, 11, d.width-846, d.height-190);
+		tabProcesos.setBounds(10, 11, (d.width/2)-28, d.height-190);
 		getContentPane().add(tabProcesos);
 		
 		JPanel panelProceso = new JPanel();
@@ -138,11 +137,11 @@ public class Adm_Proceso extends JInternalFrame
 		);
 		panelProceso.setLayout(null);
 		
-		tabProcesos.addTab("Procesos                         ", null, panelProceso, null);
+		tabProcesos.addTab("Procesos                         ",  new ImageIcon ("Imagenes/engranaje.png"), panelProceso, null);
 
 		JScrollPane spProceso = new JScrollPane();
 		spProceso.setViewportBorder(null);
-		spProceso.setBounds(0, 0, d.width-1000, d.height-190);
+		spProceso.setBounds(0, 0, (d.width/2)-183, d.height-190);
 		panelProceso.add(spProceso);
 		
 		//Tabla Calidad
@@ -170,6 +169,7 @@ public class Adm_Proceso extends JInternalFrame
 		tablaProcesos.getColumnModel().getColumn(1).setPreferredWidth(233);
 		tablaProcesos.getColumnModel().getColumn(2).setResizable(false);
 		tablaProcesos.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaProcesos.setRowHeight(25);
 		tablaProcesos.getTableHeader().setReorderingAllowed(false);
 		this.setFilas();
 	}
