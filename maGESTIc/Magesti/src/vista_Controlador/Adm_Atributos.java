@@ -241,7 +241,7 @@ public class Adm_Atributos extends JInternalFrame
 				}
 			}
 		});
-		tabAtributos.setBounds(10, 11, d.width-842, d.height-190);
+		tabAtributos.setBounds(10, 11, (d.width/2)-28, d.height-190);
 		getContentPane().add(tabAtributos);
 		
 		JPanel panelCalidad = new JPanel();
@@ -255,11 +255,11 @@ public class Adm_Atributos extends JInternalFrame
 		);
 		panelCalidad.setLayout(null);
 		
-		tabAtributos.addTab("Calidades                         ", null, panelCalidad, null);
+		tabAtributos.addTab("Calidades                         ",  new ImageIcon ("Imagenes/papel.png"), panelCalidad, null);
 
 		JScrollPane spCalidad = new JScrollPane();
 		spCalidad.setViewportBorder(null);
-		spCalidad.setBounds(0, 0, d.width-1000, d.height-190);
+		spCalidad.setBounds(0, 0, (d.width/2)-183, d.height-190);
 		panelCalidad.add(spCalidad);
 		
 		//Tabla Calidad
@@ -286,6 +286,7 @@ public class Adm_Atributos extends JInternalFrame
 		tablaCalidad.getColumnModel().getColumn(1).setResizable(false);
 		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(233);
 		tablaCalidad.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaCalidad.setRowHeight(25);
 		tablaCalidad.getTableHeader().setReorderingAllowed(false);
 		
 		
@@ -302,10 +303,10 @@ public class Adm_Atributos extends JInternalFrame
 		);
 		panelFormato.setLayout(null);
 		
-		tabAtributos.addTab("Formatos                         ",null, panelFormato, null);
+		tabAtributos.addTab("Formatos                         ",new ImageIcon ("Imagenes/regla.png"), panelFormato, null);
 			
 		JScrollPane spFormato = new JScrollPane();
-		spFormato.setBounds(0, 0, d.width-1000, d.height-190);
+		spFormato.setBounds(0, 0, (d.width/2)-183, d.height-190);
 		panelFormato.add(spFormato);
 		
 		tablaFormato = new JTable();
@@ -329,6 +330,7 @@ public class Adm_Atributos extends JInternalFrame
 		tablaFormato.getColumnModel().getColumn(1).setResizable(false);
 		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(233);
 		tablaFormato.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaFormato.setRowHeight(25);
 		tablaFormato.getTableHeader().setReorderingAllowed(false);
 		
 	
@@ -343,10 +345,10 @@ public class Adm_Atributos extends JInternalFrame
 			);
 			panelVariante.setLayout(null);
 			
-			tabAtributos.addTab("Variantes                         ", null, panelVariante, null);
+			tabAtributos.addTab("Variantes                         ",new ImageIcon ("Imagenes/quimico.png"), panelVariante, null);
 				
 			JScrollPane spVariante = new JScrollPane();
-			spVariante.setBounds(0, 0, d.width-1000, d.height-190);
+			spVariante.setBounds(0, 0, (d.width/2)-183, d.height-190);
 			panelVariante.add(spVariante);
 			
 			tablaVariante = new JTable();
@@ -366,8 +368,9 @@ public class Adm_Atributos extends JInternalFrame
 				}
 			});
 			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(55);
-			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(233);
-			tablaVariante.getColumnModel().getColumn(2).setPreferredWidth(29);
+			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(100);
+			tablaVariante.getColumnModel().getColumn(2).setPreferredWidth(25);
+			tablaVariante.setRowHeight(25);
 			tablaVariante.getTableHeader().setReorderingAllowed(false);
 			this.setFilas();
 			

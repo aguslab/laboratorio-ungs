@@ -515,14 +515,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Adm_Atributos admAtributos= new Adm_Atributos();
 				escritorio.add (admAtributos);
-//				try 
-//				{
-//					admAtributos.setMaximum(true);
-//				} 
-//				catch (PropertyVetoException e) 
-//				{
-//					e.printStackTrace();
-//				}
+				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+				admAtributos.setBounds(0, 0, d.width/2, d.height-135);
 				admAtributos.show ();
 			}
 		}
@@ -534,14 +528,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Adm_Proceso admProceso= new Adm_Proceso();
 				escritorio.add (admProceso);
-				try 
-				{
-					admProceso.setMaximum(true);
-				} 
-				catch (PropertyVetoException e) 
-				{
-					e.printStackTrace();
-				}
+				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+				admProceso.setBounds(0, 0, d.width/2, d.height-135);
 				admProceso.show ();
 			}
 		}
