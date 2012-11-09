@@ -24,13 +24,12 @@ import Modelo.Proceso;
 public class Adm_Proceso extends JInternalFrame 
 {
 	private JTable tablaProcesos;
-	
+	private JButton btnUp,btnDown;
 	public Adm_Proceso() 
 	{
 		
 		super ("Administracion de Procesos", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-
 		getContentPane().setLayout(null);
 		
 		JButton btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
@@ -42,79 +41,72 @@ public class Adm_Proceso extends JInternalFrame
 				dispose();
 			}
 		});
-		btnCerrar.setBounds(10, d.height-250, 120, 30);
+		btnCerrar.setBounds(10, d.height-270, 120, 30);
 		getContentPane().add(btnCerrar);
 		
 		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnConfirmar.setBounds(10, d.height-210, 120, 30);
+		btnConfirmar.setBounds(10, d.height-230, 120, 30);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				boolean todoOKCalidad = true, todoOKFormato = true, todoOKVariante = true;
 				boolean result = true;
-				String nro_Proceso = "";
+				Integer orden = null;
 				String nombreProceso = "";
 				Boolean activo = true;
-				
-				//Agregar calidades nuevas
-				Integer cantFilasCalidad = tablaProcesos.getRowCount();
-				for (int i =0; i < cantFilasCalidad; i++) 
-				{
-					nro_Proceso = tablaProcesos.getValueAt(i, 0).toString();
-					nombreProceso = tablaProcesos.getValueAt(i, 1).toString();
-					activo = (Boolean) tablaProcesos.getValueAt(i, 2);
-
-					todoOKCalidad = todoOKCalidad && !nombreProceso.equals("");
-					
-					if (todoOKCalidad == false) 
-					{
-						result = false;
-						JOptionPane.showMessageDialog(null, "Falta completar datos de la calidad");
-						break;
-					} 
-					else if (todoOKCalidad) 
-					{
-						if (nro_Proceso.equals("")) 
-						{
-							result = true;
-							Proceso pro = new Proceso(nro_Proceso,activo);
-							result = result && pro.Alta();
-						} 
-						else 
-						{
-							Proceso.updateProceso(nro_Proceso,nombreProceso,activo);
-						}
-					} 
-					else 
-					{
-						result = false;
-					}
+				Integer ultProc= Proceso.getUltProceso();
+				if(tieneNombresVacios()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "Falta completar nombre de proceso");
+				}
+				else if(tieneNombreRepetidos()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "No puede haber dos procesos con igual nombre");
 				}
 				
+				else {
+					Integer cantFilasProcesos = tablaProcesos.getRowCount();
+					for (int i = 0; i < cantFilasProcesos; i++) {
+						Integer id= Integer.parseInt(tablaProcesos.getValueAt(i, 0).toString());
+						orden = Integer.parseInt(tablaProcesos.getValueAt(i, 1).toString());
+						nombreProceso = tablaProcesos.getValueAt(i, 2).toString();
+						activo = (Boolean) tablaProcesos.getValueAt(i, 3);
+
+						if (id > ultProc) {
+							result = true;
+							Proceso pro = new Proceso(nombreProceso,orden,activo);
+							result = result && pro.Alta();
+						} else {
+							result = Proceso.updateProceso(id,nombreProceso, orden,activo);
+						}
+					}
+				}
 				if(result)
 				{
 					JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
 					Actualizar();
 				}
-				else
-				{
-					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
-				}
+//				else
+//				{
+//					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+//				}
 				
 			}
+
+			
 		}
 		);
 		getContentPane().add(btnConfirmar);
 		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
-		btnAgregar.setBounds(10, d.height-290, 120, 30);
+		btnAgregar.setBounds(10, d.height-310, 120, 30);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				DefaultTableModel tablaTemp = (DefaultTableModel) tablaProcesos.getModel();
-				Object nuevaFila[]= {"","",true};
+				int cantFilas=tablaTemp.getRowCount();
+				Object nuevaFila[]= {(cantFilas+1),(cantFilas+1),"",true};
 				tablaTemp.addRow(nuevaFila);
 			}
 		}
@@ -123,7 +115,7 @@ public class Adm_Proceso extends JInternalFrame
 		
 		//
 		final JTabbedPane tabProcesos = new JTabbedPane(JTabbedPane.LEFT);
-		tabProcesos.setBounds(10, 11, (d.width/2)-28, d.height-190);
+		tabProcesos.setBounds(10, 50, (d.width/2)-28, d.height-250);
 		getContentPane().add(tabProcesos);
 		
 		JPanel panelProceso = new JPanel();
@@ -141,7 +133,7 @@ public class Adm_Proceso extends JInternalFrame
 
 		JScrollPane spProceso = new JScrollPane();
 		spProceso.setViewportBorder(null);
-		spProceso.setBounds(0, 0, (d.width/2)-183, d.height-190);
+		spProceso.setBounds(0, 0,tabProcesos.getWidth()-180,tabProcesos.getHeight());
 		panelProceso.add(spProceso);
 		
 		//Tabla Calidad
@@ -153,23 +145,144 @@ public class Adm_Proceso extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Nro", "Nombre", "Activo"
+				"id", "Nro", "Nombre", "Activo"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, Boolean.class
+				Integer.class, String.class, String.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaProcesos.getColumnModel().getColumn(0).setResizable(false);
-		tablaProcesos.getColumnModel().getColumn(0).setPreferredWidth(55);
-		tablaProcesos.getColumnModel().getColumn(1).setResizable(false);
-		tablaProcesos.getColumnModel().getColumn(1).setPreferredWidth(233);
-		tablaProcesos.getColumnModel().getColumn(2).setResizable(false);
-		tablaProcesos.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaProcesos.getColumnModel().getColumn(0).setPreferredWidth(0);
+		tablaProcesos.getColumnModel().getColumn(0).setMinWidth(0);
+		tablaProcesos.getColumnModel().getColumn(0).setMaxWidth(0);
+		tablaProcesos.getColumnModel().getColumn(1).setPreferredWidth(50);
+		tablaProcesos.getColumnModel().getColumn(2).setPreferredWidth(200);
+		tablaProcesos.getColumnModel().getColumn(3).setPreferredWidth(30);
 		tablaProcesos.setRowHeight(25);
+		
+		
+		
+		
+		btnUp = new JButton(new ImageIcon("Imagenes/Up_Button.png"));
+		btnUp.setPressedIcon(new ImageIcon("Imagenes/Up_Button_pressed.png"));
+
+		//Subir una fila
+		btnUp.addActionListener(new ActionListener() 
+		{
+			
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				int filaSelec=tablaProcesos.getSelectedRow();
+				try
+				{	
+					DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
+					if(tempOE.getRowCount()>0)
+					{
+						if(filaSelec==-1)
+						{
+							JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
+						}
+						else if(filaSelec==0)
+						{
+							JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
+						}
+						else
+						{
+							//cambio el nro de orden
+							int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
+							int f2=(Integer) tempOE.getValueAt(filaSelec-1, 1);
+							tempOE.setValueAt(f1, filaSelec-1, 1);
+							tempOE.setValueAt(f2, filaSelec, 1);
+							//intercambio filas
+							tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
+							//cambio la fila seleccionada por la que subi
+							tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec-1,filaSelec-1);
+						}
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null,"error!");
+				}				
+			}
+		}
+		);
+		btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
+		btnUp.setBounds(196, 11, 35, 35);
+		getContentPane().add(btnUp);
+		
+		btnDown = new JButton(new ImageIcon("Imagenes/Down_Button.png"));
+		btnDown.setPressedIcon(new ImageIcon("Imagenes/Down_Button_pressed.png"));
+		btnDown.setSelectedIcon(new ImageIcon("Imagenes/Down_Button_Selected.png"));
+
+		
+		//Bajar una fila
+		btnDown.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				int filaSelec = tablaProcesos.getSelectedRow();
+				try 
+				{
+					DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
+					if (tempOE.getRowCount() > 0) 
+					{
+						if (filaSelec == -1) 
+						{
+							JOptionPane.showMessageDialog(null,
+									"Debe seleccionar una fila");
+						} 
+						else if (filaSelec == tempOE.getRowCount() - 1) 
+						{
+							JOptionPane.showMessageDialog(null,
+									"Este proceso ya es el Ultimo de la lista");
+						}
+						else 
+						{
+							//cambio el nro de orden
+							int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
+							int f2=(Integer) tempOE.getValueAt(filaSelec+1, 1);
+							tempOE.setValueAt(f1, filaSelec+1, 1);
+							tempOE.setValueAt(f2, filaSelec, 1);
+							//intercambio filas
+							tempOE.moveRow(filaSelec, filaSelec, filaSelec + 1);
+							//cambio la fila seleccionada por la que baje
+							tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec+1,filaSelec+1);
+						}
+					}
+				} 
+				catch (ArrayIndexOutOfBoundsException e) 
+				{
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "error!");
+				}
+			}
+		});
+		btnDown.setBounds(241, 11, 35, 35);
+		getContentPane().add(btnDown);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		tablaProcesos.getTableHeader().setReorderingAllowed(false);
 		this.setFilas();
 	}
@@ -179,9 +292,9 @@ public class Adm_Proceso extends JInternalFrame
 		ResultSet result = ConexionDB
 					.getbaseDatos()
 					.consultar(
-							"SELECT * FROM proceso");
+							"SELECT id_proceso, orden,nombre, activo FROM proceso ORDER BY orden");
 		
-			Integer CantColumnas = 3;
+			Integer CantColumnas = 4;
 			Object datosProceso[] = new Object[CantColumnas];
 			try 
 			{
@@ -201,12 +314,38 @@ public class Adm_Proceso extends JInternalFrame
 			}
 		}
 	
-		//devuelve true si no esta vacia la celda (fila,columna) de la tabla pasada como parametro
-		public static boolean sinVarVacios(JTable tabla, Integer fila, Integer columna)
-		{
-			boolean ok= true;
-			ok= ok && !tabla.getValueAt(fila, columna).toString().equals("");
-			return ok;
+
+	public boolean tieneNombresVacios() {
+		for (int i = 0; i < tablaProcesos.getRowCount(); i++) {
+			if(tablaProcesos.getValueAt(i, 2).toString().equals("")){
+				return true;
+			}
+		}
+		return false;
+	}
+		
+//		private Integer getNroProc(String nro_Proceso) {
+//			String proc = "";
+//			for (int i = 0; nro_Proceso.charAt(i) != '-'; i++) {
+//				proc = proc + nro_Proceso.charAt(i);
+//			}
+//
+//			return Integer.parseInt(proc);
+//		}
+		
+		private boolean tieneNombreRepetidos(){
+			boolean tieneNombreRep=false;
+			
+			for(int i=0;i<tablaProcesos.getRowCount();i++){
+				for(int j=i+1;j<tablaProcesos.getRowCount();j++){
+					if(tablaProcesos.getValueAt(i, 2).toString().equalsIgnoreCase(tablaProcesos.getValueAt(j, 2).toString())){
+						tieneNombreRep=true;
+						break;
+					}
+				}
+			}
+			
+			return tieneNombreRep;
 		}
 	
 		private void Actualizar()
