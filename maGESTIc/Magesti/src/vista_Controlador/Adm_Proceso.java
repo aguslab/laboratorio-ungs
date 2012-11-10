@@ -112,7 +112,7 @@ public class Adm_Proceso extends JInternalFrame
 		
 		//
 		final JTabbedPane tabProcesos = new JTabbedPane(JTabbedPane.LEFT);
-		tabProcesos.setBounds(10, 50, (d.width/2)-28, d.height-250);
+		tabProcesos.setBounds(10, 11, 652, 557);
 		getContentPane().add(tabProcesos);
 		
 		JPanel panelProceso = new JPanel();
@@ -130,7 +130,7 @@ public class Adm_Proceso extends JInternalFrame
 
 		JScrollPane spProceso = new JScrollPane();
 		spProceso.setViewportBorder(null);
-		spProceso.setBounds(0, 0,tabProcesos.getWidth()-180,tabProcesos.getHeight());
+		spProceso.setBounds(0, 0,469,557);
 		panelProceso.add(spProceso);
 		
 		//Tabla Calidad
@@ -216,7 +216,7 @@ public class Adm_Proceso extends JInternalFrame
 		}
 		);
 		btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
-		btnUp.setBounds(196, 11, 35, 35);
+		btnUp.setBounds(24, 410, 35, 35);
 		getContentPane().add(btnUp);
 		
 		btnDown = new JButton(new ImageIcon("Imagenes/Down_Button.png"));
@@ -266,7 +266,7 @@ public class Adm_Proceso extends JInternalFrame
 				}
 			}
 		});
-		btnDown.setBounds(241, 11, 35, 35);
+		btnDown.setBounds(69, 412, 35, 35);
 		getContentPane().add(btnDown);
 		
 		
