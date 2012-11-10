@@ -112,8 +112,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				nuevaSC.getLbFechaEntrega().setVisible(false);
 				
-				nuevaSC.getBtnImprimirReporte().setEnabled(true);
-
 				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO"))
 				{
 					nuevaSC.getfechaHora().setText(Recepcion_pedido.dameF_h_recibido(id_SC));

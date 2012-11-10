@@ -1036,6 +1036,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		});
 		btnImprimirReporte.setBounds(504, 514, 141, 30);
 		jpOrdenDeTrabajo.add(btnImprimirReporte);
+		btnImprimirReporte.setEnabled(false);
 		
 		fechaHoraCierreOT = new JTextField("");
 		fechaHoraCierreOT.setBounds(691, 35, 213, 25);
@@ -1496,7 +1497,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtDescripcion.setText ("");
 		txtTipoProducto.setText ("");
 		txtCantidadAEntregar.setText("1");
-		txtPreimpresion.setText("0");
+		txtPreimpresion.setText("");
 		txtAlto.setValue("000.00");
 		txtAncho.setValue("000.00");
 		chbApaisado.setSelected(false);
@@ -1806,31 +1807,25 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 	}
 	
-	private void reporteHojas()
+	private void reporteFinal()
 	{
-		Integer cantidadHojas = 0;
 		String nroOT = getTxtNro().getText();
-		//Consigo la cantidad de hojas utilizadas en total
-		for(int i = 0; i < tablaElementos.getRowCount(); i++)
-		{
-			cantidadHojas += (Integer)tablaElementos.getValueAt(i, 3);
-		}
-		System.out.println(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
+		
 		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
-		System.out.println(SC);
+		
 		if(SC.equals(""))
 		{
 			SC = "Sin Solicitud de compra asignada.";
 		}
-		ReporteHojas r = new ReporteHojas(nroOT, getTxtNombreOT().getText(),cantidadHojas,SC);
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(nroOT));
 		
-		ArrayList<ReporteHojas> reportes = new ArrayList<ReporteHojas>();
+		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
 		JasperReport reporte = null;
 
 		try 
 		{
-		reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteHojas.jasper");
+		reporte = (JasperReport) JRLoader.loadObjectFromLocation("reporteFinal.jasper");
 		} 
 		catch (Exception e1) 
 		{
@@ -1860,7 +1855,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			JOptionPane.DEFAULT_OPTION,
 			JOptionPane.QUESTION_MESSAGE, 
 			null,
-			new Object[] { "Orden de Trabajo", "Reporte de Hojas", "Cancelar" },
+			new Object[] { "Orden de Trabajo", "Reporte Final", "Cancelar" },
 			3
 		);
 	
@@ -1868,12 +1863,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			this.reporteOT();
 		}
+		
 		else if (reply == 1) 
 		{
 			String estado=Orden_Trabajo.getEstadoOT(Metodos.FacturaAEntero(this.getTxtNro().getText()));
 			if(estado.equalsIgnoreCase("Cerrada"))
 			{
-				this.reporteHojas();
+				this.reporteFinal();
 			}
 			
 			else

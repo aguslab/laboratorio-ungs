@@ -1,61 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteSC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2122c608-da0b-43a2-a77e-e85e65bd8721">
-	<property name="ireport.zoom" value="1.2100000000000026"/>
-	<property name="ireport.x" value="12"/>
-	<property name="ireport.y" value="399"/>
+	<property name="ireport.zoom" value="1.464100000000004"/>
+	<property name="ireport.x" value="23"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="fechaConfec" class="java.lang.String">
-		<fieldDescription><![CDATA[fechaConfec]]></fieldDescription>
-	</field>
-	<field name="subtotal" class="java.lang.Double">
-		<fieldDescription><![CDATA[subtotal]]></fieldDescription>
-	</field>
-	<field name="maniana" class="java.lang.String">
-		<fieldDescription><![CDATA[maniana]]></fieldDescription>
-	</field>
-	<field name="fechaEntrega" class="java.lang.String">
-		<fieldDescription><![CDATA[fechaEntrega]]></fieldDescription>
-	</field>
-	<field name="nroOT" class="java.lang.String">
-		<fieldDescription><![CDATA[nroOT]]></fieldDescription>
-	</field>
-	<field name="montoIVA" class="java.lang.Double">
-		<fieldDescription><![CDATA[montoIVA]]></fieldDescription>
-	</field>
-	<field name="descripcionIncidencia" class="java.lang.String">
-		<fieldDescription><![CDATA[descripcionIncidencia]]></fieldDescription>
-	</field>
-	<field name="proveedor" class="java.lang.String">
-		<fieldDescription><![CDATA[proveedor]]></fieldDescription>
-	</field>
-	<field name="direccionRetiro" class="java.lang.String">
-		<fieldDescription><![CDATA[direccionRetiro]]></fieldDescription>
-	</field>
-	<field name="total" class="java.lang.Double">
-		<fieldDescription><![CDATA[total]]></fieldDescription>
-	</field>
-	<field name="retirar" class="java.lang.String">
-		<fieldDescription><![CDATA[retirar]]></fieldDescription>
-	</field>
-	<field name="envioProveedor" class="java.lang.String">
-		<fieldDescription><![CDATA[envioProveedor]]></fieldDescription>
-	</field>
 	<field name="IVA" class="java.lang.Double">
 		<fieldDescription><![CDATA[IVA]]></fieldDescription>
 	</field>
-	<field name="idSC" class="java.lang.String">
-		<fieldDescription><![CDATA[idSC]]></fieldDescription>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
 	</field>
-	<field name="vendedor" class="java.lang.String">
-		<fieldDescription><![CDATA[vendedor]]></fieldDescription>
-	</field>
-	<field name="tarde" class="java.lang.String">
-		<fieldDescription><![CDATA[tarde]]></fieldDescription>
+	<field name="descripcionIncidencia" class="java.lang.String">
+		<fieldDescription><![CDATA[descripcionIncidencia]]></fieldDescription>
 	</field>
 	<field name="detalles" class="java.util.ArrayList">
 		<fieldDescription><![CDATA[detalles]]></fieldDescription>
@@ -63,17 +24,59 @@
 	<field name="detallesDS" class="net.sf.jasperreports.engine.JRDataSource">
 		<fieldDescription><![CDATA[detallesDS]]></fieldDescription>
 	</field>
+	<field name="direccionRetiro" class="java.lang.String">
+		<fieldDescription><![CDATA[direccionRetiro]]></fieldDescription>
+	</field>
+	<field name="envioProveedor" class="java.lang.String">
+		<fieldDescription><![CDATA[envioProveedor]]></fieldDescription>
+	</field>
+	<field name="fechaConfec" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaConfec]]></fieldDescription>
+	</field>
+	<field name="fechaEntrega" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaEntrega]]></fieldDescription>
+	</field>
+	<field name="idSC" class="java.lang.String">
+		<fieldDescription><![CDATA[idSC]]></fieldDescription>
+	</field>
+	<field name="maniana" class="java.lang.String">
+		<fieldDescription><![CDATA[maniana]]></fieldDescription>
+	</field>
+	<field name="montoIVA" class="java.lang.String">
+		<fieldDescription><![CDATA[montoIVA]]></fieldDescription>
+	</field>
+	<field name="nroOT" class="java.lang.String">
+		<fieldDescription><![CDATA[nroOT]]></fieldDescription>
+	</field>
+	<field name="proveedor" class="java.lang.String">
+		<fieldDescription><![CDATA[proveedor]]></fieldDescription>
+	</field>
+	<field name="retirar" class="java.lang.String">
+		<fieldDescription><![CDATA[retirar]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.lang.String">
+		<fieldDescription><![CDATA[subtotal]]></fieldDescription>
+	</field>
+	<field name="tarde" class="java.lang.String">
+		<fieldDescription><![CDATA[tarde]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.String">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
+	<field name="vendedor" class="java.lang.String">
+		<fieldDescription><![CDATA[vendedor]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="a626a6da-dd9b-47d6-9d2e-9810f3582e98" x="145" y="17" width="285" height="41"/>
+				<reportElement uuid="a626a6da-dd9b-47d6-9d2e-9810f3582e98" x="145" y="10" width="285" height="31"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="20"/>
 				</textElement>
-				<text><![CDATA[Reporte de Solicitud de Compra]]></text>
+				<text><![CDATA[Solicitud de Compra]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -305,7 +308,7 @@
 				<text><![CDATA[Subtotal:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="7d99bf80-2618-4764-b12a-7cb76da9409e" x="67" y="0" width="100" height="20"/>
+				<reportElement uuid="7d99bf80-2618-4764-b12a-7cb76da9409e" x="76" y="0" width="100" height="20"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -319,7 +322,7 @@
 				<text><![CDATA[% IVA:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="74e06698-91a5-477e-a079-53744a05234d" x="67" y="20" width="100" height="20"/>
+				<reportElement uuid="74e06698-91a5-477e-a079-53744a05234d" x="67" y="20" width="109" height="20"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -333,7 +336,7 @@
 				<text><![CDATA[Monto IVA:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="c506ad7b-12fe-4188-bc0c-03687c1b7f85" x="67" y="40" width="100" height="20"/>
+				<reportElement uuid="c506ad7b-12fe-4188-bc0c-03687c1b7f85" x="76" y="40" width="100" height="20"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -347,12 +350,33 @@
 				<text><![CDATA[Total:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="92c5cc96-8dff-417e-a253-47b981c8e077" x="67" y="60" width="100" height="20"/>
+				<reportElement uuid="92c5cc96-8dff-417e-a253-47b981c8e077" x="76" y="60" width="100" height="20"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement uuid="c6e8fc40-c7ec-4bd9-bdd6-1544ec77c33a" x="67" y="0" width="10" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b660a1e2-fbc6-4b93-8541-69f32047a81d" x="67" y="40" width="10" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e29b359-e03c-4f8d-8167-f86aee3cd97d" x="67" y="60" width="10" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[$]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
