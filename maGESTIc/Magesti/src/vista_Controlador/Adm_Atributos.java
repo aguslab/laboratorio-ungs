@@ -262,7 +262,7 @@ public class Adm_Atributos extends JInternalFrame
 
 		JScrollPane spCalidad = new JScrollPane();
 		spCalidad.setViewportBorder(null);
-		spCalidad.setBounds(0, 0, (d.width/2)-183, d.height-190);
+		spCalidad.setBounds(0, 0, 465, 578);
 		panelCalidad.add(spCalidad);
 		
 		//Tabla Calidad
@@ -290,7 +290,6 @@ public class Adm_Atributos extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaCalidad.getColumnModel().getColumn(0).setResizable(false);
 		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(55);
 		tablaCalidad.getColumnModel().getColumn(1).setResizable(false);
 		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(233);
@@ -340,7 +339,6 @@ public class Adm_Atributos extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaFormato.getColumnModel().getColumn(0).setResizable(false);
 		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(55);
 		tablaFormato.getColumnModel().getColumn(1).setResizable(false);
 		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(233);
@@ -483,5 +481,4 @@ public class Adm_Atributos extends JInternalFrame
 			Metodos.borrarFilas((DefaultTableModel)tablaVariante.getModel());
 			setFilas();
 		}
-		
 }
