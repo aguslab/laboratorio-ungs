@@ -337,13 +337,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
-		cboMes.setBounds(387, 54, 97, 25);
+		cboMes.setBounds(435, 54, 97, 25);
 		cboMes.setEnabled(false);
 		
 		cboDia = new JComboBox ();
 		cboDia.getModel().setSelectedItem(Metodos.getDiaDeHoy());
 		cboDia.setEnabled(false);
-		cboDia.setBounds(484, 54, 48, 25);
+		cboDia.setBounds(387, 54, 48, 25);
 		
 		cboAnio = new JComboBox ();
 		cboAnio.getModel().setSelectedItem(Metodos.getAnioActual());
@@ -373,10 +373,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		
 		cboMes2 = new JComboBox (Meses);
-		cboMes2.setBounds(85, 54, 97, 25);
+		cboMes2.setBounds(134, 54, 97, 25);
 		
 		cboDia2 = new JComboBox ();
-		cboDia2.setBounds(182, 54, 48, 25);
+		cboDia2.setBounds(85, 54, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(230, 54, 65, 25);
@@ -1805,10 +1805,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		String nroOT = getTxtNro().getText();
 		Integer id_OT=Metodos.FacturaAEntero(nroOT);
-		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(id_OT));
-
-		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(id_OT));
 		
+		//guardo en un arraylist las filas de la tabla Elementos
+        ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
+        Integer cantFilas = tablaElementos.getRowCount();
+        for (int i = 0; i < cantFilas; i++)
+        {
+                rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
+                                (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
+                                
+        }
+        ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(id_OT), rElementos);		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
 		JasperReport reporte = null;
