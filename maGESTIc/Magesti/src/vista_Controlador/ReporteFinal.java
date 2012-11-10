@@ -6,6 +6,8 @@ public class ReporteFinal
 {
 	private String nroOT, nombreOT;
 	private ArrayList<FilaRetiros> retiros;
+	private ArrayList<FilaElementos> elementos;
+	
 
 	public ReporteFinal()
 	{
@@ -13,11 +15,12 @@ public class ReporteFinal
 	}
 	
 	
-	public ReporteFinal(String nroOT, String nombreOT, ArrayList<FilaRetiros> retiros) 
+	public ReporteFinal(String nroOT, String nombreOT, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
 	{
 		this.nroOT = nroOT;
 		this.nombreOT = nombreOT;
 		this.retiros = retiros;
+		this.elementos = elementos;
 	}
 
 
@@ -49,5 +52,15 @@ public class ReporteFinal
 		this.retiros = retiros;
 	}
 	
-	
+	public ArrayList<FilaElementos> getElementos() 
+	{
+		return elementos;
+	}
+
+
+	public void setElementos(ArrayList<FilaElementos> elementos)
+	{
+		this.elementos = elementos;
+	}
+
 }

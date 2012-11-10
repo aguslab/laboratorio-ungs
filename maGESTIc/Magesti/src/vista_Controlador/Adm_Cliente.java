@@ -228,20 +228,20 @@ public class Adm_Cliente extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaDatosCliente.getColumnModel().getColumn(0).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(0).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tablaDatosCliente.getColumnModel().getColumn(1).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(1).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(1).setPreferredWidth(130);
-		tablaDatosCliente.getColumnModel().getColumn(2).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(2).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(2).setPreferredWidth(102);
-		tablaDatosCliente.getColumnModel().getColumn(3).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(3).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(3).setPreferredWidth(101);
-		tablaDatosCliente.getColumnModel().getColumn(4).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(4).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(4).setPreferredWidth(225);
-		tablaDatosCliente.getColumnModel().getColumn(5).setResizable(false);
-		tablaDatosCliente.getColumnModel().getColumn(6).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(5).setResizable(true);
+		tablaDatosCliente.getColumnModel().getColumn(6).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(6).setPreferredWidth(137);
-		tablaDatosCliente.getColumnModel().getColumn(7).setResizable(false);
+		tablaDatosCliente.getColumnModel().getColumn(7).setResizable(true);
 		tablaDatosCliente.getColumnModel().getColumn(7).setPreferredWidth(15);
 		tablaDatosCliente.getTableHeader().setReorderingAllowed(false);
 		
@@ -291,15 +291,15 @@ public class Adm_Cliente extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaContactoCliente.getColumnModel().getColumn(0).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(0).setResizable(true);
 		tablaContactoCliente.getColumnModel().getColumn(0).setPreferredWidth(15);
-		tablaContactoCliente.getColumnModel().getColumn(1).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(1).setResizable(true);
 		tablaContactoCliente.getColumnModel().getColumn(1).setPreferredWidth(195);
-		tablaContactoCliente.getColumnModel().getColumn(2).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(2).setResizable(true);
 		tablaContactoCliente.getColumnModel().getColumn(2).setPreferredWidth(115);
-		tablaContactoCliente.getColumnModel().getColumn(3).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(3).setResizable(true);
 		tablaContactoCliente.getColumnModel().getColumn(3).setPreferredWidth(130);
-		tablaContactoCliente.getColumnModel().getColumn(4).setResizable(false);
+		tablaContactoCliente.getColumnModel().getColumn(4).setResizable(true);
 		tablaContactoCliente.getColumnModel().getColumn(4).setPreferredWidth(240);
 		tablaContactoCliente.getTableHeader().setReorderingAllowed(false);
 		this.setFilas();

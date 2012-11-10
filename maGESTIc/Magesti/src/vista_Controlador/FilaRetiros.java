@@ -3,7 +3,7 @@ package vista_Controlador;
 public class FilaRetiros 
 {
 	private String nroSC, f_hora, empleado;
-	private String  fConfeccion, fEntrega, remanente;
+	private String  fConfeccion, fEntrega, f_h_recibido, hojasRestantes;
 	private Integer cantRetirada;
 	
 	public FilaRetiros()
@@ -12,29 +12,30 @@ public class FilaRetiros
 	}
 	
 
-	public FilaRetiros(String nroSC,String fConfeccion, String fEntrega, String f_hora,Integer cantRetirada,
+	public FilaRetiros(String nroSC,String f_h_recibido, String fConfeccion, String fEntrega, String f_hora,Integer cantRetirada,
 			String remanente,String empleado) 
 	{
 		this.nroSC = Metodos.EnteroAFactura(Integer.parseInt(nroSC));
+		this.f_h_recibido = f_h_recibido;
 		this.f_hora = f_hora;
 		this.empleado = empleado;
 		this.fConfeccion = fConfeccion;
 		this.fEntrega = fEntrega;
 		this.cantRetirada = cantRetirada;
-		this.remanente = remanente;
+		this.hojasRestantes = remanente;
 	}
 
 
 
-	public String getRemanente()
+	public String getHojasRestantes()
 	{
-		return remanente;
+		return hojasRestantes;
 	}
 
 
-	public void setRemanente(String remanente) 
+	public void setHojasRestantes(String remanente) 
 	{
-		this.remanente = remanente;
+		this.hojasRestantes = remanente;
 	}
 
 
@@ -97,4 +98,16 @@ public class FilaRetiros
 	{
 		this.cantRetirada = cantRetirada;
 	}
+	
+	public String getF_h_recibido() 
+	{
+		return f_h_recibido;
+	}
+
+
+	public void setF_h_recibido(String f_h_recibido)
+	{
+		this.f_h_recibido = f_h_recibido;
+	}
+
 }
