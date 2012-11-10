@@ -209,21 +209,19 @@ public class Adm_Proveedor extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
-		tablaDatos.getColumnModel().getColumn(0).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tablaDatos.getColumnModel().getColumn(1).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(1).setPreferredWidth(130);
-		tablaDatos.getColumnModel().getColumn(2).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(102);
-		tablaDatos.getColumnModel().getColumn(3).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(101);
-		tablaDatos.getColumnModel().getColumn(4).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(4).setPreferredWidth(225);
-		tablaDatos.getColumnModel().getColumn(5).setResizable(false);
-		tablaDatos.getColumnModel().getColumn(6).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(6).setPreferredWidth(137);
-		tablaDatos.getColumnModel().getColumn(7).setResizable(false);
 		tablaDatos.getColumnModel().getColumn(7).setPreferredWidth(15);
 		spDatos.setViewportView(tablaDatos);
 		
@@ -267,15 +265,10 @@ public class Adm_Proveedor extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaContacto.getColumnModel().getColumn(0).setResizable(false);
 		tablaContacto.getColumnModel().getColumn(0).setPreferredWidth(15);
-		tablaContacto.getColumnModel().getColumn(1).setResizable(false);
 		tablaContacto.getColumnModel().getColumn(1).setPreferredWidth(195);
-		tablaContacto.getColumnModel().getColumn(2).setResizable(false);
 		tablaContacto.getColumnModel().getColumn(2).setPreferredWidth(115);
-		tablaContacto.getColumnModel().getColumn(3).setResizable(false);
 		tablaContacto.getColumnModel().getColumn(3).setPreferredWidth(130);
-		tablaContacto.getColumnModel().getColumn(4).setResizable(false);
 		tablaContacto.getColumnModel().getColumn(4).setPreferredWidth(240);
 		spContacto.setViewportView(tablaContacto);
 		

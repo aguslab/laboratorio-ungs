@@ -182,8 +182,8 @@ public class Egreso_Stock {
 	{
 		String remanente = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT s.id_solicitud_compra, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
-				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra WHERE s.id_orden_trabajo =" + nroOT);
+				"SELECT s.id_solicitud_compra, rp.f_h_recibido, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
+				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra INNER JOIN recepcion_pedido rp ON rp.id_solicitud_compra = s.id_solicitud_compra  WHERE s.id_orden_trabajo =" + nroOT);
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
 		if (resultado != null)
 		{
@@ -191,7 +191,8 @@ public class Egreso_Stock {
 			{
 				while (resultado.next()) 
 				{
-					if(resultado.getBoolean("Remanente"))
+					System.out.println("rema" + resultado.getBoolean("Remanente"));
+					if(resultado.getBoolean("Remanente") == true)
 					{
 						remanente = "Si";
 					}
@@ -199,7 +200,7 @@ public class Egreso_Stock {
 					{
 						remanente = "No";
 					}
-					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_confeccion"), 
+					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), resultado.getString("f_confeccion"), 
 							resultado.getString("f_entrega"),resultado.getString("fecha"),new Integer(resultado.getInt("cant_hojas_retiradas")),
 							remanente, resultado.getString("Empleado"));
 					

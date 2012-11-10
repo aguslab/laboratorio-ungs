@@ -411,9 +411,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+
 			boolean[] columnEditables = new boolean[] {
-				true, true, true, true, true, true, true, true, false
-			};
+					false, true, false, false, false, true, true, true, false
+				};
 			public boolean isCellEditable(int row, int column) {
 				Integer c=Elemento.cantidadFilas(id_OT);
 				if(row < c && column!=1 && column!=6 && column != 7 && column != 8 ){
@@ -422,23 +423,23 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				return true;
 			}
 		});
-		tablaDetalles.getColumnModel().getColumn(0).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(0).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(90);
-		tablaDetalles.getColumnModel().getColumn(1).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(1).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(85);
-		tablaDetalles.getColumnModel().getColumn(2).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(2).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(140);
-		tablaDetalles.getColumnModel().getColumn(3).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(3).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(3).setPreferredWidth(115);
-		tablaDetalles.getColumnModel().getColumn(4).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(4).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(85);
-		tablaDetalles.getColumnModel().getColumn(5).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(5).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(5).setPreferredWidth(85);
-		tablaDetalles.getColumnModel().getColumn(6).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(6).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(6).setPreferredWidth(105);
-		tablaDetalles.getColumnModel().getColumn(7).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(7).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(7).setPreferredWidth(110);
-		tablaDetalles.getColumnModel().getColumn(8).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(8).setResizable(true);
 		spDetalles.setViewportView(tablaDetalles);
 		
 		tablaDetalles.setPreferredScrollableViewportSize(new Dimension(1100, 500));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteRetiros" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="76326c70-c211-44f4-8f73-513f471e7599">
-	<property name="ireport.zoom" value="1.1000000000000028"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="2.5937424601000174"/>
+	<property name="ireport.x" value="967"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
@@ -21,14 +21,17 @@
 	<field name="fEntrega" class="java.lang.String">
 		<fieldDescription><![CDATA[fEntrega]]></fieldDescription>
 	</field>
+	<field name="f_h_recibido" class="java.lang.String">
+		<fieldDescription><![CDATA[f_h_recibido]]></fieldDescription>
+	</field>
 	<field name="f_hora" class="java.lang.String">
 		<fieldDescription><![CDATA[f_hora]]></fieldDescription>
 	</field>
+	<field name="hojasRestantes" class="java.lang.String">
+		<fieldDescription><![CDATA[hojasRestantes]]></fieldDescription>
+	</field>
 	<field name="nroSC" class="java.lang.String">
 		<fieldDescription><![CDATA[nroSC]]></fieldDescription>
-	</field>
-	<field name="remanente" class="java.lang.String">
-		<fieldDescription><![CDATA[remanente]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -36,7 +39,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" x="0" y="0" width="82" height="20"/>
+				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" x="0" y="0" width="102" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -49,7 +52,7 @@
 				<text><![CDATA[Nro. SC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ec8d1bad-79e3-46e7-8c86-650acf0ebdf4" x="82" y="0" width="99" height="20"/>
+				<reportElement uuid="ec8d1bad-79e3-46e7-8c86-650acf0ebdf4" x="211" y="0" width="99" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -62,7 +65,7 @@
 				<text><![CDATA[Fecha Confección]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1d5c2250-cf4d-4f45-966e-5b9f55535e08" x="181" y="0" width="81" height="20"/>
+				<reportElement uuid="1d5c2250-cf4d-4f45-966e-5b9f55535e08" x="310" y="0" width="81" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -75,7 +78,7 @@
 				<text><![CDATA[Fecha Entrega]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" x="262" y="0" width="121" height="20"/>
+				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" x="391" y="0" width="115" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -88,7 +91,7 @@
 				<text><![CDATA[ Fecha y Hora de Retiro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" x="383" y="0" width="86" height="20"/>
+				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" x="506" y="0" width="79" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -101,7 +104,7 @@
 				<text><![CDATA[Cant. Retiradas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" x="566" y="0" width="125" height="20"/>
+				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" x="668" y="0" width="134" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -114,18 +117,7 @@
 				<text><![CDATA[Empleado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6c29f221-6912-4d55-9bee-97223cc4bcf8" x="467" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<text><![CDATA[Remanente]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement uuid="70d15bbe-b707-4cc0-88aa-f8b7251ed4ad" x="0" y="0" width="82" height="20"/>
+				<reportElement uuid="a1c12392-c685-49c7-9974-225801bb9f4a" x="585" y="0" width="83" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -135,10 +127,27 @@
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nroSC}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Hojas Restantes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d4484017-1563-4f35-9948-4fcfbf21b53b" x="102" y="0" width="109" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Fecha de Registro]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="1c93facb-1a4a-45a3-a900-8b046f2472d7" x="181" y="0" width="81" height="20"/>
+				<reportElement uuid="1c93facb-1a4a-45a3-a900-8b046f2472d7" x="310" y="0" width="81" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -151,7 +160,7 @@
 				<textFieldExpression><![CDATA[$F{fEntrega}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="04b14959-abb1-4273-8fdd-491a0a295c44" x="82" y="0" width="99" height="20"/>
+				<reportElement uuid="04b14959-abb1-4273-8fdd-491a0a295c44" x="211" y="0" width="99" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -164,7 +173,7 @@
 				<textFieldExpression><![CDATA[$F{fConfeccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="90a5a5f7-d637-4bb7-9aee-882046916de8" x="262" y="0" width="121" height="20"/>
+				<reportElement uuid="90a5a5f7-d637-4bb7-9aee-882046916de8" x="391" y="0" width="115" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -177,7 +186,7 @@
 				<textFieldExpression><![CDATA[$F{f_hora}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1548747a-32cd-427b-95d6-e2f50fc7e6ce" x="383" y="0" width="86" height="20"/>
+				<reportElement uuid="1548747a-32cd-427b-95d6-e2f50fc7e6ce" x="506" y="0" width="79" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -190,7 +199,7 @@
 				<textFieldExpression><![CDATA[$F{cantRetirada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b47549e1-00ff-4efc-9f4e-a79f2499fc39" x="566" y="0" width="125" height="20"/>
+				<reportElement uuid="b47549e1-00ff-4efc-9f4e-a79f2499fc39" x="668" y="0" width="134" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -203,21 +212,44 @@
 				<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ec981c08-3a08-4fb4-810b-b3053d9bd024" x="467" y="0" width="100" height="20"/>
+				<reportElement uuid="70d15bbe-b707-4cc0-88aa-f8b7251ed4ad" x="0" y="0" width="102" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{remanente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nroSC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ffde8364-2ab4-4d2c-8020-da3a6082aa1b" x="585" y="0" width="83" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hojasRestantes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="11846e4e-a4b4-46be-884a-7e8c6f51b580" x="102" y="0" width="109" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{f_h_recibido}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="20" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement uuid="5635ef91-7f7b-4f85-9275-d10faf880d0e" x="702" y="0" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageFooter>
 </jasperReport>
