@@ -300,13 +300,13 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		
 		cbMes = new JComboBox(Meses);
 		cbMes.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbMes.setBounds(117, 19, 97, 25);
+		cbMes.setBounds(165, 19, 97, 25);
 		panCondicionEntrega.add(cbMes);
 		cbMes.setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		
 		cbDia = new JComboBox();
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
-		cbDia.setBounds(215, 19, 48, 25);
+		cbDia.setBounds(117, 19, 48, 25);
 		panCondicionEntrega.add(cbDia);
 		String dias;
 		for (int i = 1; i <= 31; i++) 

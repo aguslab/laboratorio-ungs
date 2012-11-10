@@ -159,31 +159,12 @@ public class Egreso_Stock {
 	}
 
 
-//	public static ArrayList<Integer> getIdStockSegunIdMaterial(Integer id_materiales) {
-//		ArrayList<Integer> ids_stock=new ArrayList<Integer>();
-//		
-//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-//				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales+" ORDER BY id_stock");
-//
-//		if (resultado != null) {
-//			try {
-//				while (resultado.next()) {
-//					ids_stock.add(resultado.getInt("id_stock"));
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ids_stock;
-//	}
-
-	
 	public static ArrayList<FilaRetiros> getRetirosStock(Integer nroOT) 
 	{
 		String remanente = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT s.id_solicitud_compra, rp.f_h_recibido, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
-				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra INNER JOIN recepcion_pedido rp ON rp.id_solicitud_compra = s.id_solicitud_compra  WHERE s.id_orden_trabajo =" + nroOT);
+		"SELECT es.id_stock, es.id_materiales, es.id_egreso_stock,s.id_solicitud_compra, rp.f_h_recibido, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
+                " INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra INNER JOIN recepcion_pedido rp ON rp.id_solicitud_compra = s.id_solicitud_compra  WHERE s.id_orden_trabajo =" + nroOT);
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
 		if (resultado != null)
 		{
@@ -191,16 +172,10 @@ public class Egreso_Stock {
 			{
 				while (resultado.next()) 
 				{
-					System.out.println("rema" + resultado.getBoolean("Remanente"));
-					if(resultado.getBoolean("Remanente") == true)
-					{
-						remanente = "Si";
-					}
-					else
-					{
-						remanente = "No";
-					}
-					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), resultado.getString("f_confeccion"), 
+					
+					remanente = getRemanenteHasta(resultado.getInt("id_egreso_stock"),resultado.getInt("id_materiales"),resultado.getInt("id_stock"));
+
+					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"),  resultado.getString("f_h_recibido"), resultado.getString("f_confeccion"), 
 							resultado.getString("f_entrega"),resultado.getString("fecha"),new Integer(resultado.getInt("cant_hojas_retiradas")),
 							remanente, resultado.getString("Empleado"));
 					
@@ -214,5 +189,28 @@ public class Egreso_Stock {
 		}
 		return retiros;
 	}
+
+
+
+private static String getRemanenteHasta(Integer id_es, Integer id_material,Integer id_stock) {
+	Integer remanente=0;
+	ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+			"SELECT SUM(cant_hojas_retiradas) FROM egreso_stock WHERE id_egreso_stock <="+id_es+ " AND id_materiales="+id_material+ " AND id_stock="+id_stock);
+
+	
+	Integer cantHojasTotales = Stock.getHojasTotales(id_stock);
+	
+	if (resultado != null) {
+		try {
+			while (resultado.next()) {
+				remanente = cantHojasTotales - resultado.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	return remanente.toString();
+}
 	
 }
