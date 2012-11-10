@@ -161,6 +161,27 @@ public class Stock {
 	}
 	 
 	
+	
+	public static ArrayList<Integer> getIdStockSegunOT(Integer id_OT) {
+		ArrayList<Integer> ids_stock=new ArrayList<Integer>();
+		
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_stock FROM stock WHERE id_orden_trabajo="+id_OT+" ORDER BY id_stock");
+
+		if (resultado != null) {
+			try {
+				while (resultado.next()) {
+					ids_stock.add(resultado.getInt("id_stock"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ids_stock;
+	}
+	
+	
+	
 	public static Integer getCantFilasSC(Integer id_SC) {
 		Integer cantfilas = 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(

@@ -1339,10 +1339,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 										/*
 										 *Si sobran hojas, quedan como remanente en Stock 
 										 */
-									//Elementos de esta OT
-									ArrayList<Integer> id_elementos= Elemento.getIdElementos(clave);
-							for (int i = 0; i < id_elementos.size(); i++) {
-								ArrayList<Integer> id_Stock = Egreso_Stock.getIdStockSegunIdMaterial(id_elementos.get(i));
+								ArrayList<Integer> id_Stock = Stock.getIdStockSegunOT(clave);
 								
 								for (int j = 0; j < id_Stock.size(); j++) {
 									Integer hojas_usadas = Stock.getHojasUsadas(id_Stock.get(j));
@@ -1353,11 +1350,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 										Stock.setStockInactivo(id_Stock.get(j));
 									}
 								}
-							}
-										
-										//if()
-										
-										obj = btnCancelar;
+							
+							obj = btnCancelar;
 									}
 						}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
 							for(int i=0;i<proc.size();i++){
@@ -1810,14 +1804,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private void reporteFinal()
 	{
 		String nroOT = getTxtNro().getText();
-		
-		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(Metodos.FacturaAEntero(nroOT)));
+		Integer id_OT=Metodos.FacturaAEntero(nroOT);
+		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(id_OT));
 		
 		if(SC.equals(""))
 		{
 			SC = "Sin Solicitud de compra asignada.";
 		}
-		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(nroOT));
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(id_OT));
 		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);

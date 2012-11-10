@@ -199,21 +199,24 @@ public class Adm_Atributos extends JInternalFrame
 				if(tabSeleccionado == 0)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaCalidad.getModel();
-					Object nuevaFila[]= {"","",true};
+					int cantFilas=tablaTemp.getRowCount();
+					Object nuevaFila[]= {(cantFilas+1),"",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 				
 				if(tabSeleccionado == 1)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaFormato.getModel();
-					Object nuevaFila[]= {"","",true};
+					int cantFilas=tablaTemp.getRowCount();
+					Object nuevaFila[]= {(cantFilas+1),"",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 				
 				if(tabSeleccionado == 2)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaVariante.getModel();
-					Object nuevaFila[]= {"","",true};
+					int cantFilas=tablaTemp.getRowCount();
+					Object nuevaFila[]= {(cantFilas+1),"",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 			}
@@ -280,6 +283,12 @@ public class Adm_Atributos extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaCalidad.getColumnModel().getColumn(0).setResizable(false);
 		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(55);
@@ -324,6 +333,12 @@ public class Adm_Atributos extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tablaFormato.getColumnModel().getColumn(0).setResizable(false);
 		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(55);
@@ -365,6 +380,12 @@ public class Adm_Atributos extends JInternalFrame
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, true, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
 				}
 			});
 			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(55);
