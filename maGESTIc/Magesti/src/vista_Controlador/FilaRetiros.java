@@ -15,7 +15,7 @@ public class FilaRetiros
 	public FilaRetiros(String nroSC,String fConfeccion, String fEntrega, String f_hora,Integer cantRetirada,
 			String remanente,String empleado) 
 	{
-		this.nroSC = nroSC;
+		this.nroSC = Metodos.EnteroAFactura(Integer.parseInt(nroSC));
 		this.f_hora = f_hora;
 		this.empleado = empleado;
 		this.fConfeccion = fConfeccion;

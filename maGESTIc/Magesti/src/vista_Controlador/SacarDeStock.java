@@ -323,7 +323,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			Stock st=Stock.getStock(ids_stock.get(i));
 			
 			tablaStock.setValueAt(Metodos.EnteroAFactura(st.getId_stock()), i, 0);//nro stock
-			tablaStock.setValueAt(st.getId_solicitud_compra(), i, 1);//nro SC
+			tablaStock.setValueAt(Metodos.EnteroAFactura(st.getId_solicitud_compra()), i, 1);//nro SC
 			tablaStock.setValueAt(Calidad.getNombre(Detalle.getidCalidad(st.getId_detalle())), i, 2);//Calidad
 			tablaStock.setValueAt(Formato_Papel.getTamanio(Detalle.getidFormato(st.getId_detalle())), i, 3);//formato
 			tablaStock.setValueAt(Variante.getNombre(Detalle.getidVariante(st.getId_detalle())), i, 4);//variante
