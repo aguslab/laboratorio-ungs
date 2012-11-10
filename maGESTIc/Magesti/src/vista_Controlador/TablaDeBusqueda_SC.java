@@ -72,12 +72,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				//Cargo en la ventana de SC los valores de la fila elegida
 				final Integer id_SC=Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
 				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(id_SC));
-				Date f=(Date) tablaBusqueda.getValueAt(filaElegida, 1);
 				
 				nuevaSC.getCbProveedor().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2));
 				nuevaSC.getCbProveedor().setEnabled(false);
 				
-				nuevaSC.getTxtFecha().setText(Metodos.YMDaDMY(f.toString()));
+				nuevaSC.getTxtFecha().setText(tablaBusqueda.getValueAt(filaElegida, 1).toString());
 				nuevaSC.getTxtVendedor().setText((String) tablaBusqueda.getValueAt(filaElegida, 3));
 				nuevaSC.getTxtVendedor().setEditable(false);
 				
@@ -111,10 +110,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				
 				nuevaSC.getLbFechaEntrega().setVisible(false);
-				
-				if(Recepcion_pedido.dameEstado(id_SC).toUpperCase().equals("RECIBIDO"))
+				String estado=Recepcion_pedido.dameEstado(id_SC);
+				if(estado.toUpperCase().equals("RECIBIDO") || estado.toUpperCase().equals("RECHAZADO"))
 				{
-					nuevaSC.getfechaHora().setText(Recepcion_pedido.dameF_h_recibido(id_SC));
+					nuevaSC.getfechaHora().setText(Metodos.dateFormatConHora(Recepcion_pedido.dameF_h_recibido(id_SC)));
 					nuevaSC.getfechaHora().setVisible(true);
 				}
 				
@@ -218,15 +217,12 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						@Override
 						public void actionPerformed(ActionEvent e)
 						{
-							if(Recepcion_pedido.dameEstado(id_SC).equals("Recibido"))
-							{
-								JOptionPane.showMessageDialog 
-								(
-									nuevaSC, 
-									"Esta Solicitud de compra ya ha sido Recibida, no puede ser rechazada",
-									Config.qTITULO + " SC Recibida", 
-									JOptionPane.WARNING_MESSAGE
-								);
+							if (nuevaSC.getTxtDescripcionIncidencia()
+									.getText().length() > 500) {
+								JOptionPane
+										.showMessageDialog(
+												null,
+												"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
 							}
 							else
 							{
@@ -244,24 +240,43 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						@Override
 						public void actionPerformed(ActionEvent e) 
 						{
-							Detalle.setAllAsRecibidos(id_SC); 
-							String f_h_recibido=Metodos.getDateTimeActual(0);
-							
-							//ALTA RP
-							Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, nuevaSC.getTxtDescripcionIncidencia().getText());
-							rp.Alta();
-							
-							//ALTA DE STOCK
-							ArrayList<Integer> id_det= Detalle.getIdDetalles(id_SC);
-							Integer id_ot=Solicitud_compra.getId_OT(id_SC);
+									if (nuevaSC.getTxtDescripcionIncidencia()
+											.getText().length() > 500) {
+										JOptionPane
+												.showMessageDialog(
+														null,
+														"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
+									} else {
 
-							for(int i=0;i<id_det.size();i++){								
-								Stock st= new Stock(id_ot, id_SC,id_det.get(i), 0, false,true);
-								st.Alta();
-							}
+										Detalle.setAllAsRecibidos(id_SC);
+										String f_h_recibido = Metodos
+												.getDateTimeActual(0);
 
-							nuevaSC.dispose();
-						}
+										// ALTA RP
+										Recepcion_pedido rp = new Recepcion_pedido(
+												id_SC,
+												"Recibido",
+												f_h_recibido,
+												nuevaSC.getTxtDescripcionIncidencia()
+														.getText());
+										rp.Alta();
+
+										// ALTA DE STOCK
+										ArrayList<Integer> id_det = Detalle
+												.getIdDetalles(id_SC);
+										Integer id_ot = Solicitud_compra
+												.getId_OT(id_SC);
+
+										for (int i = 0; i < id_det.size(); i++) {
+											Stock st = new Stock(id_ot, id_SC,
+													id_det.get(i), 0, false,
+													true);
+											st.Alta();
+										}
+
+										nuevaSC.dispose();
+									}
+								}
 					});
 					
 				}
@@ -275,7 +290,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						if (b == false) 
 						{
 						Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
-						//intento de singleton // Recepcion_Pedido nRP = Recepcion_Pedido.getInstancia(id_SC, cantFilas, nuevaSC);
 						Magesti.getEscritorio().add (nRP);						
 						nRP.show ();
 						}
@@ -389,11 +403,19 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							{
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
-							
+							if(i==1)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
 							if (i==5)
 							{
 								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
 							}
+							if(i==7)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
+							
 						}
 						dtmMagesti.addRow(datos);
 					}
@@ -426,10 +448,17 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							{
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
-							
+							if(i==1)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
 							if (i==5)
 							{
 								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
+							}
+							if(i==7)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
 							}
 						}
 						dtmMagesti.addRow(datos);
@@ -463,10 +492,17 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 							{
 								datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 							}
-							
+							if(i==1)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
 							if (i==5)
 							{
 								datos[i]=Solicitud_compra.enviaProveedor((Boolean) datos[i]);
+							}
+							if(i==7)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
 							}
 						}
 						dtmMagesti.addRow(datos);

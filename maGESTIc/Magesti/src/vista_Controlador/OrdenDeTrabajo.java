@@ -38,7 +38,6 @@ import Modelo.Orden_Trabajo;
 import Modelo.Proceso;
 import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
-import Modelo.Solicitud_compra;
 import Modelo.Stock;
 import Modelo.Variante;
 
@@ -545,56 +544,87 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnAlmacenar = new JButton("Almacenar", new ImageIcon ("Imagenes/ok.png"));
 		btnAlmacenar.addActionListener(new ActionListener() 
 		{
-//Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
+			//Evento que ocurre cuando se presiona el boton almacenar en la seccion elementos
 			public void actionPerformed(ActionEvent e) 
 			{
-				Metodos.borrarFilas((DefaultTableModel) tablaMateriales.getModel());
-				
-				Integer cantFilas = tablaElementos.getRowCount();
-				DefaultTableModel temp = (DefaultTableModel) tablaMateriales.getModel();
-				//cuenta la cantidad de filas no vacias que se agregan
-				Integer c=0;
-				try
-				{					
-					for (int i = 0; i < cantFilas; i++) 
-					{
-						if(!tablaElementos.getValueAt(i, 0).toString().equals("") && !tablaElementos.getValueAt(i, 1).equals(""))
-						{
-							Object nuevaFila[]= {tablaElementos.getValueAt(i, 0),Integer.parseInt(tablaElementos.getValueAt(i, 1).toString()),"","","","","","","","",""};
-							temp.addRow(nuevaFila);	
-							c++;
-						}
-					}
-				}
-				catch (NumberFormatException e2) 
-				{
-					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
-				}
-				if(c==cantFilas && c!=0)
-				{
-					JOptionPane.showMessageDialog(null,"Se almaceno correctamente.Vaya a la seccion MATERIALES.");	
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null,"Debe ingresar un elemento y una cantidad.");
+				Metodos.borrarFilas((DefaultTableModel) tablaMateriales
+						.getModel());
 
+				if (ExcedeLargoElemento()) {
+
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La longitud máxima de un elemento son 50 caracteres.\nNo exceda el límite, Por favor",
+									qTITULO + " - Campo vacío",
+									JOptionPane.WARNING_MESSAGE);
+
+				} else {
+					Integer cantFilas = tablaElementos.getRowCount();
+
+					DefaultTableModel temp = (DefaultTableModel) tablaMateriales
+							.getModel();
+					// cuenta la cantidad de filas no vacias que se agregan
+					Integer c = 0;
+					try {
+						for (int i = 0; i < cantFilas; i++) {
+							if (!tablaElementos.getValueAt(i, 0).toString()
+									.equals("")
+									&& !tablaElementos.getValueAt(i, 1).equals(
+											"")) {
+								Object nuevaFila[] = {
+										tablaElementos.getValueAt(i, 0),
+										Integer.parseInt(tablaElementos
+												.getValueAt(i, 1).toString()),
+										"", "", "", "", "", "", "", "", "" };
+								temp.addRow(nuevaFila);
+								c++;
+							}
+						}
+					} catch (NumberFormatException e2) {
+						JOptionPane.showMessageDialog(null,
+								"Debe ingresar un elemento y una cantidad.");
+					}
+					if (c == cantFilas && c != 0) {
+						JOptionPane
+								.showMessageDialog(null,
+										"Se almaceno correctamente.Vaya a la seccion MATERIALES.");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Debe ingresar un elemento y una cantidad.");
+
+					}
+
+					// Valores para el combo
+					String calidades[] = Calidad.getCalidades();
+					TableColumn columnaCalidad = tablaMateriales
+							.getColumnModel().getColumn(5);// table es la
+															// JTable, ponele
+															// que la col 0
+															// es la del combo.
+					columnaCalidad
+							.setCellEditor(new MyComboBoxEditor(calidades));
+
+					// Valores para el combo
+					String variantes[] = Variante.getVariantes();
+					TableColumn columnaVariante = tablaMateriales
+							.getColumnModel().getColumn(4);// table es la
+															// JTable, ponele
+															// que la col 0
+															// es la del combo.
+					columnaVariante.setCellEditor(new MyComboBoxEditor(
+							variantes));
+
+					// Valores para el combo
+					String formatos[] = Formato_Papel.getFormatos();
+					TableColumn columnaFormato = tablaMateriales
+							.getColumnModel().getColumn(3);// table es la
+															// JTable, ponele
+															// que la col 0
+															// es la del combo.
+					columnaFormato
+							.setCellEditor(new MyComboBoxEditor(formatos));
 				}
-				
-				// Valores para el combo
-				String calidades[] = Calidad.getCalidades();
-				TableColumn columnaCalidad = tablaMateriales.getColumnModel().getColumn(5);//table es la JTable, ponele que la col 0 es la del combo.
-				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
-				
-				
-				// Valores para el combo
-				String variantes[] = Variante.getVariantes(); 
-				TableColumn columnaVariante = tablaMateriales.getColumnModel().getColumn(4);//table es la JTable, ponele que la col 0 es la del combo.
-				columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
-				
-				// Valores para el combo
-				String formatos[] = Formato_Papel.getFormatos();
-				TableColumn columnaFormato = tablaMateriales.getColumnModel().getColumn(3);//table es la JTable, ponele que la col 0 es la del combo.
-				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 			}
 		});
 		
@@ -648,37 +678,37 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return columnEditables[column];
 			}
 		});
-		tablaMateriales.getColumnModel().getColumn(0).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(0).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(0).setPreferredWidth(95);
 		tablaMateriales.getColumnModel().getColumn(0).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(1).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(1).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(1).setPreferredWidth(63);
 		tablaMateriales.getColumnModel().getColumn(1).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(2).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(2).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(2).setPreferredWidth(59);
 		tablaMateriales.getColumnModel().getColumn(2).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(3).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(3).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(3).setPreferredWidth(77);
 		tablaMateriales.getColumnModel().getColumn(3).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(4).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(4).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(115);
 		tablaMateriales.getColumnModel().getColumn(4).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(5).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(5).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(140);
 		tablaMateriales.getColumnModel().getColumn(5).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(6).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(6).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(6).setPreferredWidth(128);
 		tablaMateriales.getColumnModel().getColumn(6).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(7).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(7).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(7).setPreferredWidth(100);
 		tablaMateriales.getColumnModel().getColumn(7).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(8).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(8).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(8).setPreferredWidth(90);
 		tablaMateriales.getColumnModel().getColumn(8).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(9).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(9).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(9).setPreferredWidth(88);
 		tablaMateriales.getColumnModel().getColumn(9).setMinWidth(30);
-		tablaMateriales.getColumnModel().getColumn(10).setResizable(false);
+		tablaMateriales.getColumnModel().getColumn(10).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(10).setPreferredWidth(80);
 		tablaMateriales.getColumnModel().getColumn(10).setMinWidth(30);
 		spMateriales.setViewportView(tablaMateriales);
@@ -1285,6 +1315,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
+				else if (ExcedeLargoObservacion()) 
+				{
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"La longitud máxima de una observación son 100 caracteres.\nNo exceda el límite, Por favor",
+						qTITULO + " - Campo vacío", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
+				
 				else if (!proveedorElegido()) 
 				{
 					JOptionPane.showMessageDialog 
@@ -1297,68 +1338,93 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 
 				else if(estado.equalsIgnoreCase("En Proceso"))
-				{
-						if(estado.equalsIgnoreCase("En Proceso"))
-						{
-							Orden_Trabajo.CambiarEstado(clave, "En Proceso");
-						}
-						
-						
-						//actualizar tareas cumplidas
-						ArrayList<Integer> id_proc=this.getId_procesosTablaActual();
-						Integer cantTrue=0;
-						ArrayList<Integer> proc= new ArrayList<Integer>();
-						ArrayList<Boolean> cumplida= new ArrayList<Boolean>();
-						for(int i=0;i<tablaOrdenDeEjecucion.getRowCount();i++){
-							boolean n= (Boolean) tablaOrdenDeEjecucion.getValueAt(i, 4);
-							if(n){
-								cantTrue++;
-							}
-							proc.add(new Integer(i));
-							cumplida.add(new Boolean(n));
-						}
-						//si se marcan como cumplidos todos los procesos
-						if(cantTrue==tablaOrdenDeEjecucion.getRowCount()){
-							int reply = JOptionPane.showConfirmDialog 
-								    (
-								    	this,
-								    	"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
-								    	qTITULO + " - Cerrando Orden de Trabajo", 
-								    	JOptionPane.YES_NO_OPTION, 
-								    	JOptionPane.WARNING_MESSAGE
-								    );
+ {
+					if (estado.equalsIgnoreCase("En Proceso")) {
+						Orden_Trabajo.CambiarEstado(clave, "En Proceso");
+					}
 
-									if (reply == JOptionPane.YES_OPTION) 
-									{
-										for(int i=0;i<proc.size();i++){
-											Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
+					// actualizar tareas cumplidas
+					ArrayList<Integer> id_proc = this
+							.getId_procesosTablaActual();
+					Integer cantTrue = 0;
+					ArrayList<Integer> proc = new ArrayList<Integer>();
+					ArrayList<Boolean> cumplida = new ArrayList<Boolean>();
+					for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) {
+						boolean n = (Boolean) tablaOrdenDeEjecucion.getValueAt(
+								i, 4);
+						if (n) {
+							cantTrue++;
+						}
+						proc.add(new Integer(i));
+						cumplida.add(new Boolean(n));
+					}
+					// si se marcan como cumplidos todos los procesos
+					if (cantTrue == tablaOrdenDeEjecucion.getRowCount()) {
+						int reply = JOptionPane
+								.showConfirmDialog(
+										this,
+										"Ha marcada que todas las tareas fueron realizadas,\ndesea cerrar la Orden de Trabajo?",
+										qTITULO
+												+ " - Cerrando Orden de Trabajo",
+										JOptionPane.YES_NO_OPTION,
+										JOptionPane.WARNING_MESSAGE);
+
+						//warning si no uso hojas de stock
+						if (reply == JOptionPane.YES_OPTION) {
+							if (Orden_Trabajo.getHojasUtilizadas(clave) == 0) {
+								int opcion = JOptionPane
+										.showConfirmDialog(
+												this,
+												"Atención! Está a punto de cerrar una Orden De Trabajo para la cual no ha utilizado hojas de stock,\ndesea cerrarla de todas formas?",
+												qTITULO
+														+ " - Cerrando Orden de Trabajo",
+												JOptionPane.YES_NO_OPTION,
+												JOptionPane.WARNING_MESSAGE);
+								if (opcion == JOptionPane.YES_OPTION) {
+									for (int i = 0; i < proc.size(); i++) {
+										Procesos_x_OT.setAvanceOT(clave,
+												id_proc.get(proc.get(i)),
+												cumplida.get(i));
+									}
+									Orden_Trabajo.CambiarEstado(clave,
+											"Cerrada");
+									Orden_Trabajo.setF_h_cierre(clave,
+											Metodos.getDateTimeActual(0));
+
+									/*
+									 * Si sobran hojas, quedan como remanente en
+									 * Stock
+									 */
+									ArrayList<Integer> id_Stock = Stock
+											.getIdStockSegunOT(clave);
+
+									for (int j = 0; j < id_Stock.size(); j++) {
+										Integer hojas_usadas = Stock
+												.getHojasUsadas(id_Stock.get(j));
+										Integer hojas_totales = Stock
+												.getHojasTotales(id_Stock
+														.get(j));
+										if (hojas_usadas < hojas_totales) {
+											Stock.setStockComoRemanente(id_Stock
+													.get(j));
+										} else {
+											Stock.setStockInactivo(id_Stock
+													.get(j));
 										}
-										Orden_Trabajo.CambiarEstado(clave, "Cerrada");
-										Orden_Trabajo.setF_h_cierre(clave, Metodos.getDateTimeActual(0));							
+									}
 
-										/*
-										 *Si sobran hojas, quedan como remanente en Stock 
-										 */
-								ArrayList<Integer> id_Stock = Stock.getIdStockSegunOT(clave);
-								
-								for (int j = 0; j < id_Stock.size(); j++) {
-									Integer hojas_usadas = Stock.getHojasUsadas(id_Stock.get(j));
-									Integer hojas_totales = Stock.getHojasTotales(id_Stock.get(j));
-									if (hojas_usadas < hojas_totales) {
-										Stock.setStockComoRemanente(id_Stock.get(j));
-									} else {
-										Stock.setStockInactivo(id_Stock.get(j));
-									}
+									obj = btnCancelar;
 								}
-							
-							obj = btnCancelar;
-									}
-						}else{//si no se marcaron todos los procesos como cumplidos, guarda los seleccionados
-							for(int i=0;i<proc.size();i++){
-								Procesos_x_OT.setAvanceOT(clave, id_proc.get(proc.get(i)),cumplida.get(i));	
 							}
-							obj = btnCancelar;			
 						}
+					} else {// si no se marcaron todos los procesos como
+							// cumplidos, guarda los seleccionados
+						for (int i = 0; i < proc.size(); i++) {
+							Procesos_x_OT.setAvanceOT(clave,
+									id_proc.get(proc.get(i)), cumplida.get(i));
+						}
+						obj = btnCancelar;
+					}
 				}
 				else 
 				{
@@ -1715,6 +1781,29 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		return true;
 	}
+	
+	
+	private boolean ExcedeLargoObservacion() {
+
+		for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) {
+			if (tablaOrdenDeEjecucion.getValueAt(i, 3).toString().length() > 100) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean ExcedeLargoElemento() {
+
+		for (int i = 0; i < tablaElementos.getRowCount(); i++) {
+			if (tablaElementos.getValueAt(i, 0).toString().length() > 50) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
 	
 	private void reporteOT()
 	{

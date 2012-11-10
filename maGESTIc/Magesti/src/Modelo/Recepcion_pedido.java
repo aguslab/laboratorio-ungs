@@ -230,7 +230,7 @@ public class Recepcion_pedido {
 		String f_h="";
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT f_h_recibido FROM recepcion_pedido WHERE estado='Recibido' AND id_solicitud_compra="+ id_SC);
+				"SELECT f_h_recibido FROM recepcion_pedido WHERE (estado='Recibido' || estado='Rechazado')  AND id_solicitud_compra="+ id_SC);
 
 		if (resultado != null)
 		{

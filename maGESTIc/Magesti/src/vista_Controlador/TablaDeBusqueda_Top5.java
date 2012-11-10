@@ -18,6 +18,7 @@ import Modelo.ConexionDB;
 import Modelo.Orden_Trabajo;
 import Modelo.Proceso;
 import Modelo.Procesos_x_OT;
+import Modelo.Proveedor;
 
 public class TablaDeBusqueda_Top5 extends JInternalFrame 
 {
@@ -96,7 +97,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
 				"SELECT DISTINCT o.id_orden_trabajo, c.razon_social,o.cantidad_a_entregar, o.f_confeccion,o.f_prometida, o.estado,o.hojas_utilizadas FROM orden_trabajo o, cliente c  WHERE f_prometida>=" + fechaHoy
-						+ "AND o.id_cliente=c.id_cliente AND o.estado <>" + cerrada + " ORDER BY f_prometida LIMIT 0,5;");
+						+ " AND o.id_cliente=c.id_cliente AND o.estado <>" + cerrada + " ORDER BY f_prometida LIMIT 0,5;");
 
 
 		Integer CantColumnas = getColumnas().length;
@@ -109,11 +110,12 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 			while (result.next())
 			{
 				Integer id_ot=null;
+				Integer id_proc=null;
 				for (int i = 0; i < CantColumnas; i++) 
 				{
-					if(i<CantColumnas-1){
+					//porque las ultimas dos columnas no las obtengo de la consulta
+					if(i<CantColumnas-2){
 						datos[i] = result.getObject(i + 1);	
-
 					}
 					
 					if(i==0)
@@ -121,9 +123,24 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 						id_ot=(Integer) datos[i];
 						datos[i] = Metodos.EnteroAFactura((Integer) datos[i]);
 					}
-
+					if(i==3)
+					{
+						datos[i] = Metodos.YMDaDMY(datos[i].toString());
+					}
+					if(i==4)
+					{
+						datos[i] = Metodos.YMDaDMY(datos[i].toString());
+					}
 					if(i==7){
 						datos[i]=Proceso.getNombreProceso(Procesos_x_OT.getIdProcEnEjecucion(id_ot));
+						id_proc=Proceso.getIdProceso(datos[i].toString());
+					}
+					if(i==8){
+						if(!datos[i-1].toString().equals("")){
+							datos[i]=Proveedor.getRazonSocial(Procesos_x_OT.getIdProveedorSegunIdOT_Id_Proc(id_ot, id_proc));	
+						}else{
+							datos[i]="";
+						}
 					}
 				}
 				dtmMagesti.addRow(datos);

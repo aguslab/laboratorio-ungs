@@ -160,7 +160,6 @@ public class Metodos implements Config
 		JInternalFrame[] childs = Magesti.getEscritorio().getAllFrames ();
 		for (int i = 0; i < childs.length; i++) 
 		{
-			System.out.println(childs[i].getTitle());
 			if (childs[i].getTitle().equalsIgnoreCase (title)) 
 			{
 				childs[i].show ();
@@ -170,85 +169,7 @@ public class Metodos implements Config
 		return false;
 
 	}
-	
-//	static String fabricaReporte (int OT) 
-//	{
-//
-//		String data;
-//		String margen = "        ";
-//		String data0 = "                        "+qCLIENTE+"                   \n";
-//		String data1 = "           Reporte de Orden de Trabajo          \n\n";
-//		String data2 = "   Orden No.: " + OT +"\n"; 
-//		String data3 = "   Cliente: \n"; 
-//		String data4 = "   Desc. Trabajo:  \n"; 
-//		String data5 = "   Otro dato:   \n"; 
-//		String data6 = "   Y otro dato:   \n"; 
-//		String data7 = "   ... :   \n"; 
-//		String data8 = "   Copyright © 2012 De Napoli, Godoy, Jiménez y Asociados   \n";	
-//		 String sep0 = " -----------------------------------------------------------\n";
-//		 String sep1 = " -----------------------------------------------------------\n\n";
-//
-//		data = margen + data0 + margen +sep0 + margen +data1 + margen +data2 + margen +data3 + margen +data4 + margen +data5 + margen +data6 + margen +data7 + margen +sep1 + margen +data8;
-//		return data;
-//
-//	}
-	
-//	static void imprimir (String rec, Magesti magesti) 
-//	{
-//
-//		StringReader sr = new StringReader (rec);
-//		LineNumberReader lnr = new LineNumberReader (sr);
-//		Font typeface = new Font ("Courier", Font.PLAIN, 12);
-//		Properties p = new Properties ();
-//		PrintJob pJob = magesti.getToolkit().getPrintJob (magesti, "Imprime reporte", p);
-//
-//
-//		if (pJob != null) 
-//		{
-//			Graphics gr = pJob.getGraphics ();
-//			if (gr != null) 
-//			{
-//				FontMetrics fm = gr.getFontMetrics (typeface);
-//				int margin = 20;
-//				int pageHeight = pJob.getPageDimension().height - margin;
-//    				int fontHeight = fm.getHeight();
-//	    			int fontDescent = fm.getDescent();
-//    				int curHeight = margin;
-//				String nextLine;
-//				gr.setFont (typeface);
-//
-//				try 
-//				{
-//					do 
-//					{
-//						nextLine = lnr.readLine ();
-//						if (nextLine != null) 
-//						{         
-//							if ((curHeight + fontHeight) > pageHeight) 
-//							{	//New Page.
-//								gr.dispose();
-//								gr = pJob.getGraphics ();
-//								curHeight = margin;
-//							}							
-//							curHeight += fontHeight;
-//							if (gr != null) 
-//							{
-//								gr.setFont (typeface);
-//								gr.drawString (nextLine, margin, curHeight - fontDescent);
-//							}
-//						}
-//					}
-//					while (nextLine != null);					
-//				}
-//				catch (EOFException eof) { }
-//				catch (Throwable t) { }
-//			}
-//			gr.dispose();
-//		}
-//		if (pJob != null)
-//			pJob.end ();
-//	}
-	
+		
 	
 	static String pasarAPesos(String df)
 	{
@@ -412,10 +333,33 @@ public class Metodos implements Config
 	
 	public static String DMYaYMD(String dmy) 
 	{
-    	//Dada una fecha 'dd/mm/yyyy' la pasa a 'yyyy-mm-dd'  
+    	//Dada una fecha 'dd-mm-yyyy' la pasa a 'yyyy/mm/dd'  
     	String[] ymd = dmy.split("\\-");
     	return ymd[2]+"/"+ymd[1]+"/"+ymd[0];
 	}
+	
+	
+	public static String dateFormatConHora(String fecha){
+		ResultSet resultado= ConexionDB.getbaseDatos().consultar("SELECT DATE_FORMAT("+"'"+fecha+"'"+",'%d/%m/%y %r')");
+		
+		String fechaHora_Formato="";
+		if(resultado != null)
+		{
+			try 
+			{
+				while(resultado.next())
+				{
+					fechaHora_Formato=resultado.getString(1);
+				}
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return fechaHora_Formato;
+	}
+	
+	
 	public static String valorAncho(String cadena) 
 	{
 		int ind=0;
@@ -552,6 +496,26 @@ public class Metodos implements Config
 		}
 				
 		return Integer.parseInt(formatoElem.substring(pos));
+	}
+	
+	public static Integer getAncho(String formato){
+		String ancho="";
+		for (int i = 0; i < formato.length() && formato.charAt(i) != 'x'; i++) {
+			ancho=ancho+formato.charAt(i);
+		}
+		
+		return Integer.parseInt(ancho);
+	}
+
+	
+	public static Integer getAlto(String formato){
+		String alto="";
+		String ancho=getAncho(formato).toString();
+		for (int i = ancho.length()+1; i < formato.length(); i++) {
+			alto=alto+formato.charAt(i);
+		}
+		
+		return Integer.parseInt(alto);
 	}
 	
 }

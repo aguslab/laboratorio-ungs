@@ -73,109 +73,115 @@ public class Adm_Atributos extends JInternalFrame
 				String nombreVariante = "";
 				Boolean activoVar = true;
 				
-				//Agregar calidades nuevas
-				Integer cantFilasCalidad = tablaCalidad.getRowCount();
-				for (int i =0; i < cantFilasCalidad; i++) 
-				{
-					nro_Calidad = tablaCalidad.getValueAt(i, 0).toString();
-					nombreCalidad = tablaCalidad.getValueAt(i, 1).toString();
-					activoCal = (Boolean) tablaCalidad.getValueAt(i, 2);
-
-					todoOKCalidad = todoOKCalidad && !nombreCalidad.equals("");
-					
-					if (todoOKCalidad == false) 
-					{
-						result = false;
-						JOptionPane.showMessageDialog(null, "Falta completar datos de la calidad");
-						break;
-					} 
-					else if (todoOKCalidad) 
-					{
-						if (nro_Calidad.equals("")) 
-						{
-							result = true;
-							Calidad cal = new Calidad(nombreCalidad,activoCal);
-							result = result && cal.Alta();
-						} 
-						else 
-						{
-							Calidad.updateCalidad(nro_Calidad,nombreCalidad,activoCal);
-						}
-					} 
-					else 
-					{
-						result = false;
-					}
+				if(ExcedeLargoCalidad()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "La longitud máxima del nombre de una Calidad es 30 Caracteres\nNo exceda el límite, por favor");
 				}
-				
-				Integer cantFilasFormato = tablaFormato.getRowCount();
-				for (int i =0; i < cantFilasFormato; i++) 
-				{
-					nro_Formato = tablaFormato.getValueAt(i, 0).toString();
-					tamanioFormato= tablaFormato.getValueAt(i, 1).toString();
-					activoFor = (Boolean) tablaFormato.getValueAt(i, 2);
+				else if(ExcedeLargoFormato()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "La longitud máxima de un Formato es 10 Caracteres\nNo exceda el límite, por favor");
+				}
+				else if(ErrorFormatoPapel()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "El formato del tamaño de papel debe ser nxn\nPor favor, respete el formato");
+				}
+				else if(ExcedeLargoVariante()){
+					result = false;
+					JOptionPane.showMessageDialog(null, "La longitud máxima del nombre de una Variante es 30 Caracteres\nNo exceda el límite, por favor");
+				}
+				else {
+					// Agregar calidades nuevas
+					Integer cantFilasCalidad = tablaCalidad.getRowCount();
+					for (int i = 0; i < cantFilasCalidad; i++) {
+						nro_Calidad = tablaCalidad.getValueAt(i, 0).toString();
+						nombreCalidad = tablaCalidad.getValueAt(i, 1)
+								.toString();
+						activoCal = (Boolean) tablaCalidad.getValueAt(i, 2);
 
-					todoOKFormato = todoOKFormato && !tamanioFormato.equals("");
-					
-					if(todoOKFormato == false)
-					{
-						result = false;
-						JOptionPane.showMessageDialog(null,"Falta completar datos del formato");
-						break;
-					}
-					else if(todoOKFormato)
-					{
-						if (nro_Formato.equals("")) 
-						{
-							result = true;
-							Formato_Papel fto = new Formato_Papel(tamanioFormato, activoFor);
-							result = result && fto.Alta();
-						} 
-						else
-						{
-							Formato_Papel.updateFormato(nro_Formato,tamanioFormato,activoFor);
+						todoOKCalidad = todoOKCalidad
+								&& !nombreCalidad.equals("");
+
+						if (todoOKCalidad == false) {
+							result = false;
+							JOptionPane.showMessageDialog(null,
+									"Falta completar datos de la calidad");
+							break;
+						} else if (todoOKCalidad) {
+							if (nro_Calidad.equals("")) {
+								result = true;
+								Calidad cal = new Calidad(nombreCalidad,
+										activoCal);
+								result = result && cal.Alta();
+							} else {
+								Calidad.updateCalidad(nro_Calidad,
+										nombreCalidad, activoCal);
+							}
+						} else {
+							result = false;
 						}
 					}
-					else 
-					{
-						result = false;
-					}
-				}
-				
-				Integer cantFilasVariante = tablaVariante.getRowCount();
-				for (int i =0; i < cantFilasVariante; i++) 
-				{
-					nro_Variante = tablaVariante.getValueAt(i, 0).toString();
-					nombreVariante = tablaVariante.getValueAt(i, 1).toString();
-					activoVar = (Boolean) tablaVariante.getValueAt(i, 2);
 
-					todoOKVariante = todoOKVariante && !nombreVariante.equals("");
-					
-					if(todoOKVariante == false)
-					{
-						result = false;
-						JOptionPane.showMessageDialog(null,"Falta completar datos de la variante");
-						break;
-					}
-					else if(todoOKVariante)
-					{
-						if (nro_Variante.equals("")) 
-						{
-							result = true;
-							Variante var = new Variante(nombreVariante,activoVar);
-							result = result && var.Alta();
-						} 
-						else
-						{
-							Variante.updateVariante(nro_Variante,nombreVariante,activoVar);
+					Integer cantFilasFormato = tablaFormato.getRowCount();
+					for (int i = 0; i < cantFilasFormato; i++) {
+						nro_Formato = tablaFormato.getValueAt(i, 0).toString();
+						tamanioFormato = tablaFormato.getValueAt(i, 1)
+								.toString();
+						activoFor = (Boolean) tablaFormato.getValueAt(i, 2);
+
+						todoOKFormato = todoOKFormato
+								&& !tamanioFormato.equals("");
+
+						if (todoOKFormato == false) {
+							result = false;
+							JOptionPane.showMessageDialog(null,
+									"Falta completar datos del formato");
+							break;
+						} else if (todoOKFormato) {
+							if (nro_Formato.equals("")) {
+								result = true;
+								Formato_Papel fto = new Formato_Papel(
+										tamanioFormato, activoFor);
+								result = result && fto.Alta();
+							} else {
+								Formato_Papel.updateFormato(nro_Formato,
+										tamanioFormato, activoFor);
+							}
+						} else {
+							result = false;
 						}
 					}
-					else 
-					{
-						result = false;
+
+					Integer cantFilasVariante = tablaVariante.getRowCount();
+					for (int i = 0; i < cantFilasVariante; i++) {
+						nro_Variante = tablaVariante.getValueAt(i, 0)
+								.toString();
+						nombreVariante = tablaVariante.getValueAt(i, 1)
+								.toString();
+						activoVar = (Boolean) tablaVariante.getValueAt(i, 2);
+
+						todoOKVariante = todoOKVariante
+								&& !nombreVariante.equals("");
+
+						if (todoOKVariante == false) {
+							result = false;
+							JOptionPane.showMessageDialog(null,
+									"Falta completar datos de la variante");
+							break;
+						} else if (todoOKVariante) {
+							if (nro_Variante.equals("")) {
+								result = true;
+								Variante var = new Variante(nombreVariante,
+										activoVar);
+								result = result && var.Alta();
+							} else {
+								Variante.updateVariante(nro_Variante,
+										nombreVariante, activoVar);
+							}
+						} else {
+							result = false;
+						}
 					}
 				}
-				
 				if(result)
 				{
 					JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
@@ -186,6 +192,8 @@ public class Adm_Atributos extends JInternalFrame
 					JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
 				}
 			}
+
+			
 		}
 		);
 		getContentPane().add(btnConfirmar);
@@ -200,7 +208,7 @@ public class Adm_Atributos extends JInternalFrame
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaCalidad.getModel();
 					int cantFilas=tablaTemp.getRowCount();
-					Object nuevaFila[]= {(cantFilas+1),"",true};
+					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 				
@@ -208,7 +216,7 @@ public class Adm_Atributos extends JInternalFrame
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaFormato.getModel();
 					int cantFilas=tablaTemp.getRowCount();
-					Object nuevaFila[]= {(cantFilas+1),"",true};
+					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 				
@@ -216,7 +224,7 @@ public class Adm_Atributos extends JInternalFrame
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaVariante.getModel();
 					int cantFilas=tablaTemp.getRowCount();
-					Object nuevaFila[]= {(cantFilas+1),"",true};
+					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
 			}
@@ -466,14 +474,58 @@ public class Adm_Atributos extends JInternalFrame
 			}
 		}
 	
-		//devuelve true si no esta vacia la celda (fila,columna) de la tabla pasada como parametro
-		public static boolean sinVarVacios(JTable tabla, Integer fila, Integer columna)
-		{
-			boolean ok= true;
-			ok= ok && !tabla.getValueAt(fila, columna).toString().equals("");
-			return ok;
-		}
+
 	
+		private boolean ExcedeLargoCalidad() {
+
+			for (int i = 0; i < tablaCalidad.getRowCount(); i++) {
+				if(tablaCalidad.getValueAt(i, 1).toString().length()>30){
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		private boolean ExcedeLargoFormato() {
+
+			for (int i = 0; i < tablaFormato.getRowCount(); i++) {
+				if((int) tablaFormato.getValueAt(i, 1).toString().length()>11){
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		private boolean ExcedeLargoVariante() {
+
+			for (int i = 0; i < tablaVariante.getRowCount(); i++) {
+				if(tablaVariante.getValueAt(i, 1).toString().length()>30){
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		private boolean ErrorFormatoPapel(){
+			
+			for (int i = 0; i < tablaFormato.getRowCount(); i++) {
+				try {
+					Metodos.getAncho(tablaFormato.getValueAt(i, 1).toString());
+					Metodos.getAlto(tablaFormato.getValueAt(i, 1).toString());
+				} catch (Exception e) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		
+		
+		
 		private void Actualizar()
 		{
 			Metodos.borrarFilas((DefaultTableModel)tablaCalidad.getModel());
