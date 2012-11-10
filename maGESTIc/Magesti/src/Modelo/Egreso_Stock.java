@@ -159,33 +159,31 @@ public class Egreso_Stock {
 	}
 
 
-	public static ArrayList<Integer> getIdStockSegunIdMaterial(Integer id_materiales) {
-		ArrayList<Integer> ids_stock=new ArrayList<Integer>();
-		
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales+" ORDER BY id_stock");
-
-		if (resultado != null) {
-			try {
-				while (resultado.next()) {
-					// como solo devuelve un valor, le pido el del registro (1)
-					ids_stock.add(resultado.getInt("id_stock"));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return ids_stock;
-	}
+//	public static ArrayList<Integer> getIdStockSegunIdMaterial(Integer id_materiales) {
+//		ArrayList<Integer> ids_stock=new ArrayList<Integer>();
+//		
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT id_stock FROM egreso_stock WHERE id_materiales="+id_materiales+" ORDER BY id_stock");
+//
+//		if (resultado != null) {
+//			try {
+//				while (resultado.next()) {
+//					ids_stock.add(resultado.getInt("id_stock"));
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return ids_stock;
+//	}
 
 	
-	public static ArrayList<FilaRetiros> getRetirosStock(String nroOT) 
+	public static ArrayList<FilaRetiros> getRetirosStock(Integer nroOT) 
 	{
 		String remanente = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT s.id_solicitud_compra, sc.f_confeccion, f_entrega, es.fecha,es.cant_hojas_retiradas" +
-				",s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
-				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra AND s.id_orden_trabajo =" + nroOT);
+				"SELECT s.id_solicitud_compra, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
+				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra WHERE s.id_orden_trabajo =" + nroOT);
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
 		if (resultado != null)
 		{
