@@ -160,6 +160,7 @@ public class Metodos implements Config
 		JInternalFrame[] childs = Magesti.getEscritorio().getAllFrames ();
 		for (int i = 0; i < childs.length; i++) 
 		{
+			System.out.println(childs[i].getTitle());
 			if (childs[i].getTitle().equalsIgnoreCase (title)) 
 			{
 				childs[i].show ();

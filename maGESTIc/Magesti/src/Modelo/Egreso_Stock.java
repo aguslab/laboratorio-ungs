@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import vista_Controlador.FilaRetiros;
 import vista_Controlador.Metodos;
 
 public class Egreso_Stock {
@@ -178,6 +179,41 @@ public class Egreso_Stock {
 	}
 
 	
-	
+	public static ArrayList<FilaRetiros> getRetirosStock(String nroOT) 
+	{
+		String remanente = "";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT s.id_solicitud_compra, sc.f_confeccion, f_entrega, es.fecha,es.cant_hojas_retiradas" +
+				",s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
+				" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra AND s.id_orden_trabajo =" + nroOT);
+		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
+		if (resultado != null)
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					if(resultado.getBoolean("Remanente"))
+					{
+						remanente = "Si";
+					}
+					else
+					{
+						remanente = "No";
+					}
+					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_confeccion"), 
+							resultado.getString("f_entrega"),resultado.getString("fecha"),new Integer(resultado.getInt("cant_hojas_retiradas")),
+							remanente, resultado.getString("Empleado"));
+					
+					retiros.add(fr);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return retiros;
+	}
 	
 }

@@ -669,10 +669,12 @@ public class Detalle {
 
 		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
 
-		if (resultado != null) {
-
-			try {
-				while (resultado.next()) {
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
 					Detalle det = new Detalle(new Integer(
 							resultado.getInt("id_detalle")),new Integer(
 									resultado.getInt("id_solicitud_compra")),new Integer(

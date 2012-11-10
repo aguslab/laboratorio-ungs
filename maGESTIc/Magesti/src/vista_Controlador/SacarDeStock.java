@@ -265,7 +265,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		tablaElementos.getTableHeader().setReorderingAllowed(false);
 		tablaElementos.setEnabled(false);
 		
-		
 		//si no es para Stockear y no es remanente, cargo la tabla de los elementos de esa OT seleccionada
 		if(!Stock_Disponible.getValueAt(filaElegida, 1).toString().equalsIgnoreCase("Stockear") && !(Boolean) Stock_Disponible.getValueAt(filaElegida, 10)){
 			String [] numot_nombreot = new String[1];
