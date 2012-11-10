@@ -88,7 +88,8 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				if(nuevaOT.getEstado().getSelectedItem().toString().equalsIgnoreCase("Cerrada"))
 				{
 					nuevaOT.getEstado().setEnabled(false);
-					nuevaOT.getFechaHoraCerrada().setText(OT.getF_cierre());
+					nuevaOT.getFechaHoraCerrada().setText(Metodos.dateFormatConHora(OT.getF_cierre()))
+					;
 					nuevaOT.getFechaHoraCerrada().setVisible(true);
 					nuevaOT.getLblFechaCierre().setVisible(true);
 				}

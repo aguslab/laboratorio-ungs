@@ -178,7 +178,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		//limitar la cantidad de caracteres a 30
 		txtVendedor.addKeyListener(new KeyListener(){
 		public void keyTyped(KeyEvent e){
-			int limite=30;
+			int limite=50;
 			if (txtVendedor.getText().length()== limite || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-'){
 				getToolkit().beep ();
 				e.consume();
@@ -417,7 +417,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				};
 			public boolean isCellEditable(int row, int column) {
 				Integer c=Elemento.cantidadFilas(id_OT);
-				if(row < c && column!=1 && column!=6 && column != 7 && column != 8 ){
+				if(column==8){
+					return false;
+				}
+				if(row < c && column!=1 && column!=6 && column != 7){
 					return false;
 				}
 				return true;
@@ -787,7 +790,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		fechaHora = new JLabel("");
 		fechaHora.setBounds(749, 353, 156, 14);
 		JpSolicitudDeCompra.add(fechaHora);
-		
+		fechaHora.setVisible(false);
 		
 		
 		if (RP)
@@ -800,7 +803,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			{
 				public void keyTyped(KeyEvent e)
 				{
-					int limite=30;
+					int limite=500;
 					if (txtDescripcionIncidencia.getText().length()== limite || e.getKeyChar ()=='\'' || e.getKeyChar ()=='-')
 					{
 						getToolkit().beep ();
@@ -892,7 +895,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					qTITULO + " - Campo vacío", 
 					JOptionPane.WARNING_MESSAGE
 				);
-			}		
+			}
+			else if(ExcedeLargoMarca()){
+				JOptionPane.showMessageDialog(null, "La longitud máxima de una marca es 50 Caracteres\nNo exceda el límite, por favor");
+			}
 			else if(txtSubtotal.getText()==null || txtSubtotal.getText().equals("")){
 				JOptionPane.showMessageDialog 
 				(
@@ -951,6 +957,17 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		}
 	}
 	
+	
+	private boolean ExcedeLargoMarca() {
+
+		for (int i = 0; i < tablaDetalles.getRowCount(); i++) {
+			if(tablaDetalles.getValueAt(i, 1).toString().length()>50){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	private ArrayList<Integer> hojasEsMayorAlasPedidas() {
 		
@@ -1028,7 +1045,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		String unidad_medida_precio="";
 		Integer cant_hojas=0;
 		Double precio_unitario=0.0;
-		//for(int i=0;i<tablaDetalles.getRowCount();i++){
 			cant_hojas=Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString());
 			precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
 			unidad_medida_precio=tablaDetalles.getValueAt(i, 7).toString();
@@ -1042,9 +1058,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		//si la unidad de medida del precio es KG
 			}else if(unidad_medida_precio.toUpperCase().equals("KG")){
 				//calculo el formato(ancho x alto)
-				Double formato=(double) (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(0, 2)))/100 * (Integer.parseInt(tablaDetalles.getValueAt(i, 4).toString().substring(3)))/100;
+				double anchoenMts=Metodos.getAncho(tablaDetalles.getValueAt(i, 4).toString())/100.0;
+				double altoenMts=Metodos.getAlto(tablaDetalles.getValueAt(i, 4).toString())/100.0;
+				Double formato= anchoenMts * altoenMts ;
 				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
-				//lo multiplico por el gramaje y la cantidad de hojas
 				Double peso_x_hoja=(formato*gramaje)/1000;
 				Double pesoTotal=peso_x_hoja*cant_hojas;
 				//obtengo el peso en KG y lo multiplico por precio unitario
@@ -1053,7 +1070,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			}else{//preciounitario x cantidad de hojas
 				importe=precio_unitario*cant_hojas;
 			}
-		//}		
 		return importe;
 	}
 

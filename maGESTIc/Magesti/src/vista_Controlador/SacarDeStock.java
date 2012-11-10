@@ -106,7 +106,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		//limitar la cantidad de caracteres a 30
 		txtEmpleado.addKeyListener(new KeyListener(){
 		public void keyTyped(KeyEvent e){
-			int limite=30;
+			int limite=50;
 			if (txtEmpleado.getText().length()== limite){
 				getToolkit().beep ();
 				e.consume();

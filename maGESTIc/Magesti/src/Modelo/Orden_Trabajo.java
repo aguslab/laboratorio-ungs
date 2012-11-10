@@ -219,7 +219,8 @@ public class Orden_Trabajo implements Config
 				"<html>Fecha<br> prometida</html>", 
 				"Estado",
 				"<html>Hojas<br> Utilizadas</html>",
-				"<html>Tarea en<br> ejecucion<html>"
+				"<html>Tarea en<br> ejecucion<html>",
+				"<html>Proveedor<html>"
 			};
 			return columnas;
 	}

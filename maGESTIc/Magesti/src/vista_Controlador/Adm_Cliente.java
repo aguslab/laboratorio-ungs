@@ -53,10 +53,9 @@ public class Adm_Cliente extends JInternalFrame
 		btnConfirmar.setBounds(10, d.height-210, 120, 30);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				boolean todoOK=true, todoOKContacto=true;
-				boolean result = true, cuitOK=true;
+			public void actionPerformed(ActionEvent e) {
+				boolean todoOK = true, todoOKContacto = true;
+				boolean result = true, cuitOK = true;
 				String Nro_Cliente = "";
 				String razon_social = "";
 				String cuit = "";
@@ -64,94 +63,133 @@ public class Adm_Cliente extends JInternalFrame
 				String direccion = "";
 				String telefono = "";
 				String mail = "";
-				
+
 				String nombre_contacto = "";
 				String telefono_contacto = "";
 				String mail_contacto = "";
 				String direccion_entrega = "";
-				
-				//Agregar clientes nuevos
-				Integer cantFilasDatos = tablaDatosCliente.getRowCount();
-				for (int i =0; i < cantFilasDatos; i++) 
- {
-					Nro_Cliente = tablaDatosCliente.getValueAt(i, 0).toString();
-					razon_social = tablaDatosCliente.getValueAt(i, 1)
-							.toString();
-					cuit = tablaDatosCliente.getValueAt(i, 2).toString();
-					cond_iva = tablaDatosCliente.getValueAt(i, 3).toString();
-					direccion = tablaDatosCliente.getValueAt(i, 4).toString();
-					telefono = tablaDatosCliente.getValueAt(i, 5).toString();
-					mail = tablaDatosCliente.getValueAt(i, 6).toString();
-					boolean activo = (Boolean) tablaDatosCliente.getValueAt(i,
-							7);
 
-					nombre_contacto = tablaContactoCliente.getValueAt(i, 1)
-							.toString();
-					telefono_contacto = tablaContactoCliente.getValueAt(i, 2)
-							.toString();
-					mail_contacto = tablaContactoCliente.getValueAt(i, 3)
-							.toString();
-					direccion_entrega = tablaContactoCliente.getValueAt(i, 4)
-							.toString();
+				if (ExcedeLargoNombre()) {
+					result = false;
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La longitud máxima del nombre de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el límite, por favor");
+				} else if (ExcedeLargoCondIVA()) {
+					result = false;
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La longitud máxima de la condicion de IVA no puede exceder los 50 Caracteres\nNo exceda el límite, por favor");
+				} else if (ExcedeLargoDireccion()) {
+					result = false;
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La longitud máxima de la direccion de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el límite, por favor");
+				} else if (ExcedeLargoTelefono()) {
+					result = false;
+					JOptionPane
+							.showMessageDialog(null,
+									"El número de Teléfono de un cliente o su contacto no puede ser tan extenso");
+				} else if (ExcedeLargoMail()) {
+					result = false;
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La longitud máxima de la direccion de mail de un cliente o su contacto no puede exceder los 50 Caracteres\nNo exceda el límite, por favor");
+				} else {
+					// Agregar clientes nuevos
+					Integer cantFilasDatos = tablaDatosCliente.getRowCount();
+					for (int i = 0; i < cantFilasDatos; i++) {
+						Nro_Cliente = tablaDatosCliente.getValueAt(i, 0)
+								.toString();
+						razon_social = tablaDatosCliente.getValueAt(i, 1)
+								.toString();
+						cuit = tablaDatosCliente.getValueAt(i, 2).toString();
+						cond_iva = tablaDatosCliente.getValueAt(i, 3)
+								.toString();
+						direccion = tablaDatosCliente.getValueAt(i, 4)
+								.toString();
+						telefono = tablaDatosCliente.getValueAt(i, 5)
+								.toString();
+						mail = tablaDatosCliente.getValueAt(i, 6).toString();
+						boolean activo = (Boolean) tablaDatosCliente
+								.getValueAt(i, 7);
 
-					todoOK = todoOK && !razon_social.equals("");
-					todoOK = todoOK && !cuit.equals("");
-					todoOK = todoOK && !cond_iva.equals("");
-					todoOK = todoOK && !direccion.equals("");
-					todoOK = todoOK && !telefono.equals("");
-					todoOK = todoOK && !mail.equals("");
+						nombre_contacto = tablaContactoCliente.getValueAt(i, 1)
+								.toString();
+						telefono_contacto = tablaContactoCliente.getValueAt(i,
+								2).toString();
+						mail_contacto = tablaContactoCliente.getValueAt(i, 3)
+								.toString();
+						direccion_entrega = tablaContactoCliente.getValueAt(i,
+								4).toString();
 
-					todoOKContacto = todoOKContacto
-							&& !nombre_contacto.equals("");
-					todoOKContacto = todoOKContacto
-							&& !telefono_contacto.equals("");
-					todoOKContacto = todoOKContacto
-							&& !mail_contacto.equals("");
-					todoOKContacto = todoOKContacto
-							&& !direccion_entrega.equals("");
+						todoOK = todoOK && !razon_social.equals("");
+						todoOK = todoOK && !cuit.equals("");
+						todoOK = todoOK && !cond_iva.equals("");
+						todoOK = todoOK && !direccion.equals("");
+						todoOK = todoOK && !telefono.equals("");
+						todoOK = todoOK && !mail.equals("");
 
-					if (todoOK == false || todoOKContacto == false) {
-						result = false;
-						if (!todoOK) {
-							JOptionPane.showMessageDialog(null,
-									"Falta completar datos del cliente");
-							break;
+						todoOKContacto = todoOKContacto
+								&& !nombre_contacto.equals("");
+						todoOKContacto = todoOKContacto
+								&& !telefono_contacto.equals("");
+						todoOKContacto = todoOKContacto
+								&& !mail_contacto.equals("");
+						todoOKContacto = todoOKContacto
+								&& !direccion_entrega.equals("");
+
+						if (todoOK == false || todoOKContacto == false) {
+							result = false;
+							if (!todoOK) {
+								JOptionPane.showMessageDialog(null,
+										"Falta completar datos del cliente");
+								break;
+							} else {
+								JOptionPane
+										.showMessageDialog(null,
+												"Falta completar datos del contacto de cliente");
+								break;
+							}
+						} else if (cuit.length() == 11
+								&& Metodos.esNumero(cuit)) {
+							if (Nro_Cliente.equals("")) {
+								result = true;
+								Cliente cli = new Cliente(razon_social, cuit,
+										cond_iva, direccion, telefono, mail,
+										nombre_contacto, telefono_contacto,
+										mail_contacto, direccion_entrega,
+										activo);
+								result = result && cli.Alta();
+							} else {
+								Cliente.updateDatosCliente(Nro_Cliente,
+										razon_social, cuit, cond_iva,
+										direccion, telefono, mail, activo);
+								Cliente.updateDatosContactoCliente(Nro_Cliente,
+										nombre_contacto, telefono_contacto,
+										mail_contacto, direccion_entrega);
+							}
 						} else {
-							JOptionPane
-									.showMessageDialog(null,
-											"Falta completar datos del contacto de cliente");
-							break;
+							cuitOK = false;
+							result = false;
 						}
-					} else if (cuit.length() == 11 && Metodos.esNumero(cuit)) {
-						if (Nro_Cliente.equals("")) {
-							result = true;
-							Cliente cli = new Cliente(razon_social, cuit,
-									cond_iva, direccion, telefono, mail,
-									nombre_contacto, telefono_contacto,
-									mail_contacto, direccion_entrega, activo);
-							result = result && cli.Alta();
-						} else {
-							Cliente.updateDatosCliente(Nro_Cliente,
-									razon_social, cuit, cond_iva, direccion,
-									telefono, mail, activo);
-							Cliente.updateDatosContactoCliente(Nro_Cliente,
-									nombre_contacto, telefono_contacto,
-									mail_contacto, direccion_entrega);
-						}
-					} else {
-						cuitOK=false;
-						result = false;
+
 					}
-
 				}
-				if(result){
-					JOptionPane.showMessageDialog(null,"Se guardaron los cambios realizados");
+				if (result) {
+					JOptionPane.showMessageDialog(null,
+							"Se guardaron los cambios realizados");
 					Actualizar();
-				}else{
-					//JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
+				} else {
+					// JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
 				}
-				if(!cuitOK){
-					JOptionPane.showMessageDialog(null,"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
+				if (!cuitOK) {
+					JOptionPane
+							.showMessageDialog(null,
+									"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
 				}
 			}
 		}
@@ -357,12 +395,63 @@ public class Adm_Cliente extends JInternalFrame
 			}
 		}
 	
-		//devuelve true si no esta vacia la celda (fila,columna) de la tabla pasada como parametro
-		public static boolean sinVarVacios(JTable tabla, Integer fila, Integer columna){
-			boolean ok= true;
-			ok= ok && !tabla.getValueAt(fila, columna).toString().equals("");
-			return ok;
+	
+	private boolean ExcedeLargoNombre() {
+
+		for (int i = 0; i < tablaDatosCliente.getRowCount(); i++) {
+			if(tablaDatosCliente.getValueAt(i, 1).toString().length()>100 || tablaContactoCliente.getValueAt(i, 1).toString().length()>100){
+				return true;
+			}
 		}
+		
+		return false;
+	}
+	
+	private boolean ExcedeLargoCondIVA() {
+
+		for (int i = 0; i < tablaDatosCliente.getRowCount(); i++) {
+			if(tablaDatosCliente.getValueAt(i, 3).toString().length()>50){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean ExcedeLargoDireccion() {
+
+		for (int i = 0; i < tablaDatosCliente.getRowCount(); i++) {
+			if(tablaDatosCliente.getValueAt(i, 4).toString().length()>100 || tablaContactoCliente.getValueAt(i, 4).toString().length()>100){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean ExcedeLargoTelefono() {
+
+		for (int i = 0; i < tablaDatosCliente.getRowCount(); i++) {
+			if(tablaDatosCliente.getValueAt(i, 5).toString().length()>30 || tablaContactoCliente.getValueAt(i, 2).toString().length()>30){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean ExcedeLargoMail() {
+
+		for (int i = 0; i < tablaDatosCliente.getRowCount(); i++) {
+			if(tablaDatosCliente.getValueAt(i, 6).toString().length()>50 || tablaContactoCliente.getValueAt(i, 3).toString().length()>50){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 	
 		private void Actualizar()
 		{

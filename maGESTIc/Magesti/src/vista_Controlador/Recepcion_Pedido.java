@@ -28,21 +28,10 @@ import java.awt.Font;
 public class Recepcion_Pedido extends JInternalFrame implements ActionListener, Config
 {
 	private JTable tablaDetalles;
-	//tablaRecibido;
 	private JPanel JpSolicitudDeCompra;
 	private JButton btnCerrar,btnAceptar,btnSelecAll;
 	private JScrollPane spDetalles;
-	//spRecibido ;
 	
-	
-//	private static Recepcion_Pedido instancia=null;
-//	
-//	public static Recepcion_Pedido getInstancia(Integer id_SC, Integer cantFilas, SolicitudDeCompra SC){
-//		if(instancia == null){
-//			instancia= new Recepcion_Pedido(id_SC, cantFilas, SC);
-//		}
-//		return instancia;
-//	}
 	
 	public Recepcion_Pedido(final Integer id_SC, final Integer cantFilas, final SolicitudDeCompra SC) 
 	{
@@ -146,21 +135,11 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		
 		final ArrayList<Detalle> detalles=Detalle.getDetalles(id_SC);
 		
-//		ArrayList<Integer> cantidad = Detalle.cantidadDeDetalle(id_SC);
-//		ArrayList<String> marca = Detalle.marcaDeDetalle(id_SC);
-//		ArrayList<Integer> id_Calidad = Detalle.calidadDeDetalle(id_SC);
-//		ArrayList<Integer> id_formato_Papel = Detalle.formato_papel_DeDetalle(id_SC);
-//		ArrayList<Integer> id_Variante = Detalle.varianteDeDetalle(id_SC);
-//		ArrayList<Integer> gramaje = Detalle.gramajeDeDetalle(id_SC);
-//		ArrayList<Double> precio_Unitario= Detalle.precioUnitarioDeDetalle(id_SC);
-//		ArrayList<String> unidad_medida= Detalle.unidadMedidaDeDetalle(id_SC);
-//		ArrayList<Double> importe= Detalle.importeDeDetalle(id_SC);
-		
+
 		
 		DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 		Object nuevaFilaDetalles[]= {"",""};
 		
-		//final Integer[] idDetalle= new Integer[cantFilas];
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			temp.addRow(nuevaFilaDetalles);
@@ -173,19 +152,6 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			temp.setValueAt(detalles.get(i).getPrecio_unitario(), i, 6);//precioUnitario
 			temp.setValueAt(detalles.get(i).getUnidad_medida_del_precio(), i, 7);//unidadMEdida
 			temp.setValueAt(detalles.get(i).getImporte(), i, 8);//importe
-			
-//			temp.addRow(nuevaFilaDetalles);
-//			temp.setValueAt(cantidad.get(i), i, 0);
-//			temp.setValueAt(marca.get(i), i, 1);
-//			temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
-//			temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 3);
-//			temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 4);
-//			temp.setValueAt(gramaje.get(i), i, 5);
-//			temp.setValueAt(precio_Unitario.get(i), i, 6);
-//			temp.setValueAt(unidad_medida.get(i), i, 7);
-//			temp.setValueAt(importe.get(i), i, 8);
-			
-			//idDetalle[i]=Detalle.dameIdDetalle(id_SC, cantidad.get(i), marca.get(i), id_Calidad.get(i), id_formato_Papel.get(i), id_Variante.get(i), gramaje.get(i), precio_Unitario.get(i), unidad_medida.get(i), importe.get(i));
 			
 			tablaDetalles.setValueAt(Detalle.isRecibido(detalles.get(i).getId_detalle()), i, 9);
 		}
@@ -219,49 +185,70 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles.getModel();
-				int cantTrue=Recepcion_pedido.getCantidadFilasRecibidas(id_SC);
-				ArrayList<Integer> posiciones=new ArrayList<Integer>();
 
-				for (int i = 0; i < cantFilas; i++) 
- {
-					if (tempDet.isCellEditable(i, 9)) {
-						boolean recibido = (Boolean) tempDet.getValueAt(i, 9);
-						if (recibido) {
-							cantTrue++;
-							posiciones.add(new Integer(i));
+				if (SC.getTxtDescripcionIncidencia().getText().length() > 500) {
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
+				} else {
+					DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles
+							.getModel();
+					int cantTrue = Recepcion_pedido
+							.getCantidadFilasRecibidas(id_SC);
+					ArrayList<Integer> posiciones = new ArrayList<Integer>();
+
+					for (int i = 0; i < cantFilas; i++) {
+						if (tempDet.isCellEditable(i, 9)) {
+							boolean recibido = (Boolean) tempDet.getValueAt(i,
+									9);
+							if (recibido) {
+								cantTrue++;
+								posiciones.add(new Integer(i));
+							}
+							Detalle.setAsRecibido(detalles.get(i)
+									.getId_detalle(), recibido);
 						}
-						Detalle.setAsRecibido(detalles.get(i).getId_detalle(),
-								recibido);
 					}
+					String f_h_recibido = Metodos.getDateTimeActual(0);
+					// si estan marcadas todas las filas como recibidas, pone la
+					// RP como recibido
+					if (cantTrue == tempDet.getRowCount()) {
+						Recepcion_pedido rp = new Recepcion_pedido(id_SC,
+								"Recibido", f_h_recibido, SC
+										.getTxtDescripcionIncidencia()
+										.getText());
+						rp.Alta();
+					} else {
+						Recepcion_pedido rp = new Recepcion_pedido(id_SC,
+								"Incompleto", f_h_recibido, SC
+										.getTxtDescripcionIncidencia()
+										.getText());
+						rp.Alta();
+					}
+
+					/*
+					 * alta STOCK
+					 */
+					for (int i = 0; i < posiciones.size(); i++) {
+						Integer id_ot = Solicitud_compra.getId_OT(id_SC);
+						Integer cantusadas = 0;
+						Boolean remanente = false;
+
+						Stock st = new Stock(id_ot, id_SC, detalles.get(
+								posiciones.get(i)).getId_detalle(), cantusadas,
+								remanente, true);
+						st.Alta();
+					}
+
+					dispose();
+					SC.dispose();
 				}
-				String f_h_recibido=Metodos.getDateTimeActual(0);
-				//si estan marcadas todas las filas como recibidas, pone la RP como recibido
-				if(cantTrue==tempDet.getRowCount()){
-					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Recibido", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
-					rp.Alta();
-				}else{
-					Recepcion_pedido rp= new Recepcion_pedido(id_SC, "Incompleto", f_h_recibido, SC.getTxtDescripcionIncidencia().getText());
-					rp.Alta();
-				}
-				
-				/*
-				 * alta STOCK
-				 */
-				for(int i=0;i<posiciones.size();i++){
-					Integer id_ot=Solicitud_compra.getId_OT(id_SC);
-					Integer cantusadas=0;
-					Boolean remanente=false;
-					
-					Stock st= new Stock(id_ot, id_SC, detalles.get(posiciones.get(i)).getId_detalle(),cantusadas, remanente,true);
-					st.Alta();
-				}
-				
-				dispose();
-				SC.dispose();
 			}
 		});
 	}
+	
+	
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {

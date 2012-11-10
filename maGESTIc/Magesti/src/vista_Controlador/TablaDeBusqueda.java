@@ -109,6 +109,14 @@ public class TablaDeBusqueda extends JInternalFrame
 							{
 								datos[i]=Metodos.EnteroAFactura((Integer) datos[0]);
 							}
+							if(i==3)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
+							if(i==4)
+							{
+								datos[i] = Metodos.YMDaDMY(datos[i].toString());
+							}
 							if (i==11)
 							{
 								datos[i]=Metodos.esApaisadaS((Boolean) datos[11]);

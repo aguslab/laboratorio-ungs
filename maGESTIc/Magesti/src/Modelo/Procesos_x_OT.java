@@ -265,6 +265,30 @@ public class Procesos_x_OT
 		return valores;
 	}
 	
+	
+	public static Integer getIdProveedorSegunIdOT_Id_Proc(Integer id_OT, Integer id_proc)
+	{
+		Integer id_proveedor=null;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT id_proveedor FROM procesos_x_orden_trabajo WHERE id_orden_trabajo="+ id_OT+ " AND id_proceso="+id_proc);
+
+		if (resultado != null)
+		{
+			try
+			{
+				while (resultado.next())
+				{
+					id_proveedor=resultado.getInt("id_proveedor");
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return id_proveedor;
+	}
+	
 	public static boolean setAvanceOT(Integer id_OT,Integer id_Proc,boolean n){
 		if(ConexionDB.getbaseDatos().ejecutar("UPDATE procesos_x_orden_trabajo SET cumplida="+n+ " WHERE id_orden_trabajo="+id_OT+" AND id_proceso="+id_Proc)){
 			return true;

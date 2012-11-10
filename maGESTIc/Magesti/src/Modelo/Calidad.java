@@ -79,7 +79,7 @@ public class Calidad
 		String nom = "'" + this.getNombre() + "'";
 		Boolean activoCal = this.getActivo();
 
-		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO formato_papel VALUES(default," + nom + "," + activoCal + ");")) 
+		if (ConexionDB.getbaseDatos().ejecutar("INSERT INTO calidad VALUES(default," + nom + "," + activoCal + ");")) 
 		{
 			return true;
 		} 
@@ -88,18 +88,7 @@ public class Calidad
 			return false;
 		}
 	}
-	/*public boolean editar() 
-	{
-		if(//mostrar form de alta)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}*/
-	
+		
 	public boolean Baja(Calidad c)
 	{
 		Integer id_cal = c.getId_calidad();
