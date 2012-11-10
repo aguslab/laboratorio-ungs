@@ -17,7 +17,8 @@ public class Main_OT {
 
 		public static void main(String[] args) throws SQLException {
 			
-				
+			System.out.println(Metodos.DMYaYMD("01-12-2012"));
+			System.out.println(Metodos.YMDaDMY("2012-03-19"));
 //			System.out.println(Metodos.volverA_IdElemento("E-91001"));
 			
 //			System.out.println(Metodos.formatoElemento(1234567));

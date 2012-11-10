@@ -409,6 +409,13 @@ public class Metodos implements Config
     	return dmy[2]+"/"+dmy[1]+"/"+dmy[0];
 	}
 	
+	
+	public static String DMYaYMD(String dmy) 
+	{
+    	//Dada una fecha 'dd/mm/yyyy' la pasa a 'yyyy-mm-dd'  
+    	String[] ymd = dmy.split("\\-");
+    	return ymd[2]+"/"+ymd[1]+"/"+ymd[0];
+	}
 	public static String valorAncho(String cadena) 
 	{
 		int ind=0;

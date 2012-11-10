@@ -153,7 +153,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		txtFechaConfec.setBounds(259, 11, 75, 30);
 		JpSolicitudDeCompra.add(txtFechaConfec);
 		
-		txtFecha = new JTextField(aaaa + "-" + mm + "-" + dd);
+		txtFecha = new JTextField(dd+"-"+mm+"-"+aaaa );
 		txtFecha.setHorizontalAlignment(SwingConstants.LEFT);
 		txtFecha.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtFecha.setBounds(344, 14, 148, 25);
@@ -830,7 +830,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		String factual=txtFecha.getText().substring(8)+"-"+txtFecha.getText().substring(5, 7)+"-"+txtFecha.getText().substring(0,4);
+		String factual=txtFecha.getText();
 		String fprometida=cbDia.getSelectedItem().toString()+"-"+Metodos.dameNumeroMes(cbMes.getSelectedItem().toString())+"-"+cbAnio.getSelectedItem().toString();
 
 		Object obj = e.getSource();
@@ -970,7 +970,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 
 	private void cargarTablas()
 	{
-		String fechaConfeccion = txtFecha.getText();
+		String fechaConfeccion = Metodos.DMYaYMD(txtFecha.getText());
 		Integer id_proveedor = Proveedor.getId_Proveedor((String) cbProveedor.getSelectedItem());
 		String vendedor = (String) txtVendedor.getText();
 		Integer id_OT = -1;
