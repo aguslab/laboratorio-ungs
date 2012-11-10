@@ -1806,11 +1806,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		String nroOT = getTxtNro().getText();
 		Integer id_OT=Metodos.FacturaAEntero(nroOT);
 		String SC =  Metodos.EnteroAFactura(Solicitud_compra.getId_SC(id_OT));
-		
-		if(SC.equals(""))
-		{
-			SC = "Sin Solicitud de compra asignada.";
-		}
+
 		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(id_OT));
 		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
