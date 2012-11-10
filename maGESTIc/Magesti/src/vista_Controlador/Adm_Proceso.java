@@ -41,6 +41,108 @@ public class Adm_Proceso extends JInternalFrame
 				dispose();
 			}
 		});
+		
+		
+		
+		
+		btnUp = new JButton(new ImageIcon("Imagenes/Up_Button.png"));
+		btnUp.setPressedIcon(new ImageIcon("Imagenes/Up_Button_pressed.png"));
+		
+				//Subir una fila
+				btnUp.addActionListener(new ActionListener() 
+				{
+					
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						int filaSelec=tablaProcesos.getSelectedRow();
+						try
+						{	
+							DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
+							if(tempOE.getRowCount()>0)
+							{
+								if(filaSelec==-1)
+								{
+									JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
+								}
+								else if(filaSelec==0)
+								{
+									JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
+								}
+								else
+								{
+									//cambio el nro de orden
+									int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
+									int f2=(Integer) tempOE.getValueAt(filaSelec-1, 1);
+									tempOE.setValueAt(f1, filaSelec-1, 1);
+									tempOE.setValueAt(f2, filaSelec, 1);
+									//intercambio filas
+									tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
+									//cambio la fila seleccionada por la que subi
+									tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec-1,filaSelec-1);
+								}
+							}
+						}
+						catch(ArrayIndexOutOfBoundsException e)
+						{
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null,"error!");
+						}				
+					}
+				}
+				);
+				
+				btnDown = new JButton(new ImageIcon("Imagenes/Down_Button.png"));
+				btnDown.setPressedIcon(new ImageIcon("Imagenes/Down_Button_pressed.png"));
+				btnDown.setSelectedIcon(new ImageIcon("Imagenes/Down_Button_Selected.png"));
+				
+						
+						//Bajar una fila
+						btnDown.addActionListener(new ActionListener() 
+						{
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								int filaSelec = tablaProcesos.getSelectedRow();
+								try 
+								{
+									DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
+									if (tempOE.getRowCount() > 0) 
+									{
+										if (filaSelec == -1) 
+										{
+											JOptionPane.showMessageDialog(null,
+													"Debe seleccionar una fila");
+										} 
+										else if (filaSelec == tempOE.getRowCount() - 1) 
+										{
+											JOptionPane.showMessageDialog(null,
+													"Este proceso ya es el Ultimo de la lista");
+										}
+										else 
+										{
+											//cambio el nro de orden
+											int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
+											int f2=(Integer) tempOE.getValueAt(filaSelec+1, 1);
+											tempOE.setValueAt(f1, filaSelec+1, 1);
+											tempOE.setValueAt(f2, filaSelec, 1);
+											//intercambio filas
+											tempOE.moveRow(filaSelec, filaSelec, filaSelec + 1);
+											//cambio la fila seleccionada por la que baje
+											tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec+1,filaSelec+1);
+										}
+									}
+								} 
+								catch (ArrayIndexOutOfBoundsException e) 
+								{
+									e.printStackTrace();
+									JOptionPane.showMessageDialog(null, "error!");
+								}
+							}
+						});
+						btnDown.setBounds(69, 412, 35, 35);
+						getContentPane().add(btnDown);
+				btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
+				btnUp.setBounds(24, 410, 35, 35);
+				getContentPane().add(btnUp);
 		btnCerrar.setBounds(10, d.height-270, 120, 30);
 		getContentPane().add(btnCerrar);
 		
@@ -166,108 +268,6 @@ public class Adm_Proceso extends JInternalFrame
 		tablaProcesos.getColumnModel().getColumn(2).setPreferredWidth(200);
 		tablaProcesos.getColumnModel().getColumn(3).setPreferredWidth(30);
 		tablaProcesos.setRowHeight(25);
-		
-		
-		
-		
-		btnUp = new JButton(new ImageIcon("Imagenes/Up_Button.png"));
-		btnUp.setPressedIcon(new ImageIcon("Imagenes/Up_Button_pressed.png"));
-
-		//Subir una fila
-		btnUp.addActionListener(new ActionListener() 
-		{
-			
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				int filaSelec=tablaProcesos.getSelectedRow();
-				try
-				{	
-					DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
-					if(tempOE.getRowCount()>0)
-					{
-						if(filaSelec==-1)
-						{
-							JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
-						}
-						else if(filaSelec==0)
-						{
-							JOptionPane.showMessageDialog(null,"Este proceso ya es el Primero de la lista");
-						}
-						else
-						{
-							//cambio el nro de orden
-							int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
-							int f2=(Integer) tempOE.getValueAt(filaSelec-1, 1);
-							tempOE.setValueAt(f1, filaSelec-1, 1);
-							tempOE.setValueAt(f2, filaSelec, 1);
-							//intercambio filas
-							tempOE.moveRow(filaSelec, filaSelec, filaSelec-1);
-							//cambio la fila seleccionada por la que subi
-							tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec-1,filaSelec-1);
-						}
-					}
-				}
-				catch(ArrayIndexOutOfBoundsException e)
-				{
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null,"error!");
-				}				
-			}
-		}
-		);
-		btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
-		btnUp.setBounds(24, 410, 35, 35);
-		getContentPane().add(btnUp);
-		
-		btnDown = new JButton(new ImageIcon("Imagenes/Down_Button.png"));
-		btnDown.setPressedIcon(new ImageIcon("Imagenes/Down_Button_pressed.png"));
-		btnDown.setSelectedIcon(new ImageIcon("Imagenes/Down_Button_Selected.png"));
-
-		
-		//Bajar una fila
-		btnDown.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				int filaSelec = tablaProcesos.getSelectedRow();
-				try 
-				{
-					DefaultTableModel tempOE = (DefaultTableModel) tablaProcesos.getModel();
-					if (tempOE.getRowCount() > 0) 
-					{
-						if (filaSelec == -1) 
-						{
-							JOptionPane.showMessageDialog(null,
-									"Debe seleccionar una fila");
-						} 
-						else if (filaSelec == tempOE.getRowCount() - 1) 
-						{
-							JOptionPane.showMessageDialog(null,
-									"Este proceso ya es el Ultimo de la lista");
-						}
-						else 
-						{
-							//cambio el nro de orden
-							int f1=(Integer) tempOE.getValueAt(filaSelec, 1);
-							int f2=(Integer) tempOE.getValueAt(filaSelec+1, 1);
-							tempOE.setValueAt(f1, filaSelec+1, 1);
-							tempOE.setValueAt(f2, filaSelec, 1);
-							//intercambio filas
-							tempOE.moveRow(filaSelec, filaSelec, filaSelec + 1);
-							//cambio la fila seleccionada por la que baje
-							tablaProcesos.getSelectionModel().setSelectionInterval(filaSelec+1,filaSelec+1);
-						}
-					}
-				} 
-				catch (ArrayIndexOutOfBoundsException e) 
-				{
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "error!");
-				}
-			}
-		});
-		btnDown.setBounds(69, 412, 35, 35);
-		getContentPane().add(btnDown);
 		
 		
 		
