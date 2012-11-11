@@ -715,7 +715,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				Double subtotal = Metodos.pasarADouble(getTxtSubtotal().getText());
 				Double MontoIVA = Metodos.pasarADouble(getTxtMontoIVA().getText());
 				Double porcentajeIVA = Double.parseDouble(Config.IVA.toString());
-				String fechaEntrega = getCbDia().getSelectedItem().toString()+ " de " + getCbMes().getSelectedItem().toString() + " del " + getCbAnio().getSelectedItem().toString();
+				String fechaEntrega = getCbAnio().getSelectedItem().toString();
 				String id_SC = getTxtNumero().getText();
 				String retirar = "";
 				String envio = "";

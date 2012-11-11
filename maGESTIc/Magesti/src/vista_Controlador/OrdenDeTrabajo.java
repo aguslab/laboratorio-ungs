@@ -46,9 +46,6 @@ import Modelo.Variante;
 public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Config
 {
 	private JPanel jpOrdenDeTrabajo = new JPanel();
-//	private static JasperDesign jasperDesign;
-//	private static JasperPrint jasperPrint;
-//	private static JasperReport jasperReport;
 	
 	private JLabel 
 		lbNro, 
@@ -154,7 +151,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbNro.setForeground (Color.black);
 		
 	    lbCliente = new JLabel ("Cliente:");
-	    lbCliente.setBounds(620, 58, 55, 25);
+	    lbCliente.setBounds(620, 54, 55, 25);
 		lbCliente.setForeground (Color.black);
 	    
 		lbFechaC = new JLabel ("<html>Fecha de<br>confecci\u00F3n:</html>");
@@ -190,7 +187,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
 		cboCliente = new JComboBox (Clientes);
-		cboCliente.setBounds(681, 58, 224, 25);
+		cboCliente.setBounds(681, 54, 224, 25);
 		
 		txtNombreOT = new JTextField ();
 		txtNombreOT.setBounds(387, 11, 210, 25);
@@ -240,7 +237,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbAncho = new JLabel ("Ancho:");
 		lbAncho.setHorizontalAlignment(SwingConstants.LEFT);
 		lbAncho.setFont(new Font("Arial", Font.ITALIC, 11));
-		lbAncho.setBounds(120, 140, 50, 25);
+		lbAncho.setBounds(117, 137, 50, 25);
 		lbAncho.setForeground (Color.black);
 		
 		try
@@ -271,7 +268,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
             e.printStackTrace();
         }
 		
-	    txtAncho.setBounds(170, 140, 100, 25);
+	    txtAncho.setBounds(170, 137, 100, 25);
 		
 		
 		chbApaisado = new JCheckBox ("Apaisado");
@@ -283,7 +280,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbTipoDeProducto.setForeground (Color.black);
 		
 		lbCantidadAEntregar = new JLabel ("<html>Cantidad\r\n a <BR>entregar:</html>");
-		lbCantidadAEntregar.setBounds(610, 135, 75, 30);
+		lbCantidadAEntregar.setBounds(610, 135, 65, 30);
 		lbCantidadAEntregar.setForeground (Color.black);
 		
 		txtCantidadAEntregar = new JTextField ("1");
@@ -292,11 +289,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 		
 		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas): ");
-		lbPreimpresion.setBounds(310, 180, 215, 30);
+		lbPreimpresion.setBounds(317, 180, 215, 30);
 		lbPreimpresion.setForeground (Color.black);
 		
 		txtPreimpresion = new JTextField ("");
-		txtPreimpresion.setBounds(530, 180, 171, 25);
+		txtPreimpresion.setBounds(542, 185, 131, 25);
 		txtPreimpresion.setHorizontalAlignment (JTextField.LEFT);
 		txtPreimpresion.addKeyListener
 		(
@@ -375,7 +372,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboMes2.setBounds(134, 54, 97, 25);
 		
 		cboDia2 = new JComboBox ();
-		cboDia2.setBounds(85, 54, 48, 25);
+		cboDia2.setBounds(83, 54, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(230, 54, 65, 25);
@@ -1029,12 +1026,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		dtcr.setVisible(true);
 		
 		JLabel lblMedidaFinal = new JLabel("Medida Final");
-		lblMedidaFinal.setBounds(10, 140, 75, 25);
+		lblMedidaFinal.setBounds(10, 137, 75, 25);
 		jpOrdenDeTrabajo.add(lblMedidaFinal);
 		
 		txtTipoProducto = new JTextField("");
 		txtTipoProducto.setHorizontalAlignment(SwingConstants.LEFT);
-		txtTipoProducto.setBounds(85, 183, 210, 25);
+		txtTipoProducto.setBounds(85, 185, 210, 25);
 		txtTipoProducto.addKeyListener
 		(
 			new KeyListener()
@@ -1069,14 +1066,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		btnImprimirReporte.setEnabled(false);
 		
 		fechaHoraCierreOT = new JTextField("");
-		fechaHoraCierreOT.setBounds(691, 35, 213, 25);
+		fechaHoraCierreOT.setBounds(764, 185, 141, 25);
 		jpOrdenDeTrabajo.add(fechaHoraCierreOT);
 		fechaHoraCierreOT.setEditable(false);
 		fechaHoraCierreOT.setVisible(false);
 		
-		lblFechaCierre = new JLabel("Fecha Cierre:");
+		lblFechaCierre = new JLabel("<html>Fecha\r\n<BR>Cierre:</html>");
 		lblFechaCierre.setForeground(Color.BLACK);
-		lblFechaCierre.setBounds(600, 35, 85, 25);
+		lblFechaCierre.setBounds(713, 183, 41, 25);
 		jpOrdenDeTrabajo.add(lblFechaCierre);
 		lblFechaCierre.setVisible(false);
 	}
@@ -1933,7 +1930,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private void reporteFinal()
 	{
 		String nroOT = getTxtNro().getText();
-		Integer id_OT=Metodos.FacturaAEntero(nroOT);
+		Integer id_OT  =Metodos.FacturaAEntero(nroOT);
         Integer cantCompradas = Egreso_Stock.getCantCompradasOT(id_OT);
 
 		//guardo en un arraylist las filas de la tabla Elementos
@@ -1941,12 +1938,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
         Integer cantFilas = tablaElementos.getRowCount();
         for (int i = 0; i < cantFilas; i++)
         {
-                rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
-                                (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
+        	rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
+                          (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
         }
- 
-        ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getRetirosStock(id_OT), rElementos);
-        ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getRetirosStock(id_OT), rElementos);
+		
+		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
 		JasperReport reporte = null;
 

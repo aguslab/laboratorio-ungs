@@ -18,7 +18,8 @@ public class Egreso_Stock {
 	
 	 
 	 public Egreso_Stock(Integer id_stock, Integer id_materiales, String empleado,
-			Integer cant_hojas_retiradas, String fecha) {
+			Integer cant_hojas_retiradas, String fecha)
+	 {
 		super();
 		this.id_stock = id_stock;
 		this.id_materiales=id_materiales;
@@ -173,11 +174,11 @@ public class Egreso_Stock {
 				while (resultado.next())
 				{
 					
-					cantCompradas = getCantCompradasSC(Metodos.FacturaAEntero(resultado.getString("id_Solicitud_Compra")));
+					//cantCompradas = getCantCompradasSC(Metodos.FacturaAEntero(resultado.getString("id_Solicitud_Compra")));
 					remanente = getRemanenteHasta(resultado.getInt("id_egreso_stock"),resultado.getInt("id_materiales"),resultado.getInt("id_stock"));
 					System.out.println(resultado.getString("f_h_recibido"));
 					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), resultado.getString("f_confeccion"), 
-							resultado.getString("f_entrega"),resultado.getString("fecha"),cantCompradas,new Integer(resultado.getInt("cant_hojas_retiradas")),
+							resultado.getString("f_entrega"),resultado.getString("fecha"),new Integer(resultado.getInt("cant_hojas_retiradas")),
 							remanente, resultado.getString("Empleado"));
 					
 					retiros.add(fr);
@@ -249,8 +250,10 @@ public class Egreso_Stock {
 	{
 		Integer compradas = 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN (SELECT  r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s ON r.id_solicitud_compra=s.id_solicitud_compra WHERE s.id_orden_trabajo="+id_ot+")"+ " AND recibido=true;");
-				
+				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN " +
+				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN " +
+				"solicitud_compra s ON r.id_solicitud_compra=s.id_solicitud_compra WHERE " +
+				"s.id_orden_trabajo="+id_ot + ") AND recibido=true;");
 				
 //				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN " +
 //				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r " +
@@ -273,6 +276,4 @@ public class Egreso_Stock {
 		}
 		return compradas;
 	}
-
-	
 }
