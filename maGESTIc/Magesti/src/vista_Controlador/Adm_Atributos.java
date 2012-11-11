@@ -322,7 +322,7 @@ public class Adm_Atributos extends JInternalFrame
 		tabAtributos.addTab("Formatos                         ",new ImageIcon ("Imagenes/regla.png"), panelFormato, null);
 			
 		JScrollPane spFormato = new JScrollPane();
-		spFormato.setBounds(0, 0, (d.width/2)-183, d.height-190);
+		spFormato.setBounds(0, 0, 465, 578);
 		panelFormato.add(spFormato);
 		
 		tablaFormato = new JTable();
@@ -369,7 +369,7 @@ public class Adm_Atributos extends JInternalFrame
 			tabAtributos.addTab("Variantes                         ",new ImageIcon ("Imagenes/quimico.png"), panelVariante, null);
 				
 			JScrollPane spVariante = new JScrollPane();
-			spVariante.setBounds(0, 0, (d.width/2)-183, d.height-190);
+			spVariante.setBounds(0, 0, 465, 578);
 			panelVariante.add(spVariante);
 			
 			tablaVariante = new JTable();
@@ -394,9 +394,10 @@ public class Adm_Atributos extends JInternalFrame
 					return columnEditables[column];
 				}
 			});
-			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(55);
-			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(100);
-			tablaVariante.getColumnModel().getColumn(2).setPreferredWidth(25);
+			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(40);
+			tablaVariante.getColumnModel().getColumn(1).setResizable(false);
+			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(248);
+			tablaVariante.getColumnModel().getColumn(2).setPreferredWidth(15);
 			tablaVariante.setRowHeight(25);
 			tablaVariante.getTableHeader().setReorderingAllowed(false);
 			this.setFilas();
