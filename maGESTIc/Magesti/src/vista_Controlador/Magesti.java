@@ -21,7 +21,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	private JInternalFrame OT, SC, buscarOT, stock;
 	private JInternalFrame Calendario;
 	private JMenuBar barra;
-	
+	private int numeroAureo;
 	private JMenu 
 		mnuOrdenDeTrabajo, 
 		mnuSolicitudDeCompra, 
@@ -349,7 +349,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		getContentPane().add (barraHerramientas, BorderLayout.NORTH);
 		getContentPane().add (escritorio, BorderLayout.CENTER);
 		getContentPane().add (barraDeEstado, BorderLayout.SOUTH);
-
+		
 		setVisible (true);
 	}
 
@@ -516,7 +516,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				Adm_Atributos admAtributos= new Adm_Atributos();
 				escritorio.add (admAtributos);
 				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-				admAtributos.setBounds(0, 0, d.width/2, d.height-135);
+				admAtributos.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
 				admAtributos.show ();
 			}
 		}
@@ -528,8 +528,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Adm_Proceso admProceso= new Adm_Proceso();
 				escritorio.add (admProceso);
-				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-				admProceso.setBounds(0, 0, d.width/2, d.height-135);
+				admProceso.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
 				admProceso.show ();
 			}
 		}
