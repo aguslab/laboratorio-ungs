@@ -412,15 +412,12 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] {
-					false, true, false, false, false, true, true, true, false
-				};
 			public boolean isCellEditable(int row, int column) {
 				Integer c=Elemento.cantidadFilas(id_OT);
 				if(column==8){
 					return false;
 				}
-				if(row < c && column!=1 && column!=6 && column != 7){
+				if(row < c && column!=0 && column!=1 && column!=6 && column != 7){
 					return false;
 				}
 				return true;

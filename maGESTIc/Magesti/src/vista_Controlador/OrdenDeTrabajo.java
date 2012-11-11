@@ -1338,7 +1338,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 
 				else if(estado.equalsIgnoreCase("En Proceso"))
- {
+				{
 					if (estado.equalsIgnoreCase("En Proceso")) {
 						Orden_Trabajo.CambiarEstado(clave, "En Proceso");
 					}
@@ -1415,6 +1415,40 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 									obj = btnCancelar;
 								}
+							}else{
+								for (int i = 0; i < proc.size(); i++) {
+									Procesos_x_OT.setAvanceOT(clave,
+											id_proc.get(proc.get(i)),
+											cumplida.get(i));
+								}
+								Orden_Trabajo.CambiarEstado(clave,
+										"Cerrada");
+								Orden_Trabajo.setF_h_cierre(clave,
+										Metodos.getDateTimeActual(0));
+
+								/*
+								 * Si sobran hojas, quedan como remanente en
+								 * Stock
+								 */
+								ArrayList<Integer> id_Stock = Stock
+										.getIdStockSegunOT(clave);
+
+								for (int j = 0; j < id_Stock.size(); j++) {
+									Integer hojas_usadas = Stock
+											.getHojasUsadas(id_Stock.get(j));
+									Integer hojas_totales = Stock
+											.getHojasTotales(id_Stock
+													.get(j));
+									if (hojas_usadas < hojas_totales) {
+										Stock.setStockComoRemanente(id_Stock
+												.get(j));
+									} else {
+										Stock.setStockInactivo(id_Stock
+												.get(j));
+									}
+								}
+
+								obj = btnCancelar;
 							}
 						}
 					} else {// si no se marcaron todos los procesos como
@@ -1437,7 +1471,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		if (obj == btnCancelar) 
 		{
-			txtClear ();
+			//txtClear ();
 			setVisible (false);
 			dispose();
 		}
@@ -1812,6 +1846,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Double ancho = Double.parseDouble(this.getTxtAncho().getText());
 		Double alto = Double.parseDouble(this.getTxtAlto().getText());
 		String nroOT = this.getTxtNro().getText();
+		Integer id_OT=Metodos.FacturaAEntero(nroOT);
+
 		String apaisada = "";
 		if(this.getChbApaisado().isSelected())
 			apaisada = "Si";
@@ -1844,6 +1880,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cantFilas = tablaOrdenDeEjecucion.getRowCount();
 		String tercerizada = "";
 		String cumplida = "";
+		
+		Integer cantCumplidas=Procesos_x_OT.getCantidadFilasCumplidas(id_OT);
 		for (int i = 0; i < cantFilas; i++) 
 		{
 			if(tablaOrdenDeEjecucion.getValueAt(i, 1).equals(true))
@@ -1851,7 +1889,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			else
 				tercerizada = "No";
 			
-			if(tablaOrdenDeEjecucion.getValueAt(i, 4).equals(true))
+			if(i < cantCumplidas)
 				cumplida = "Si";
 			else
 				cumplida = "No";
@@ -1860,9 +1898,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
 					
 		}
+		
+		String estadoOT=Orden_Trabajo.getEstadoOT(id_OT);
 		ReporteOT r = new ReporteOT(nroOT,getTxtNombreOT().getText(), getCliente().getSelectedItem().toString(),
 				getTxtDescripcion().getText(), getTipoProducto().getText(), getTxtPreimpresion().getText(),
-				getEstado().getSelectedItem().toString(), fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
+				estadoOT, fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
 		
 		ArrayList<ReporteOT> reportes = new ArrayList<ReporteOT>();
 		reportes.add(r);
@@ -1877,7 +1917,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			e1.printStackTrace();
 		}
 		JasperPrint jasperPrint = null;
-		try 
+		try
 		{
 			jasperPrint = JasperFillManager.fillReport(reporte, null,
 					new JRBeanCollectionDataSource(reportes));
@@ -1894,7 +1934,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		String nroOT = getTxtNro().getText();
 		Integer id_OT=Metodos.FacturaAEntero(nroOT);
-		
+        Integer cantCompradas = Egreso_Stock.getCantCompradasOT(id_OT);
+
 		//guardo en un arraylist las filas de la tabla Elementos
         ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
         Integer cantFilas = tablaElementos.getRowCount();
@@ -1902,10 +1943,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
         {
                 rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
                                 (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
-                                
         }
-        ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getRetirosStock(id_OT), rElementos);		
-		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
+ 
+        ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getRetirosStock(id_OT), rElementos);
+        ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
 		JasperReport reporte = null;
 
@@ -1952,8 +1993,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		else if (reply == 1) 
 		{
-			String estado=Orden_Trabajo.getEstadoOT(Metodos.FacturaAEntero(this.getTxtNro().getText()));
-			if(estado.equalsIgnoreCase("Cerrada"))
+			int id_OT=Metodos.FacturaAEntero(this.getTxtNro().getText());
+			String estadoOT=Orden_Trabajo.getEstadoOT(id_OT);
+
+			if(estadoOT.equalsIgnoreCase("Cerrada"))
 			{
 				this.reporteFinal();
 			}
