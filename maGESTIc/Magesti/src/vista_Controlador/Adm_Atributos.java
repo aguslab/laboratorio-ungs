@@ -298,10 +298,10 @@ public class Adm_Atributos extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(55);
+		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(40);
 		tablaCalidad.getColumnModel().getColumn(1).setResizable(false);
-		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(233);
-		tablaCalidad.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaCalidad.getColumnModel().getColumn(1).setPreferredWidth(248);
+		tablaCalidad.getColumnModel().getColumn(2).setPreferredWidth(15);
 		tablaCalidad.setRowHeight(25);
 		tablaCalidad.getTableHeader().setReorderingAllowed(false);
 		
@@ -347,10 +347,10 @@ public class Adm_Atributos extends JInternalFrame
 				return columnEditables[column];
 			}
 		});
-		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(55);
+		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(40);
 		tablaFormato.getColumnModel().getColumn(1).setResizable(false);
-		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(233);
-		tablaFormato.getColumnModel().getColumn(2).setPreferredWidth(29);
+		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(248);
+		tablaFormato.getColumnModel().getColumn(2).setPreferredWidth(15);
 		tablaFormato.setRowHeight(25);
 		tablaFormato.getTableHeader().setReorderingAllowed(false);
 		
