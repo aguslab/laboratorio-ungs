@@ -108,7 +108,7 @@
 		</band>
 		<band height="108">
 			<subreport>
-				<reportElement uuid="4dd57911-2127-472c-9050-66bc5953bee7" x="13" y="32" width="817" height="50"/>
+				<reportElement uuid="4dd57911-2127-472c-9050-66bc5953bee7" x="13" y="40" width="817" height="50"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{elementos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteElementos.jasper"]]></subreportExpression>
 			</subreport>
