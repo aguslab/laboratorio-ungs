@@ -1,61 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteRetiros" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="76326c70-c211-44f4-8f73-513f471e7599">
-	<property name="ireport.zoom" value="0.9090909090909185"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSC.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ee0ce584-1f85-4455-b0d7-d96ee679fd05">
+	<property name="ireport.zoom" value="1.000000000000002"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="cantCompradas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantCompradas]]></fieldDescription>
+	<field name="importe" class="java.lang.Double">
+		<fieldDescription><![CDATA[importe]]></fieldDescription>
 	</field>
-	<field name="cantRetirada" class="java.lang.Integer">
-		<fieldDescription><![CDATA[cantRetirada]]></fieldDescription>
+	<field name="precioUnitario" class="java.lang.Double">
+		<fieldDescription><![CDATA[precioUnitario]]></fieldDescription>
 	</field>
-	<field name="class" class="java.lang.Class">
-		<fieldDescription><![CDATA[class]]></fieldDescription>
+	<field name="gramaje" class="java.lang.Integer">
+		<fieldDescription><![CDATA[gramaje]]></fieldDescription>
 	</field>
-	<field name="empleado" class="java.lang.String">
-		<fieldDescription><![CDATA[empleado]]></fieldDescription>
+	<field name="unidadMedida" class="java.lang.String">
+		<fieldDescription><![CDATA[unidadMedida]]></fieldDescription>
 	</field>
-	<field name="fConfeccion" class="java.lang.String">
-		<fieldDescription><![CDATA[fConfeccion]]></fieldDescription>
+	<field name="calidad" class="java.lang.String">
+		<fieldDescription><![CDATA[calidad]]></fieldDescription>
 	</field>
-	<field name="fEntrega" class="java.lang.String">
-		<fieldDescription><![CDATA[fEntrega]]></fieldDescription>
+	<field name="variante" class="java.lang.String">
+		<fieldDescription><![CDATA[variante]]></fieldDescription>
 	</field>
-	<field name="f_h_recibido" class="java.lang.String">
-		<fieldDescription><![CDATA[f_h_recibido]]></fieldDescription>
+	<field name="marca" class="java.lang.String">
+		<fieldDescription><![CDATA[marca]]></fieldDescription>
 	</field>
-	<field name="f_hora" class="java.lang.String">
-		<fieldDescription><![CDATA[f_hora]]></fieldDescription>
+	<field name="formato" class="java.lang.String">
+		<fieldDescription><![CDATA[formato]]></fieldDescription>
 	</field>
-	<field name="hojasRestantes" class="java.lang.String">
-		<fieldDescription><![CDATA[hojasRestantes]]></fieldDescription>
+	<field name="cantHojas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[cantHojas]]></fieldDescription>
 	</field>
-	<field name="nroSC" class="java.lang.String">
-		<fieldDescription><![CDATA[nroSC]]></fieldDescription>
-	</field>
+	<variable name="Importe_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="50">
+	<columnHeader>
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" mode="Opaque" x="0" y="16" width="102" height="34" backcolor="#A8BDCF"/>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<text><![CDATA[Nro. SC]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ec8d1bad-79e3-46e7-8c86-650acf0ebdf4" mode="Opaque" x="215" y="16" width="81" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="1cd91955-b836-4693-9d23-af37c3cdf28e" mode="Opaque" x="0" y="0" width="62" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -65,11 +52,10 @@
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Fecha
-Confección]]></text>
+				<text><![CDATA[Cant.Hojas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1d5c2250-cf4d-4f45-966e-5b9f55535e08" mode="Opaque" x="295" y="16" width="73" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="99ac0069-0ca7-4755-84b5-e8e73dd2b494" mode="Opaque" x="62" y="0" width="49" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -79,11 +65,10 @@ Confección]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Fecha
-Entrega]]></text>
+				<text><![CDATA[Marca]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" mode="Opaque" x="368" y="16" width="119" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="1227a987-0b07-454f-a1b1-721f7983c19b" mode="Opaque" x="111" y="0" width="97" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -93,11 +78,10 @@ Entrega]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Fecha
-Retiro]]></text>
+				<text><![CDATA[Calidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" mode="Opaque" x="554" y="16" width="59" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="243ef198-359d-40fc-bac1-65baa78380df" mode="Opaque" x="208" y="0" width="96" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -107,24 +91,10 @@ Retiro]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Cantidad
-Retiradas]]></text>
+				<text><![CDATA[Variante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" mode="Opaque" x="668" y="16" width="134" height="34" forecolor="#000000" backcolor="#A8BDCF"/>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<text><![CDATA[Empleado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="a1c12392-c685-49c7-9974-225801bb9f4a" mode="Opaque" x="613" y="16" width="55" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="9ff4829f-49ed-498d-b50e-6dbec83e9917" mode="Opaque" x="304" y="0" width="48" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -134,11 +104,10 @@ Retiradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Hojas
-Restantes]]></text>
+				<text><![CDATA[Formato]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d4484017-1563-4f35-9948-4fcfbf21b53b" mode="Opaque" x="102" y="16" width="113" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="dfd95b25-058d-4601-8c32-bc7a1358a56e" mode="Opaque" x="352" y="0" width="48" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -148,29 +117,53 @@ Restantes]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Fecha
-Registro]]></text>
+				<text><![CDATA[Gramaje]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="23e97578-42e1-4fc5-aef3-c0f3f0539975" mode="Opaque" x="487" y="16" width="67" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="b4c0caf4-d04d-4b33-b62d-05d9ad4c4507" mode="Opaque" x="400" y="0" width="78" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Cantidad
-Compradas]]></text>
+				<text><![CDATA[Precio Unitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5234668c-66ae-4f4a-8b60-7538abd83748" mode="Opaque" x="478" y="0" width="41" height="20" backcolor="#A8BDCF"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Unidad Medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bcec9ad7-13ef-4b47-a992-41b02971ba77" mode="Opaque" x="519" y="0" width="43" height="20" backcolor="#A8BDCF"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
 			</staticText>
 		</band>
-	</title>
+	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement uuid="1c93facb-1a4a-45a3-a900-8b046f2472d7" x="295" y="0" width="73" height="20"/>
+				<reportElement uuid="b8f26c4d-0ee7-43f2-82a7-d2a1312c062b" x="0" y="0" width="62" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -180,10 +173,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fEntrega}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cantHojas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="04b14959-abb1-4273-8fdd-491a0a295c44" x="215" y="0" width="80" height="20"/>
+				<reportElement uuid="3fe27652-0ce3-4002-b5cc-ede2ac6776d6" x="62" y="0" width="49" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -193,10 +186,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fConfeccion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="90a5a5f7-d637-4bb7-9aee-882046916de8" x="368" y="0" width="119" height="20"/>
+				<reportElement uuid="79f655e5-d9c0-4f64-ab8d-f6d9c3de5630" x="111" y="0" width="97" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -206,10 +199,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{f_hora}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{calidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1548747a-32cd-427b-95d6-e2f50fc7e6ce" x="554" y="0" width="59" height="20"/>
+				<reportElement uuid="cceb3b83-3191-40fe-a2f7-2c0f42da9d42" x="208" y="0" width="96" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -219,10 +212,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cantRetirada}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{variante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b47549e1-00ff-4efc-9f4e-a79f2499fc39" x="668" y="0" width="134" height="20"/>
+				<reportElement uuid="b0b89e23-d085-4bc9-ae55-4d2777f3b22f" x="304" y="0" width="48" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -232,10 +225,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{formato}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="70d15bbe-b707-4cc0-88aa-f8b7251ed4ad" isPrintRepeatedValues="false" x="0" y="0" width="102" height="20"/>
+				<reportElement uuid="72453361-4e33-4a58-b040-4a16aa3f9819" x="352" y="0" width="48" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -245,10 +238,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nroSC}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{gramaje}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ffde8364-2ab4-4d2c-8020-da3a6082aa1b" x="613" y="0" width="55" height="20"/>
+				<reportElement uuid="006776f2-0025-4802-8241-844e4f8f9735" x="400" y="0" width="78" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -258,10 +251,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{hojasRestantes}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{precioUnitario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="11846e4e-a4b4-46be-884a-7e8c6f51b580" x="102" y="0" width="113" height="20"/>
+				<reportElement uuid="aa22afee-2640-41f6-9f44-236db423ce10" x="478" y="0" width="41" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -271,10 +264,10 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{f_h_recibido}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{unidadMedida}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b50369c5-c247-4126-b0a7-73ace09333c6" x="487" y="0" width="67" height="20"/>
+				<reportElement uuid="068fb69c-484d-4dbc-a4ae-c4dcd49fefc9" x="519" y="0" width="43" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -284,7 +277,7 @@ Compradas]]></text>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cantCompradas}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

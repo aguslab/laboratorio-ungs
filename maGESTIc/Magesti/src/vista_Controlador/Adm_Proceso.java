@@ -138,16 +138,16 @@ public class Adm_Proceso extends JInternalFrame
 								}
 							}
 						});
-						btnDown.setBounds(69, 412, 35, 35);
+						btnDown.setBounds(69, 403, 35, 35);
 						getContentPane().add(btnDown);
 				btnUp.setSelectedIcon(new ImageIcon("Imagenes/Up_Button_Selected.png"));
-				btnUp.setBounds(24, 410, 35, 35);
+				btnUp.setBounds(24, 401, 35, 35);
 				getContentPane().add(btnUp);
-		btnCerrar.setBounds(10, d.height-270, 120, 30);
+		btnCerrar.setBounds(10, 489, 120, 30);
 		getContentPane().add(btnCerrar);
 		
 		JButton btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
-		btnConfirmar.setBounds(10, d.height-230, 120, 30);
+		btnConfirmar.setBounds(10, 529, 120, 30);
 		btnConfirmar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -198,7 +198,7 @@ public class Adm_Proceso extends JInternalFrame
 		getContentPane().add(btnConfirmar);
 		
 		JButton btnAgregar = new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
-		btnAgregar.setBounds(10, d.height-310, 120, 30);
+		btnAgregar.setBounds(10, 449, 120, 30);
 		btnAgregar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -214,7 +214,7 @@ public class Adm_Proceso extends JInternalFrame
 		
 		//
 		final JTabbedPane tabProcesos = new JTabbedPane(JTabbedPane.LEFT);
-		tabProcesos.setBounds(10, 11, 652, 557);
+		tabProcesos.setBounds(10, 11, 652, 548);
 		getContentPane().add(tabProcesos);
 		
 		JPanel panelProceso = new JPanel();
@@ -232,7 +232,7 @@ public class Adm_Proceso extends JInternalFrame
 
 		JScrollPane spProceso = new JScrollPane();
 		spProceso.setViewportBorder(null);
-		spProceso.setBounds(0, 0,469,557);
+		spProceso.setBounds(0, 0,469,543);
 		panelProceso.add(spProceso);
 		
 		//Tabla Calidad
