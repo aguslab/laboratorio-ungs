@@ -4,7 +4,7 @@ public class FilaRetiros
 {
 	private String nroSC, f_hora, empleado;
 	private String  fConfeccion, fEntrega, f_h_recibido, hojasRestantes;
-	private Integer cantRetirada;
+	private Integer cantRetirada, cantCompradas;
 	
 	public FilaRetiros()
 	{
@@ -12,7 +12,7 @@ public class FilaRetiros
 	}
 	
 
-	public FilaRetiros(String nroSC,String f_h_recibido, String fConfeccion, String fEntrega, String f_hora,Integer cantRetirada,
+	public FilaRetiros(String nroSC,String f_h_recibido, String fConfeccion, String fEntrega, String f_hora,Integer cantCompradas, Integer cantRetirada,
 			String remanente,String empleado) 
 	{
 		this.nroSC = Metodos.EnteroAFactura(Integer.parseInt(nroSC));
@@ -21,6 +21,7 @@ public class FilaRetiros
 		this.empleado = empleado;
 		this.fConfeccion = fConfeccion;
 		this.fEntrega = fEntrega;
+		this.cantCompradas = cantCompradas;
 		this.cantRetirada = cantRetirada;
 		this.hojasRestantes = remanente;
 	}
@@ -110,4 +111,17 @@ public class FilaRetiros
 		this.f_h_recibido = f_h_recibido;
 	}
 
+
+	public Integer getCantCompradas() 
+	{
+		return cantCompradas;
+	}
+
+
+	public void setCantCompradas(Integer cantCompradas) 
+	{
+		this.cantCompradas = cantCompradas;
+	}
+
+	
 }

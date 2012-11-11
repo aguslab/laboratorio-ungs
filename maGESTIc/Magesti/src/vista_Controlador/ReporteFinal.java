@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ReporteFinal 
 {
 	private String nroOT, nombreOT;
+	private Integer cantCompradas;
 	private ArrayList<FilaRetiros> retiros;
 	private ArrayList<FilaElementos> elementos;
 	
@@ -15,10 +16,11 @@ public class ReporteFinal
 	}
 	
 	
-	public ReporteFinal(String nroOT, String nombreOT, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
+	public ReporteFinal(String nroOT, String nombreOT, Integer cantCompradas, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
 	{
 		this.nroOT = nroOT;
 		this.nombreOT = nombreOT;
+		this.cantCompradas = cantCompradas;
 		this.retiros = retiros;
 		this.elementos = elementos;
 	}
@@ -62,5 +64,19 @@ public class ReporteFinal
 	{
 		this.elementos = elementos;
 	}
+
+
+	public Integer getCantCompradas() 
+	{
+		return cantCompradas;
+	}
+
+
+	public void setCantCompradas(Integer cantCompradas)
+	{
+		this.cantCompradas = cantCompradas;
+	}
+	
+	
 
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteSC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2122c608-da0b-43a2-a77e-e85e65bd8721">
 	<property name="ireport.zoom" value="1.464100000000004"/>
 	<property name="ireport.x" value="23"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="351"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
@@ -296,7 +296,7 @@
 			<subreport>
 				<reportElement uuid="e5139f79-f3d8-4f50-954e-f7fc72a7f850" x="0" y="21" width="554" height="60"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detalles})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteSC.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteDetalles.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="84">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2c0f3cee-37c1-4b4e-ae47-c39b60543564">
-	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.zoom" value="1.000000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
@@ -9,6 +9,9 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="cantCompradas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[cantCompradas]]></fieldDescription>
+	</field>
 	<field name="class" class="java.lang.Class">
 		<fieldDescription><![CDATA[class]]></fieldDescription>
 	</field>
@@ -41,32 +44,46 @@
 	<detail>
 		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="55c35a82-9d37-400d-b8ca-90bf63d9b81a" x="90" y="0" width="120" height="20"/>
+				<reportElement uuid="55c35a82-9d37-400d-b8ca-90bf63d9b81a" x="10" y="0" width="120" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<text><![CDATA[Nro. Orden de Trabajo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ee232195-a8e6-41a9-aa8c-3639cd92ae20" x="410" y="0" width="143" height="20"/>
+				<reportElement uuid="ee232195-a8e6-41a9-aa8c-3639cd92ae20" x="281" y="0" width="140" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<text><![CDATA[Nombre Orden de Trabajo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="af4e3866-518a-46bc-97da-4086dbe101a9" x="209" y="0" width="166" height="20"/>
+				<reportElement uuid="af4e3866-518a-46bc-97da-4086dbe101a9" x="129" y="0" width="141" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nroOT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="dcd3d41a-9a1e-4b99-aa2f-9a0b6ed19477" x="552" y="0" width="278" height="20"/>
+				<reportElement uuid="dcd3d41a-9a1e-4b99-aa2f-9a0b6ed19477" x="420" y="0" width="200" height="42"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreOT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="864e97d5-abf3-421f-84db-e1fb93112a5f" x="631" y="0" width="124" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Cant. Hojas Compradas:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fb0ebbc8-5527-46a0-8551-6b3051458217" x="754" y="0" width="76" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantCompradas}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="106">
@@ -89,7 +106,7 @@
 				<text><![CDATA[Retiros]]></text>
 			</staticText>
 		</band>
-		<band height="121">
+		<band height="108">
 			<subreport>
 				<reportElement uuid="4dd57911-2127-472c-9050-66bc5953bee7" x="13" y="32" width="817" height="50"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{elementos})]]></dataSourceExpression>
