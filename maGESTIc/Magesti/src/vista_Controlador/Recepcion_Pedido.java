@@ -185,15 +185,31 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
+				DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles
+						.getModel();
+				
+				int cont=0;
+				for (int i = 0; i < cantFilas; i++) {
+				boolean recibido = (Boolean) tempDet.getValueAt(i,9);
+						if (recibido) {
+							cont++;
+						}
+					}
+				
+				if(cont == 0){
+					JOptionPane
+					.showMessageDialog(
+							null,
+							"Debe seleccionar al menos un detalle como recibido");
+				}else{
+				
 				if (SC.getTxtDescripcionIncidencia().getText().length() > 500) {
 					JOptionPane
 							.showMessageDialog(
 									null,
 									"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
 				} else {
-					DefaultTableModel tempDet = (DefaultTableModel) tablaDetalles
-							.getModel();
 					int cantTrue = Recepcion_pedido
 							.getCantidadFilasRecibidas(id_SC);
 					ArrayList<Integer> posiciones = new ArrayList<Integer>();
@@ -243,6 +259,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 
 					dispose();
 					SC.dispose();
+					}
 				}
 			}
 		});

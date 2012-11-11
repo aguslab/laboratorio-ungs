@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import vista_Controlador.FilaRetiros;
@@ -250,10 +249,13 @@ public class Egreso_Stock {
 	{
 		Integer compradas = 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN " +
-				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r " +
-				"INNER JOIN solicitud_compra s ON r.id_solicitud_compra=s.id_solicitud_compra " +
-				"WHERE estado='Recibido' AND s.id_orden_trabajo=" + id_ot + ")");
+				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN (SELECT  r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s ON r.id_solicitud_compra=s.id_solicitud_compra WHERE s.id_orden_trabajo="+id_ot+")"+ " AND recibido=true;");
+				
+				
+//				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra IN " +
+//				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r " +
+//				"INNER JOIN solicitud_compra s ON r.id_solicitud_compra=s.id_solicitud_compra " +
+//				"WHERE estado='Recibido' AND s.id_orden_trabajo=" + id_ot + ")");
 		
 		if (resultado != null)
 		{
