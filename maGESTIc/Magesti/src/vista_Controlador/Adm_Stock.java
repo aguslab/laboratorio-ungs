@@ -293,7 +293,9 @@ public class Adm_Stock extends JInternalFrame
 			
 	public static void Actualizar()
 	{
+		if(tablaStock != null){
 		Metodos.borrarFilas((DefaultTableModel)tablaStock.getModel());
 		setFilas();
+		}
 	}
 }

@@ -162,14 +162,10 @@ public class Egreso_Stock {
 
 	public static ArrayList<FilaSC> getSC(Integer id_OT)
 	{
-		Integer cantRestantes = 0;
-		Integer cantCompradas = 0;
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT sc.id_solicitud_compra, d.cantidad FROM detalle d INNER JOIN solicitud_compra sc " +
-				"ON d.id_solicitud_compra=sc.id_solicitud_compra WHERE sc.id_solicitud_compra IN " +
-				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s " +
-				"ON r.id_solicitud_compra = s.id_solicitud_compra AND s.id_orden_trabajo =" + id_OT + ") AND d.recibido=true");
+
+				"SELECT distinct sc.id_solicitud_compra, rp.f_h_recibido,sc.f_confeccion, sc.f_entrega, d.cantidad, re.remanente FROM detalle d inner join solicitud_compra sc on d.id_solicitud_compra=sc.id_solicitud_compra inner join remanente_sc_ot re on re.id_solicitud_compra=sc.id_solicitud_compra inner join recepcion_pedido rp on rp.id_solicitud_compra=sc.id_solicitud_compra where sc.id_solicitud_compra IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra AND s.id_orden_trabajo="+id_OT +")  AND d.recibido=true");
 				
 				ArrayList<FilaSC> SCs = new ArrayList<FilaSC>();
 				if (resultado != null)
@@ -178,11 +174,9 @@ public class Egreso_Stock {
 					{
 						while (resultado.next())
 						{
-							cantCompradas = getCantCompradasSC(Metodos.FacturaAEntero(resultado.getString("id_Solicitud_Compra")));
-							cantRestantes = getRemanenteHasta(resultado.getInt("id_egreso_stock"),resultado.getInt("id_materiales"),resultado.getInt("id_stock"));
 							
 							FilaSC fsc = new FilaSC(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), 
-									resultado.getString("f_confeccion"),resultado.getString("f_entrega"), cantCompradas,cantRestantes);
+									resultado.getString("f_confeccion"),resultado.getString("f_entrega"), resultado.getInt("cantidad"),resultado.getInt("remanente"));
 							
 							SCs.add(fsc);
 						}
@@ -204,6 +198,7 @@ public class Egreso_Stock {
 		"INNER JOIN materiales m ON es.id_materiales=m.id_materiales " +
 		"INNER JOIN elemento e ON e.id_elemento=m.id_materiales WHERE e.id_orden_trabajo =" + id_OT);
 		
+
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
 		if (resultado != null)
 		{

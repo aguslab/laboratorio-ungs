@@ -103,10 +103,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getCbMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 1)));
 				nuevaSC.getCbMes().setEnabled(false);
 				
-				nuevaSC.getCbDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 2));
+				nuevaSC.getCbDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
 				nuevaSC.getCbDia().setEnabled(false);
 				
-				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
+				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 2));
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
@@ -274,7 +274,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 													true);
 											st.Alta();
 										}
-
+										Adm_Stock.Actualizar();
 										nuevaSC.dispose();
 									}
 								}
