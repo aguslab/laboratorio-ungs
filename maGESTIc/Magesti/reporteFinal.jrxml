@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2c0f3cee-37c1-4b4e-ae47-c39b60543564">
 	<property name="ireport.zoom" value="1.3310000000000042"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="76"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
@@ -26,6 +26,9 @@
 	</field>
 	<field name="retiros" class="java.util.ArrayList">
 		<fieldDescription><![CDATA[retiros]]></fieldDescription>
+	</field>
+	<field name="scs" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[scs]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
