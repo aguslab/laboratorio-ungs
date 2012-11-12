@@ -80,9 +80,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="20" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="d9ea7cb2-8b57-4619-bd54-8c18de21fd2f" mode="Opaque" x="303" y="0" width="129" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="d9ea7cb2-8b57-4619-bd54-8c18de21fd2f" mode="Opaque" x="303" y="0" width="129" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -95,7 +95,7 @@
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="34fabcc9-140f-41d5-a6ef-4489990d34c3" mode="Opaque" x="104" y="0" width="199" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="34fabcc9-140f-41d5-a6ef-4489990d34c3" mode="Opaque" x="104" y="0" width="199" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -108,7 +108,7 @@
 				<text><![CDATA[Elemento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b446e2c9-ee9a-4a5b-a6f9-4f662d87e5c0" mode="Opaque" x="432" y="0" width="112" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="b446e2c9-ee9a-4a5b-a6f9-4f662d87e5c0" mode="Opaque" x="432" y="0" width="112" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -121,7 +121,7 @@
 				<text><![CDATA[Hojas Previstas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="50be5584-9193-47d6-9894-fad3646040cd" mode="Opaque" x="544" y="0" width="106" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="50be5584-9193-47d6-9894-fad3646040cd" mode="Opaque" x="544" y="0" width="106" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteRetiros" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="76326c70-c211-44f4-8f73-513f471e7599">
-	<property name="ireport.zoom" value="1.100000000000019"/>
-	<property name="ireport.x" value="49"/>
+	<property name="ireport.zoom" value="1.3310000000000237"/>
+	<property name="ireport.x" value="61"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
@@ -25,9 +25,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="34">
+		<band height="22">
 			<staticText>
-				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" mode="Opaque" x="93" y="0" width="148" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" mode="Opaque" x="93" y="0" width="148" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -40,7 +40,7 @@
 				<text><![CDATA[Nro. Solicitud de compra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" mode="Opaque" x="241" y="0" width="148" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" mode="Opaque" x="241" y="0" width="148" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -53,7 +53,7 @@
 				<text><![CDATA[Fecha Retiro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" mode="Opaque" x="389" y="0" width="113" height="34" backcolor="#A8BDCF"/>
+				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" mode="Opaque" x="389" y="0" width="113" height="22" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -66,7 +66,7 @@
 				<text><![CDATA[Cantidad Retiradas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" mode="Opaque" x="502" y="0" width="157" height="34" forecolor="#000000" backcolor="#A8BDCF"/>
+				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" mode="Opaque" x="502" y="0" width="157" height="22" forecolor="#000000" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
