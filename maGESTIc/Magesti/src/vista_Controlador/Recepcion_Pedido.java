@@ -20,6 +20,7 @@ import Modelo.Stock;
 import Modelo.Variante;
 
 import java.awt.Font;
+import java.beans.PropertyVetoException;
 
 @SuppressWarnings("serial")
 
@@ -41,14 +42,10 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		
 		getContentPane().setLayout(null);
 		
-		
 		JpSolicitudDeCompra = new JPanel();
 		JpSolicitudDeCompra.setBounds(0, 0, 915, 271);
 		getContentPane().add(JpSolicitudDeCompra);
 		JpSolicitudDeCompra.setLayout(null);
-		
-		
-		
 		
 		btnCerrar = new JButton("Cerrar", new ImageIcon ("Imagenes/cerrar3.png"));
 		btnCerrar.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -134,8 +131,6 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		 */
 		
 		final ArrayList<Detalle> detalles=Detalle.getDetalles(id_SC);
-		
-
 		
 		DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 		Object nuevaFilaDetalles[]= {"",""};
