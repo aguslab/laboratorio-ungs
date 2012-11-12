@@ -287,7 +287,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar = new JTextField ("1");
 		txtCantidadAEntregar.setBounds(681, 137, 224, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
-
 		
 		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas): ");
 		lbPreimpresion.setBounds(317, 180, 215, 30);
@@ -303,7 +302,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtPreimpresion.getText().length() == 11) 
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtPreimpresion.getText().length() == 9) 
 						{
 							getToolkit().beep ();
 							ke.consume ();
@@ -322,11 +321,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtCantidadAEntregar.getText().length()== 11) 
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtCantidadAEntregar.getText().length()== 9)
 						{
 							getToolkit().beep ();
 							ke.consume ();
 						}
+						calcularPliegoYhojas();
 					}
 				}
 		);
@@ -719,45 +719,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			@Override
 			public void columnSelectionChanged(ListSelectionEvent arg0) 
 			{
-				Integer cantFilas= tablaMateriales.getRowCount();
-				Integer cantEntr = Integer.parseInt(txtCantidadAEntregar.getText());
-				for (int i = 0; i < cantFilas; i++) {
-					//solo si las columnas tiene valores
-					if (!tablaMateriales.getValueAt(i, 1).toString().equals("")
-							&& !tablaMateriales.getValueAt(i, 7).toString()
-									.equals("")
-							&& !tablaMateriales.getValueAt(i, 6).toString()
-									.equals("")
-							&& !tablaMateriales.getValueAt(i, 8).toString()
-									.equals("")) {
-						// Obtengo los datos de la tabla materiales necesarios
-						// para calcular los Pliegos Netos
-						Integer cantElemento = Integer.parseInt(tablaMateriales
-								.getValueAt(i, 1).toString());
-						Integer posesXpliego = Integer.parseInt(tablaMateriales
-								.getValueAt(i, 7).toString());
-						Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
-								/ posesXpliego);
-						tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
-
-						// Obtengo los datos de la tabla materiales necesarios
-						// para calcular la cantidad de hojas
-						Integer pliegosNetos = Integer.parseInt(tablaMateriales
-								.getValueAt(i, 9).toString());
-						Integer pliegosEnDemasia = Integer
-								.parseInt(tablaMateriales.getValueAt(i, 6)
-										.toString());
-						Integer pliegosXhoja = Integer.parseInt(tablaMateriales
-								.getValueAt(i, 8).toString());
-
-						Integer hojas = (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
-								/ pliegosXhoja);
-						
-						tablaMateriales.setValueAt(hojas, i, 10);
-					}
-
-				}
-				
+				calcularPliegoYhojas();
 			}
 			
 			@Override
@@ -1420,6 +1382,51 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 	
 
+	private void calcularPliegoYhojas(){
+		Integer cantFilas= tablaMateriales.getRowCount();
+		Integer cantEntr =0;
+		if(!txtCantidadAEntregar.getText().equals("")){
+			cantEntr=Integer.parseInt(txtCantidadAEntregar.getText());
+		}
+		
+		for (int i = 0; i < cantFilas; i++) {
+			//solo si las columnas tiene valores
+			if (!tablaMateriales.getValueAt(i, 1).toString().equals("")
+					&& !tablaMateriales.getValueAt(i, 7).toString()
+							.equals("")
+					&& !tablaMateriales.getValueAt(i, 6).toString()
+							.equals("")
+					&& !tablaMateriales.getValueAt(i, 8).toString()
+							.equals("")) {
+				// Obtengo los datos de la tabla materiales necesarios
+				// para calcular los Pliegos Netos
+				Integer cantElemento = Integer.parseInt(tablaMateriales
+						.getValueAt(i, 1).toString());
+				Integer posesXpliego = Integer.parseInt(tablaMateriales
+						.getValueAt(i, 7).toString());
+				Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
+						/ posesXpliego);
+				tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
+
+				// Obtengo los datos de la tabla materiales necesarios
+				// para calcular la cantidad de hojas
+				Integer pliegosNetos = Integer.parseInt(tablaMateriales
+						.getValueAt(i, 9).toString());
+				Integer pliegosEnDemasia = Integer
+						.parseInt(tablaMateriales.getValueAt(i, 6)
+								.toString());
+				Integer pliegosXhoja = Integer.parseInt(tablaMateriales
+						.getValueAt(i, 8).toString());
+
+				Integer hojas = (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
+						/ pliegosXhoja);
+				
+				tablaMateriales.setValueAt(hojas, i, 10);
+			}
+		}
+	}
+	
+	
 	//cierra la OT, deja Stock como remanente o como inactivo. guarda las hijas restantes por sc de esta OT
 	private void cerrarOT(int clave, ArrayList<Integer> proc, ArrayList<Integer> id_proc, ArrayList<Boolean> cumplida) {
 
