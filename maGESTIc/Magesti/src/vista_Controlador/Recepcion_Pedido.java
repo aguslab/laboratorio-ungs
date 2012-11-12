@@ -251,7 +251,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 								remanente, true);
 						st.Alta();
 					}
-
+					Adm_Stock.Actualizar();
 					dispose();
 					SC.dispose();
 					}

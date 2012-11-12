@@ -40,6 +40,7 @@ import Modelo.Procesos_x_OT;
 import Modelo.Proveedor;
 import Modelo.Stock;
 import Modelo.Variante;
+import Modelo.Remanente_sc_ot;
 
 @SuppressWarnings("serial")
 
@@ -1378,73 +1379,44 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 												JOptionPane.YES_NO_OPTION,
 												JOptionPane.WARNING_MESSAGE);
 								if (opcion == JOptionPane.YES_OPTION) {
-									for (int i = 0; i < proc.size(); i++) {
-										Procesos_x_OT.setAvanceOT(clave,
-												id_proc.get(proc.get(i)),
-												cumplida.get(i));
-									}
-									Orden_Trabajo.CambiarEstado(clave,
-											"Cerrada");
-									Orden_Trabajo.setF_h_cierre(clave,
-											Metodos.getDateTimeActual(0));
-
-									/*
-									 * Si sobran hojas, quedan como remanente en
-									 * Stock
-									 */
-									ArrayList<Integer> id_Stock = Stock
-											.getIdStockSegunOT(clave);
-
-									for (int j = 0; j < id_Stock.size(); j++) {
-										Integer hojas_usadas = Stock
-												.getHojasUsadas(id_Stock.get(j));
-										Integer hojas_totales = Stock
-												.getHojasTotales(id_Stock
-														.get(j));
-										if (hojas_usadas < hojas_totales) {
-											Stock.setStockComoRemanente(id_Stock
-													.get(j));
-										} else {
-											Stock.setStockInactivo(id_Stock
-													.get(j));
-										}
-									}
-
+									cerrarOT(clave, proc, id_proc, cumplida);
+//									for (int i = 0; i < proc.size(); i++) {
+//										Procesos_x_OT.setAvanceOT(clave,
+//												id_proc.get(proc.get(i)),
+//												cumplida.get(i));
+//									}
+//									Orden_Trabajo.CambiarEstado(clave,
+//											"Cerrada");
+//									Orden_Trabajo.setF_h_cierre(clave,
+//											Metodos.getDateTimeActual(0));
+//
+//									/*
+//									 * Si sobran hojas, quedan como remanente en
+//									 * Stock
+//									 */
+//									ArrayList<Integer> id_Stock = Stock
+//											.getIdStockSegunOT(clave);
+//
+//									for (int j = 0; j < id_Stock.size(); j++) {
+//										Integer hojas_usadas = Stock
+//												.getHojasUsadas(id_Stock.get(j));
+//										Integer hojas_totales = Stock
+//												.getHojasTotales(id_Stock
+//														.get(j));
+//										if (hojas_usadas < hojas_totales) {
+//											Stock.setStockComoRemanente(id_Stock
+//													.get(j));
+//										} else {
+//											Stock.setStockInactivo(id_Stock
+//													.get(j));
+//										}
+//										
+//										
+//									}
 									obj = btnCancelar;
-								}
-							}else{
-								for (int i = 0; i < proc.size(); i++) {
-									Procesos_x_OT.setAvanceOT(clave,
-											id_proc.get(proc.get(i)),
-											cumplida.get(i));
-								}
-								Orden_Trabajo.CambiarEstado(clave,
-										"Cerrada");
-								Orden_Trabajo.setF_h_cierre(clave,
-										Metodos.getDateTimeActual(0));
-
-								/*
-								 * Si sobran hojas, quedan como remanente en
-								 * Stock
-								 */
-								ArrayList<Integer> id_Stock = Stock
-										.getIdStockSegunOT(clave);
-
-								for (int j = 0; j < id_Stock.size(); j++) {
-									Integer hojas_usadas = Stock
-											.getHojasUsadas(id_Stock.get(j));
-									Integer hojas_totales = Stock
-											.getHojasTotales(id_Stock
-													.get(j));
-									if (hojas_usadas < hojas_totales) {
-										Stock.setStockComoRemanente(id_Stock
-												.get(j));
-									} else {
-										Stock.setStockInactivo(id_Stock
-												.get(j));
-									}
-								}
-
+								}else{}//nohacenadasieligeno
+							}else{//si se sacaron hojas, se cierra la OT
+								cerrarOT(clave, proc, id_proc, cumplida);
 								obj = btnCancelar;
 							}
 						}
@@ -1468,7 +1440,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		if (obj == btnCancelar) 
 		{
-			//txtClear ();
 			setVisible (false);
 			dispose();
 		}
@@ -1480,6 +1451,47 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		TablaDeBusqueda_Top5.Actualizar();
 	}
 	
+
+	//cierra la OT, deja Stock como remanente o como inactivo. guarda las hijas restantes por sc de esta OT
+	private void cerrarOT(int clave, ArrayList<Integer> proc, ArrayList<Integer> id_proc, ArrayList<Boolean> cumplida) {
+
+		for (int i = 0; i < proc.size(); i++) {
+			Procesos_x_OT.setAvanceOT(clave,
+					id_proc.get(proc.get(i)),
+					cumplida.get(i));
+		}
+		Orden_Trabajo.CambiarEstado(clave,
+				"Cerrada");
+		Orden_Trabajo.setF_h_cierre(clave,
+				Metodos.getDateTimeActual(0));
+
+		/*
+		 * Si sobran hojas, quedan como remanente en
+		 * Stock
+		 */
+		ArrayList<Integer> id_Stock = Stock
+				.getIdStockSegunOT(clave);
+
+		for (int j = 0; j < id_Stock.size(); j++) {
+			Integer hojas_usadas = Stock
+					.getHojasUsadas(id_Stock.get(j));
+			Integer hojas_totales = Stock
+					.getHojasTotales(id_Stock
+							.get(j));
+			if (hojas_usadas < hojas_totales) {
+				Stock.setStockComoRemanente(id_Stock
+						.get(j));
+			} else {
+				Stock.setStockInactivo(id_Stock
+						.get(j));
+			}
+			//guardo en una tabla aparte por SC y por OT, la cant de hojas que sobraron
+			Remanente_sc_ot.llenarTablaRemanente_SC_OT(clave);
+		}			
+	}
+
+
+
 
 
 	private boolean elementosIguales() {

@@ -421,6 +421,8 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				//modificar Stock y Registrar Retiro de Stock
 				modificarHojasDeStockYRegistrarRetiro();
 				Adm_Stock.Actualizar();
+				TablaDeBusqueda.Actualizar();
+				TablaDeBusqueda_Top5.Actualizar();
 				dispose();
 			}
 		}

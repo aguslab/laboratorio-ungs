@@ -36,7 +36,8 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				nuevaOT.getTipoProducto().setText(OT.getNombre_Producto());
 				nuevaOT.getTipoProducto().setEditable(false);
 				
-				nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(OT.getF_confeccion(),1)));
+				nuevaOT.getCboMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(OT.getF_confeccion(),2)));
+				System.out.println(Metodos.dameMes(Metodos.separar(OT.getF_confeccion(),2)));
 				nuevaOT.getCboMes().setEnabled(false);
 				
 				nuevaOT.getCboDia().getModel().setSelectedItem(Metodos.separar(OT.getF_confeccion(), 2));

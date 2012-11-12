@@ -409,7 +409,6 @@ implements ItemListener,ActionListener, Config
 		panel1();		
 		panel2();	
 		panel3();
-		
 	}
 
 	public void itemStateChanged(ItemEvent ie)

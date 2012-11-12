@@ -69,6 +69,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		setFilas();
 
 		tablaBusquedaTop5.setModel(dtmMagesti);
+		tablaBusquedaTop5.getColumnModel().getColumn(0).setPreferredWidth(85);
 		jspTabla.add(tablaBusquedaTop5);
 		this.setSize(500, 200);
 
@@ -92,7 +93,6 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 		Integer aaaa = fecha.get(Calendar.YEAR);
 		String fechaHoy = "'" + aaaa + "-" + mm + "-" + dd + "'";
 		String cerrada = "'" + "Cerrada" + "'";
-
 		
 		ResultSet result;
 		result = ConexionDB.getbaseDatos().consultar(
@@ -161,7 +161,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 			}
 			catch(Exception e)
 			{
-				
+				e.printStackTrace();
 			}
 		}
 		

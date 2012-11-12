@@ -11,11 +11,17 @@ public class FilaSC
 	{
 		super();
 		this.nroSC = nroSC;
+		System.out.println("sc: "+nroSC);
 		this.f_h_recibido = f_h_recibido;
+		System.out.println(f_h_recibido);
 		this.fConfeccion = fConfeccion;
+		System.out.println(fConfeccion);
 		this.fEntrega = fEntrega;
+		System.out.println(fEntrega);
 		this.cantCompradas = cantCompradas;
+		System.out.println(cantCompradas);
 		this.hojasRestantes = hojasRestantes;
+		System.out.println(hojasRestantes);
 	}
 
 	public String getNroSC() 
