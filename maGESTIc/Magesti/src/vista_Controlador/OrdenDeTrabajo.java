@@ -1380,40 +1380,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 												JOptionPane.WARNING_MESSAGE);
 								if (opcion == JOptionPane.YES_OPTION) {
 									cerrarOT(clave, proc, id_proc, cumplida);
-//									for (int i = 0; i < proc.size(); i++) {
-//										Procesos_x_OT.setAvanceOT(clave,
-//												id_proc.get(proc.get(i)),
-//												cumplida.get(i));
-//									}
-//									Orden_Trabajo.CambiarEstado(clave,
-//											"Cerrada");
-//									Orden_Trabajo.setF_h_cierre(clave,
-//											Metodos.getDateTimeActual(0));
-//
-//									/*
-//									 * Si sobran hojas, quedan como remanente en
-//									 * Stock
-//									 */
-//									ArrayList<Integer> id_Stock = Stock
-//											.getIdStockSegunOT(clave);
-//
-//									for (int j = 0; j < id_Stock.size(); j++) {
-//										Integer hojas_usadas = Stock
-//												.getHojasUsadas(id_Stock.get(j));
-//										Integer hojas_totales = Stock
-//												.getHojasTotales(id_Stock
-//														.get(j));
-//										if (hojas_usadas < hojas_totales) {
-//											Stock.setStockComoRemanente(id_Stock
-//													.get(j));
-//										} else {
-//											Stock.setStockInactivo(id_Stock
-//													.get(j));
-//										}
-//										
-//										
-//									}
 									obj = btnCancelar;
+									
 								}else{}//nohacenadasieligeno
 							}else{//si se sacaron hojas, se cierra la OT
 								cerrarOT(clave, proc, id_proc, cumplida);
