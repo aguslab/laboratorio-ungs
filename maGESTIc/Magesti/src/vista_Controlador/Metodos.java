@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import Modelo.ConexionDB;
@@ -516,6 +517,16 @@ public class Metodos implements Config
 		}
 		
 		return Integer.parseInt(alto);
+	}
+	
+	public static void CartelExcesoDigitos(){
+		JOptionPane.showMessageDialog 
+		(
+			null, 
+			"Los precios no pueden superar los $999.999.Si es necesario, haga 2 SC diferentes.\nContactese con la empresa para obtener una version PRO",
+			qTITULO + " - Exceso dígitos", 
+			JOptionPane.WARNING_MESSAGE
+		);
 	}
 	
 }

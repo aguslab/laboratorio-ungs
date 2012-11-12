@@ -8,4 +8,5 @@ public interface Config
 	static final String qSUCURSAL = "0001-"; //Si cambia la sucursal, cambia este número
 	static final Double IVA= 21.0;
 	static final Integer Resma= 500;
+	static final Integer limiteNumerico=999999;
 }

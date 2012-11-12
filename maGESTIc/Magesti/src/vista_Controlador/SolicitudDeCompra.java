@@ -82,7 +82,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private JComboBox cbNroOT;
 	private TextArea txtDescripcionIncidencia;
 	private JLabel fechaHora;
-	private JButton btnImprimirReporte;
+	private JButton btnImprimirReporte,btnEditarValores;
 	private ArrayList<Integer> hojasMateriales= new ArrayList<Integer>();
 	private Integer id_OT;
 	
@@ -216,6 +216,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				id_OT=Metodos.getIdEnCombo(cbNroOT);
 				DefaultTableModel temp = (DefaultTableModel) tablaDetalles.getModel();
 				Metodos.borrarFilas(temp);
+				limpiarCamposPrecios();
 				if(!id_OT.equals(1)){//si no es para stockear
 					ArrayList<Integer> id_m= Materiales.getID_Materiales(id_OT);
 					ArrayList<Materiales> materiales = new ArrayList<Materiales>();
@@ -452,47 +453,49 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		//
 		//Autocalcular importe
 		//
-		TableColumnModel tc= tablaDetalles.getColumnModel();
-		tc.addColumnModelListener(new TableColumnModelListener() {
+//		TableColumnModel tc= tablaDetalles.getColumnModel();
+//		tc.addColumnModelListener(new TableColumnModelListener() {
 			
-			@Override
-			public void columnSelectionChanged(ListSelectionEvent arg0) {
-				Integer cantFilas = tablaDetalles.getRowCount();
+//			@Override
+//			public void columnSelectionChanged(ListSelectionEvent arg0) {
+//				Integer cantFilas = tablaDetalles.getRowCount();
+//
+//				for (int i = 0; i < cantFilas; i++) {
+//					// solo si las columnas tiene valores
+//					if (tablaDetalles.getValueAt(i, 0) != null
+//							&& tablaDetalles.getValueAt(i, 5) != null
+//							&& tablaDetalles.getValueAt(i, 6) != null
+//							&& tablaDetalles.getValueAt(i, 7) != null
+//							&& !tablaDetalles.getValueAt(i, 0).toString()
+//									.equals("")
+//							&& !tablaDetalles.getValueAt(i, 5).toString()
+//									.equals("")
+//							&& !tablaDetalles.getValueAt(i, 6).toString()
+//									.equals("")
+//							&& !tablaDetalles.getValueAt(i, 7).toString()
+//									.equals("")) {
+//
+//						
+//						// calcular importe
+//						Double importe=getImporte(i);
+//						tablaDetalles.setValueAt(importe, i, 8);
+//					}
+//				}
+//			}
 
-				for (int i = 0; i < cantFilas; i++) {
-					// solo si las columnas tiene valores
-					if (tablaDetalles.getValueAt(i, 0) != null
-							&& tablaDetalles.getValueAt(i, 5) != null
-							&& tablaDetalles.getValueAt(i, 6) != null
-							&& tablaDetalles.getValueAt(i, 7) != null
-							&& !tablaDetalles.getValueAt(i, 0).toString()
-									.equals("")
-							&& !tablaDetalles.getValueAt(i, 5).toString()
-									.equals("")
-							&& !tablaDetalles.getValueAt(i, 6).toString()
-									.equals("")
-							&& !tablaDetalles.getValueAt(i, 7).toString()
-									.equals("")) {
-						// calcular importe
-						Double importe=getImporte(i);
-						tablaDetalles.setValueAt(importe, i, 8);
-						
-					}
-				}
-			}
-			
-			@Override
-			public void columnRemoved(TableColumnModelEvent arg0) {}
-			
-			@Override
-			public void columnMoved(TableColumnModelEvent arg0) {}
-			
-			@Override
-			public void columnMarginChanged(ChangeEvent arg0) {}
-			
-			@Override
-			public void columnAdded(TableColumnModelEvent arg0) {}
-		});
+
+//			@Override
+//			public void columnRemoved(TableColumnModelEvent arg0) {}
+//			
+//			@Override
+//			public void columnMoved(TableColumnModelEvent arg0) {}
+//			
+//			@Override
+//			public void columnMarginChanged(ChangeEvent arg0) {}
+//			
+//			@Override
+//			public void columnAdded(TableColumnModelEvent arg0) {}
+//		});
 			
 		
 		
@@ -558,46 +561,90 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		btnAlmacenar = new JButton("Calcular Totales", new ImageIcon ("Imagenes/ok.png"));
 		btnAlmacenar.setBounds(732, 172, 140, 30);
 		panDetalles.add(btnAlmacenar);
+		
+		btnEditarValores = new JButton("Editar Valores", null);
+		btnEditarValores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tablaDetalles.setEnabled(true);
+				btnConfirmar.setEnabled(false);
+				btnAgregar.setEnabled(true);
+				btnBorrar.setEnabled(true);
+			}
+		});
+		btnEditarValores.setBounds(558, 172, 140, 30);
+		panDetalles.add(btnEditarValores);
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				// 
 				// PRIMERO CHEQUEAR QUE ESTEN TODOS LOS CAMPOS COMPLETOS
 				//DESPUES...
 				int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
-				boolean celdas_ok=false;
-				for(int i=0;i<cantFilas;i++){
-					for(int j=0;j<cantCol;j++){
+				boolean celdas_ok=true;
+				for (int i = 0; i < cantFilas; i++) {
+					for (int j = 0; j < cantCol-1; j++) {
 						if (tablaDetalles.getValueAt(i, j) == null
 								|| tablaDetalles.getValueAt(i, j).toString()
 										.equals("")) {
-							celdas_ok=false;
+							celdas_ok = false;
 							break;
-						}else if(i==(cantFilas-1) && j==(cantCol-1) ){
-							celdas_ok=true;
 						}
-						}
+						Double importe=getImporte(i);
+						tablaDetalles.setValueAt(importe, i, 8);
 					}
+				}
 				
 				if(celdas_ok){
+					Boolean digitosOK=true;//verifica que no pase el limite de digitos numericos
 					//calcular subotal, monto IVA, total
 					Double subtotal=0.0;
 					Double monto_iva=0.0;
 					Double total=0.0;
 					cantFilas=tablaDetalles.getRowCount();
+					
+					for (int j = 0; j < cantFilas; j++) {
+						Double pu = (Double) tablaDetalles.getValueAt(j, 6);
+						Double importe=(Double) tablaDetalles.getValueAt(j, 8);
+						if (new Integer(pu.intValue()) > Config.limiteNumerico || new Integer(importe.intValue()) > Config.limiteNumerico) {
+							digitosOK = false;
+							break;
+						}
+					}
+					
+					if(digitosOK){
 					for (int k = 0; k < cantFilas; k++) {
 						subtotal = subtotal
 								+ (Double) tablaDetalles.getValueAt(k, 8);
 					}
 					monto_iva = subtotal * Config.IVA / 100;
 					total = subtotal + monto_iva;
-					DecimalFormat df= new DecimalFormat("0.00");
-					df.format(subtotal);
-					txtSubtotal.setText(Metodos.pasarAPesos(df.format(subtotal)));
-					txtMontoIVA.setText("$ " + df.format(monto_iva));
-					txtTotal.setText("$ " + df.format(total));
-				}else{
+					}
+					
+					Integer subt=subtotal.intValue();
+					Integer montoIVA=monto_iva.intValue();
+					Integer tot=total.intValue();
+					if(!digitosOK || subt>Config.limiteNumerico || montoIVA>Config.limiteNumerico || tot>Config.limiteNumerico || new Integer(Config.IVA.intValue()) > Config.limiteNumerico){
+						limpiarCamposPrecios();
+						Metodos.CartelExcesoDigitos();
+					}else{
+						DecimalFormat df= new DecimalFormat("0.00");
+						df.format(subtotal);
+						txtSubtotal.setText(Metodos.pasarAPesos(df.format(subtotal)));
+						txtMontoIVA.setText("$ " + df.format(monto_iva));
+						txtTotal.setText("$ " + df.format(total));
+						//deshabilito botones para que no se pueda editar la tabla
+						tablaDetalles.setEnabled(false);
+						btnAgregar.setEnabled(false);
+						btnBorrar.setEnabled(false);
+						//habilita el boton confirmar
+						btnConfirmar.setEnabled(true);
+					}
+				
+				}
+				else// si falta completar alguna celda
+				{
 					JOptionPane.showMessageDialog(null,"Debe completar todas las celdas!!!");
 				}
 				
@@ -620,6 +667,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		btnConfirmar = new JButton("Guardar", new ImageIcon ("Imagenes/confirmar3.png"));
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.setBounds(655, 501, 120, 30);
+		btnConfirmar.setEnabled(false);
 		JpSolicitudDeCompra.add(btnConfirmar);
 		btnConfirmar.addActionListener(this);
 		
@@ -952,6 +1000,14 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 			}
 		}
+	}
+	
+	
+	
+	private void limpiarCamposPrecios() {
+		txtSubtotal.setText("");
+		txtMontoIVA.setText("");
+		txtTotal.setText("");
 	}
 	
 	
