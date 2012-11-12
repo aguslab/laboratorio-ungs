@@ -557,18 +557,18 @@ public class Orden_Trabajo implements Config
 		return OT;	
 	}
 	
-	public static String getId_Con_nom_OT(String nom_ot) 
+	public static String getId_Con_nom_OT(Integer id_OT) 
 	{
 		
 		String Id_Con_nom_OT="";
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE nombre_trabajo="+"'"+nom_ot+"'");
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT nombre_trabajo FROM orden_trabajo WHERE id_orden_trabajo="+id_OT);
 
 		if(resultado != null){
 			try {
 				while(resultado.next()){
 					
-						Integer id_ot=resultado.getInt("id_orden_trabajo");
-						String id_OT_Formato = Metodos.EnteroAFactura(id_ot);
+						String nom_ot=resultado.getString("nombre_trabajo");
+						String id_OT_Formato = Metodos.EnteroAFactura(id_OT);
 						Id_Con_nom_OT=id_OT_Formato+"  -  "+nom_ot;
 				}
 			} catch (SQLException e) {
