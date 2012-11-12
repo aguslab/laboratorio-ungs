@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSC.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ee0ce584-1f85-4455-b0d7-d96ee679fd05">
-	<property name="ireport.zoom" value="1.2100000000000062"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSC.jrxml" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ee0ce584-1f85-4455-b0d7-d96ee679fd05">
+	<property name="ireport.zoom" value="1.6105100000000092"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
@@ -33,7 +33,7 @@
 	<columnHeader>
 		<band height="37">
 			<staticText>
-				<reportElement uuid="a8d9b504-48c8-4a08-954e-9dd00fa5b2d9" mode="Opaque" x="0" y="0" width="133" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="a8d9b504-48c8-4a08-954e-9dd00fa5b2d9" mode="Opaque" x="75" y="0" width="139" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -46,7 +46,7 @@
 				<text><![CDATA[Nro. Solicitud de Compra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8c3adb7b-30d3-48e6-937f-44aa47557e8c" mode="Opaque" x="133" y="0" width="114" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="8c3adb7b-30d3-48e6-937f-44aa47557e8c" mode="Opaque" x="214" y="0" width="114" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -60,7 +60,7 @@
 Registro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="921a9c29-c808-4464-b8e6-2d8bc49e7ab9" mode="Opaque" x="247" y="0" width="98" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="921a9c29-c808-4464-b8e6-2d8bc49e7ab9" mode="Opaque" x="328" y="0" width="98" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -74,7 +74,7 @@ Registro]]></text>
 Confección]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a3992b84-19e9-4b4f-9959-33c089fcf9b7" mode="Opaque" x="344" y="0" width="93" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="a3992b84-19e9-4b4f-9959-33c089fcf9b7" mode="Opaque" x="425" y="0" width="93" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -88,7 +88,7 @@ Confección]]></text>
 Entrega]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b4dfb5a6-987a-4eb1-ab95-95444afa904f" mode="Opaque" x="437" y="0" width="97" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="b4dfb5a6-987a-4eb1-ab95-95444afa904f" mode="Opaque" x="518" y="0" width="102" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -102,7 +102,7 @@ Entrega]]></text>
 Hojas Compradas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="698d1f4d-a16a-4ba5-a3d5-e9e661b8c7f3" mode="Opaque" x="534" y="0" width="61" height="37" backcolor="#A8BDCF"/>
+				<reportElement uuid="698d1f4d-a16a-4ba5-a3d5-e9e661b8c7f3" mode="Opaque" x="620" y="0" width="61" height="37" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -120,7 +120,7 @@ Restantes]]></text>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="c93d7a7c-b0ad-410f-a05a-2b959b7b3e15" x="0" y="0" width="133" height="20"/>
+				<reportElement uuid="c93d7a7c-b0ad-410f-a05a-2b959b7b3e15" x="75" y="0" width="139" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -133,7 +133,7 @@ Restantes]]></text>
 				<textFieldExpression><![CDATA[$F{nroSC}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="8e8cf8f8-8617-4491-8a35-e157a0c891ee" x="133" y="0" width="114" height="20"/>
+				<reportElement uuid="8e8cf8f8-8617-4491-8a35-e157a0c891ee" x="214" y="0" width="114" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -146,7 +146,7 @@ Restantes]]></text>
 				<textFieldExpression><![CDATA[$F{f_h_recibido}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="f47534d6-f14f-4dd9-914e-c4c371b22b68" x="247" y="0" width="97" height="20"/>
+				<reportElement uuid="f47534d6-f14f-4dd9-914e-c4c371b22b68" x="328" y="0" width="97" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -159,7 +159,7 @@ Restantes]]></text>
 				<textFieldExpression><![CDATA[$F{fConfeccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4be0d1f8-3462-485b-8844-4b065ba81dc1" x="344" y="0" width="93" height="20"/>
+				<reportElement uuid="4be0d1f8-3462-485b-8844-4b065ba81dc1" x="425" y="0" width="93" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -172,7 +172,7 @@ Restantes]]></text>
 				<textFieldExpression><![CDATA[$F{fEntrega}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="5c0f15ff-4abd-44b7-a26e-78f484da61e8" x="437" y="0" width="97" height="20"/>
+				<reportElement uuid="5c0f15ff-4abd-44b7-a26e-78f484da61e8" x="518" y="0" width="102" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -185,7 +185,7 @@ Restantes]]></text>
 				<textFieldExpression><![CDATA[$F{cantCompradas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="6af960b3-f242-42f8-9ba0-05310c64b35d" x="534" y="0" width="61" height="20"/>
+				<reportElement uuid="6af960b3-f242-42f8-9ba0-05310c64b35d" x="620" y="0" width="61" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

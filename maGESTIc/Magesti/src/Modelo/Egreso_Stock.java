@@ -162,31 +162,35 @@ public class Egreso_Stock {
 
 	public static ArrayList<FilaSC> getSC(Integer id_OT)
 	{
-		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 
-				"SELECT distinct sc.id_solicitud_compra, rp.f_h_recibido,sc.f_confeccion, sc.f_entrega, d.cantidad, re.remanente FROM detalle d inner join solicitud_compra sc on d.id_solicitud_compra=sc.id_solicitud_compra inner join remanente_sc_ot re on re.id_solicitud_compra=sc.id_solicitud_compra inner join recepcion_pedido rp on rp.id_solicitud_compra=sc.id_solicitud_compra where sc.id_solicitud_compra IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra AND s.id_orden_trabajo="+id_OT +")  AND d.recibido=true");
-				
-				ArrayList<FilaSC> SCs = new ArrayList<FilaSC>();
-				if (resultado != null)
+		"SELECT distinct sc.id_solicitud_compra, rp.f_h_recibido,sc.f_confeccion," +
+		" sc.f_entrega, d.cantidad, re.remanente FROM detalle d " +
+		"INNER JOIN solicitud_compra sc ON d.id_solicitud_compra=sc.id_solicitud_compra " +
+		"INNER JOIN remanente_sc_ot re on re.id_solicitud_compra=sc.id_solicitud_compra " +
+		"INNER JOIN recepcion_pedido rp on rp.id_solicitud_compra=sc.id_solicitud_compra " +
+		"WHERE sc.id_solicitud_compra IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r " +
+		"INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra " +
+		"AND s.id_orden_trabajo="+id_OT +") AND d.recibido=true;");
+		
+		ArrayList<FilaSC> SCs = new ArrayList<FilaSC>();
+		if (resultado != null)
+		{
+			try 
+			{
+				while (resultado.next())
 				{
-					try 
-					{
-						while (resultado.next())
-						{
-							
-							FilaSC fsc = new FilaSC(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), 
-									resultado.getString("f_confeccion"),resultado.getString("f_entrega"), resultado.getInt("cantidad"),resultado.getInt("remanente"));
-							
-							SCs.add(fsc);
-						}
-					} 
-					catch (Exception e) 
-					{
-						e.printStackTrace();
-					}
+					FilaSC fsc = new FilaSC(Metodos.EnteroAFactura(Integer.parseInt(resultado.getString("id_solicitud_compra"))), resultado.getString("f_h_recibido"), 
+							resultado.getString("f_confeccion"),resultado.getString("f_entrega"), resultado.getInt("cantidad"),resultado.getInt("remanente"));
+					SCs.add(fsc);
 				}
-				return SCs;
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return SCs;
 	}
 	
 	public static ArrayList<FilaRetiros> getRetirosStock(Integer id_OT) 

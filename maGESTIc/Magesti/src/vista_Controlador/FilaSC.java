@@ -9,7 +9,6 @@ public class FilaSC
 	public FilaSC(String nroSC, String f_h_recibido, String fConfeccion,
 			String fEntrega, Integer cantCompradas, Integer hojasRestantes) 
 	{
-		super();
 		this.nroSC = nroSC;
 		System.out.println("sc: "+nroSC);
 		this.f_h_recibido = f_h_recibido;
