@@ -301,4 +301,27 @@ public class Solicitud_compra {
 
 		return id_sc;
 	}
+	
+	public static Solicitud_compra getSC(Integer id_SC) {
+
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT * FROM solicitud_compra WHERE id_solicitud_compra=" + id_SC);
+
+		Solicitud_compra SC = null;
+
+		if (resultado != null) {
+
+			try {
+				while (resultado.next()) {
+					SC = new Solicitud_compra(id_SC, resultado.getString("f_confeccion"), resultado.getInt("id_proveedor"), resultado.getString("vendedor"), resultado.getInt("id_orden_trabajo"), resultado.getBoolean("envia_proveedor"), resultado.getString("direccion_retiro"), resultado.getString("f_entrega"), resultado.getString("horario_entrega"), resultado.getDouble("subtotal"), resultado.getDouble("porcentaje_iva"), resultado.getDouble("monto_iva"), resultado.getDouble("total"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return SC;
+	}
+	
+	
 }

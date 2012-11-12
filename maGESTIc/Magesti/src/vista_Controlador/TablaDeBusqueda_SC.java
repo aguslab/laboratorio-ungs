@@ -1,16 +1,17 @@
 package vista_Controlador;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultEditorKit.BeepAction;
 
 import Modelo.Calidad;
 import Modelo.ConexionDB;
 import Modelo.Detalle;
 import Modelo.Formato_Papel;
 import Modelo.Orden_Trabajo;
+import Modelo.Proveedor;
 import Modelo.Recepcion_pedido;
 import Modelo.Solicitud_compra;
 import Modelo.Stock;
@@ -72,41 +73,44 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				//Cargo en la ventana de SC los valores de la fila elegida
 				final Integer id_SC=Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
-				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(id_SC));
 				
-				nuevaSC.getCbProveedor().setSelectedItem(tablaBusqueda.getValueAt(filaElegida, 2));
+				Solicitud_compra SC=Solicitud_compra.getSC(id_SC);
+				
+				nuevaSC.getTxtNumero().setText(Metodos.EnteroAFactura(SC.getId_solicitud_compra()));
+				
+				nuevaSC.getCbProveedor().setSelectedItem(Proveedor.getRazonSocial(SC.getId_proveedor()));
 				nuevaSC.getCbProveedor().setEnabled(false);
 				
-				nuevaSC.getTxtFecha().setText(tablaBusqueda.getValueAt(filaElegida, 1).toString());
-				nuevaSC.getTxtVendedor().setText((String) tablaBusqueda.getValueAt(filaElegida, 3));
+				nuevaSC.getTxtFecha().setText(Metodos.YMDaDMY(SC.getF_confeccion()));
+				nuevaSC.getTxtVendedor().setText(SC.getVendedor());
 				nuevaSC.getTxtVendedor().setEditable(false);
 				
-				String nom_ot=tablaBusqueda.getValueAt(filaElegida, 4).toString();
-				nom_ot=Orden_Trabajo.getId_Con_nom_OT(nom_ot);
+				//String nom_ot=tablaBusqueda.getValueAt(filaElegida, 4).toString();
+				String nom_ot=Orden_Trabajo.getId_Con_nom_OT(SC.getId_orden_trabajo());
 				nuevaSC.getCbNroOT().setSelectedItem(nom_ot);
 				nuevaSC.getCbNroOT().setEnabled(false);
 				
 				
 				//si envia a proveedor...
-				if(tablaBusqueda.getValueAt(filaElegida, 5).toString().equals("SI")){
+				if(SC.isEnvia_proveedor()){
 					nuevaSC.getRdbtnEnviarAProveedor().setSelected(true);
 					nuevaSC.getTxtDireccionRetiro().setEnabled(false);
 				}else{
 					nuevaSC.getRdbtnRetirar().setSelected(true);
-					nuevaSC.getTxtDireccionRetiro().setText(tablaBusqueda.getValueAt(filaElegida, 6).toString());
+					nuevaSC.getTxtDireccionRetiro().setText(SC.getDireccion_retiro());
 					nuevaSC.getTxtDireccionRetiro().setEditable(false);
 				}
 				nuevaSC.getRdbtnEnviarAProveedor().setEnabled(false);
 				nuevaSC.getRdbtnRetirar().setEnabled(false);
 				
 				
-				nuevaSC.getCbMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 1)));
+				nuevaSC.getCbMes().getModel().setSelectedItem(Metodos.dameMes(Metodos.separar(SC.getF_entrega(), 1)));
 				nuevaSC.getCbMes().setEnabled(false);
 				
-				nuevaSC.getCbDia().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 0));
+				nuevaSC.getCbDia().getModel().setSelectedItem(Metodos.separar(SC.getF_entrega(), 2));
 				nuevaSC.getCbDia().setEnabled(false);
 				
-				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(tablaBusqueda.getValueAt(filaElegida, 7).toString(), 2));
+				nuevaSC.getCbAnio().getModel().setSelectedItem(Metodos.separar(SC.getF_entrega(), 0));
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
@@ -119,7 +123,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				}
 				
 				//si horario entrega es M
-				if(tablaBusqueda.getValueAt(filaElegida, 8).equals("M")){
+				if(SC.getHorario_entrega().equals("M")){
 					nuevaSC.getRbManiana().setSelected(true);
 				}else{
 					nuevaSC.getRbTarde().setSelected(true);
@@ -127,10 +131,10 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getRbTarde().setEnabled(false);
 				nuevaSC.getRbManiana().setEnabled(false);
 				
-				nuevaSC.getTxtSubtotal().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 9).toString()));
+				nuevaSC.getTxtSubtotal().setText(Metodos.pasarAPesos(SC.getSubtotal().toString()));
 				nuevaSC.getTxtIVA().setText(tablaBusqueda.getValueAt(filaElegida, 10).toString()+" %");
-				nuevaSC.getTxtMontoIVA().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 11).toString()));
-				nuevaSC.getTxtTotal().setText(Metodos.pasarAPesos(tablaBusqueda.getValueAt(filaElegida, 12).toString()));
+				nuevaSC.getTxtMontoIVA().setText(Metodos.pasarAPesos(SC.getMonto_iva().toString()));
+				nuevaSC.getTxtTotal().setText(Metodos.pasarAPesos(SC.getTotal().toString()));
 				
 				
 				
@@ -292,6 +296,8 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 						RP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
 						Magesti.getEscritorio().add (RP);						
 						RP.show ();
+					}else{
+						RP.toFront();
 					}
 				}
 				});
