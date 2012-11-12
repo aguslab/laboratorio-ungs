@@ -1004,14 +1004,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		//controlar que si se hace click en tercerizada, se bloqueen los campos proveedor y observaciones
 		tablaOrdenDeEjecucion.addMouseListener(new MouseAdapter() 
  {
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) 
+			{
 				int fila = tablaOrdenDeEjecucion.rowAtPoint(e.getPoint());
 				int columna = tablaOrdenDeEjecucion.columnAtPoint(e.getPoint());
 
-				for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) {
-					if (columna == 1) {
+				for (int i = 0; i < tablaOrdenDeEjecucion.getRowCount(); i++) 
+				{
+					if (columna == 1)
+					{
 						if (!(Boolean) tablaOrdenDeEjecucion.getValueAt(fila,
-								columna)) {
+								columna)) 
+						{
 							tablaOrdenDeEjecucion.setValueAt("", fila, 2);
 							tablaOrdenDeEjecucion.setValueAt("", fila, 3);
 						}
@@ -1077,10 +1081,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		jpOrdenDeTrabajo.add(lblFechaCierre);
 		lblFechaCierre.setVisible(false);
 	}
-
-	
-	
-
 
 	//Chequear un poco lo ingresado antes de guardar
 	public void actionPerformed (ActionEvent ae) 

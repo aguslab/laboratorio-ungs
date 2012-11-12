@@ -2,9 +2,6 @@ package vista_Controlador;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyVetoException;
-import java.io.EOFException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
 
 import javax.swing.*;
 
@@ -18,8 +15,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
 	private static JDesktopPane escritorio = new JDesktopPane ();
 	
-	private JInternalFrame OT, SC, buscarOT, stock;
-	private JInternalFrame Calendario;
+	private JInternalFrame Calendario, OT, SC, TablaTop5,Ayuda,Atajos;
 	private JMenuBar barra;
 	private int numeroAureo;
 	private JMenu 
@@ -50,7 +46,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Procesos;
 	private	JMenuItem 
 		mostrarCalendario;
-		//reporte;
 	
 	private	JMenuItem 
 		ayudaContenido, 
@@ -137,13 +132,13 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		);
 		Calendario.show ();
 		
-		TablaDeBusqueda_Top5 tablaTop5 = new TablaDeBusqueda_Top5();
-		escritorio.add (tablaTop5);
-		tablaTop5.setBounds
+		TablaTop5 = new TablaDeBusqueda_Top5();
+		escritorio.add (TablaTop5);
+		TablaTop5.setBounds
 		(
 				503,0,Toolkit.getDefaultToolkit().getScreenSize().width  - Calendario.getWidth(),216
 		);
-		tablaTop5.show ();
+		TablaTop5.show ();
 		
 		mnuOrdenDeTrabajo = new JMenu ("Orden de Trabajo  ");
 		mnuOrdenDeTrabajo.setMnemonic ((int)'O');
@@ -358,8 +353,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Object obj = ae.getSource();
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
-			boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
-			if (b == false) 
+			//boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
+			if (OT == null || !OT.isShowing()) 
 			{
 				OT = new OrdenDeTrabajo ();
 				escritorio.add (OT);
@@ -368,20 +363,19 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == consultarOrdenDeTrabajo)
 		{
-
-				boolean b = Metodos.openChildWindow ("Buscador");
-				if (b == false) 
-				{
-					TablaDeBusqueda_Top5 tablaConsultar = new TablaDeBusqueda_Top5();
-					escritorio.add (tablaConsultar);
-					tablaConsultar.show ();
-					try {
-						tablaConsultar.setMaximum(true);
-					} catch (PropertyVetoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			boolean b = Metodos.openChildWindow ("Buscador");
+			if (b == false) 
+			{
+				TablaDeBusqueda_Top5 tablaConsultar = new TablaDeBusqueda_Top5();
+				escritorio.add (tablaConsultar);
+				tablaConsultar.show ();
+				try {
+					tablaConsultar.setMaximum(true);
+				} catch (PropertyVetoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			}
 
 		}
 		/*else if (obj == btnBuscarSolicitudDeCompra) 
@@ -403,12 +397,11 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == ingresarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
 		{
 			{
-				boolean b = Metodos.openChildWindow ("SC");
-				if (b == false && SC == null) 
+				if (SC == null || !SC.isShowing()) 
 				{
-					SolicitudDeCompra nSC = new SolicitudDeCompra(false);
-					escritorio.add (nSC);
-					nSC.show ();
+					SC = new SolicitudDeCompra(false);
+					escritorio.add (SC);
+					SC.show ();
 				}
 				
 			}
@@ -515,7 +508,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 			{
 				Adm_Atributos admAtributos= new Adm_Atributos();
 				escritorio.add (admAtributos);
-				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 				admAtributos.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
 				admAtributos.show ();
 			}
@@ -554,22 +546,20 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{
-			boolean b = Metodos.openChildWindow ("Ayuda Magesti");
-			if (b == false) 
+			if (Ayuda == null || !Ayuda.isShowing()) 
 			{
-				MagestiHelp hlpMagesti = new MagestiHelp ("Contenido de Ayuda", "Ayuda/Magesti.htm");
-				escritorio.add (hlpMagesti);
-				hlpMagesti.show ();
+				Ayuda = new MagestiHelp ("Contenido de Ayuda", "Ayuda/Magesti.htm");
+				escritorio.add (Ayuda);
+				Ayuda.show ();
 			}
 		}
 		else if (obj == ayudaAtajos) 
 		{
-			boolean b = Metodos.openChildWindow ("Atajos Magesti");
-			if (b == false) 
+			if (Atajos == null || !Atajos.isShowing()) 
 			{
-				MagestiHelp hlpAtajos = new MagestiHelp ("Atajos / Combinaciones de teclas", "Ayuda/Atajos.htm");
-				escritorio.add (hlpAtajos);
-				hlpAtajos.show ();
+				Atajos = new MagestiHelp ("Atajos / Combinaciones de teclas", "Ayuda/Atajos.htm");
+				escritorio.add (Atajos);
+				Atajos.show ();
 			}
 
 		}

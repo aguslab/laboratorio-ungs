@@ -32,6 +32,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 	private JPanel jpMostrar = new JPanel ();
 	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
+	private JInternalFrame RP;
 	private static JTable tablaBusqueda;
 	
 	TablaDeBusqueda_SC(String titulo) 
@@ -281,24 +282,19 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 					
 				}
 				//Accion boton INCOMPLETA
-				nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() {
-					
-					@Override
-						public void actionPerformed(ActionEvent e) {
-						boolean b = Metodos.openChildWindow ("SC");
-						
-						if (b == false) 
-						{
-						Recepcion_Pedido nRP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
-						Magesti.getEscritorio().add (nRP);						
-						nRP.show ();
-						}
-						
+				nuevaSC.getBtnIncompleta().addActionListener(new ActionListener() 
+				{
+				@Override
+					public void actionPerformed(ActionEvent e) 
+				{
+					if (RP == null || !RP.isShowing()) 
+					{
+						RP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
+						Magesti.getEscritorio().add (RP);						
+						RP.show ();
 					}
+				}
 				});
-				
-				
-				
 			}
 		});
 		
