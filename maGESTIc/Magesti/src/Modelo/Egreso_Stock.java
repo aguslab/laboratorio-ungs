@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import vista_Controlador.FilaRetiros;
+import vista_Controlador.FilaSC;
 import vista_Controlador.Metodos;
 
 public class Egreso_Stock {
@@ -159,13 +160,50 @@ public class Egreso_Stock {
 	}
 
 
-	public static ArrayList<FilaRetiros> getRetirosStock(Integer nroOT) 
+	public static ArrayList<FilaSC> getSC(Integer id_OT)
 	{
-		String remanente = "";
+		Integer cantRestantes = 0;
 		Integer cantCompradas = 0;
+		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-		"SELECT es.id_stock, es.id_materiales, es.id_egreso_stock,s.id_solicitud_compra, rp.f_h_recibido, sc.f_confeccion, sc.f_entrega, es.fecha,es.cant_hojas_retiradas, s.Remanente,es.empleado FROM egreso_stock es inner join stock s ON es.id_stock= s.id_stock" +
-                " INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra INNER JOIN recepcion_pedido rp ON rp.id_solicitud_compra = s.id_solicitud_compra  WHERE s.id_orden_trabajo =" + nroOT);
+				"SELECT sc.id_solicitud_compra, d.cantidad FROM detalle d INNER JOIN solicitud_compra sc " +
+				"ON d.id_solicitud_compra=sc.id_solicitud_compra WHERE sc.id_solicitud_compra IN " +
+				"(SELECT r.id_solicitud_compra FROM recepcion_pedido r INNER JOIN solicitud_compra s " +
+				"ON r.id_solicitud_compra = s.id_solicitud_compra AND s.id_orden_trabajo =" + id_OT + ") AND d.recibido=true");
+				
+				ArrayList<FilaSC> SCs = new ArrayList<FilaSC>();
+				if (resultado != null)
+				{
+					try 
+					{
+						while (resultado.next())
+						{
+							cantCompradas = getCantCompradasSC(Metodos.FacturaAEntero(resultado.getString("id_Solicitud_Compra")));
+							cantRestantes = getRemanenteHasta(resultado.getInt("id_egreso_stock"),resultado.getInt("id_materiales"),resultado.getInt("id_stock"));
+							
+							FilaSC fsc = new FilaSC(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), 
+									resultado.getString("f_confeccion"),resultado.getString("f_entrega"), cantCompradas,cantRestantes);
+							
+							SCs.add(fsc);
+						}
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
+				}
+				return SCs;
+	}
+	
+	public static ArrayList<FilaRetiros> getRetirosStock(Integer id_OT) 
+	{
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+		"SELECT s.id_solicitud_compra, es.fecha,es.cant_hojas_retiradas,es.empleado " +
+		"FROM egreso_stock es INNER JOIN stock s ON es.id_stock = s.id_stock " +
+		"INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra " +
+		"INNER JOIN materiales m ON es.id_materiales=m.id_materiales " +
+		"INNER JOIN elemento e ON e.id_elemento=m.id_materiales WHERE e.id_orden_trabajo =" + id_OT);
+		
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
 		if (resultado != null)
 		{
@@ -173,13 +211,8 @@ public class Egreso_Stock {
 			{
 				while (resultado.next())
 				{
-					
-					//cantCompradas = getCantCompradasSC(Metodos.FacturaAEntero(resultado.getString("id_Solicitud_Compra")));
-					remanente = getRemanenteHasta(resultado.getInt("id_egreso_stock"),resultado.getInt("id_materiales"),resultado.getInt("id_stock"));
-					System.out.println(resultado.getString("f_h_recibido"));
-					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("f_h_recibido"), resultado.getString("f_confeccion"), 
-							resultado.getString("f_entrega"),resultado.getString("fecha"),new Integer(resultado.getInt("cant_hojas_retiradas")),
-							remanente, resultado.getString("Empleado"));
+					FilaRetiros fr = new FilaRetiros(resultado.getString("id_Solicitud_Compra"), resultado.getString("fecha"), 
+							new Integer(resultado.getInt("cant_hojas_retiradas")),resultado.getString("Empleado"));
 					
 					retiros.add(fr);
 				}
@@ -194,7 +227,7 @@ public class Egreso_Stock {
 
 
 
-	private static String getRemanenteHasta(Integer id_es, Integer id_material,Integer id_stock) 
+	private static Integer getRemanenteHasta(Integer id_es, Integer id_material,Integer id_stock) 
 	{
 		Integer remanente=0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
@@ -217,7 +250,7 @@ public class Egreso_Stock {
 				e.printStackTrace();
 			}
 		}
-		return remanente.toString();
+		return remanente;
 	}
 
 	private static Integer getCantCompradasSC(Integer id_sc) 

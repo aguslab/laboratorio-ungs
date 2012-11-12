@@ -6,6 +6,7 @@ public class ReporteFinal
 {
 	private String nroOT, nombreOT;
 	private Integer cantCompradas;
+	private ArrayList<FilaSC> scs;
 	private ArrayList<FilaRetiros> retiros;
 	private ArrayList<FilaElementos> elementos;
 	
@@ -16,11 +17,12 @@ public class ReporteFinal
 	}
 	
 	
-	public ReporteFinal(String nroOT, String nombreOT, Integer cantCompradas, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
+	public ReporteFinal(String nroOT, String nombreOT, Integer cantCompradas,ArrayList<FilaSC> scs, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
 	{
 		this.nroOT = nroOT;
 		this.nombreOT = nombreOT;
 		this.cantCompradas = cantCompradas;
+		this.scs = scs;
 		this.retiros = retiros;
 		this.elementos = elementos;
 	}
@@ -75,6 +77,18 @@ public class ReporteFinal
 	public void setCantCompradas(Integer cantCompradas)
 	{
 		this.cantCompradas = cantCompradas;
+	}
+
+
+	public ArrayList<FilaSC> getScs() 
+	{
+		return scs;
+	}
+
+
+	public void setScs(ArrayList<FilaSC> scs)
+	{
+		this.scs = scs;
 	}
 	
 	
