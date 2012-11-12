@@ -1930,7 +1930,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private void reporteFinal()
 	{
 		String nroOT = getTxtNro().getText();
-		Integer id_OT  =Metodos.FacturaAEntero(nroOT);
+		Integer id_OT = Metodos.FacturaAEntero(nroOT);
         Integer cantCompradas = Egreso_Stock.getCantCompradasOT(id_OT);
 
 		//guardo en un arraylist las filas de la tabla Elementos
@@ -1941,7 +1941,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
         	rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
                           (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
         }
-		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getRetirosStock(id_OT), rElementos);
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getSC(id_OT),Egreso_Stock.getRetirosStock(id_OT), rElementos);
 		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
