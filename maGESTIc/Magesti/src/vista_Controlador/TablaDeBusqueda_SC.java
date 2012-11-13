@@ -87,7 +87,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				
 				//String nom_ot=tablaBusqueda.getValueAt(filaElegida, 4).toString();
 				String nom_ot=Orden_Trabajo.getId_Con_nom_OT(SC.getId_orden_trabajo());
-				nuevaSC.getCbNroOT().setSelectedItem(nom_ot);
+				nuevaSC.getCbNroOT().getModel().setSelectedItem(nom_ot);
 				nuevaSC.getCbNroOT().setEnabled(false);
 				
 				
