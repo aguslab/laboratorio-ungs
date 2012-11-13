@@ -15,7 +15,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
 	private static JDesktopPane escritorio = new JDesktopPane ();
 	
-	private JInternalFrame Calendario, OT, SC, TablaTop5,Ayuda,Atajos;
+	private JInternalFrame Calendario, OT, BuscarOT, SC, BuscarSC, TablaTop5, Clientes, Proveedores, AtributosPapel, ProcesosOT, Stocks,Ayuda,Atajos;
 	private JMenuBar barra;
 	private int numeroAureo;
 	private JMenu 
@@ -353,24 +353,26 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Object obj = ae.getSource();
 		if (obj == ingresarOrdenDeTrabajo || obj == btnNuevaOrdenDeTrabajo) 
 		{
-			//boolean b = Metodos.openChildWindow ("Nueva Orden de Trabajo");
-			if (OT == null || !OT.isShowing()) 
+			if (OT == null || OT.isClosed() || (!OT.isShowing() && !OT.isIcon())) 
 			{
 				OT = new OrdenDeTrabajo ();
 				escritorio.add (OT);
 				OT.show ();
 			}
+			else
+			{
+				OT.toFront();
+			}
 		}
 		else if (obj == consultarOrdenDeTrabajo)
 		{
-			boolean b = Metodos.openChildWindow ("Buscador");
-			if (b == false) 
+			if (TablaTop5 == null || TablaTop5.isClosed() || (!TablaTop5.isShowing() && !TablaTop5.isIcon())) 
 			{
-				TablaDeBusqueda_Top5 tablaConsultar = new TablaDeBusqueda_Top5();
-				escritorio.add (tablaConsultar);
-				tablaConsultar.show ();
+				TablaTop5 = new TablaDeBusqueda_Top5();
+				escritorio.add (TablaTop5);
+				TablaTop5.show ();
 				try {
-					tablaConsultar.setMaximum(true);
+					TablaTop5.setMaximum(true);
 				} catch (PropertyVetoException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -396,49 +398,57 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == ingresarSolicitudDeCompra || obj == btnNuevaSolicitudDeCompra) 
 		{
+			if (SC == null || SC.isClosed() || (!SC.isShowing() && !SC.isIcon())) 
 			{
-				if (SC == null || !SC.isShowing()) 
-				{
-					SC = new SolicitudDeCompra(false);
-					escritorio.add (SC);
-					SC.show ();
-				}
-				
+				SC = new SolicitudDeCompra(false);
+				escritorio.add (SC);
+				SC.show ();
+			}
+			else
+			{
+				SC.toFront();
 			}
 		}
 		else if (obj == btnBuscarOrdenDeTrabajo) 
 		{
-
-				boolean b = Metodos.openChildWindow ("Buscador");
-				if (b == false) 
+			if (BuscarOT == null || BuscarOT.isClosed() || (!BuscarOT.isShowing() && !BuscarOT.isIcon())) 
+			{
+				BuscarOT = new TablaDeBusqueda();
+				escritorio.add (BuscarOT);
+				BuscarOT.show ();
+				try {
+					BuscarOT.setMaximum(true);
+				} catch (PropertyVetoException e) 
 				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda();
-					escritorio.add (tablaB);
-					tablaB.show ();
-					try {
-						tablaB.setMaximum(true);
-					} catch (PropertyVetoException e) 
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			}
+			else
+			{
+				BuscarOT.toFront();
+			}
 
 		}
 		else if (obj == consultarSolicitudDeCompra || obj==btnBuscarSolicitudDeCompra || obj == btnNuevoRegistroDePedido  ||  obj == registrarRecepcionDePedido) 
 		{		
-			boolean b = Metodos.openChildWindow ("Buscador");
-			if (b == false) 
+			if (BuscarSC == null || BuscarSC.isClosed() || (!BuscarSC.isShowing() && !BuscarSC.isIcon())) 
 			{
-				TablaDeBusqueda_SC tablaB = new TablaDeBusqueda_SC("Consultar Solicitud de Compra");
-				escritorio.add (tablaB);
-				tablaB.show ();
-				try {
-					tablaB.setMaximum(true);
-				} catch (PropertyVetoException e) {
-					// TODO Auto-generated catch block
+				BuscarSC = new TablaDeBusqueda_SC("Consultar Solicitud de Compra");
+				escritorio.add (BuscarSC);
+				BuscarSC.show ();
+				try 
+				{
+					BuscarSC.setMaximum(true);
+				} 
+				catch (PropertyVetoException e) 
+				{
 					e.printStackTrace();
 				}
+			}
+			else
+			{
+				BuscarSC.toFront();
 			}
 		}
 				
@@ -460,19 +470,25 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == clientes) 
 		{
-			
-			boolean b = Metodos.openChildWindow ("Registro de Clientes");
-			if (b == false) 
+			if (Clientes == null || Clientes.isClosed() || (!Clientes.isShowing() && !Clientes.isIcon())) 
 			{
-				Adm_Cliente admCli= new Adm_Cliente();
-				escritorio.add (admCli);
-				try {
-					admCli.setMaximum(true);
-				} catch (PropertyVetoException e) {
+				Clientes= new Adm_Cliente();
+				escritorio.add (Clientes);
+				try 
+				{
+					Clientes.setMaximum(true);
+				} 
+				
+				catch (PropertyVetoException e) 
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				admCli.show ();
+				Clientes.show ();
+			}
+			else
+			{
+				Clientes.toFront();
 			}
 			
 			
@@ -480,22 +496,23 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == Proveedor) 
 		{
-			
-			boolean b = Metodos.openChildWindow ("Registro de Proveedor");
-			if (b == false) 
+			if (Proveedores == null || Proveedores.isClosed() || (!Proveedores.isShowing() && !Proveedores.isIcon()))
 			{
-				Adm_Proveedor admProv= new Adm_Proveedor();
-				escritorio.add (admProv);
-				admProv.show ();
+				Proveedores= new Adm_Proveedor();
+				escritorio.add (Proveedores);
+				Proveedores.show ();
 				try 
 				{
-					admProv.setMaximum(true);
+					Proveedores.setMaximum(true);
 				} 
 				catch (PropertyVetoException e) 
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			else
+			{
+				Proveedores.toFront();
 			}
 			
 			
@@ -503,63 +520,81 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		
 		else if (obj == Atributos) 
 		{
-			boolean b = Metodos.openChildWindow ("Registro de Atributos de papel");
-			if (b == false) 
+			if (AtributosPapel == null || AtributosPapel.isClosed() || ( !AtributosPapel.isShowing() && !AtributosPapel.isIcon()))
 			{
-				Adm_Atributos admAtributos= new Adm_Atributos();
-				escritorio.add (admAtributos);
-				admAtributos.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
-				admAtributos.show ();
+				AtributosPapel= new Adm_Atributos();
+				escritorio.add (AtributosPapel);
+				AtributosPapel.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
+				AtributosPapel.show ();
+			}
+			else
+			{
+				AtributosPapel.toFront();
 			}
 		}
 		
 		else if (obj == Procesos) 
 		{
-			boolean b = Metodos.openChildWindow ("Registro de Procesos");
-			if (b == false) 
+			if (ProcesosOT == null || ProcesosOT.isClosed() || (!ProcesosOT.isShowing() && !ProcesosOT.isIcon())) 
 			{
-				Adm_Proceso admProceso= new Adm_Proceso();
-				escritorio.add (admProceso);
-				admProceso.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
-				admProceso.show ();
+				ProcesosOT = new Adm_Proceso();
+				escritorio.add (ProcesosOT);
+				ProcesosOT.setBounds(0, 0, escritorio.getWidth()/2, escritorio.getHeight());
+				ProcesosOT.show ();
+			}
+			else
+			{
+				ProcesosOT.toFront();
 			}
 		}
 		
 		else if (obj == Stock || obj == btnAdministracion)
 		{
-			boolean b = Metodos.openChildWindow ("Registro de Stock");
-			if (b == false) 
+			if (Stocks == null || Stocks.isClosed() || (!Stocks.isShowing() && !Stocks.isIcon()))
 			{
-				Adm_Stock admStock= new Adm_Stock();
-				escritorio.add (admStock);
+				Stocks = new Adm_Stock();
+				escritorio.add (Stocks);
 				try 
 				{
-					admStock.setMaximum(true);
+					Stocks.setMaximum(true);
 				} 
 				catch (PropertyVetoException e) 
 				{
 					e.printStackTrace();
 				}
-				admStock.show ();
+				Stocks.show ();
+			}
+			else
+			{
+				Stocks.toFront();
 			}
 		}
 		
 		else if (obj == ayudaContenido || obj == btnAyuda) 
 		{
-			if (Ayuda == null || !Ayuda.isShowing()) 
+			if (Ayuda == null || Ayuda.isClosed() || (!Ayuda.isShowing() && !Ayuda.isIcon())) 
 			{
 				Ayuda = new MagestiHelp ("Contenido de Ayuda", "Ayuda/Magesti.htm");
 				escritorio.add (Ayuda);
 				Ayuda.show ();
 			}
+			else
+			{
+				Ayuda.toFront();
+			}
 		}
+		
 		else if (obj == ayudaAtajos) 
 		{
-			if (Atajos == null || !Atajos.isShowing()) 
+			if (Atajos == null || Atajos.isClosed() || (!Atajos.isShowing() && !Atajos.isIcon())) 
 			{
 				Atajos = new MagestiHelp ("Atajos / Combinaciones de teclas", "Ayuda/Atajos.htm");
 				escritorio.add (Atajos);
 				Atajos.show ();
+			}
+			else
+			{
+				Atajos.toFront();
 			}
 
 		}
@@ -575,7 +610,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	{
 		try 
 		{
-
 		    int reply = JOptionPane.showConfirmDialog 
 		    (
 		    	this,
