@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.sql.ResultSet;
 
 
+@SuppressWarnings("serial")
 public class Adm_Cliente extends JInternalFrame 
 {
 	private JTable tablaDatosCliente;

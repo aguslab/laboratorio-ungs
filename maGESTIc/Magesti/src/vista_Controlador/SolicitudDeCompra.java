@@ -32,14 +32,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -83,6 +77,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private TextArea txtDescripcionIncidencia;
 	private JLabel fechaHora;
 	private JButton btnImprimirReporte,btnEditarValores;
+	
+
 	private ArrayList<Integer> hojasMateriales= new ArrayList<Integer>();
 	private Integer id_OT;
 	
@@ -239,10 +235,12 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 
 						hojasMateriales.add(cantHojas);
 						temp.setValueAt(cantHojas,i,0);
+						temp.setValueAt(gramaje,i,1);
 						temp.setValueAt(calidad,i,2);
-						temp.setValueAt(variante,i,3);
-						temp.setValueAt(formato,i,4);
-						temp.setValueAt(gramaje,i,5);
+						temp.setValueAt(formato,i,3);
+						temp.setValueAt(variante,i,4);
+						
+						
 
 
 						// Valores para el combo
@@ -403,11 +401,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			new Object[][] {
 			},
 			new String[] {
-				"Cant. Hojas", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "Precio Unitario", "Unidad de Medida", "Importe"
+				"Cant. Hojas", "Gramaje", "Calidad", "Formato", "Variante", "Marca", "Precio Unitario", "Unidad de Medida", "Importe"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class
+				Integer.class, Integer.class, String.class, String.class, String.class, String.class, Double.class, String.class, Double.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -418,7 +416,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				if(column==8){
 					return false;
 				}
-				if(row < c && column!=0 && column!=1 && column!=6 && column != 7){
+				if(row < c && column!=0 && column!=5 && column!=6 && column != 7){
 					return false;
 				}
 				return true;
@@ -431,9 +429,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		tablaDetalles.getColumnModel().getColumn(2).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(140);
 		tablaDetalles.getColumnModel().getColumn(3).setResizable(true);
-		tablaDetalles.getColumnModel().getColumn(3).setPreferredWidth(115);
+		tablaDetalles.getColumnModel().getColumn(3).setPreferredWidth(85);
 		tablaDetalles.getColumnModel().getColumn(4).setResizable(true);
-		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(85);
+		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(115);
 		tablaDetalles.getColumnModel().getColumn(5).setResizable(true);
 		tablaDetalles.getColumnModel().getColumn(5).setPreferredWidth(85);
 		tablaDetalles.getColumnModel().getColumn(6).setResizable(true);
@@ -450,53 +448,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		tablaDetalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		tablaDetalles.setRowHeight(23);
-		//
-		//Autocalcular importe
-		//
-//		TableColumnModel tc= tablaDetalles.getColumnModel();
-//		tc.addColumnModelListener(new TableColumnModelListener() {
-			
-//			@Override
-//			public void columnSelectionChanged(ListSelectionEvent arg0) {
-//				Integer cantFilas = tablaDetalles.getRowCount();
-//
-//				for (int i = 0; i < cantFilas; i++) {
-//					// solo si las columnas tiene valores
-//					if (tablaDetalles.getValueAt(i, 0) != null
-//							&& tablaDetalles.getValueAt(i, 5) != null
-//							&& tablaDetalles.getValueAt(i, 6) != null
-//							&& tablaDetalles.getValueAt(i, 7) != null
-//							&& !tablaDetalles.getValueAt(i, 0).toString()
-//									.equals("")
-//							&& !tablaDetalles.getValueAt(i, 5).toString()
-//									.equals("")
-//							&& !tablaDetalles.getValueAt(i, 6).toString()
-//									.equals("")
-//							&& !tablaDetalles.getValueAt(i, 7).toString()
-//									.equals("")) {
-//
-//						
-//						// calcular importe
-//						Double importe=getImporte(i);
-//						tablaDetalles.setValueAt(importe, i, 8);
-//					}
-//				}
-//			}
-
-
-//			@Override
-//			public void columnRemoved(TableColumnModelEvent arg0) {}
-//			
-//			@Override
-//			public void columnMoved(TableColumnModelEvent arg0) {}
-//			
-//			@Override
-//			public void columnMarginChanged(ChangeEvent arg0) {}
-//			
-//			@Override
-//			public void columnAdded(TableColumnModelEvent arg0) {}
-//		});
-			
+					
 		
 		
 		btnBorrar= new JButton("Borrar", new ImageIcon ("Imagenes/restar.png"));
@@ -539,14 +491,15 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				columnaCalidad.setCellEditor(new MyComboBoxEditor(calidades));
 				
 				// Valores para el combo
-				String variantes[] = Variante.getVariantes(); 
-				TableColumn columnaVariante = tablaDetalles.getColumnModel().getColumn(3);//table es la JTable, ponele que la col n es la del combo.
-				columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+				String formatos[] = Formato_Papel.getFormatos();
+				TableColumn columnaFormato = tablaDetalles.getColumnModel().getColumn(3);//table es la JTable, ponele que la col n es la del combo.
+				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
 				
 				// Valores para el combo
-				String formatos[] = Formato_Papel.getFormatos();
-				TableColumn columnaFormato = tablaDetalles.getColumnModel().getColumn(4);//table es la JTable, ponele que la col n es la del combo.
-				columnaFormato.setCellEditor(new MyComboBoxEditor(formatos));
+				String variantes[] = Variante.getVariantes(); 
+				TableColumn columnaVariante = tablaDetalles.getColumnModel().getColumn(4);//table es la JTable, ponele que la col n es la del combo.
+				columnaVariante.setCellEditor(new MyComboBoxEditor(variantes));
+				
 				
 				// Valores para el combo
 				String unidad_medida[] = {"Resma","Kg","Hoja"};
@@ -573,6 +526,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		});
 		btnEditarValores.setBounds(139, 172, 120, 30);
 		panDetalles.add(btnEditarValores);
+		
+		
+		
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -582,7 +538,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				// PRIMERO CHEQUEAR QUE ESTEN TODOS LOS CAMPOS COMPLETOS
 				//DESPUES...
 				int cantFilas=tablaDetalles.getRowCount(),cantCol=tablaDetalles.getColumnCount();
-				boolean celdas_ok=true;
+				boolean celdas_ok=true, conNegativos=true,unidadMedidaOK=true;
 				for (int i = 0; i < cantFilas; i++) {
 					for (int j = 0; j < cantCol-1; j++) {
 						if (tablaDetalles.getValueAt(i, j) == null
@@ -591,12 +547,28 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 							celdas_ok = false;
 							break;
 						}
-						Double importe=getImporte(i);
-						tablaDetalles.setValueAt(importe, i, 8);
 					}
+					conNegativos=valoresMenorACero();
+					
+					if(celdas_ok && !conNegativos){
+					
+						String unidad_medida_precio=tablaDetalles.getValueAt(i, 7).toString();
+						if(unidad_medida_precio.toUpperCase().equals("RESMA")){
+							if(((Integer) tablaDetalles.getValueAt(i, 0) % Config.Resma) == 0){
+								Double importe=getImporte(i);
+								tablaDetalles.setValueAt(importe, i, 8);
+							}else{
+								unidadMedidaOK=false;
+								break;
+							}
+						}else{
+							Double importe=getImporte(i);
+							tablaDetalles.setValueAt(importe, i, 8);
+						}
+						}
 				}
 				
-				if(celdas_ok){
+				if(celdas_ok && !conNegativos && unidadMedidaOK){
 					Boolean digitosOK=true;//verifica que no pase el limite de digitos numericos
 					//calcular subotal, monto IVA, total
 					Double subtotal=0.0;
@@ -625,6 +597,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					Integer subt=subtotal.intValue();
 					Integer montoIVA=monto_iva.intValue();
 					Integer tot=total.intValue();
+					
 					if(!digitosOK || subt>Config.limiteNumerico || montoIVA>Config.limiteNumerico || tot>Config.limiteNumerico || new Integer(Config.IVA.intValue()) > Config.limiteNumerico){
 						limpiarCamposPrecios();
 						Metodos.CartelExcesoDigitos();
@@ -643,9 +616,21 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					}
 				
 				}
-				else// si falta completar alguna celda
+				else if(!celdas_ok)// si falta completar alguna celda
 				{
-					JOptionPane.showMessageDialog(null,"Debe completar todas las celdas!!!");
+					JOptionPane.showMessageDialog(null,"Debe completar todas las celdas!!");
+					btnEditarValores.doClick();
+				}else if(conNegativos){
+					JOptionPane.showMessageDialog(null, "No se permiten valores Negativos. Verifique");
+					btnEditarValores.doClick();
+				}else{
+					JOptionPane.showMessageDialog 
+					(
+						null, 
+						"Si la unidad de medida de precio es Resma, la cantidad de hojas debe ser múltiplo de "+Config.Resma,
+						qTITULO + " - Cantidad de hojas incorrecto", 
+						JOptionPane.WARNING_MESSAGE
+					);
 				}
 				
 			}
@@ -967,7 +952,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				txtTotal.setText("");
 				
 			}
-			
 			else if(txtTotal.getText().toString().equals("$ 0,00")){
 				JOptionPane.showMessageDialog 
 				(
@@ -1004,6 +988,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	
 	
 	
+	private boolean valoresMenorACero() {
+		for (int i = 0; i < tablaDetalles.getRowCount(); i++) {
+			if((Integer) tablaDetalles.getValueAt(i, 0) <0 || (Integer) tablaDetalles.getValueAt(i, 1) <0 || (Double) tablaDetalles.getValueAt(i, 6) < 0.0 || (Double) tablaDetalles.getValueAt(i, 6) < 0.0){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	private void limpiarCamposPrecios() {
 		txtSubtotal.setText("");
 		txtMontoIVA.setText("");
@@ -1014,7 +1008,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	private boolean ExcedeLargoMarca() {
 
 		for (int i = 0; i < tablaDetalles.getRowCount(); i++) {
-			if(tablaDetalles.getValueAt(i, 1).toString().length()>50){
+			if(tablaDetalles.getValueAt(i, 5).toString().length()>50){
 				return true;
 			}
 		}
@@ -1077,11 +1071,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		int cantFilas=tablaDetalles.getRowCount();
 		for(int i=0;i<cantFilas;i++){
 				Integer cantidad=Integer.parseInt(tablaDetalles.getValueAt(i, 0).toString());
-				String marca=tablaDetalles.getValueAt(i, 1).toString();
+				String marca=tablaDetalles.getValueAt(i, 5).toString();
 				Integer id_calidad = Calidad.getId_Calidad(tablaDetalles.getValueAt(i, 2).toString());
-				Integer id_variante = Variante.getId_Variante(tablaDetalles.getValueAt(i, 3).toString());
-				Integer id_formato = Formato_Papel.getId_Formato(tablaDetalles.getValueAt(i, 4).toString());
-				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
+				Integer id_formato = Formato_Papel.getId_Formato(tablaDetalles.getValueAt(i, 3).toString());
+				Integer id_variante = Variante.getId_Variante(tablaDetalles.getValueAt(i, 4).toString());
+				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 1);
 				Double precio_unitario=(Double) tablaDetalles.getValueAt(i, 6);
 				String unidad_medida_del_precio = tablaDetalles.getValueAt(i, 7).toString();
 				Double importe=(Double) tablaDetalles.getValueAt(i, 8);
@@ -1104,26 +1098,28 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			
 		//si la unidad de medida del precio es RESMA
 			if(unidad_medida_precio.toUpperCase().equals("RESMA")){
-				//calculo cuantas resmas hay 
-				Double cant_resma= (double)cant_hojas/Config.Resma;
-				//y lo multiplico por el precio unitario
-				importe=(cant_resma)*(precio_unitario);
+					//calculo cuantas resmas hay 
+					Double cant_resma= (double)cant_hojas/Config.Resma;
+					//y lo multiplico por el precio unitario
+					importe=(cant_resma)*(precio_unitario);
+				
 		//si la unidad de medida del precio es KG
 			}else if(unidad_medida_precio.toUpperCase().equals("KG")){
 				//calculo el formato(ancho x alto)
-				double anchoenMts=Metodos.getAncho(tablaDetalles.getValueAt(i, 4).toString())/100.0;
-				double altoenMts=Metodos.getAlto(tablaDetalles.getValueAt(i, 4).toString())/100.0;
+				double anchoenMts=Metodos.getAncho(tablaDetalles.getValueAt(i, 3).toString())/100.0;
+				double altoenMts=Metodos.getAlto(tablaDetalles.getValueAt(i, 3).toString())/100.0;
 				Double formato= anchoenMts * altoenMts ;
-				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 5);
+				Integer gramaje=(Integer) tablaDetalles.getValueAt(i, 1);
 				Double peso_x_hoja=(formato*gramaje)/1000;
 				Double pesoTotal=peso_x_hoja*cant_hojas;
 				//obtengo el peso en KG y lo multiplico por precio unitario
 				importe=pesoTotal*precio_unitario;
+
 		//si la unidad de medida del precio es HOJA
 			}else{//preciounitario x cantidad de hojas
 				importe=precio_unitario*cant_hojas;
 			}
-		return importe;
+			return importe;
 	}
 
 		
@@ -1289,5 +1285,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 	public JButton getBtnImprimirReporte()
 	{
 		return this.btnImprimirReporte;
+	}
+	
+	public JButton getBtnEditarValores() {
+		return btnEditarValores;
 	}
 };

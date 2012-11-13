@@ -74,11 +74,11 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 			new Object[][] {
 			},
 			new String[] {
-				"<html>Cantidad <br>de Hojas</html>", "Marca", "Calidad", "Variante", "Formato", "Gramaje", "<html>Precio<br> Unitario</html>", "<html>Unidad de<br> Medida</html>", "Importe", "Recibido"
+				"<html>Cantidad <br>de Hojas</html>", "Gramaje", "Calidad", "Formato", "Variante", "Marca", "<html>Precio<br> Unitario</html>", "<html>Unidad de<br> Medida</html>", "Importe", "Recibido"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Double.class, String.class, Double.class,Boolean.class
+				Integer.class, Integer.class, String.class, String.class, String.class, String.class, Double.class, String.class, Double.class,Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -97,17 +97,18 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		tablaDetalles.getColumnModel().getColumn(0).setResizable(false);
 		tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(80);
 		tablaDetalles.getColumnModel().getColumn(1).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(103);
+		tablaDetalles.getColumnModel().getColumn(1).setPreferredWidth(60);
 		tablaDetalles.getColumnModel().getColumn(1).setMaxWidth(200);
 		tablaDetalles.getColumnModel().getColumn(2).setResizable(false);
 		tablaDetalles.getColumnModel().getColumn(2).setPreferredWidth(119);
 		tablaDetalles.getColumnModel().getColumn(3).setResizable(false);
+		tablaDetalles.getColumnModel().getColumn(3).setPreferredWidth(60);
 		tablaDetalles.getColumnModel().getColumn(3).setMaxWidth(200);
 		tablaDetalles.getColumnModel().getColumn(4).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(60);
+		tablaDetalles.getColumnModel().getColumn(4).setPreferredWidth(119);
 		tablaDetalles.getColumnModel().getColumn(4).setMaxWidth(100);
 		tablaDetalles.getColumnModel().getColumn(5).setResizable(false);
-		tablaDetalles.getColumnModel().getColumn(5).setPreferredWidth(60);
+		tablaDetalles.getColumnModel().getColumn(5).setPreferredWidth(103);
 		tablaDetalles.getColumnModel().getColumn(5).setMaxWidth(100);
 		tablaDetalles.getColumnModel().getColumn(6).setResizable(false);
 		tablaDetalles.getColumnModel().getColumn(6).setPreferredWidth(100);
@@ -139,11 +140,11 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 		{
 			temp.addRow(nuevaFilaDetalles);
 			temp.setValueAt(detalles.get(i).getCantidad(), i, 0);//cantidad
-			temp.setValueAt(detalles.get(i).getMarca(), i, 1);//marca
+			temp.setValueAt(detalles.get(i).getGramaje(), i, 1);//gramaje
 			temp.setValueAt(Calidad.getNombre(detalles.get(i).getId_calidad()), i, 2);//calidad	
-			temp.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 3);//variante
-			temp.setValueAt((Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel())), i, 4);//formatoPapel
-			temp.setValueAt(detalles.get(i).getGramaje(), i, 5);//gramaje
+			temp.setValueAt((Formato_Papel.getTamanio(detalles.get(i).getId_formato_papel())), i, 3);//formatoPapel
+			temp.setValueAt(Variante.getNombre(detalles.get(i).getId_variante()), i, 4);//variante
+			temp.setValueAt(detalles.get(i).getMarca(), i, 5);//marca
 			temp.setValueAt(detalles.get(i).getPrecio_unitario(), i, 6);//precioUnitario
 			temp.setValueAt(detalles.get(i).getUnidad_medida_del_precio(), i, 7);//unidadMEdida
 			temp.setValueAt(detalles.get(i).getImporte(), i, 8);//importe
@@ -163,9 +164,9 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 				{
 					tablaDetalles.setValueAt(true, i, 9);
 				}
-				
 			}
 		});
+		
 		btnSelecAll.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelecAll.setBounds(588, 241, 143, 25);
 		JpSolicitudDeCompra.add(btnSelecAll);

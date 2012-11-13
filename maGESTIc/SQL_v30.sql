@@ -3,7 +3,6 @@ drop database Magesti;
 create database Magesti;
 use Magesti;
 
-
 -- 
 -- TABLE: calidad 
 CREATE TABLE calidad (
@@ -21,7 +20,7 @@ CREATE TABLE cliente (
     cond_iva VARCHAR(50),
     direccion VARCHAR(100) NOT NULL,
     telefono VARCHAR(30),
-    mail VARCHAR(30) NOT NULL,
+    mail VARCHAR(50) NOT NULL,
     nombre_contacto VARCHAR(100),
     telefono_contacto VARCHAR(30),
     mail_contacto VARCHAR(50),
@@ -33,7 +32,7 @@ CREATE TABLE cliente (
 -- TABLE: formato_papel 
 CREATE TABLE formato_papel (
     id_formato_papel INT AUTO_INCREMENT PRIMARY KEY,
-    tamanio VARCHAR(10) NOT NULL,
+    tamanio VARCHAR(11) NOT NULL,
 	activo BOOLEAN NOT NULL
 );
 
@@ -52,8 +51,8 @@ CREATE TABLE materiales (
     pliegos_x_hoja INT NOT NULL,
     hojas INT NOT NULL,
     id_calidad INT NOT NULL,
-    id_variante INT NOT NULL,
-    id_formato_papel INT NOT NULL
+    id_formato_papel INT NOT NULL,
+	id_variante INT NOT NULL
 );
 
 -- 
@@ -84,9 +83,9 @@ CREATE TABLE orden_trabajo (
 CREATE TABLE proceso (
     id_proceso INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
+	orden	INT			NOT NULL,
 	activo BOOLEAN NOT NULL
 );
-
 
 
 CREATE TABLE procesos_x_orden_trabajo (
@@ -111,10 +110,10 @@ CREATE TABLE proveedor (
     cond_iva VARCHAR(50),
     direccion VARCHAR(100) NOT NULL,
     telefono VARCHAR(30),
-    mail VARCHAR(30) NOT NULL,
+    mail VARCHAR(50) NOT NULL,
     nombre_contacto VARCHAR(100),
     telefono_contacto VARCHAR(30),
-    mail_contacto VARCHAR(30),
+    mail_contacto VARCHAR(50),
     direccion_retiro VARCHAR(100),
     activo BOOLEAN NOT NULL
 );
@@ -144,9 +143,6 @@ CREATE TABLE variante(
 );
 
 
-
-
--- 
 
 CREATE TABLE detalle (
     id_detalle INT AUTO_INCREMENT,
@@ -205,22 +201,16 @@ CREATE TABLE solicitud_compra (
 
 
 
-
 -- 
 
 CREATE TABLE Stock (
-    id_stock INT AUTO_INCREMENT,
-    id_orden_trabajo INT,
-    id_solicitud_compra INT NOT NULL,
-    cant_hojas_totales INT NOT NULL,
-	cant_hojas_usadas INT	NOT NULL,
-    marca VARCHAR(50) NOT NULL,
-    id_calidad INT NOT NULL,
-    id_formato INT NOT NULL,
-    id_variante INT NOT NULL,
-	gramaje		INT	NOT NULL,
-	Remanente		  BOOLEAN	NOT NULL,
-	activo 		BOOLEAN NOT NULL,
+    id_stock 				INT AUTO_INCREMENT,
+    id_orden_trabajo 		INT,
+    id_solicitud_compra 	INT NOT NULL,
+    id_detalle				INT	NOT NULL,
+	cant_hojas_usadas 		INT	NOT NULL,
+	Remanente		  		BOOLEAN	NOT NULL,
+	activo 					BOOLEAN NOT NULL,
     
     PRIMARY KEY (id_stock , id_solicitud_compra)
 );
@@ -232,11 +222,20 @@ CREATE TABLE Egreso_Stock (
 	id_materiales		 INT,
 	empleado			 VARCHAR(50) NOT NULL,
 	cant_hojas_retiradas INT	NOT NULL,
-    fecha				 DATE	NOT NULL,
+    fecha				 DATETIME	NOT NULL,
 
     PRIMARY KEY (id_egreso_stock)
 );
 
+
+CREATE TABLE Remanente_SC_OT (
+	id_remanente_SC_OT	INT AUTO_INCREMENT,
+	id_orden_trabajo	INT NOT NULL,
+	id_solicitud_compra	INT NOT NULL,
+	remanente			INT NOT NULL,
+
+	PRIMARY KEY (id_remanente_SC_OT)
+);
 
 --
 -- 			ALTER TABLES
@@ -382,6 +381,10 @@ ALTER TABLE Stock ADD CONSTRAINT Reforden_trabajo_stock
     REFERENCES orden_trabajo(id_orden_trabajo)
 ;
 
+ALTER TABLE Stock ADD CONSTRAINT RefDetalle_stock 
+    FOREIGN KEY (id_detalle)
+    REFERENCES detalle(id_detalle)
+;
 
 
 
@@ -397,6 +400,21 @@ ALTER TABLE Egreso_Stock ADD CONSTRAINT RefStock
 ALTER TABLE Egreso_Stock ADD CONSTRAINT RefMateriales 
     FOREIGN KEY (id_materiales)
     REFERENCES materiales(id_materiales)
+;
+
+
+-- 
+-- TABLE: Egreso_Stock 
+--
+
+ALTER TABLE remanente_sc_ot ADD CONSTRAINT RefOT 
+    FOREIGN KEY (id_orden_trabajo)
+    REFERENCES orden_trabajo(id_orden_trabajo)
+;
+
+ALTER TABLE remanente_sc_ot ADD CONSTRAINT RefSC 
+    FOREIGN KEY (id_solicitud_compra)
+    REFERENCES solicitud_compra(id_solicitud_compra)
 ;
 
 
@@ -545,64 +563,64 @@ VALUES(DEFAULT, "Blanca/Kraft",true);
 -- Tabla proceso
 
 INSERT INTO proceso
-VALUES(DEFAULT, "CTP",true);
+VALUES(DEFAULT, "CTP",1,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Películas",true);
+VALUES(DEFAULT, "Películas",2,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Copia de chapas",true);
+VALUES(DEFAULT, "Copia de chapas",3,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Corte inicial",true);
+VALUES(DEFAULT, "Corte inicial",4,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Impresión",true);
+VALUES(DEFAULT, "Impresión",5,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Barniz",true);
+VALUES(DEFAULT, "Barniz",6,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Laminado",true);
+VALUES(DEFAULT, "Laminado",7,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Trazado",true);
+VALUES(DEFAULT, "Trazado",8,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Puntillado",true);
+VALUES(DEFAULT, "Puntillado",9,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Medio corte",true);
+VALUES(DEFAULT, "Medio corte",10,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Troquelado",true);
+VALUES(DEFAULT, "Troquelado",11,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Doblado",true);
+VALUES(DEFAULT, "Doblado",12,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Intercalado",true);
+VALUES(DEFAULT, "Intercalado",13,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Emblocado",true);
+VALUES(DEFAULT, "Emblocado",14,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Agujereado",true);
+VALUES(DEFAULT, "Agujereado",15,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Abrochado",true);
+VALUES(DEFAULT, "Abrochado",16,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Encuadernación",true);
+VALUES(DEFAULT, "Encuadernación",17,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Confección de sobres",true);
+VALUES(DEFAULT, "Confección de sobres",18,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Corte final",true);
+VALUES(DEFAULT, "Corte final",19,true);
 
 INSERT INTO proceso
-VALUES(DEFAULT, "Empaque",true);
+VALUES(DEFAULT, "Empaque",20,true);
 
 
 -- Tabla Proveedor

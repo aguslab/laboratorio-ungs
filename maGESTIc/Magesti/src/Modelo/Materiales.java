@@ -15,14 +15,14 @@ public class Materiales {
 	private Integer pliegos_x_hoja;
 	private Integer hojas;
 	private Integer id_calidad;
-	private Integer id_variante;
 	private Integer id_formato_papel;
+	private Integer id_variante;
 
 
 	public Materiales(Integer id_materiales, Integer id_elemento,
 			Integer gramaje, Integer poses_x_pliego, Integer pliegos_netos,
 			Integer pliegos_en_demasia, Integer pliegos_x_hoja, Integer hojas,
-			Integer id_calidad, Integer id_variante, Integer id_formato_papel) {
+			Integer id_calidad, Integer id_formato_papel, Integer id_variante) {
 		super();
 		this.id_materiales = id_materiales;
 		this.id_elemento = id_elemento;
@@ -33,16 +33,15 @@ public class Materiales {
 		this.pliegos_x_hoja = pliegos_x_hoja;
 		this.hojas = hojas;
 		this.id_calidad = id_calidad;
-		this.id_variante = id_variante;
 		this.id_formato_papel = id_formato_papel;
+		this.id_variante = id_variante;
 	}
 
 
 
 
 	public Materiales(Integer id_elemento, 
-			Integer gramaje, Integer id_formato_papel, Integer id_variante,
-			Integer id_calidad,Integer pliegos_en_demasia, Integer poses_x_pliego,
+			Integer gramaje, Integer id_calidad, Integer id_formato_papel, Integer id_variante,Integer pliegos_en_demasia, Integer poses_x_pliego,
 			Integer pliegos_x_hoja, Integer hojas,Integer pliegos_netos) 
 	{
 		super();
@@ -54,8 +53,9 @@ public class Materiales {
 		this.pliegos_x_hoja = pliegos_x_hoja;
 		this.hojas = hojas;
 		this.id_calidad = id_calidad;
-		this.id_variante = id_variante;
 		this.id_formato_papel = id_formato_papel;
+		this.id_variante = id_variante;
+
 	}
 	
 	
@@ -169,6 +169,7 @@ public class Materiales {
 	
 	
 	//devuelve los id_materiales de la OT pasada como parametro
+	@SuppressWarnings("unused")
 	private static String getSelectToGetId_Materiales(Integer id_OT)
 	{
 		return 	"(select id_materiales from materiales where id_elemento in (select id_elemento from elemento where id_orden_trabajo="+id_OT+"))";
@@ -204,255 +205,255 @@ public class Materiales {
 	
 	
 	
-	public static ArrayList<Integer> getGramaje(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT gramaje FROM materiales WHERE id_materiales in "+consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("gramaje"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	public static ArrayList<Integer> getPoses_x_pliego(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT poses_x_pliego FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("poses_x_pliego"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	public static ArrayList<Integer> getPliegos_netos(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_netos FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("pliegos_netos"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	
-	public static ArrayList<Integer> getPliegos_en_demasia(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_en_demasia FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("pliegos_en_demasia"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	public static ArrayList<Integer> getHojas(Integer id_OT) {
-		
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT hojas FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("hojas"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-		
-	}
-
-	
-	public static ArrayList<Integer> getPliegos_x_Hojas(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT pliegos_x_hoja FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("pliegos_x_hoja"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-
-	public static ArrayList<Integer> getID_Calidad(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_calidad FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("id_calidad"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	public static ArrayList<Integer> getID_Variante(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_variante FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("id_variante"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
-	
-	
-	
-	public static ArrayList<Integer> getId_formato_papel(Integer id_OT)
-	{
-		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
-		ArrayList<Integer> valores = new ArrayList<Integer>();
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_formato_papel FROM materiales WHERE id_materiales in "+ consulta);
-
-		if (resultado != null)
-		{
-			try
-			{
-				while (resultado.next())
-				{
-					valores.add(resultado.getInt("id_formato_papel"));
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return valores;
-	}
+//	public static ArrayList<Integer> getGramaje(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT gramaje FROM materiales WHERE id_materiales in "+consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("gramaje"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	public static ArrayList<Integer> getPoses_x_pliego(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT poses_x_pliego FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("poses_x_pliego"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	public static ArrayList<Integer> getPliegos_netos(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT pliegos_netos FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("pliegos_netos"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	
+//	public static ArrayList<Integer> getPliegos_en_demasia(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT pliegos_en_demasia FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("pliegos_en_demasia"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	public static ArrayList<Integer> getHojas(Integer id_OT) {
+//		
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT hojas FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("hojas"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//		
+//	}
+//
+//	
+//	public static ArrayList<Integer> getPliegos_x_Hojas(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT pliegos_x_hoja FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("pliegos_x_hoja"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//
+//	public static ArrayList<Integer> getID_Calidad(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT id_calidad FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("id_calidad"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	public static ArrayList<Integer> getID_Variante(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT id_variante FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("id_variante"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
+//	
+//	
+//	
+//	public static ArrayList<Integer> getId_formato_papel(Integer id_OT)
+//	{
+//		String consulta=Materiales.getSelectToGetId_Materiales(id_OT);
+//		ArrayList<Integer> valores = new ArrayList<Integer>();
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT id_formato_papel FROM materiales WHERE id_materiales in "+ consulta);
+//
+//		if (resultado != null)
+//		{
+//			try
+//			{
+//				while (resultado.next())
+//				{
+//					valores.add(resultado.getInt("id_formato_papel"));
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return valores;
+//	}
 	
 	
 	
 	public boolean Alta() {
 
-		Integer gram = this.getGramaje();
 		Integer id_elem = this.getId_elemento();
+		Integer gram = this.getGramaje();
 		Integer poses_x_plie = this.getPoses_x_pliego();
 		Integer plie_netos = this.getPliegos_netos();
 		Integer plie_en_demasia = this.getPliegos_en_demasia();
 		Integer plie_x_hoja = this.getPliegos_x_hoja();
 		Integer hojaS = this.getHojas();
 		Integer id_calidad = this.getId_calidad();
-		Integer id_variante = this.getId_variante();
 		Integer id_formato_papel = this.getId_formato_papel();
+		Integer id_variante = this.getId_variante();
 
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO materiales VALUES(default," + id_elem + "," + gram
 						+ "," + poses_x_plie + "," + plie_netos + ","
 						+ plie_en_demasia + "," + plie_x_hoja + "," + hojaS
-						+ "," + id_calidad + "," + id_variante + ","
-						+ id_formato_papel + ");")) {
+						+ "," + id_calidad +","
+								+ id_formato_papel + "," + id_variante + ");")) {
 			return true;
 		} else {
 			return false;
@@ -460,38 +461,38 @@ public class Materiales {
 	}
 	
 	
-	public ArrayList<Materiales> Buscar() {
-
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT * FROM materiales");
-
-		ArrayList<Materiales> list_Materiales = new ArrayList<Materiales>();
-		if (resultado != null) {
-
-			try {
-
-				while (resultado.next()) {
-					Materiales mater = new Materiales(new Integer(
-							resultado.getInt("id_materiales")), new Integer(
-							resultado.getInt("id_elemento")), new Integer(
-							resultado.getInt("gramaje")), new Integer(
-							resultado.getInt("poses_x_pliego")), new Integer(
-							resultado.getInt("pliegos_netos")), new Integer(
-							resultado.getInt("pliegos_en_demasia")),
-							new Integer(resultado.getInt("pliegos_x_hoja")),
-							new Integer(resultado.getInt("hojas")),
-							new Integer(resultado.getInt("id_calidad")),
-							new Integer(resultado.getInt("id_variante")),
-							new Integer(resultado.getInt("id_formato_papel")));
-					list_Materiales.add(mater);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return list_Materiales;
-	}
+//	public ArrayList<Materiales> Buscar() {
+//
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT * FROM materiales");
+//
+//		ArrayList<Materiales> list_Materiales = new ArrayList<Materiales>();
+//		if (resultado != null) {
+//
+//			try {
+//
+//				while (resultado.next()) {
+//					Materiales mater = new Materiales(new Integer(
+//							resultado.getInt("id_materiales")), new Integer(
+//							resultado.getInt("id_elemento")), new Integer(
+//							resultado.getInt("gramaje")), new Integer(
+//							resultado.getInt("poses_x_pliego")), new Integer(
+//							resultado.getInt("pliegos_netos")), new Integer(
+//							resultado.getInt("pliegos_en_demasia")),
+//							new Integer(resultado.getInt("pliegos_x_hoja")),
+//							new Integer(resultado.getInt("hojas")),
+//							new Integer(resultado.getInt("id_calidad")),
+//							new Integer(resultado.getInt("id_formato_papel")),
+//							new Integer(resultado.getInt("id_variante")));
+//					list_Materiales.add(mater);
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		return list_Materiales;
+//	}
 
 	
 	public static Materiales Buscar(Integer id_Materiales) {
@@ -515,8 +516,8 @@ public class Materiales {
 							new Integer(resultado.getInt("pliegos_x_hoja")),
 							new Integer(resultado.getInt("hojas")),
 							new Integer(resultado.getInt("id_calidad")),
-							new Integer(resultado.getInt("id_variante")),
-							new Integer(resultado.getInt("id_formato_papel")));
+							new Integer(resultado.getInt("id_formato_papel")),
+							new Integer(resultado.getInt("id_variante")));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -548,8 +549,8 @@ public class Materiales {
 							new Integer(resultado.getInt("pliegos_x_hoja")),
 							new Integer(resultado.getInt("hojas")),
 							new Integer(resultado.getInt("id_calidad")),
-							new Integer(resultado.getInt("id_variante")),
-							new Integer(resultado.getInt("id_formato_papel")));
+							new Integer(resultado.getInt("id_formato_papel")),
+							new Integer(resultado.getInt("id_variante")));
 					list_Materiales.add(mater);
 				}
 			} catch (Exception e) {

@@ -477,27 +477,27 @@ public class Metodos implements Config
 		return FacturaAEntero(id);
 	}
 	
-	//Devuelve "E-00000". La cantidad de ceros depende de la cantidad de digitos del parametro recibido.
-	//Si es mayor 4, no muestra ceros, solo agrega el prefijo "E-" al parametro recibido.
-	public static String formatoElemento(Integer id_elemento){
-		String formatoElem=id_elemento.toString();
-
-		for(int i=0;formatoElem.length()<5;i++){
-			formatoElem="0"+formatoElem;
-		}
-		
-		return "E-"+formatoElem;
-	}
-	
-	public static Integer volverA_IdElemento(String formatoElem){
-		int pos=2;
-		//empieza de la pos 2 xq posiciones 0 y 1 son E-
-		for(int i=2;formatoElem.charAt(i)==0;i++){
-			pos=i;
-		}
-				
-		return Integer.parseInt(formatoElem.substring(pos));
-	}
+//	//Devuelve "E-00000". La cantidad de ceros depende de la cantidad de digitos del parametro recibido.
+//	//Si es mayor 4, no muestra ceros, solo agrega el prefijo "E-" al parametro recibido.
+//	public static String formatoElemento(Integer id_elemento){
+//		String formatoElem=id_elemento.toString();
+//
+//		for(int i=0;formatoElem.length()<5;i++){
+//			formatoElem="0"+formatoElem;
+//		}
+//		
+//		return "E-"+formatoElem;
+//	}
+//	
+//	public static Integer volverA_IdElemento(String formatoElem){
+//		int pos=2;
+//		//empieza de la pos 2 xq posiciones 0 y 1 son E-
+//		for(int i=2;formatoElem.charAt(i)==0;i++){
+//			pos=i;
+//		}
+//				
+//		return Integer.parseInt(formatoElem.substring(pos));
+//	}
 	
 	public static Integer getAncho(String formato){
 		String ancho="";
