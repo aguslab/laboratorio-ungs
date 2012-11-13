@@ -1,9 +1,6 @@
 package Modelo;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-
-import vista_Controlador.FilaRetiros;
 
 public class Remanente_sc_ot {
 

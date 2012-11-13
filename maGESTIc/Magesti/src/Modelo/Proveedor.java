@@ -1,6 +1,5 @@
 package Modelo;
 
-import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 

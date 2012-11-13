@@ -26,13 +26,14 @@ import Modelo.Variante;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 
+@SuppressWarnings("serial")
 public class Adm_Stock extends JInternalFrame 
 {
 	private static JTable tablaStock;
 	private JScrollPane spStock;
 	private JPanel panStock;
 	private TableRowSorter<DefaultTableModel> trsfiltro;
-	private JComboBox cbGramaje,cbVariante,cbFormato,cbOT;
+	private JComboBox<String> cbGramaje,cbVariante,cbFormato,cbOT;
 	private static DefaultTableModel modelo;
 	
 	public Adm_Stock() 
@@ -81,11 +82,11 @@ public class Adm_Stock extends JInternalFrame
 					new Object[][] {
 					},
 					new String[] {
-							"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Marca", "Calidad", "Formato", "Variante", "Gramaje", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
+							"<html>Nro Partida<br>Stock</html>", "<html>Orden de <br>Trabajo</html>", "<html>Solicitud<br> de Compra</html>", "Gramaje", "Calidad", "Formato", "Variante", "Marca", "<html>Hojas <br>totales</html>", "<html>Hojas <br>usadas</html>", "Remanente"
 					}
 				) {
 					Class[] columnTypes = new Class[] {
-						Object.class, String.class, String.class, Integer.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class
+						Object.class, String.class, String.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class, Boolean.class
 					};
 					public Class getColumnClass(int columnIndex) {
 						return columnTypes[columnIndex];
@@ -109,7 +110,7 @@ public class Adm_Stock extends JInternalFrame
 			tablaStock.getColumnModel().getColumn(0).setPreferredWidth(120);
 			tablaStock.getColumnModel().getColumn(1).setPreferredWidth(150);
 			tablaStock.getColumnModel().getColumn(2).setPreferredWidth(90);
-			tablaStock.getColumnModel().getColumn(3).setPreferredWidth(110);
+			tablaStock.getColumnModel().getColumn(3).setPreferredWidth(70);
 			tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
 			tablaStock.getTableHeader().setReorderingAllowed(false);
 			
@@ -152,7 +153,7 @@ public class Adm_Stock extends JInternalFrame
 			panStock.add(lblVariante);
 			
 			String[] gramajes= Stock.getGramajesEnStock();
-			cbGramaje = new JComboBox(gramajes);
+			cbGramaje = new JComboBox<String>(gramajes);
 			cbGramaje.setBounds(83, 6, 70, 23);
 			panStock.add(cbGramaje);
 			cbGramaje.addActionListener(new ActionListener() {
@@ -161,7 +162,7 @@ public class Adm_Stock extends JInternalFrame
 				public void actionPerformed(ActionEvent arg0) {
 					
 					String selec=cbGramaje.getSelectedItem().toString();
-					int columGramaje=7;
+					int columGramaje=3;
 					filtro(selec, columGramaje);
 				}
 			});
@@ -173,7 +174,7 @@ public class Adm_Stock extends JInternalFrame
 				String id_form=formatos[i];
 				formatos[i]=Formato_Papel.getTamanio(Integer.parseInt(id_form));
 			}
-			cbFormato = new JComboBox(formatos);
+			cbFormato = new JComboBox<String>(formatos);
 			cbFormato.setBounds(243, 6, 70, 23);
 			panStock.add(cbFormato);
 			cbFormato.addActionListener(new ActionListener() {
@@ -196,7 +197,7 @@ public class Adm_Stock extends JInternalFrame
 				variantes[i]=Variante.getNombre(Integer.parseInt(id_var));
 			}
 				
-			cbVariante = new JComboBox(variantes);
+			cbVariante = new JComboBox<String>(variantes);
 			cbVariante.setBounds(417, 6, 165, 23);
 			panStock.add(cbVariante);
 			cbVariante.addActionListener(new ActionListener() {
@@ -211,7 +212,7 @@ public class Adm_Stock extends JInternalFrame
 			});
 			
 			String[] OTs=Stock.getOTsDeStock();
-			cbOT = new JComboBox(OTs);
+			cbOT = new JComboBox<String>(OTs);
 			cbOT.setBounds(710, 6, 285, 23);
 			panStock.add(cbOT);
 			cbOT.addActionListener(new ActionListener() {
@@ -257,7 +258,7 @@ public class Adm_Stock extends JInternalFrame
 		ResultSet result = ConexionDB
 				.getbaseDatos()
 				.consultar(
-					"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, d.marca, c.nombre, f.tamanio, v.nombre, d.gramaje, d.cantidad, s.cant_hojas_usadas, s.remanente FROM stock s inner join detalle d on s.id_detalle=d.id_detalle inner join orden_trabajo o on o.id_orden_trabajo=s.id_orden_trabajo inner join solicitud_compra sc on s.id_solicitud_compra=sc.id_solicitud_compra inner join calidad c on c.id_calidad=d.id_calidad inner join formato_papel f on f.id_formato_papel=d.id_formato_papel inner join variante v on v.id_variante=d.id_variante WHERE s.activo=true  ORDER BY id_stock;");
+					"SELECT  o.nombre_trabajo, s.id_stock, o.id_orden_trabajo, sc.id_solicitud_compra, d.gramaje, c.nombre, f.tamanio, v.nombre, d.marca, d.cantidad, s.cant_hojas_usadas, s.remanente FROM stock s inner join detalle d on s.id_detalle=d.id_detalle inner join orden_trabajo o on o.id_orden_trabajo=s.id_orden_trabajo inner join solicitud_compra sc on s.id_solicitud_compra=sc.id_solicitud_compra inner join calidad c on c.id_calidad=d.id_calidad inner join formato_papel f on f.id_formato_papel=d.id_formato_papel inner join variante v on v.id_variante=d.id_variante WHERE s.activo=true  ORDER BY id_stock;");
 
 		Integer CantColumnas = 11;
 		Object datos[] = new Object[CantColumnas];

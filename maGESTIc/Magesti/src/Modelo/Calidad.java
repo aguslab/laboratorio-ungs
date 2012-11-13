@@ -89,20 +89,6 @@ public class Calidad
 		}
 	}
 		
-	public boolean Baja(Calidad c)
-	{
-		Integer id_cal = c.getId_calidad();
-		String nom = getNombre();
-		if (ConexionDB.getbaseDatos().ejecutar("DELETE FROM calidad where id_calidad = id_cal,"+ "'"+ ");")) 
-		{
-			return true;
-		} 
-		else 
-		{
-			return false;
-		}
-	}
-	
 	public ArrayList<Calidad> Buscar()
 	{
 		

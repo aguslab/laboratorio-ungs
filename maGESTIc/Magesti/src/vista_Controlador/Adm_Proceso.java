@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import Modelo.ConexionDB;
 import Modelo.Proceso;
 
+@SuppressWarnings("serial")
 public class Adm_Proceso extends JInternalFrame 
 {
 	private JTable tablaProcesos;

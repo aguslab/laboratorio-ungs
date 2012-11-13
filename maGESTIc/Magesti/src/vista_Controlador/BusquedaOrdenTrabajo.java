@@ -1,10 +1,6 @@
 package vista_Controlador;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -95,7 +91,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				}
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
 
-						new String[] {"Elemento", "Cantidad","Hojas Previstas" ,"Hojas Utilizadas"}) 
+						new String[] {"Elemento del producto", "Cantidad", "Hojas Previstas" ,"Hojas Utilizadas"}) 
 					{
 						Class[] columnTypes = new Class[] 
 						{
@@ -108,7 +104,6 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 						boolean[] columnEditables = new boolean[] 
 						{
 							false, false, false,false
-
 						};
 						public boolean isCellEditable(int row, int column) 
 						{
@@ -128,6 +123,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 					temp.setValueAt(elementos.get(i).getTipo_elemento(), i, 0);
 					temp.setValueAt(elementos.get(i).getCantidad(), i, 1);
 					temp.setValueAt(Materiales.getCantHojas(elementos.get(i).getId_elemento()), i, 2);
+					Materiales.getCantHojas(elementos.get(i).getId_elemento());
 					temp.setValueAt(Egreso_Stock.getHojasUsadas(elementos.get(i).getId_elemento()), i, 3);
 					
 				}
@@ -143,7 +139,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				ArrayList<Integer> id_m= Materiales.getID_Materiales(id_OT);
 				
-				ArrayList<Materiales> materiales = new ArrayList<Materiales>();
+				//ArrayList<Materiales> materiales = new ArrayList<Materiales>();
 
 				DefaultTableModel tempMat = (DefaultTableModel) nuevaOT.getTablaMateriales().getModel();
 				Object nuevaFilaMateriales[]= {"",0, 0,"", "", "", 0, 0, 0, 0, 0};
@@ -152,19 +148,19 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				for (int i = 0; i < id_m.size(); i++) 
 				{
 					tempMat.addRow(nuevaFilaMateriales);
-					materiales.add(Materiales.Buscar(id_m.get(i)));						
+					Materiales materiales =Materiales.Buscar(id_m.get(i));
+					
 					tempMat.setValueAt(elementos.get(i).getTipo_elemento(), i, 0);
 					tempMat.setValueAt(elementos.get(i).getCantidad(), i, 1);	
-					tempMat.setValueAt(materiales.get(i).getGramaje(), i, 2);	
-					tempMat.setValueAt((Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel())), i, 3);	
-					tempMat.setValueAt(Variante.getNombre(materiales.get(i).getId_variante()), i, 4);	
-					tempMat.setValueAt(Calidad.getNombre(materiales.get(i).getId_calidad()), i, 5);	
-					tempMat.setValueAt(materiales.get(i).getPliegos_en_demasia(), i, 6);	
-					tempMat.setValueAt(materiales.get(i).getPoses_x_pliego(), i, 7);	
-					tempMat.setValueAt(materiales.get(i).getPliegos_x_hoja(), i, 8);	
-					tempMat.setValueAt(materiales.get(i).getPliegos_netos(), i, 9);
-					tempMat.setValueAt(materiales.get(i).getHojas(), i, 10);	
-
+					tempMat.setValueAt(materiales.getGramaje(), i, 2);	
+					tempMat.setValueAt(Calidad.getNombre(materiales.getId_calidad()), i, 3);
+					tempMat.setValueAt((Formato_Papel.getTamanio(materiales.getId_formato_papel())), i, 4);	
+					tempMat.setValueAt(Variante.getNombre(materiales.getId_variante()), i, 5);		
+					tempMat.setValueAt(materiales.getPliegos_en_demasia(), i, 6);	
+					tempMat.setValueAt(materiales.getPoses_x_pliego(), i, 7);	
+					tempMat.setValueAt(materiales.getPliegos_x_hoja(), i, 8);	
+					tempMat.setValueAt(materiales.getPliegos_netos(), i, 9);
+					tempMat.setValueAt(materiales.getHojas(), i, 10);
 				}
 				
 				nuevaOT.getTablaMateriales().setEnabled(false);

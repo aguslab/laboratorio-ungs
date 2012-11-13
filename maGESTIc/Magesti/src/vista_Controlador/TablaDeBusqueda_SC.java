@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DefaultEditorKit.BeepAction;
-
 import Modelo.Calidad;
 import Modelo.ConexionDB;
 import Modelo.Detalle;
@@ -69,6 +67,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getBtnAgregar().setEnabled(false);
 				nuevaSC.getBtnAlmacenar().setEnabled(false);
 				nuevaSC.getBtnBorrar().setEnabled(false);
+				nuevaSC.getBtnEditarValores().setEnabled(false);
 				nuevaSC.getBtnImprimirReporte().setEnabled(true);
 				
 				//Cargo en la ventana de SC los valores de la fila elegida
@@ -164,11 +163,11 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				{
 					temp.addRow(nuevaFilaElemento);
 					temp.setValueAt(cantidad.get(i), i, 0);
-					temp.setValueAt(marca.get(i), i, 1);
+					temp.setValueAt(gramaje.get(i), i, 1);
 					temp.setValueAt(Calidad.getNombre(id_Calidad.get(i)), i, 2);	
-					temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 3);
-					temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 4);
-					temp.setValueAt(gramaje.get(i), i, 5);
+					temp.setValueAt((Formato_Papel.getTamanio(id_formato_Papel.get(i))), i, 3);
+					temp.setValueAt(Variante.getNombre(id_Variante.get(i)), i, 4);
+					temp.setValueAt(marca.get(i), i, 5);
 					temp.setValueAt(precio_Unitario.get(i), i, 6);
 					temp.setValueAt(unidad_medida.get(i), i, 7);
 					temp.setValueAt(importe.get(i), i, 8);

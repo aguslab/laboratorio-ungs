@@ -2,8 +2,6 @@ package Modelo;
 
 import java.sql.*;
 
-import javax.swing.JOptionPane;
-
 public class MySQLBD 
 {
 

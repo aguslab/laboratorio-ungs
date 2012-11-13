@@ -71,16 +71,15 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar,
 		txtPreimpresion;
 	
-	private JComboBox 
+	private JComboBox<String> 
 		cboCliente,
 		cboMes, 
 		cboDia, 
 		cboAnio,
 		cboMes2, 
 		cboDia2, 
-		cboAnio2,
-		cboEstado;
-	private JComboBox cboEstado_1;
+		cboAnio2;
+	private JComboBox<String> cboEstado_1;
 	
 	public JButton
 		btnLimpiarOT,
@@ -187,7 +186,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setBounds(85, 11, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
-		cboCliente = new JComboBox (Clientes);
+		cboCliente = new JComboBox<String> (Clientes);
 		cboCliente.setBounds(681, 54, 224, 25);
 		
 		txtNombreOT = new JTextField ();
@@ -326,28 +325,27 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							getToolkit().beep ();
 							ke.consume ();
 						}
-						calcularPliegoYhojas();
 					}
 				}
 		);
 		
 		
-		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
+		cboMes = new JComboBox<String>(); //Comentar esta línea si quieren utilizar el WB
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboMes.setBounds(435, 54, 97, 25);
 		cboMes.setEnabled(false);
 		
-		cboDia = new JComboBox ();
+		cboDia = new JComboBox<String> ();
 		cboDia.getModel().setSelectedItem(Metodos.getDiaDeHoy());
 		cboDia.setEnabled(false);
 		cboDia.setBounds(387, 54, 48, 25);
 		
-		cboAnio = new JComboBox ();
+		cboAnio = new JComboBox<String> ();
 		cboAnio.getModel().setSelectedItem(Metodos.getAnioActual());
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(532, 54, 65, 25);
 		
-		cboEstado_1 = new JComboBox (Estados);	
+		cboEstado_1 = new JComboBox<String> (Estados);	
 		//cboEstado_1 = new JComboBox ();
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(681, 11, 224, 25);
@@ -369,13 +367,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio.addItem (anios);
 		}
 		
-		cboMes2 = new JComboBox (Meses);
+		cboMes2 = new JComboBox<String> (Meses);
 		cboMes2.setBounds(134, 54, 97, 25);
 		
-		cboDia2 = new JComboBox ();
+		cboDia2 = new JComboBox<String> ();
 		cboDia2.setBounds(83, 54, 48, 25);
 		
-		cboAnio2 = new JComboBox ();
+		cboAnio2 = new JComboBox<String> ();
 		cboAnio2.setBounds(230, 54, 65, 25);
 		for (int i = 1; i <= 31; i++) 
 		{
@@ -557,7 +555,20 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 									qTITULO + " - Campo vacío",
 									JOptionPane.WARNING_MESSAGE);
 
-				} else {
+				} else if(txtCantidadAEntregar.getText().equals("") || Integer.parseInt(txtCantidadAEntregar.getText()) <= 0 ){
+					
+					JOptionPane
+					.showMessageDialog(
+							null,
+							"Debe ingresar la cantidad a entregar",
+							qTITULO + " - Campo vacío",
+							JOptionPane.WARNING_MESSAGE);
+					txtCantidadAEntregar.requestFocus();
+					
+				}else {
+					
+					txtCantidadAEntregar.setEnabled(false);
+					
 					Integer cantFilas = tablaElementos.getRowCount();
 
 					DefaultTableModel temp = (DefaultTableModel) tablaMateriales
@@ -570,10 +581,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 									.equals("")
 									&& !tablaElementos.getValueAt(i, 1).equals(
 											"")) {
+								Integer cantAEnretXCantElemento=(Integer) tablaElementos
+										.getValueAt(i, 1) * Integer.parseInt(txtCantidadAEntregar.getText());
 								Object nuevaFila[] = {
 										tablaElementos.getValueAt(i, 0),
-										Integer.parseInt(tablaElementos
-												.getValueAt(i, 1).toString()),
+										cantAEnretXCantElemento,
 										"", "", "", "", "", "", "", "", "" };
 								temp.addRow(nuevaFila);
 								c++;
@@ -596,7 +608,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					// Valores para el combo
 					String calidades[] = Calidad.getCalidades();
 					TableColumn columnaCalidad = tablaMateriales
-							.getColumnModel().getColumn(5);// table es la
+							.getColumnModel().getColumn(3);// table es la
 															// JTable, ponele
 															// que la col 0
 															// es la del combo.
@@ -606,7 +618,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					// Valores para el combo
 					String variantes[] = Variante.getVariantes();
 					TableColumn columnaVariante = tablaMateriales
-							.getColumnModel().getColumn(4);// table es la
+							.getColumnModel().getColumn(5);// table es la
 															// JTable, ponele
 															// que la col 0
 															// es la del combo.
@@ -616,7 +628,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					// Valores para el combo
 					String formatos[] = Formato_Papel.getFormatos();
 					TableColumn columnaFormato = tablaMateriales
-							.getColumnModel().getColumn(3);// table es la
+							.getColumnModel().getColumn(4);// table es la
 															// JTable, ponele
 															// que la col 0
 															// es la del combo.
@@ -660,7 +672,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			new Object[][] {
 			},
 			new String[] {
-				"Elemento", "Cantidad", "Gramaje", "Formato", "Variante", "Calidad", "Pliegos en demasia", "Poses x Pliego", "Pliegos x Hoja", "Pliegos Netos", "Hojas" 
+				"Elemento", "Cantidad", "Gramaje", "Calidad", "Formato", "Variante", "Pliegos en demasia", "Poses x Pliego", "Pliegos x Hoja", "Pliegos Netos", "Hojas" 
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -686,13 +698,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		tablaMateriales.getColumnModel().getColumn(2).setPreferredWidth(59);
 		tablaMateriales.getColumnModel().getColumn(2).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(3).setResizable(true);
-		tablaMateriales.getColumnModel().getColumn(3).setPreferredWidth(77);
+		tablaMateriales.getColumnModel().getColumn(3).setPreferredWidth(140);
 		tablaMateriales.getColumnModel().getColumn(3).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(4).setResizable(true);
-		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(115);
+		tablaMateriales.getColumnModel().getColumn(4).setPreferredWidth(77);
 		tablaMateriales.getColumnModel().getColumn(4).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(5).setResizable(true);
-		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(140);
+		tablaMateriales.getColumnModel().getColumn(5).setPreferredWidth(115);
 		tablaMateriales.getColumnModel().getColumn(5).setMinWidth(30);
 		tablaMateriales.getColumnModel().getColumn(6).setResizable(true);
 		tablaMateriales.getColumnModel().getColumn(6).setPreferredWidth(128);
@@ -807,10 +819,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			{
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] 
-			{
-				false, true, true, true, false
-			};
 			public boolean isCellEditable(int row, int column) 
 			{
 				if(column==2 || column==3){
@@ -1384,10 +1392,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	private void calcularPliegoYhojas(){
 		Integer cantFilas= tablaMateriales.getRowCount();
-		Integer cantEntr =0;
-		if(!txtCantidadAEntregar.getText().equals("")){
-			cantEntr=Integer.parseInt(txtCantidadAEntregar.getText());
-		}
+		
 		
 		for (int i = 0; i < cantFilas; i++) {
 			//solo si las columnas tiene valores
@@ -1400,12 +1405,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							.equals("")) {
 				// Obtengo los datos de la tabla materiales necesarios
 				// para calcular los Pliegos Netos
-				Integer cantElemento = Integer.parseInt(tablaMateriales
+				Integer cantElementoXcantAEntregar = Integer.parseInt(tablaMateriales
 						.getValueAt(i, 1).toString());
 				Integer posesXpliego = Integer.parseInt(tablaMateriales
 						.getValueAt(i, 7).toString());
-				Integer totalPliegosNetos = (int) Math.ceil((cantEntr * cantElemento)
-						/ posesXpliego);
+				Integer totalPliegosNetos = (int) Math.ceil((cantElementoXcantAEntregar)/ posesXpliego);
 				tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
 
 				// Obtengo los datos de la tabla materiales necesarios
@@ -1427,7 +1431,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 	
 	
-	//cierra la OT, deja Stock como remanente o como inactivo. guarda las hijas restantes por sc de esta OT
+	//cierra la OT, deja Stock como remanente o como inactivo. guarda las hojas restantes por sc de esta OT
 	private void cerrarOT(int clave, ArrayList<Integer> proc, ArrayList<Integer> id_proc, ArrayList<Boolean> cumplida) {
 
 		for (int i = 0; i < proc.size(); i++) {
@@ -1548,9 +1552,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer id_Elem = Elemento.getMaxId_elemento();
 			
 			//Busco los FK para la tabla materiales de BD
-			Integer id_for = Formato_Papel.getId_Formato(tablaMateriales.getValueAt(i, 3).toString());
-			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 4).toString());
-			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 5).toString());
+			Integer id_cal = Calidad.getId_Calidad(tablaMateriales.getValueAt(i, 3).toString());
+			Integer id_for = Formato_Papel.getId_Formato(tablaMateriales.getValueAt(i, 4).toString());
+			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 5).toString());
 			
 			//Obtengo los demas datos para la tabla de materiales
 			
@@ -1562,7 +1566,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer hojas = Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString());
 			
 			//Se da de alta la tabla de materiales con todos los datos ingresados por el usuario.
-			Materiales m = new Materiales(id_Elem,gramaje,id_for,id_var,id_cal,pliegosEnDemasia,posesXpliego,
+			Materiales m = new Materiales(id_Elem,gramaje,id_cal,id_for,id_var,pliegosEnDemasia,posesXpliego,
 					pliegosXhoja,hojas,pliegosNetos);
 			m.Alta();
 		}
@@ -1623,32 +1627,32 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtTipoProducto;
 	}
 	
-	JComboBox getCboMes()
+	JComboBox<String> getCboMes()
 	{
 		return this.cboMes;
 	}
 	
-	JComboBox getCboDia()
+	JComboBox<String> getCboDia()
 	{
 		return this.cboDia;
 	}
 	
-	JComboBox getCboAnio()
+	JComboBox<String> getCboAnio()
 	{
 		return this.cboAnio;
 	}
 	
-	JComboBox getCboMes2()
+	JComboBox<String> getCboMes2()
 	{
 		return this.cboMes2;
 	}
 	
-	JComboBox getCboDia2()
+	JComboBox<String> getCboDia2()
 	{
 		return this.cboDia2;
 	}
 	
-	JComboBox getCboAnio2()
+	JComboBox<String> getCboAnio2()
 	{
 		return this.cboAnio2;
 	}
@@ -1658,7 +1662,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtNombreOT;
 	}
 	
-	JComboBox getEstado()
+	JComboBox<String> getEstado()
 	{
 		return this.cboEstado_1;
 	}
@@ -1704,7 +1708,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 
 	
-	public JComboBox getCliente() 
+	public JComboBox<String> getCliente() 
 	{
 		return this.cboCliente;
 	}
@@ -1823,6 +1827,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	
 	
+	@SuppressWarnings("deprecation")
 	private void reporteOT()
 	{
 		String fechaConfec = getCboDia().getSelectedItem().toString()+ " de " + getCboMes().getSelectedItem().toString() + " del " + getCboAnio().getSelectedItem().toString();
@@ -1914,6 +1919,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void reporteFinal()
 	{
 		String nroOT = getTxtNro().getText();

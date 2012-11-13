@@ -142,11 +142,11 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			new Object[][] {
 			},
 			new String[] {
-				"<html>Nro<br> Partida Stock</html>", "<html>Solicitud<br> de Compra</html>", "<html>Calidad</html>", "<html>Formato</html>", "<html>Variante</html>", "<html>Gramaje</html>", "<html>Hojas<br> totales</html>", "<html>Hojas<br> usadas</html>", "<html>Remanente</html>", "<html>Hojas<br>a Retirar</html>", "<html>Codigo<br> Elemento</html>"
+				"<html>Nro<br> Partida Stock</html>", "<html>Solicitud<br> de Compra</html>", "<html>Gramaje</html>", "<html>Calidad</html>", "<html>Formato</html>", "<html>Variante</html>", "<html>Hojas<br> totales</html>", "<html>Hojas<br> usadas</html>", "<html>Remanente</html>", "<html>Hojas<br>a Retirar</html>", "<html>Nro<br> Elemento</html>"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, Integer.class, String.class, String.class, String.class, String.class, Integer.class, Boolean.class, Integer.class, String.class
+				String.class, String.class, Integer.class, String.class, String.class, String.class, Integer.class, Integer.class, Boolean.class, Integer.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -160,10 +160,10 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		});
 		tablaStock.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tablaStock.getColumnModel().getColumn(1).setPreferredWidth(120);
-		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(120);
-		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(80);
-		tablaStock.getColumnModel().getColumn(4).setPreferredWidth(110);
-		tablaStock.getColumnModel().getColumn(5).setPreferredWidth(70);
+		tablaStock.getColumnModel().getColumn(2).setPreferredWidth(70);
+		tablaStock.getColumnModel().getColumn(3).setPreferredWidth(120);
+		tablaStock.getColumnModel().getColumn(4).setPreferredWidth(80);
+		tablaStock.getColumnModel().getColumn(5).setPreferredWidth(110);
 		tablaStock.getColumnModel().getColumn(6).setPreferredWidth(70);
 		tablaStock.getColumnModel().getColumn(7).setPreferredWidth(70);
 		tablaStock.getColumnModel().getColumn(8).setPreferredWidth(80);
@@ -239,23 +239,33 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			new Object[][] {
 			},
 			new String[] {
-				"Codigo", "Elemento", "Calidad", "Formato", "Variante", "Gramaje", "Hojas Previstas"
+				"ID", "Nro", "Elemento", "Gramaje", "Calidad", "Formato", "Variante", "Hojas Previstas"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, Integer.class, String.class, String.class, String.class, Integer.class
+				Integer.class, Integer.class, String.class, Integer.class, String.class, String.class, String.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
-		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(110);
+		tablaElementos.getColumnModel().getColumn(0).setResizable(false);
+		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(0);
+		tablaElementos.getColumnModel().getColumn(0).setMinWidth(0);
+		tablaElementos.getColumnModel().getColumn(0).setMaxWidth(0);
+		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaElementos.getColumnModel().getColumn(2).setPreferredWidth(110);
 		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(90);
 		tablaElementos.getColumnModel().getColumn(4).setPreferredWidth(110);
 		tablaElementos.getColumnModel().getColumn(5).setPreferredWidth(90);
-		tablaElementos.getColumnModel().getColumn(6).setPreferredWidth(100);
+		tablaElementos.getColumnModel().getColumn(6).setPreferredWidth(110);
+		tablaElementos.getColumnModel().getColumn(7).setPreferredWidth(100);
 		tablaElementos.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaElementos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaElementos.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -282,6 +292,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		}else{
 			String [] numot_nombreot=Orden_Trabajo.getId_nom_OT_SinStock();
 			cboOT= new JComboBox(numot_nombreot);
+			cboOT.setSelectedItem(null);
 			cboOT.setToolTipText("Seleccione la Orden de Trabajo para la cual desea retirar hojas");
 			
 			cboOT.setEnabled(true);
@@ -324,10 +335,10 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			
 			tablaStock.setValueAt(Metodos.EnteroAFactura(st.getId_stock()), i, 0);//nro stock
 			tablaStock.setValueAt(Metodos.EnteroAFactura(st.getId_solicitud_compra()), i, 1);//nro SC
-			tablaStock.setValueAt(Calidad.getNombre(Detalle.getidCalidad(st.getId_detalle())), i, 2);//Calidad
-			tablaStock.setValueAt(Formato_Papel.getTamanio(Detalle.getidFormato(st.getId_detalle())), i, 3);//formato
-			tablaStock.setValueAt(Variante.getNombre(Detalle.getidVariante(st.getId_detalle())), i, 4);//variante
-			tablaStock.setValueAt(Detalle.getGramaje(st.getId_detalle()), i, 5);//gramaje
+			tablaStock.setValueAt(Detalle.getGramaje(st.getId_detalle()), i, 2);//gramaje
+			tablaStock.setValueAt(Calidad.getNombre(Detalle.getidCalidad(st.getId_detalle())), i, 3);//Calidad
+			tablaStock.setValueAt(Formato_Papel.getTamanio(Detalle.getidFormato(st.getId_detalle())), i, 4);//formato
+			tablaStock.setValueAt(Variante.getNombre(Detalle.getidVariante(st.getId_detalle())), i, 5);//variante
 			tablaStock.setValueAt(Detalle.getCantHojas(st.getId_detalle()), i, 6);//hojas totales
 			tablaStock.setValueAt(st.getCant_hojas_usadas(), i, 7);//hojas usadas
 			tablaStock.setValueAt(st.getRemanente(), i, 8);//remanente
@@ -338,7 +349,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		//debreria elegir segun el elemento para el cual desea sacar hojas
 		String[] elem= new String[tablaElementos.getRowCount()+1];
 		for(int k=0;k<elem.length-1;k++){
-			elem[k]=tablaElementos.getValueAt(k, 0).toString();
+			elem[k]=tablaElementos.getValueAt(k, 1).toString();
 		}
 		
 		TableColumn columnaElemento=tablaStock.getColumnModel().getColumn(10);//codigo elemento
@@ -350,18 +361,19 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		ArrayList<Elemento> elementos= Elemento.getElementos(id_OT);
 		ArrayList<Materiales> materiales= Materiales.getMateriales(id_OT);
 		DefaultTableModel telem= (DefaultTableModel) tablaElementos.getModel();
-		Object nuevaFilaElementos[]= {"","","","","","",""};
+		Object nuevaFilaElementos[]= {"","","","","","","",""};
 
 		for(int i=0;i<elementos.size();i++){
 			telem.addRow(nuevaFilaElementos);
 
-			tablaElementos.setValueAt(Metodos.formatoElemento(elementos.get(i).getId_elemento()), i, 0);
-			tablaElementos.setValueAt(elementos.get(i).getTipo_elemento(), i, 1);
-			tablaElementos.setValueAt(Calidad.getNombre(materiales.get(i).getId_calidad()), i, 2);
-			tablaElementos.setValueAt(Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel()), i, 3);
-			tablaElementos.setValueAt(Variante.getNombre(materiales.get(i).getId_variante()), i, 4);
-			tablaElementos.setValueAt(materiales.get(i).getGramaje(), i, 5);
-			tablaElementos.setValueAt(materiales.get(i).getHojas(), i, 6);
+			tablaElementos.setValueAt(elementos.get(i).getId_elemento(), i, 0);
+			tablaElementos.setValueAt(i+1, i, 1);
+			tablaElementos.setValueAt(elementos.get(i).getTipo_elemento(), i, 2);
+			tablaElementos.setValueAt(materiales.get(i).getGramaje(), i, 3);
+			tablaElementos.setValueAt(Calidad.getNombre(materiales.get(i).getId_calidad()), i, 4);
+			tablaElementos.setValueAt(Formato_Papel.getTamanio(materiales.get(i).getId_formato_papel()), i, 5);
+			tablaElementos.setValueAt(Variante.getNombre(materiales.get(i).getId_variante()), i, 6);
+			tablaElementos.setValueAt(materiales.get(i).getHojas(), i, 7);
 
 		}
 	}
@@ -455,16 +467,19 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		if(filasMoficadas.size()>0){
 			
 		for(int i=0; i < filasMoficadas.size();i++){
-			String fomatoIdMaterial=tablaStock.getValueAt(filasMoficadas.get(i), 10).toString();
-			Materiales m=Materiales.Buscar(Metodos.volverA_IdElemento(fomatoIdMaterial));
+			Integer NroElem=Integer.parseInt(tablaStock.getValueAt(filasMoficadas.get(i), 10).toString());
+			Integer IdMaterial=(Integer) tablaElementos.getValueAt(NroElem-1, 0);
+			
+			tablaStock.getValueAt(filasMoficadas.get(i), 10).toString();
+			Materiales m=Materiales.Buscar(IdMaterial);
 			String calidad=Calidad.getNombre(m.getId_calidad());
 			String formato=Formato_Papel.getTamanio(m.getId_formato_papel());
 			String variante=Variante.getNombre(m.getId_variante());
 			Integer gramaje=m.getGramaje();	
-			if(!tablaStock.getValueAt(filasMoficadas.get(i), 2).toString().equalsIgnoreCase(calidad) ||
-			!tablaStock.getValueAt(filasMoficadas.get(i), 3).toString().equalsIgnoreCase(formato) ||
-			!tablaStock.getValueAt(filasMoficadas.get(i), 4).toString().equalsIgnoreCase(variante) ||
-			!tablaStock.getValueAt(filasMoficadas.get(i), 5).toString().equalsIgnoreCase(gramaje.toString())){
+			if(!tablaStock.getValueAt(filasMoficadas.get(i), 3).toString().equalsIgnoreCase(calidad) ||
+			!tablaStock.getValueAt(filasMoficadas.get(i), 4).toString().equalsIgnoreCase(formato) ||
+			!tablaStock.getValueAt(filasMoficadas.get(i), 5).toString().equalsIgnoreCase(variante) ||
+			!tablaStock.getValueAt(filasMoficadas.get(i), 2).toString().equalsIgnoreCase(gramaje.toString())){
 				return false;
 			}
 		}
@@ -482,20 +497,24 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			Integer id_Stock = Metodos.FacturaAEntero(tablaStock.getValueAt(fmodif.get(i),0).toString());
 			
 			if (!tablaStock.getValueAt(fmodif.get(i), 9).toString().equals("0")) {
-				Integer hojasUsadas = Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 7).toString()) + Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 9).toString());
 				Integer hojasRetiradas=(Integer) tablaStock.getValueAt(fmodif.get(i), 9);
+				Integer hojasUsadas = Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 7).toString()) + hojasRetiradas;
 				//Actualizar la cant de Hojas usadas en Stock
 				boolean ok = Stock.SacarHojas(id_Stock, hojasUsadas);
 				if (ok) {// registrar retiro
-					String formatoElem=tablaStock.getValueAt(fmodif.get(i), 10).toString();
-					Integer id_mat=Metodos.volverA_IdElemento(formatoElem);
+					Integer NroElem=Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 10).toString());
+					Integer id_mat=(Integer) tablaElementos.getValueAt(NroElem-1, 0);
 					Egreso_Stock es = new Egreso_Stock(id_Stock, id_mat, txtEmpleado.getText(), hojasRetiradas,
 							Metodos.getDateTimeActual(0));
 					es.Alta();
 					
 					Integer id_OT=Metodos.getIdEnCombo(cboOT);
-					
 					Orden_Trabajo.CambiarCantHojasUtil(id_OT, hojasRetiradas);
+					
+					Integer hojasTotales=Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 6).toString());
+					if(hojasTotales == hojasUsadas){
+						Stock.setStockInactivo(id_Stock);
+					}
 				}
 			}
 		}

@@ -1,16 +1,6 @@
 package Modelo;
 
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-
-import javax.swing.JTextField;
-
-import vista_Controlador.Metodos;
 
 
 public class Main_OT {

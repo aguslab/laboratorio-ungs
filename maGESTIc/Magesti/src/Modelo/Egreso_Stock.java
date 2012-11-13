@@ -226,57 +226,57 @@ public class Egreso_Stock {
 
 
 
-	private static Integer getRemanenteHasta(Integer id_es, Integer id_material,Integer id_stock) 
-	{
-		Integer remanente=0;
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT SUM(cant_hojas_retiradas) FROM egreso_stock WHERE id_egreso_stock <="+id_es+ " AND id_materiales="+id_material+ " AND id_stock="+id_stock);
-	
-		
-		Integer cantHojasTotales = Stock.getHojasTotales(id_stock);
-		
-		if (resultado != null)
-		{
-			try 
-			{
-				while (resultado.next()) 
-				{
-					remanente = cantHojasTotales - resultado.getInt(1);
-				}
-			}
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
-		return remanente;
-	}
+//	private static Integer getRemanenteHasta(Integer id_es, Integer id_material,Integer id_stock) 
+//	{
+//		Integer remanente=0;
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT SUM(cant_hojas_retiradas) FROM egreso_stock WHERE id_egreso_stock <="+id_es+ " AND id_materiales="+id_material+ " AND id_stock="+id_stock);
+//	
+//		
+//		Integer cantHojasTotales = Stock.getHojasTotales(id_stock);
+//		
+//		if (resultado != null)
+//		{
+//			try 
+//			{
+//				while (resultado.next()) 
+//				{
+//					remanente = cantHojasTotales - resultado.getInt(1);
+//				}
+//			}
+//			catch (Exception e) 
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return remanente;
+//	}
 
-	private static Integer getCantCompradasSC(Integer id_sc) 
-	{
-		Integer compradas = 0;
-		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra" +
-				" IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r" +
-				" INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra " +
-				"WHERE estado='Recibido' AND s.id_solicitud_compra=" + id_sc + ")");
-		
-		if (resultado != null)
-		{
-			try 
-			{
-				while (resultado.next()) 
-				{
-					compradas += resultado.getInt(1);
-				}
-			}
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
-		return compradas;
-	}
+//	private static Integer getCantCompradasSC(Integer id_sc) 
+//	{
+//		Integer compradas = 0;
+//		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+//				"SELECT sum(cantidad) FROM detalle WHERE id_solicitud_compra" +
+//				" IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r" +
+//				" INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra " +
+//				"WHERE estado='Recibido' AND s.id_solicitud_compra=" + id_sc + ")");
+//		
+//		if (resultado != null)
+//		{
+//			try 
+//			{
+//				while (resultado.next()) 
+//				{
+//					compradas += resultado.getInt(1);
+//				}
+//			}
+//			catch (Exception e) 
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		return compradas;
+//	}
 	
 	public static Integer getCantCompradasOT(Integer id_ot) 
 	{

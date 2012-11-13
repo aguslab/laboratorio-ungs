@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+@SuppressWarnings("serial")
 public class Adm_Atributos extends JInternalFrame 
 {
 	private JTable tablaCalidad;
@@ -207,7 +208,6 @@ public class Adm_Atributos extends JInternalFrame
 				if(tabSeleccionado == 0)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaCalidad.getModel();
-					int cantFilas=tablaTemp.getRowCount();
 					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
@@ -215,7 +215,6 @@ public class Adm_Atributos extends JInternalFrame
 				if(tabSeleccionado == 1)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaFormato.getModel();
-					int cantFilas=tablaTemp.getRowCount();
 					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
@@ -223,7 +222,6 @@ public class Adm_Atributos extends JInternalFrame
 				if(tabSeleccionado == 2)
 				{
 					DefaultTableModel tablaTemp = (DefaultTableModel) tablaVariante.getModel();
-					int cantFilas=tablaTemp.getRowCount();
 					Object nuevaFila[]= {"","",true};
 					tablaTemp.addRow(nuevaFila);
 				}
@@ -232,7 +230,7 @@ public class Adm_Atributos extends JInternalFrame
 		);
 		getContentPane().add(btnAgregar);
 		
-		//
+		
 		final JTabbedPane tabAtributos = new JTabbedPane(JTabbedPane.LEFT);
 		tabAtributos.addChangeListener(new ChangeListener() 
 		{

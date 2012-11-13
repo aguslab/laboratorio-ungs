@@ -36,8 +36,6 @@ implements ItemListener,ActionListener, Config
 	private JButton btnMatriz[]= new JButton[31];
 	
 	private JComponent Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
-	private Dimension dimBarra = null; 
-
 	String dias[] = 
   	{
 		"    DOMINGO", 
@@ -108,7 +106,7 @@ implements ItemListener,ActionListener, Config
 	public void ocultarBarraTitulo()
 	{
 	Barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
-	dimBarra = Barra.getPreferredSize();
+	Barra.getPreferredSize();
 	Barra.setSize(0,0);
 	Barra.setPreferredSize(new Dimension(0,0));
 	repaint();
@@ -577,7 +575,6 @@ implements ItemListener,ActionListener, Config
 		{
 			String fecha=anio+"-"+ mm + "-" + diaS;
 			ArrayList<String> ot= Orden_Trabajo.getId_OTSegunFecha(fecha);
-			String id_ot="";
 			String msg="";
 			if(ot.size()>0)
 			{
