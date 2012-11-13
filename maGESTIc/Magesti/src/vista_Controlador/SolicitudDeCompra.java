@@ -518,7 +518,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				}
 			}
 		});
-		btnBorrar.setBounds(139, 172, 120, 30);
+		btnBorrar.setBounds(267, 172, 120, 30);
 		panDetalles.add(btnBorrar);
 		
 		btnAgregar= new JButton("Agregar", new ImageIcon ("Imagenes/sumar.png"));
@@ -559,10 +559,10 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		panDetalles.add(btnAgregar);
 		
 		btnAlmacenar = new JButton("Calcular Totales", new ImageIcon ("Imagenes/ok.png"));
-		btnAlmacenar.setBounds(732, 172, 140, 30);
+		btnAlmacenar.setBounds(740, 172, 140, 30);
 		panDetalles.add(btnAlmacenar);
 		
-		btnEditarValores = new JButton("Editar Valores", null);
+		btnEditarValores = new JButton("Editar", null);
 		btnEditarValores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tablaDetalles.setEnabled(true);
@@ -571,7 +571,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				btnBorrar.setEnabled(true);
 			}
 		});
-		btnEditarValores.setBounds(558, 172, 140, 30);
+		btnEditarValores.setBounds(139, 172, 120, 30);
 		panDetalles.add(btnEditarValores);
 		btnAlmacenar.addActionListener(new ActionListener() {
 			
