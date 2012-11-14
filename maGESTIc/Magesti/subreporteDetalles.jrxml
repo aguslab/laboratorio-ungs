@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSC.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ee0ce584-1f85-4455-b0d7-d96ee679fd05">
-	<property name="ireport.zoom" value="2.593742460100007"/>
-	<property name="ireport.x" value="354"/>
+	<property name="ireport.zoom" value="1.2100000000000033"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
@@ -55,7 +55,7 @@
 				<text><![CDATA[Cant.Hojas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="99ac0069-0ca7-4755-84b5-e8e73dd2b494" mode="Opaque" x="62" y="0" width="49" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="99ac0069-0ca7-4755-84b5-e8e73dd2b494" mode="Opaque" x="351" y="0" width="49" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -68,7 +68,7 @@
 				<text><![CDATA[Marca]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1227a987-0b07-454f-a1b1-721f7983c19b" mode="Opaque" x="111" y="0" width="97" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="1227a987-0b07-454f-a1b1-721f7983c19b" mode="Opaque" x="110" y="0" width="97" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -81,7 +81,7 @@
 				<text><![CDATA[Calidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="243ef198-359d-40fc-bac1-65baa78380df" mode="Opaque" x="208" y="0" width="96" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="243ef198-359d-40fc-bac1-65baa78380df" mode="Opaque" x="255" y="0" width="96" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -94,7 +94,7 @@
 				<text><![CDATA[Variante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9ff4829f-49ed-498d-b50e-6dbec83e9917" mode="Opaque" x="304" y="0" width="48" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="9ff4829f-49ed-498d-b50e-6dbec83e9917" mode="Opaque" x="207" y="0" width="48" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -107,7 +107,7 @@
 				<text><![CDATA[Formato]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="dfd95b25-058d-4601-8c32-bc7a1358a56e" mode="Opaque" x="352" y="0" width="48" height="20" backcolor="#A8BDCF"/>
+				<reportElement uuid="dfd95b25-058d-4601-8c32-bc7a1358a56e" mode="Opaque" x="62" y="0" width="48" height="20" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -176,7 +176,7 @@
 				<textFieldExpression><![CDATA[$F{cantHojas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3fe27652-0ce3-4002-b5cc-ede2ac6776d6" x="62" y="0" width="49" height="20"/>
+				<reportElement uuid="3fe27652-0ce3-4002-b5cc-ede2ac6776d6" x="351" y="0" width="49" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -189,7 +189,7 @@
 				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="79f655e5-d9c0-4f64-ab8d-f6d9c3de5630" x="111" y="0" width="97" height="20"/>
+				<reportElement uuid="79f655e5-d9c0-4f64-ab8d-f6d9c3de5630" x="110" y="0" width="97" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -202,7 +202,7 @@
 				<textFieldExpression><![CDATA[$F{calidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="cceb3b83-3191-40fe-a2f7-2c0f42da9d42" x="208" y="0" width="96" height="20"/>
+				<reportElement uuid="cceb3b83-3191-40fe-a2f7-2c0f42da9d42" x="255" y="0" width="96" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -215,7 +215,7 @@
 				<textFieldExpression><![CDATA[$F{variante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b0b89e23-d085-4bc9-ae55-4d2777f3b22f" x="304" y="0" width="48" height="20"/>
+				<reportElement uuid="b0b89e23-d085-4bc9-ae55-4d2777f3b22f" x="207" y="0" width="48" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -228,7 +228,7 @@
 				<textFieldExpression><![CDATA[$F{formato}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="72453361-4e33-4a58-b040-4a16aa3f9819" x="352" y="0" width="48" height="20"/>
+				<reportElement uuid="72453361-4e33-4a58-b040-4a16aa3f9819" x="62" y="0" width="48" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

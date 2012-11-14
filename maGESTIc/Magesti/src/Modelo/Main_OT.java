@@ -5,9 +5,8 @@ import java.sql.SQLException;
 
 public class Main_OT {
 
-		public static void main(String[] args) throws SQLException {
-			
-			
+		public static void main(String[] args) throws SQLException 
+		{
 			
 			
 //			System.out.println(Metodos.getAncho("10563x1231"));
@@ -169,7 +168,6 @@ public class Main_OT {
 	*/	
 
 		 }
-		
 	}
 
 

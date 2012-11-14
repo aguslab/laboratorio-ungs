@@ -43,6 +43,30 @@ public class Calidad
 		this.nombre = nombre;
 	}
 	
+	public static String getCalidadDeRetiro(Integer id_SC)
+	{
+		String calidad = "";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT c.nombre FROM calidad c INNER JOIN detalle d ON c.id_calidad = d.id_calidad" +
+				"AND id_solicitud_compra = " + id_SC + ";");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					calidad = resultado.getString(1);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return calidad;
+	}
+	
 	public static  String[] getCalidades()
 	{
 		ArrayList<String> cal=new ArrayList<String>();

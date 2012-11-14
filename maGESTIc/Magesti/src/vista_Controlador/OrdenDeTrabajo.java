@@ -1935,7 +1935,33 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
         	rElementos.add(new FilaElementos((String) tablaElementos.getValueAt(i, 0), (Integer) tablaElementos.getValueAt(i, 1),
                           (Integer) tablaElementos.getValueAt(i, 2), (Integer) tablaElementos.getValueAt(i, 3)));
         }
-		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getSC(id_OT),Egreso_Stock.getRetirosStock(id_OT), rElementos);
+        
+      //Guardo en un arraylist las filas de la tabla Orden de ejecucion
+      		ArrayList<FilaOEjecucion> rOEjecucion = new ArrayList<FilaOEjecucion>();
+      		cantFilas = tablaOrdenDeEjecucion.getRowCount();
+      		String tercerizada = "";
+      		String cumplida = "";
+      		
+      		Integer cantCumplidas=Procesos_x_OT.getCantidadFilasCumplidas(id_OT);
+      		for (int i = 0; i < cantFilas; i++) 
+      		{
+      			if(tablaOrdenDeEjecucion.getValueAt(i, 1).equals(true))
+      				tercerizada = "Si";
+      			else
+      				tercerizada = "No";
+      			
+      			if(i < cantCumplidas)
+      				cumplida = "Si";
+      			else
+      				cumplida = "No";
+      			
+      			rOEjecucion.add(new FilaOEjecucion((String) tablaOrdenDeEjecucion.getValueAt(i, 0), tercerizada,
+      					(String) tablaOrdenDeEjecucion.getValueAt(i, 2), (String) tablaOrdenDeEjecucion.getValueAt(i, 3), cumplida));
+      					
+      		}
+        
+        
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getSC(id_OT),Egreso_Stock.getRetirosStock(id_OT), rElementos, rOEjecucion);
 		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);
