@@ -2,25 +2,28 @@ package vista_Controlador;
 
 public class FilaSC
 {
-	private String nroSC;
+	private String nroSC,calidad,formato,variante,gramaje,marca;
 	private String f_h_recibido, fConfeccion, fEntrega;
 	private Integer cantCompradas,hojasRestantes;
 	
-	public FilaSC(String nroSC, String f_h_recibido, String fConfeccion,
-			String fEntrega, Integer cantCompradas, Integer hojasRestantes) 
+	
+
+	public FilaSC(String nroSC, String calidad, String formato,
+			String variante, String gramaje, String marca, String f_h_recibido,
+			String fConfeccion, String fEntrega, Integer cantCompradas,
+			Integer hojasRestantes) 
 	{
 		this.nroSC = nroSC;
-		System.out.println("sc: "+nroSC);
+		this.calidad = calidad;
+		this.formato = formato;
+		this.variante = variante;
+		this.gramaje = gramaje;
+		this.marca = marca;
 		this.f_h_recibido = f_h_recibido;
-		System.out.println(f_h_recibido);
 		this.fConfeccion = fConfeccion;
-		System.out.println(fConfeccion);
 		this.fEntrega = fEntrega;
-		System.out.println(fEntrega);
 		this.cantCompradas = cantCompradas;
-		System.out.println(cantCompradas);
 		this.hojasRestantes = hojasRestantes;
-		System.out.println(hojasRestantes);
 	}
 
 	public String getNroSC() 
@@ -81,6 +84,56 @@ public class FilaSC
 	public void setHojasRestantes(Integer hojasRestantes) 
 	{
 		this.hojasRestantes = hojasRestantes;
+	}
+
+	public String getCalidad() 
+	{
+		return calidad;
+	}
+
+	public void setCalidad(String calidad) 
+	{
+		this.calidad = calidad;
+	}
+
+	public String getFormato() 
+	{
+		return formato;
+	}
+
+	public void setFormato(String formato) 
+	{
+		this.formato = formato;
+	}
+
+	public String getVariante() 
+	{
+		return variante;
+	}
+
+	public void setVariante(String variante) 
+	{
+		this.variante = variante;
+	}
+
+	public String getGramaje() 
+	{
+		return gramaje;
+	}
+
+	public void setGramaje(String gramaje)
+	{
+		this.gramaje = gramaje;
+	}
+
+	public String getMarca() 
+	{
+		return marca;
+	}
+
+	public void setMarca(String marca) 
+	{
+		this.marca = marca;
 	}
 	
 	

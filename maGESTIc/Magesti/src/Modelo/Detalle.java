@@ -625,6 +625,53 @@ public class Detalle {
 		return id_det;	
 	}
 	
+	public static Integer getGramajeDeRetiro(Integer id_sc)
+	{
+		Integer gramaje = 0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT gramaje FROM detalle WHERE id_solicitud_compra =" + id_sc + ";");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					gramaje = resultado.getInt(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return gramaje;
+	}
+	
+	public static String getMarcaDeRetiro(Integer id_sc)
+	{
+		String marca = "";
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
+				"SELECT marca FROM detalle WHERE id_solicitud_compra =" + id_sc + ";");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					marca = resultado.getString(1);
+					break;
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return marca;
+	}
 	
 	public static ArrayList<Detalle> getDetallesRecibidos(Integer id_SC) {
 

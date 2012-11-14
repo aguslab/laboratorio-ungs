@@ -9,15 +9,17 @@ public class ReporteFinal
 	private ArrayList<FilaSC> scs;
 	private ArrayList<FilaRetiros> retiros;
 	private ArrayList<FilaElementos> elementos;
-	
+	private ArrayList<FilaOEjecucion> ordenEjecucion;
 
 	public ReporteFinal()
 	{
 		
 	}
 	
-	
-	public ReporteFinal(String nroOT, String nombreOT, Integer cantCompradas,ArrayList<FilaSC> scs, ArrayList<FilaRetiros> retiros,  ArrayList<FilaElementos> elementos) 
+	public ReporteFinal(String nroOT, String nombreOT, Integer cantCompradas,
+			ArrayList<FilaSC> scs, ArrayList<FilaRetiros> retiros,
+			ArrayList<FilaElementos> elementos,
+			ArrayList<FilaOEjecucion> ordenEjecucion)
 	{
 		this.nroOT = nroOT;
 		this.nombreOT = nombreOT;
@@ -25,21 +27,24 @@ public class ReporteFinal
 		this.scs = scs;
 		this.retiros = retiros;
 		this.elementos = elementos;
+		this.ordenEjecucion = ordenEjecucion;
 	}
-
 
 	public String getNroOT() 
 	{
 		return nroOT;
 	}
+	
 	public void setNroOT(String nroOT) 
 	{
 		this.nroOT = nroOT;
 	}
+	
 	public String getNombreOT() 
 	{
 		return nombreOT;
 	}
+	
 	public void setNombreOT(String nombreOT) 
 	{
 		this.nombreOT = nombreOT;
@@ -89,6 +94,18 @@ public class ReporteFinal
 	public void setScs(ArrayList<FilaSC> scs)
 	{
 		this.scs = scs;
+	}
+
+
+	public ArrayList<FilaOEjecucion> getOrdenEjecucion() 
+	{
+		return ordenEjecucion;
+	}
+
+
+	public void setOrdenEjecucion(ArrayList<FilaOEjecucion> ordenEjecucion)
+	{
+		this.ordenEjecucion = ordenEjecucion;
 	}
 	
 	

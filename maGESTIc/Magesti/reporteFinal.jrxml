@@ -24,6 +24,9 @@
 	<field name="nroOT" class="java.lang.String">
 		<fieldDescription><![CDATA[nroOT]]></fieldDescription>
 	</field>
+	<field name="ordenEjecucion" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[ordenEjecucion]]></fieldDescription>
+	</field>
 	<field name="retiros" class="java.util.ArrayList">
 		<fieldDescription><![CDATA[retiros]]></fieldDescription>
 	</field>
@@ -45,7 +48,7 @@
 		</band>
 	</title>
 	<detail>
-		<band height="42" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="55c35a82-9d37-400d-b8ca-90bf63d9b81a" x="20" y="0" width="125" height="20"/>
 				<textElement>
@@ -68,25 +71,11 @@
 				<textFieldExpression><![CDATA[$F{nroOT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="dcd3d41a-9a1e-4b99-aa2f-9a0b6ed19477" x="434" y="0" width="189" height="42"/>
+				<reportElement uuid="dcd3d41a-9a1e-4b99-aa2f-9a0b6ed19477" x="434" y="0" width="388" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreOT}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="864e97d5-abf3-421f-84db-e1fb93112a5f" x="631" y="0" width="133" height="20"/>
-				<textElement>
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<text><![CDATA[Cant. Hojas Compradas:]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="fb0ebbc8-5527-46a0-8551-6b3051458217" x="763" y="0" width="59" height="20"/>
-				<textElement>
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cantCompradas}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="97">
@@ -148,6 +137,26 @@
 				</textElement>
 				<text><![CDATA[Elementos]]></text>
 			</staticText>
+		</band>
+		<band height="94">
+			<subreport>
+				<reportElement uuid="4dd57911-2127-472c-9050-66bc5953bee7" x="20" y="32" width="801" height="50"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{ordenEjecucion})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteOEjecucion.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement uuid="ab8876b3-9909-4848-b38e-998e1464a94c" x="20" y="6" width="19" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="464b91b1-57ac-4384-8236-a9dec1cd93af" x="51" y="0" width="103" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Procesos o Tareas]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="a908eb09-99a7-4396-9ec2-c6bd37ddd92c" x="154" y="7" width="656" height="1"/>
+			</line>
 		</band>
 	</detail>
 	<pageFooter>

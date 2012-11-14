@@ -290,12 +290,14 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				@Override
 					public void actionPerformed(ActionEvent e) 
 				{
-					if (RP == null || !RP.isShowing()) 
+					if (RP == null || RP.isClosed() || (!RP.isShowing() && !RP.isIcon())) 
 					{
 						RP = new Recepcion_Pedido(id_SC,cantFilas,nuevaSC);
 						Magesti.getEscritorio().add (RP);						
 						RP.show ();
-					}else{
+					}
+					else
+					{
 						RP.toFront();
 					}
 				}
