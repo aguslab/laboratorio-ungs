@@ -56,8 +56,8 @@ public class Formato_Papel {
 	{
 		String formato = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT f.tamanio FROM formato_papel f INNER JOIN detalle d ON c.id_calidad = d.id_calidad" +
-				"AND id_solicitud_compra = " + id_SC + ";");
+				"SELECT f.tamanio FROM formato_papel f INNER JOIN detalle d ON f.id_formato_papel = d.id_formato_papel" +
+				" AND id_solicitud_compra = " + id_SC + ";");
 		
 		if (resultado != null) 
 		{

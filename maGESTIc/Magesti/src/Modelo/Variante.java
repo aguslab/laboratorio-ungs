@@ -73,8 +73,8 @@ public class Variante {
 	{
 		String variante = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT v.nombre FROM variante v INNER JOIN detalle d ON c.id_calidad = d.id_calidad" +
-				"AND id_solicitud_compra = " + id_SC + ";");
+				"SELECT v.nombre FROM variante v INNER JOIN detalle d ON v.id_variante = d.id_variante" +
+				" AND id_solicitud_compra = " + id_SC + ";");
 		
 		if (resultado != null) 
 		{

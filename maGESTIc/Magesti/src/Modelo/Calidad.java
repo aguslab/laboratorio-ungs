@@ -48,7 +48,7 @@ public class Calidad
 		String calidad = "";
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT c.nombre FROM calidad c INNER JOIN detalle d ON c.id_calidad = d.id_calidad" +
-				"AND id_solicitud_compra = " + id_SC + ";");
+				" AND id_solicitud_compra = " + id_SC + ";");
 		
 		if (resultado != null) 
 		{
