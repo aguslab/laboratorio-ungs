@@ -274,7 +274,7 @@ public class Stock {
 		String[] gramajes= null;
 		
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT DISTINCT d.gramaje FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE activo=true");
+				"SELECT DISTINCT d.gramaje FROM stock s inner join detalle d on s.id_detalle=d.id_detalle WHERE s.activo=true");
 		try 
 		{
 			resultado.last();

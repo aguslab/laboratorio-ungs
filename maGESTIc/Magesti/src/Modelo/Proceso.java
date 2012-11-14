@@ -239,4 +239,28 @@ public class Proceso
 		return nombre_proces;
 	}
 	
+	
+	public static  Integer getCantidadProcesos()
+	{
+		Integer cantidad=0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT COUNT(*) FROM proceso");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad= resultado.getInt(1);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
+	
+	
 }

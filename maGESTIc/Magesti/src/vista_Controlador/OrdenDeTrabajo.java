@@ -1466,7 +1466,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			}
 			//guardo en una tabla aparte por SC y por OT, la cant de hojas que sobraron
 			Remanente_sc_ot.llenarTablaRemanente_SC_OT(clave);
-		}			
+		}
+		Adm_Stock.Actualizar();
 	}
 
 

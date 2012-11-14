@@ -289,11 +289,13 @@ public class Adm_Atributos extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, true, true
-			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				
+				if((column !=2 && row < Calidad.getCantidadCalidades()) || column == 0){
+					return false;
+				}
+				
+				return true;
 			}
 		});
 		tablaCalidad.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -338,13 +340,16 @@ public class Adm_Atributos extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, true, true
-			};
+
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				if((column !=2 && row < Formato_Papel.getCantidadFormatos()) || column == 0){
+					return false;
+				}
+				
+				return true;
 			}
 		});
+		
 		tablaFormato.getColumnModel().getColumn(0).setPreferredWidth(40);
 		tablaFormato.getColumnModel().getColumn(1).setResizable(false);
 		tablaFormato.getColumnModel().getColumn(1).setPreferredWidth(248);
@@ -385,13 +390,16 @@ public class Adm_Atributos extends JInternalFrame
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-				boolean[] columnEditables = new boolean[] {
-					false, true, true
-				};
+
 				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
+					if((column !=2 && row < Variante.getCantidadVariantes()) || column == 0){
+						return false;
+					}
+					
+					return true;
 				}
 			});
+			
 			tablaVariante.getColumnModel().getColumn(0).setPreferredWidth(40);
 			tablaVariante.getColumnModel().getColumn(1).setResizable(false);
 			tablaVariante.getColumnModel().getColumn(1).setPreferredWidth(248);
