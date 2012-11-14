@@ -69,9 +69,9 @@ public class Variante {
 		this.nombre = nombre;
 	}
 	
-	public static String getVarianteDeRetiro(Integer id_SC)
+	public static ArrayList<String> getVarianteDeRetiro(Integer id_SC)
 	{
-		String variante = "";
+		ArrayList<String> variantes = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT v.nombre FROM variante v INNER JOIN detalle d ON v.id_variante = d.id_variante" +
 				" AND id_solicitud_compra = " + id_SC + ";");
@@ -82,8 +82,7 @@ public class Variante {
 			{
 				while (resultado.next()) 
 				{
-					variante = resultado.getString(1);
-					break;
+					variantes.add(resultado.getString("nombre"));
 				}
 			} 
 			catch (Exception e) 
@@ -91,7 +90,7 @@ public class Variante {
 				e.printStackTrace();
 			}
 		}	
-		return variante;
+		return variantes;
 	}
 	
 	public static  String[] getVariantes()

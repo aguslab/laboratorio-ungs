@@ -43,9 +43,9 @@ public class Calidad
 		this.nombre = nombre;
 	}
 	
-	public static String getCalidadDeRetiro(Integer id_SC)
+	public static ArrayList<String> getCalidadDeRetiro(Integer id_SC)
 	{
-		String calidad = "";
+		ArrayList<String> calidad = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT c.nombre FROM calidad c INNER JOIN detalle d ON c.id_calidad = d.id_calidad" +
 				" AND id_solicitud_compra = " + id_SC + ";");
@@ -56,7 +56,7 @@ public class Calidad
 			{
 				while (resultado.next()) 
 				{
-					calidad = resultado.getString(1);
+					calidad.add(resultado.getString("nombre"));
 				}
 			} 
 			catch (Exception e) 

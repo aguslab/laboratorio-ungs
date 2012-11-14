@@ -625,11 +625,11 @@ public class Detalle {
 		return id_det;	
 	}
 	
-	public static Integer getGramajeDeRetiro(Integer id_sc)
+	public static ArrayList<Integer> getGramajeDeRetiro(Integer id_SC)
 	{
-		Integer gramaje = 0;
+		ArrayList<Integer> gramajes = new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT gramaje FROM detalle WHERE id_solicitud_compra =" + id_sc + ";");
+				"SELECT gramaje FROM detalle WHERE id_solicitud_compra =" + id_SC + ";");
 		
 		if (resultado != null) 
 		{
@@ -637,8 +637,7 @@ public class Detalle {
 			{
 				while (resultado.next()) 
 				{
-					gramaje = resultado.getInt(1);
-					break;
+					gramajes.add(resultado.getInt("gramaje"));
 				}
 			} 
 			catch (Exception e) 
@@ -646,14 +645,14 @@ public class Detalle {
 				e.printStackTrace();
 			}
 		}	
-		return gramaje;
+		return gramajes;
 	}
 	
-	public static String getMarcaDeRetiro(Integer id_sc)
+	public static ArrayList<String> getMarcaDeRetiro(Integer id_SC)
 	{
-		String marca = "";
+		ArrayList<String> marcas = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT marca FROM detalle WHERE id_solicitud_compra =" + id_sc + ";");
+				"SELECT marca FROM detalle WHERE id_solicitud_compra =" + id_SC + ";");
 		
 		if (resultado != null) 
 		{
@@ -661,8 +660,7 @@ public class Detalle {
 			{
 				while (resultado.next()) 
 				{
-					marca = resultado.getString(1);
-					break;
+					marcas.add(resultado.getString("marca"));
 				}
 			} 
 			catch (Exception e) 
@@ -670,7 +668,7 @@ public class Detalle {
 				e.printStackTrace();
 			}
 		}	
-		return marca;
+		return marcas;
 	}
 	
 	public static ArrayList<Detalle> getDetallesRecibidos(Integer id_SC) {
