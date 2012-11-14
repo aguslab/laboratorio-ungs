@@ -33,7 +33,7 @@ public class Adm_Stock extends JInternalFrame
 	private JScrollPane spStock;
 	private JPanel panStock;
 	private TableRowSorter<DefaultTableModel> trsfiltro;
-	private JComboBox<String> cbGramaje,cbVariante,cbFormato,cbOT;
+	private JComboBox cbGramaje,cbVariante,cbFormato,cbOT;
 	private static DefaultTableModel modelo;
 	
 	public Adm_Stock() 
@@ -153,7 +153,7 @@ public class Adm_Stock extends JInternalFrame
 			panStock.add(lblVariante);
 			
 			String[] gramajes= Stock.getGramajesEnStock();
-			cbGramaje = new JComboBox<String>(gramajes);
+			cbGramaje = new JComboBox(gramajes);
 			cbGramaje.setBounds(83, 6, 70, 23);
 			panStock.add(cbGramaje);
 			cbGramaje.addActionListener(new ActionListener() {
@@ -174,7 +174,7 @@ public class Adm_Stock extends JInternalFrame
 				String id_form=formatos[i];
 				formatos[i]=Formato_Papel.getTamanio(Integer.parseInt(id_form));
 			}
-			cbFormato = new JComboBox<String>(formatos);
+			cbFormato = new JComboBox(formatos);
 			cbFormato.setBounds(243, 6, 70, 23);
 			panStock.add(cbFormato);
 			cbFormato.addActionListener(new ActionListener() {
@@ -197,7 +197,7 @@ public class Adm_Stock extends JInternalFrame
 				variantes[i]=Variante.getNombre(Integer.parseInt(id_var));
 			}
 				
-			cbVariante = new JComboBox<String>(variantes);
+			cbVariante = new JComboBox(variantes);
 			cbVariante.setBounds(417, 6, 165, 23);
 			panStock.add(cbVariante);
 			cbVariante.addActionListener(new ActionListener() {
@@ -212,7 +212,7 @@ public class Adm_Stock extends JInternalFrame
 			});
 			
 			String[] OTs=Stock.getOTsDeStock();
-			cbOT = new JComboBox<String>(OTs);
+			cbOT = new JComboBox(OTs);
 			cbOT.setBounds(710, 6, 285, 23);
 			panStock.add(cbOT);
 			cbOT.addActionListener(new ActionListener() {
