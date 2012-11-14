@@ -2,15 +2,15 @@ package vista_Controlador;
 
 public class FilaSC
 {
-	private String nroSC,calidad,formato,variante,gramaje,marca;
+	private String nroSC,calidad,formato,variante,marca;
 	private String f_h_recibido, fConfeccion, fEntrega;
-	private Integer cantCompradas,hojasRestantes;
+	private Integer gramaje,cantCompradas,hojasRestantes;
 	
 	
 
-	public FilaSC(String nroSC, String calidad, String formato,
-			String variante, String gramaje, String marca, String f_h_recibido,
-			String fConfeccion, String fEntrega, Integer cantCompradas,
+	public FilaSC(String nroSC,
+			String fConfeccion, String fEntrega, String f_h_recibido, Integer gramaje,String calidad, String formato,
+			String variante,  String marca, Integer cantCompradas,
 			Integer hojasRestantes) 
 	{
 		this.nroSC = nroSC;
@@ -116,12 +116,12 @@ public class FilaSC
 		this.variante = variante;
 	}
 
-	public String getGramaje() 
+	public Integer getGramaje() 
 	{
 		return gramaje;
 	}
 
-	public void setGramaje(String gramaje)
+	public void setGramaje(Integer gramaje)
 	{
 		this.gramaje = gramaje;
 	}
