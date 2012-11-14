@@ -52,9 +52,9 @@ public class Formato_Papel {
 		this.activo = activo;
 	}
 	
-	public static String getFormatoDeRetiro(Integer id_SC)
+	public static ArrayList<String> getFormatoDeRetiro(Integer id_SC)
 	{
-		String formato = "";
+		ArrayList<String> formatos = new ArrayList<String>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT f.tamanio FROM formato_papel f INNER JOIN detalle d ON f.id_formato_papel = d.id_formato_papel" +
 				" AND id_solicitud_compra = " + id_SC + ";");
@@ -65,8 +65,7 @@ public class Formato_Papel {
 			{
 				while (resultado.next()) 
 				{
-					formato = resultado.getString(1);
-					break;
+					formatos.add(resultado.getString("tamanio"));
 				}
 			} 
 			catch (Exception e) 
@@ -74,7 +73,7 @@ public class Formato_Papel {
 				e.printStackTrace();
 			}
 		}	
-		return formato;
+		return formatos;
 	}
 	
 	public static  String[] getFormatos()

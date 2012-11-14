@@ -3,13 +3,12 @@ package vista_Controlador;
 public class FilaSC
 {
 	private String nroSC,calidad,formato,variante,marca;
-	private String f_h_recibido, fConfeccion, fEntrega;
+	private String f_h_recibido;
 	private Integer gramaje,cantCompradas,hojasRestantes;
 	
 	
 
-	public FilaSC(String nroSC,
-			String fConfeccion, String fEntrega, String f_h_recibido, Integer gramaje,String calidad, String formato,
+	public FilaSC(String nroSC, String f_h_recibido, Integer gramaje,String calidad, String formato,
 			String variante,  String marca, Integer cantCompradas,
 			Integer hojasRestantes) 
 	{
@@ -20,8 +19,6 @@ public class FilaSC
 		this.gramaje = gramaje;
 		this.marca = marca;
 		this.f_h_recibido = f_h_recibido;
-		this.fConfeccion = fConfeccion;
-		this.fEntrega = fEntrega;
 		this.cantCompradas = cantCompradas;
 		this.hojasRestantes = hojasRestantes;
 	}
@@ -45,27 +42,6 @@ public class FilaSC
 	{
 		this.f_h_recibido = f_h_recibido;
 	}
-
-	public String getfConfeccion() 
-	{
-		return fConfeccion;
-	}
-
-	public void setfConfeccion(String fConfeccion) 
-	{
-		this.fConfeccion = fConfeccion;
-	}
-
-	public String getfEntrega()
-	{
-		return fEntrega;
-	}
-
-	public void setfEntrega(String fEntrega) 
-	{
-		this.fEntrega = fEntrega;
-	}
-
 	public Integer getCantCompradas() 
 	{
 		return cantCompradas;

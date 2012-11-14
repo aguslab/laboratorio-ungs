@@ -186,7 +186,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro.setBounds(85, 11, 210, 25);
 		txtNro.setHorizontalAlignment (JTextField.LEFT);
 		
-		cboCliente = new JComboBox<String> (Clientes);
+		cboCliente = new JComboBox (Clientes);
 		cboCliente.setBounds(681, 54, 224, 25);
 		
 		txtNombreOT = new JTextField ();
@@ -345,7 +345,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(532, 54, 65, 25);
 		
-		cboEstado_1 = new JComboBox<String> (Estados);	
+		cboEstado_1 = new JComboBox (Estados);	
 		//cboEstado_1 = new JComboBox ();
 		cboEstado_1.setToolTipText("Estado de la orden de trabajo");
 		cboEstado_1.setBounds(681, 11, 224, 25);
@@ -367,13 +367,13 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			cboAnio.addItem (anios);
 		}
 		
-		cboMes2 = new JComboBox<String> (Meses);
-		cboMes2.setBounds(134, 54, 97, 25);
+		cboMes2 = new JComboBox (Meses);
+		cboMes2.setBounds(85, 54, 97, 25);
 		
-		cboDia2 = new JComboBox<String> ();
-		cboDia2.setBounds(83, 54, 48, 25);
+		cboDia2 = new JComboBox ();
+		cboDia2.setBounds(182, 54, 48, 25);
 		
-		cboAnio2 = new JComboBox<String> ();
+		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(230, 54, 65, 25);
 		for (int i = 1; i <= 31; i++) 
 		{
@@ -1925,7 +1925,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		String nroOT = getTxtNro().getText();
 		Integer id_OT = Metodos.FacturaAEntero(nroOT);
-        Integer cantCompradas = Egreso_Stock.getCantCompradasOT(id_OT);
 
 		//guardo en un arraylist las filas de la tabla Elementos
         ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
@@ -1961,7 +1960,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
       		}
         
         
-		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),cantCompradas,Egreso_Stock.getSC(id_OT),Egreso_Stock.getRetirosStock(id_OT), rElementos, rOEjecucion);
+		ReporteFinal r = new ReporteFinal(nroOT, getTxtNombreOT().getText(),Egreso_Stock.getSC(id_OT),Egreso_Stock.getRetirosStock(id_OT), rElementos, rOEjecucion);
 		
 		ArrayList<ReporteFinal> reportes = new ArrayList<ReporteFinal>();
 		reportes.add(r);

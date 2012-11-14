@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteRetiros" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="76326c70-c211-44f4-8f73-513f471e7599">
-	<property name="ireport.zoom" value="1.0000000000000224"/>
+	<property name="ireport.zoom" value="0.90909090909093"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
@@ -42,7 +42,7 @@
 	<columnHeader>
 		<band height="32">
 			<staticText>
-				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" mode="Opaque" x="0" y="0" width="138" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="3e93828e-8287-4a37-94ab-90d6a0f314bd" mode="Opaque" x="0" y="0" width="118" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -52,10 +52,11 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Nro. Solicitud de compra]]></text>
+				<text><![CDATA[Nro.
+Solicitud de compra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" mode="Opaque" x="516" y="0" width="128" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="55272649-f7a5-44d6-b955-8ddfdacb1bb0" mode="Opaque" x="507" y="0" width="117" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -68,7 +69,7 @@
 				<text><![CDATA[Fecha Retiro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" mode="Opaque" x="644" y="0" width="63" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="399b5a9b-6a39-4f96-a618-8e6e1285297a" mode="Opaque" x="624" y="0" width="59" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -82,7 +83,7 @@
 Retiradas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" mode="Opaque" x="707" y="0" width="135" height="32" forecolor="#000000" backcolor="#A8BDCF"/>
+				<reportElement uuid="84a804e7-f2ed-4a3c-a75a-e298679f9df7" mode="Opaque" x="683" y="0" width="124" height="32" forecolor="#000000" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -95,7 +96,7 @@ Retiradas]]></text>
 				<text><![CDATA[Empleado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="537cbc35-c5b0-4af9-8fb7-0e29d0e29ca4" mode="Opaque" x="185" y="0" width="106" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="537cbc35-c5b0-4af9-8fb7-0e29d0e29ca4" mode="Opaque" x="176" y="0" width="106" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -108,7 +109,7 @@ Retiradas]]></text>
 				<text><![CDATA[Calidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6dbd7928-50e1-4f5f-97a9-6e8bbc8cca38" mode="Opaque" x="138" y="0" width="47" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="6dbd7928-50e1-4f5f-97a9-6e8bbc8cca38" mode="Opaque" x="118" y="0" width="58" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -121,7 +122,7 @@ Retiradas]]></text>
 				<text><![CDATA[Gramaje]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9607a8ae-ef3c-4085-b2e9-a6785440d6d3" mode="Opaque" x="291" y="0" width="68" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="9607a8ae-ef3c-4085-b2e9-a6785440d6d3" mode="Opaque" x="282" y="0" width="68" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -134,7 +135,7 @@ Retiradas]]></text>
 				<text><![CDATA[Formato]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1c924a3f-9021-4244-991c-3d12d111cc14" mode="Opaque" x="359" y="0" width="99" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="1c924a3f-9021-4244-991c-3d12d111cc14" mode="Opaque" x="350" y="0" width="99" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -147,7 +148,7 @@ Retiradas]]></text>
 				<text><![CDATA[Variante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d3f1676d-93f4-49dd-a172-1067c0b1ef09" mode="Opaque" x="458" y="0" width="58" height="32" backcolor="#A8BDCF"/>
+				<reportElement uuid="d3f1676d-93f4-49dd-a172-1067c0b1ef09" mode="Opaque" x="449" y="0" width="58" height="32" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -164,7 +165,7 @@ Retiradas]]></text>
 	<detail>
 		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement uuid="90a5a5f7-d637-4bb7-9aee-882046916de8" x="516" y="0" width="128" height="22"/>
+				<reportElement uuid="90a5a5f7-d637-4bb7-9aee-882046916de8" x="507" y="0" width="117" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -177,7 +178,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{f_hora}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1548747a-32cd-427b-95d6-e2f50fc7e6ce" x="644" y="0" width="63" height="22"/>
+				<reportElement uuid="1548747a-32cd-427b-95d6-e2f50fc7e6ce" x="624" y="0" width="59" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -190,7 +191,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{cantRetirada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b47549e1-00ff-4efc-9f4e-a79f2499fc39" x="707" y="0" width="135" height="22"/>
+				<reportElement uuid="b47549e1-00ff-4efc-9f4e-a79f2499fc39" x="683" y="0" width="124" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -203,7 +204,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="70d15bbe-b707-4cc0-88aa-f8b7251ed4ad" x="0" y="0" width="138" height="22"/>
+				<reportElement uuid="70d15bbe-b707-4cc0-88aa-f8b7251ed4ad" x="0" y="0" width="118" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -216,7 +217,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{nroSC}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="7200050a-6cfa-45d1-b13b-c3e1ee7296b5" x="185" y="0" width="106" height="22"/>
+				<reportElement uuid="7200050a-6cfa-45d1-b13b-c3e1ee7296b5" x="176" y="0" width="106" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -229,7 +230,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{calidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="9afdef72-f9e1-48ca-8024-304cbdb63523" x="138" y="0" width="47" height="22"/>
+				<reportElement uuid="9afdef72-f9e1-48ca-8024-304cbdb63523" x="118" y="0" width="58" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -242,7 +243,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{gramaje}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c79bcb75-7be1-435f-9acd-fe926fba606b" x="359" y="0" width="99" height="22"/>
+				<reportElement uuid="c79bcb75-7be1-435f-9acd-fe926fba606b" x="350" y="0" width="99" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -255,7 +256,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{variante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1d920eeb-b290-41d8-9006-6044c97072c4" x="291" y="0" width="68" height="22"/>
+				<reportElement uuid="1d920eeb-b290-41d8-9006-6044c97072c4" x="282" y="0" width="68" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -268,7 +269,7 @@ Retiradas]]></text>
 				<textFieldExpression><![CDATA[$F{formato}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="a0e6c14f-ae98-4de2-9206-417251161461" x="458" y="0" width="58" height="22"/>
+				<reportElement uuid="a0e6c14f-ae98-4de2-9206-417251161461" x="449" y="0" width="58" height="22"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
