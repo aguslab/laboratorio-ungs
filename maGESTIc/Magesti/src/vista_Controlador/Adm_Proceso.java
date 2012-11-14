@@ -254,11 +254,12 @@ public class Adm_Proceso extends JInternalFrame
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, false, true, true
-			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				if((column !=3 && (Integer) tablaProcesos.getValueAt(row, 0) <= Proceso.getCantidadProcesos()) || column == 0 || column == 1){
+					return false;
+				}
+				
+				return true;
 			}
 		});
 		tablaProcesos.getColumnModel().getColumn(0).setResizable(false);

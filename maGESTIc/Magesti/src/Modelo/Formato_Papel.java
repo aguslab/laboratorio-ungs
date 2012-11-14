@@ -176,4 +176,32 @@ public class Formato_Papel {
 						+ Integer.parseInt(id));
 		return r;
 	}
+	
+	
+	public static  Integer getCantidadFormatos()
+	{
+		Integer cantidad=0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT COUNT(*) FROM formato_papel");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad= resultado.getInt(1);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return cantidad;
+	}
+	
+	
+	
 }

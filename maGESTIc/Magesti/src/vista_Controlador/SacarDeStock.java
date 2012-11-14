@@ -512,7 +512,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 					Orden_Trabajo.CambiarCantHojasUtil(id_OT, hojasRetiradas);
 					
 					Integer hojasTotales=Integer.parseInt(tablaStock.getValueAt(fmodif.get(i), 6).toString());
-					if(hojasTotales == hojasUsadas){
+					if(hojasTotales.equals(hojasUsadas)){
 						Stock.setStockInactivo(id_Stock);
 					}
 				}

@@ -181,7 +181,27 @@ public class Variante {
 		return r;
 	}
 	
-	
+	public static  Integer getCantidadVariantes()
+	{
+		Integer cantidad=0;
+		ResultSet resultado = ConexionDB.getbaseDatos().consultar("SELECT COUNT(*) FROM variante");
+		
+		if (resultado != null) 
+		{
+			try 
+			{
+				while (resultado.next()) 
+				{
+					cantidad= resultado.getInt(1);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return cantidad;
+	}
 	
 	
 	
