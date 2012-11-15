@@ -370,57 +370,33 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				cboDia2.removeAllItems();
 				setDiasMes(Metodos.getDiasMes(getCboMes2().getSelectedItem().toString(), Integer.parseInt(getCboAnio2().getSelectedItem().toString())));
 			}
 		});
 		cboMes2.setBounds(133, 54, 97, 25);
 		cboDia2 = new JComboBox ();
-		cboDia2.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				String mes = getCboMes2().getSelectedItem().toString();
-				String anio = (String) getCboAnio2().getSelectedItem();
-				try
-				{
-					if (anio != null && mes != null)
-						setDiasMes(Metodos.getDiasMes(mes,Integer.parseInt(anio)));
-				}
-			
-				catch(ArrayIndexOutOfBoundsException e)
-				{
-				}
-			}
-		});
 		cboDia2.setBounds(85, 54, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
 		cboAnio2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				cboDia2.removeAllItems();
 				setDiasMes(Metodos.getDiasMes(getCboMes2().getSelectedItem().toString(), Integer.parseInt(getCboAnio2().getSelectedItem().toString())));
 			}
 		});
 		cboAnio2.setBounds(230, 54, 65, 25);
-		/*for (int i = 1; i <= 31; i++) 
-		{
-			if(i<10){
-				dias = "0" + i;
-			}else{
-				dias = "" + i;	
-			}
-			cboDia2.addItem (dias);
-		}*/
-		
+				
 		for (int i = 2012; i <= 2042; i++) 
 		{
 			String anios = "" + i;
 			cboAnio2.addItem (anios);
 		}
 				
-		cboDia2.setSelectedItem(Metodos.getDiaDeHoy());
 		cboMes2.setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboAnio2.setSelectedItem(Metodos.getAnioActual());
+		cboDia2.setSelectedItem(Metodos.getDiaDeHoy());
 
 		
 		btnLimpiarOT = new JButton("Limpiar", new ImageIcon ("Imagenes/limpiar.png"));
@@ -1835,7 +1811,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	{
 		if(cantDias != null)
 		{
-			String dias = "";
+			cboDia2.removeAllItems();
+			String dias= "";
 			for (int i = 1; i <= cantDias; i++) 
 			{
 				if(i<10)
@@ -1848,6 +1825,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				getCboDia2().addItem (dias);
 			}
+			
 		}
 	}
 	
