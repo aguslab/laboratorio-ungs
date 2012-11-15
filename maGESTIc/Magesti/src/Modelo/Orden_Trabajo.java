@@ -437,9 +437,6 @@ public class Orden_Trabajo implements Config
 		{
 			f_entrega="'"+f_entrega+"'";			
 		}
-	
-		System.out.println("ancho" + ancho);
-		System.out.println("alto" + alto);
 		
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO orden_trabajo VALUES(default," + "'" + nombre_prod
