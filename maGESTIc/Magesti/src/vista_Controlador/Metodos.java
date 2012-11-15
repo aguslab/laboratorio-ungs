@@ -372,7 +372,8 @@ public class Metodos implements Config
 		}
 		boolean f=true;
 		while(cadena.length()!=6){
-			if(cadena.substring(ind).length()!=3 && f){
+			if(cadena.substring(ind).length()!=3 && f)
+			{
 				cadena=cadena+"0";
 				f=false;
 			}else{
@@ -462,7 +463,8 @@ public class Metodos implements Config
 	}
 	
 
-	public static String getNombreOTsinNumero(String cadena) {		
+	public static String getNombreOTsinNumero(String cadena) 
+	{		
 		return cadena.substring(16);
 	}
 
@@ -499,9 +501,11 @@ public class Metodos implements Config
 //		return Integer.parseInt(formatoElem.substring(pos));
 //	}
 	
-	public static Integer getAncho(String formato){
+	public static Integer getAncho(String formato)
+	{
 		String ancho="";
-		for (int i = 0; i < formato.length() && formato.charAt(i) != 'x'; i++) {
+		for (int i = 0; i < formato.length() && formato.charAt(i) != 'x'; i++) 
+		{
 			ancho=ancho+formato.charAt(i);
 		}
 		
@@ -509,17 +513,20 @@ public class Metodos implements Config
 	}
 
 	
-	public static Integer getAlto(String formato){
+	public static Integer getAlto(String formato)
+	{
 		String alto="";
 		String ancho=getAncho(formato).toString();
-		for (int i = ancho.length()+1; i < formato.length(); i++) {
+		for (int i = ancho.length()+1; i < formato.length(); i++) 
+		{
 			alto=alto+formato.charAt(i);
 		}
 		
 		return Integer.parseInt(alto);
 	}
 	
-	public static void CartelExcesoDigitos(){
+	public static void CartelExcesoDigitos()
+	{
 		JOptionPane.showMessageDialog 
 		(
 			null, 
@@ -527,6 +534,34 @@ public class Metodos implements Config
 			qTITULO + " - Exceso dígitos", 
 			JOptionPane.WARNING_MESSAGE
 		);
+	}
+	
+	public static Integer getDiasMes(String mes, Integer anio)
+	{
+		Integer cantMeses = 0;
+			if(mes.equalsIgnoreCase("Enero") || mes.equalsIgnoreCase("Marzo") || mes.equalsIgnoreCase("Mayo") ||
+					mes.equalsIgnoreCase("Julio") || mes.equalsIgnoreCase("Agosto")||
+					mes.equalsIgnoreCase("Octubre") || mes.equalsIgnoreCase("Diciembre"))
+			{
+				cantMeses = 31;
+			}
+			
+			else if (mes.equalsIgnoreCase("Febrero"))
+			{
+				if((anio % 4 == 0) && ((anio % 100 != 0) || (anio % 400 == 0)))
+				{
+					cantMeses = 29;
+				}
+			}
+			
+			else if(mes.equalsIgnoreCase("Abril") || mes.equalsIgnoreCase("Junio") || mes.equalsIgnoreCase("Septiembre")
+					|| mes.equalsIgnoreCase("Noviembre"))
+			{
+				cantMeses = 30;
+			}
+			
+			return cantMeses;
+		
 	}
 	
 }
