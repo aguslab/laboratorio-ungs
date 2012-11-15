@@ -327,7 +327,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		
 		
 		Integer id_SC=Metodos.FacturaAEntero(stock.getValueAt(filaElegida, 2).toString());
-		//ArrayList<Detalle> detalles=Detalle.getDetallesRecibidos(id_SC);
 		ArrayList<Integer> ids_stock=Stock.dameIdsStock(id_SC);
 		for(int i=0;i<ids_stock.size();i++){
 			ts.addRow(nuevaFilaDetalles);

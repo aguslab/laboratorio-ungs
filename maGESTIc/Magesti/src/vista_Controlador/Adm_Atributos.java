@@ -520,8 +520,11 @@ public class Adm_Atributos extends JInternalFrame
 			
 			for (int i = 0; i < tablaFormato.getRowCount(); i++) {
 				try {
-					Metodos.getAncho(tablaFormato.getValueAt(i, 1).toString());
-					Metodos.getAlto(tablaFormato.getValueAt(i, 1).toString());
+					Integer ancho=Metodos.getAncho(tablaFormato.getValueAt(i, 1).toString());
+					Integer alto=Metodos.getAlto(tablaFormato.getValueAt(i, 1).toString());
+					if(ancho < 0 || alto < 0){
+						return true;
+					}
 				} catch (Exception e) {
 					return true;
 				}

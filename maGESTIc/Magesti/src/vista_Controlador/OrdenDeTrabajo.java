@@ -318,7 +318,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					public void keyTyped (KeyEvent ke) 
 					{
 						char c = ke.getKeyChar ();
-						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtCantidadAEntregar.getText().length()== 9)
+						if (!((Character.isDigit (c) || (c == KeyEvent.VK_BACK_SPACE))) || txtCantidadAEntregar.getText().length()== 5)
 						{
 							getToolkit().beep ();
 							ke.consume ();
@@ -582,17 +582,46 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 									qTITULO + " - Campo vacío",
 									JOptionPane.WARNING_MESSAGE);
 
-				} else if(txtCantidadAEntregar.getText().equals("") || Integer.parseInt(txtCantidadAEntregar.getText()) <= 0 ){
-					
+				}else if (cantidadElementoConNegativos()) {
+
 					JOptionPane
-					.showMessageDialog(
-							null,
-							"Debe ingresar la cantidad a entregar",
-							qTITULO + " - Campo vacío",
-							JOptionPane.WARNING_MESSAGE);
+							.showMessageDialog(
+									null,
+									"La cantidad de elementos debe ser mayor a cero. Verifique.",
+									qTITULO + " - Cantidad debe ser mayor",
+									JOptionPane.WARNING_MESSAGE);
+
+				}
+				else if(txtCantidadAEntregar.getText().equals("") || Integer.parseInt(txtCantidadAEntregar.getText()) <= 0 || Integer.parseInt(txtCantidadAEntregar.getText()) > 30000 ){
+					
+					if(Integer.parseInt(txtCantidadAEntregar.getText()) > 30000 ){
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"La cantidad maxima a entregar es 30000.",
+								qTITULO + " - Valor demasiado grande",
+								JOptionPane.WARNING_MESSAGE);
+					}else{
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"Debe ingresar la cantidad a entregar",
+								qTITULO + " - Campo vacío",
+								JOptionPane.WARNING_MESSAGE);
+					}
 					txtCantidadAEntregar.requestFocus();
 					
-				}else {
+				}else if (ExcedeLargoCantidad()) {
+
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"La cantidad máxima por elemento es 30000 unidades.\nNo exceda el límite, Por favor",
+									qTITULO + " - Valor demasiado grande",
+									JOptionPane.WARNING_MESSAGE);
+
+				}
+				else {
 					
 					txtCantidadAEntregar.setEnabled(false);
 					
@@ -603,13 +632,16 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					// cuenta la cantidad de filas no vacias que se agregan
 					Integer c = 0;
 					try {
+						Integer cantAEntregar=Integer.parseInt(txtCantidadAEntregar.getText());
 						for (int i = 0; i < cantFilas; i++) {
 							if (!tablaElementos.getValueAt(i, 0).toString()
 									.equals("")
 									&& !tablaElementos.getValueAt(i, 1).equals(
 											"")) {
-								Integer cantAEnretXCantElemento=(Integer) tablaElementos
-										.getValueAt(i, 1) * Integer.parseInt(txtCantidadAEntregar.getText());
+								Integer cantElem=(Integer) tablaElementos.getValueAt(i, 1);
+								
+								Integer cantAEnretXCantElemento= cantElem * cantAEntregar;
+
 								Object nuevaFila[] = {
 										tablaElementos.getValueAt(i, 0),
 										cantAEnretXCantElemento,
@@ -663,6 +695,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							.setCellEditor(new MyComboBoxEditor(formatos));
 				}
 			}
+
 		});
 		
 		btnAlmacenar.setBounds(760, 206,120, 30);
@@ -1301,6 +1334,24 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
+				else if(materialesSinNegativos()== false){
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"Se han encontrado valores negativos o nulos en algunas celdas. Verifique!",
+						qTITULO + " - Cantidad, Gramaje, Poses x Pliego, Pliegos x Hoja, Pliegos Netos, Hojas deben ser mayor a 0", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
+				else if(pleigosEnDemasiaSinNegativos()== false){
+					JOptionPane.showMessageDialog 
+					(
+						this, 
+						"El valor mínimo de pleigos en demasia es 0.",
+						qTITULO + " - Valor en Pliegos en demasia no permitido.", 
+						JOptionPane.WARNING_MESSAGE
+					);
+				}
 				else if(!procesosOk()){
 					JOptionPane.showMessageDialog 
 					(
@@ -1417,42 +1468,60 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 	
 
-	private void calcularPliegoYhojas(){
-		Integer cantFilas= tablaMateriales.getRowCount();
-		
-		
+	
+
+	
+
+	private void calcularPliegoYhojas() {
+		Integer cantFilas = tablaMateriales.getRowCount();
+
 		for (int i = 0; i < cantFilas; i++) {
-			//solo si las columnas tiene valores
+			// solo si las columnas tiene valores
 			if (!tablaMateriales.getValueAt(i, 1).toString().equals("")
-					&& !tablaMateriales.getValueAt(i, 7).toString()
-							.equals("")
-					&& !tablaMateriales.getValueAt(i, 6).toString()
-							.equals("")
-					&& !tablaMateriales.getValueAt(i, 8).toString()
-							.equals("")) {
+					&& !tablaMateriales.getValueAt(i, 7).toString().equals("")
+					&& !tablaMateriales.getValueAt(i, 6).toString().equals("")
+					&& !tablaMateriales.getValueAt(i, 8).toString().equals("")) {
 				// Obtengo los datos de la tabla materiales necesarios
 				// para calcular los Pliegos Netos
-				Integer cantElementoXcantAEntregar = Integer.parseInt(tablaMateriales
-						.getValueAt(i, 1).toString());
+				Integer cantElementoXcantAEntregar = Integer
+						.parseInt(tablaMateriales.getValueAt(i, 1).toString());
 				Integer posesXpliego = Integer.parseInt(tablaMateriales
 						.getValueAt(i, 7).toString());
-				Integer totalPliegosNetos = (int) Math.ceil((cantElementoXcantAEntregar)/ posesXpliego);
-				tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
 
-				// Obtengo los datos de la tabla materiales necesarios
-				// para calcular la cantidad de hojas
-				Integer pliegosNetos = Integer.parseInt(tablaMateriales
-						.getValueAt(i, 9).toString());
-				Integer pliegosEnDemasia = Integer
-						.parseInt(tablaMateriales.getValueAt(i, 6)
-								.toString());
-				Integer pliegosXhoja = Integer.parseInt(tablaMateriales
-						.getValueAt(i, 8).toString());
+				if (posesXpliego <= 0) {
+					JOptionPane.showMessageDialog(this,
+							"Poses por pliego debe ser mayor a 0", qTITULO
+									+ " - Error en poses por pliego",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					Integer totalPliegosNetos = (int) Math
+							.ceil((cantElementoXcantAEntregar) / posesXpliego);
+					tablaMateriales.setValueAt(totalPliegosNetos, i, 9);
 
-				Integer hojas = (int) Math.ceil((pliegosEnDemasia + pliegosNetos)
-						/ pliegosXhoja);
-				
-				tablaMateriales.setValueAt(hojas, i, 10);
+					// Obtengo los datos de la tabla materiales necesarios
+					// para calcular la cantidad de hojas
+					Integer pliegosNetos = Integer.parseInt(tablaMateriales
+							.getValueAt(i, 9).toString());
+					Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales
+							.getValueAt(i, 6).toString());
+					Integer pliegosXhoja = Integer.parseInt(tablaMateriales
+							.getValueAt(i, 8).toString());
+
+					if (pliegosXhoja <= 0) {
+						JOptionPane.showMessageDialog(this,
+								"Pliegos por hoja debe ser mayor a 0", qTITULO
+										+ " - Error en pliegos por hoja",
+								JOptionPane.WARNING_MESSAGE);
+					tablaMateriales.setValueAt("", i, 10);
+					} else {
+
+						Integer hojas = (int) Math
+								.ceil((pliegosEnDemasia + pliegosNetos)
+										/ pliegosXhoja);
+
+						tablaMateriales.setValueAt(hojas, i, 10);
+					}
+				}
 			}
 		}
 	}
@@ -1631,6 +1700,34 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		return ok;
 	}
+	
+	private boolean materialesSinNegativos() {
+		Integer cantFilas=tablaMateriales.getRowCount();
+
+		boolean sinNegativos=true;
+		for(int i=0;i<cantFilas && sinNegativos;i++){
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 1).toString()) > 0;
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString()) > 0;
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString()) > 0;
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 8).toString()) > 0;
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 9).toString()) > 0;
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 10).toString()) > 0;
+		}
+		
+		return sinNegativos;
+	}
+	
+	private boolean pleigosEnDemasiaSinNegativos() {
+		Integer cantFilas=tablaMateriales.getRowCount();
+
+		boolean sinNegativos=true;
+		for(int i=0;i<cantFilas && sinNegativos;i++){
+			sinNegativos= sinNegativos && Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString()) >= 0;
+		}
+		
+		return sinNegativos;
+	}
+	
 	
 	public ArrayList<Integer> getId_procesosTablaActual() {
 		ArrayList<Integer> idproc = new ArrayList<Integer>();
@@ -1862,11 +1959,29 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		return false;
 	}
+	
+	private boolean cantidadElementoConNegativos() {
+		for (int i = 0; i < tablaElementos.getRowCount(); i++) {
+			if ((Integer) tablaElementos.getValueAt(i, 1) <= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private boolean ExcedeLargoElemento() {
 
 		for (int i = 0; i < tablaElementos.getRowCount(); i++) {
 			if (tablaElementos.getValueAt(i, 0).toString().length() > 50) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean ExcedeLargoCantidad() {
+		for (int i = 0; i < tablaElementos.getRowCount(); i++) {
+			if ((Integer) tablaElementos.getValueAt(i, 1) > 30000) {
 				return true;
 			}
 		}
