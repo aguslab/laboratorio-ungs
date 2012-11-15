@@ -6,8 +6,8 @@ public class FilaDetalles
 	private String marca, calidad, variante, formato, UnidadMedida;
 	private Double precioUnitario, Importe;
 	
-	public FilaDetalles(Integer cantHojas, String marca, String calidad, String variante, 
-			String formato,Integer gramaje, Double precioUnitario,String unidadMedida, Double importe)
+	public FilaDetalles(Integer cantHojas,Integer gramaje, String calidad, 
+			String formato, String variante, String marca, Double precioUnitario,String unidadMedida, Double importe)
 	{
 		this.cantHojas = cantHojas;
 		this.gramaje = gramaje;
