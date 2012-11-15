@@ -328,17 +328,17 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		
-		cboMes = new JComboBox<String>(); //Comentar esta línea si quieren utilizar el WB
+		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboMes.setBounds(435, 54, 97, 25);
 		cboMes.setEnabled(false);
 		
-		cboDia = new JComboBox<String> ();
+		cboDia = new JComboBox ();
 		cboDia.getModel().setSelectedItem(Metodos.getDiaDeHoy());
 		cboDia.setEnabled(false);
 		cboDia.setBounds(387, 54, 48, 25);
 		
-		cboAnio = new JComboBox<String> ();
+		cboAnio = new JComboBox ();
 		cboAnio.getModel().setSelectedItem(Metodos.getAnioActual());
 		cboAnio.setEnabled(false);
 		cboAnio.setBounds(532, 54, 65, 25);
@@ -1654,32 +1654,32 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtTipoProducto;
 	}
 	
-	JComboBox<String> getCboMes()
+	JComboBox getCboMes()
 	{
 		return this.cboMes;
 	}
 	
-	JComboBox<String> getCboDia()
+	JComboBox getCboDia()
 	{
 		return this.cboDia;
 	}
 	
-	JComboBox<String> getCboAnio()
+	JComboBox getCboAnio()
 	{
 		return this.cboAnio;
 	}
 	
-	JComboBox<String> getCboMes2()
+	JComboBox getCboMes2()
 	{
 		return this.cboMes2;
 	}
 	
-	JComboBox<String> getCboDia2()
+	JComboBox getCboDia2()
 	{
 		return this.cboDia2;
 	}
 	
-	JComboBox<String> getCboAnio2()
+	JComboBox getCboAnio2()
 	{
 		return this.cboAnio2;
 	}
@@ -1689,7 +1689,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.txtNombreOT;
 	}
 	
-	JComboBox<String> getEstado()
+	JComboBox getEstado()
 	{
 		return this.cboEstado_1;
 	}
@@ -1743,7 +1743,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			{
 				if(i<10)
 				{
-					dias = "05" + i;
+					dias = "0" + i;
 				}
 				else
 				{
@@ -1754,7 +1754,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 	}
 	
-	public JComboBox<String> getCliente() 
+	public JComboBox getCliente() 
 	{
 		return this.cboCliente;
 	}

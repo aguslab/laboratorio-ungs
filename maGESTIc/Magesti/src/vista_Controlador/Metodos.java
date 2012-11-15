@@ -552,6 +552,10 @@ public class Metodos implements Config
 				{
 					cantMeses = 29;
 				}
+				else
+				{
+					cantMeses = 28;
+				}
 			}
 			
 			else if(mes.equalsIgnoreCase("Abril") || mes.equalsIgnoreCase("Junio") || mes.equalsIgnoreCase("Septiembre")
