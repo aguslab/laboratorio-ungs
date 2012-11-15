@@ -168,17 +168,17 @@ public class Egreso_Stock {
 	public static ArrayList<FilaSC> getSC(Integer id_OT)
 	{
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-		"SELECT distinct sc.id_solicitud_compra,sc.f_confeccion, "
-		+ "sc.f_entrega, rp.f_h_recibido, d.gramaje, c.nombre AS calidad, f.tamanio AS formato, v.nombre AS variante, d.marca, d.cantidad, re.remanente FROM detalle d " +
-		"INNER JOIN solicitud_compra sc ON d.id_solicitud_compra=sc.id_solicitud_compra " +
-		"INNER JOIN calidad c ON c.id_calidad=d.id_calidad " +
-		"INNER JOIN formato_papel f ON f.id_formato_papel=d.id_formato_papel " +
-		"INNER JOIN variante v ON v.id_variante=d.id_variante " +
-		"INNER JOIN remanente_sc_ot re on re.id_solicitud_compra=sc.id_solicitud_compra " +
-		"INNER JOIN recepcion_pedido rp on rp.id_solicitud_compra=sc.id_solicitud_compra " +
-		"WHERE sc.id_solicitud_compra IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r " +
-		"INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra " +
-		"AND s.id_orden_trabajo="+id_OT+") AND d.recibido=true");
+		"SELECT distinct sc.id_solicitud_compra,sc.f_confeccion, sc.f_entrega, rp.f_h_recibido, d.gramaje,"+
+		" c.nombre AS calidad, f.tamanio AS formato, v.nombre AS variante, d.marca, d.cantidad, re.remanente" +
+		" FROM detalle d INNER JOIN solicitud_compra sc ON d.id_solicitud_compra=sc.id_solicitud_compra" +
+		" INNER JOIN remanente_sc_ot re ON re.id_detalle=d.id_detalle" +
+		" INNER JOIN calidad c ON c.id_calidad=d.id_calidad" +
+		" INNER JOIN formato_papel f ON f.id_formato_papel=d.id_formato_papel" +
+		" INNER JOIN variante v ON v.id_variante=d.id_variante" +
+		" INNER JOIN recepcion_pedido rp on rp.id_solicitud_compra=sc.id_solicitud_compra" +
+		" WHERE sc.id_solicitud_compra IN (SELECT r.id_solicitud_compra FROM recepcion_pedido r" +
+		" INNER JOIN solicitud_compra s on r.id_solicitud_compra=s.id_solicitud_compra" +
+		" AND s.id_orden_trabajo="+id_OT+") AND d.recibido=true");
 		
 		ArrayList<FilaSC> SCs = new ArrayList<FilaSC>();
 		if (resultado != null)

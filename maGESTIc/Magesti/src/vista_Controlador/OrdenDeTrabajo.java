@@ -1463,8 +1463,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						.get(j));
 			}
 			//guardo en una tabla aparte por SC y por OT, la cant de hojas que sobraron
-			Remanente_sc_ot.llenarTablaRemanente_SC_OT(clave);
 		}
+		Remanente_sc_ot.llenarTablaRemanente_De_OT(clave);
 		Adm_Stock.Actualizar();
 	}
 
@@ -1841,7 +1841,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		else
 			apaisada = "No";
 		String fechaCierre = getFechaHoraCerrada().getText();
-		System.out.println(fechaCierre);
 		if(fechaCierre == null)
 			fechaCierre = " ";
 		
