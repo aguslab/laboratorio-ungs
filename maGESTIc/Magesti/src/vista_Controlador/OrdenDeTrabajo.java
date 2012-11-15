@@ -366,10 +366,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		
 		cboMes2 = new JComboBox (Meses);
-		cboMes2.setBounds(85, 54, 97, 25);
+		cboMes2.setBounds(133, 54, 97, 25);
 		
 		cboDia2 = new JComboBox ();
-		cboDia2.setBounds(182, 54, 48, 25);
+		cboDia2.setBounds(85, 54, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
 		cboAnio2.setBounds(230, 54, 65, 25);
@@ -1835,14 +1835,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		Double alto = Double.parseDouble(this.getTxtAlto().getText());
 		String nroOT = this.getTxtNro().getText();
 		Integer id_OT=Metodos.FacturaAEntero(nroOT);
-
 		String apaisada = "";
 		if(this.getChbApaisado().isSelected())
 			apaisada = "Si";
 		else
 			apaisada = "No";
 		String fechaCierre = getFechaHoraCerrada().getText();
-        System.out.println(fechaCierre);
+		if(fechaCierre == null)
+			fechaCierre = " ";
 		
 		//guardo en un arraylist las filas de la tabla Elementos
 		ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
@@ -1889,10 +1889,10 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					
 		}
 		
-		String estadoOT=Orden_Trabajo.getEstadoOT(id_OT);
+		String estadoOT = Orden_Trabajo.getEstadoOT(id_OT);
 		ReporteOT r = new ReporteOT(nroOT,getTxtNombreOT().getText(), getCliente().getSelectedItem().toString(),
 				getTxtDescripcion().getText(), getTipoProducto().getText(), getTxtPreimpresion().getText(),
-				estadoOT, fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, rElementos, rMateriales,rOEjecucion);
+				estadoOT, fechaPrometida, fechaConfec,ancho,alto,getTxtCantidadAEntregar().getText(),apaisada, fechaCierre, rElementos, rMateriales,rOEjecucion);
 		
 		ArrayList<ReporteOT> reportes = new ArrayList<ReporteOT>();
 		reportes.add(r);

@@ -142,17 +142,22 @@ public class Egreso_Stock {
 	}
 	
 	
-	public static Integer getHojasUsadas(Integer id_materiales) {
+	public static Integer getHojasUsadas(Integer id_materiales)
+	{
 		Integer cantHojas = 0;
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
 				"SELECT cant_hojas_retiradas FROM egreso_stock WHERE id_materiales="+id_materiales);
 
-		if (resultado != null) {
+		if (resultado != null)
+		{
 			try {
-				while (resultado.next()) {
+				while (resultado.next()) 
+				{
 					cantHojas=cantHojas + resultado.getInt("cant_hojas_retiradas");
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}
