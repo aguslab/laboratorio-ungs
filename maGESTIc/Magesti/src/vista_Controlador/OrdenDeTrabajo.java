@@ -1841,6 +1841,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			apaisada = "Si";
 		else
 			apaisada = "No";
+		String fechaCierre = getFechaHoraCerrada().getText();
+        System.out.println(fechaCierre);
 		
 		//guardo en un arraylist las filas de la tabla Elementos
 		ArrayList<FilaElementos> rElementos = new ArrayList<FilaElementos>();
