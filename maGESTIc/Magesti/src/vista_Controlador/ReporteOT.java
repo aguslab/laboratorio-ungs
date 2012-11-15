@@ -33,6 +33,7 @@ public class ReporteOT
 		this.cantEntregar = cantEntregar;
 		this.ancho = ancho;
 		this.alto = alto;
+		this.fechaCierre=fcierre;
 		this.elementos = elementos;
 		this.materiales = materiales;
 		this.ordenEjecucion = ordenEjecucion;

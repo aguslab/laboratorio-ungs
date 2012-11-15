@@ -1841,6 +1841,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		else
 			apaisada = "No";
 		String fechaCierre = getFechaHoraCerrada().getText();
+		System.out.println(fechaCierre);
 		if(fechaCierre == null)
 			fechaCierre = " ";
 		
