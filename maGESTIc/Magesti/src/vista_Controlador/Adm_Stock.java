@@ -245,8 +245,9 @@ public class Adm_Stock extends JInternalFrame
 	
 	
 
-	private void filtro(String cadena, int columna) {
-		
+	private void filtro(String cadena, int columna)
+	{
+		cadena = "^" + cadena + "$";
 		trsfiltro = new TableRowSorter<DefaultTableModel>(modelo);
 		trsfiltro.setRowFilter(RowFilter.regexFilter(cadena, columna));
 		tablaStock.setModel(modelo);
