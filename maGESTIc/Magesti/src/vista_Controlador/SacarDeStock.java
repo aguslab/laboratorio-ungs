@@ -49,7 +49,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	private JPanel JpAdmStock;
 	private JLabel lbNroRetiro,lblFechaDeRetiro,lblOT;
 	private JLabel lbEmpleado;
-	private JTextField textField;
+	private JTextField fechaRetiro;
 	private JComboBox cboOT;
 	private JButton btnRetirarStock,btncerrar;
 	private JTabbedPane tpElementos;
@@ -187,12 +187,12 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 		String aaaa=Metodos.getAnioActual();
 		String mm=Metodos.getMesActual();
 		String dd=Metodos.getDiaDeHoy();
-		textField = new JTextField(aaaa+"-"+mm+"-"+dd);
-		textField.setHorizontalAlignment(SwingConstants.LEFT);
-		textField.setFont(new Font("Arial", Font.PLAIN, 12));
-		textField.setEditable(false);
-		textField.setBounds(115, 57, 148, 25);
-		JpAdmStock.add(textField);
+		fechaRetiro = new JTextField(Metodos.YMDaDMY(aaaa+"-"+mm+"-"+dd));
+		fechaRetiro.setHorizontalAlignment(SwingConstants.LEFT);
+		fechaRetiro.setFont(new Font("Arial", Font.PLAIN, 12));
+		fechaRetiro.setEditable(false);
+		fechaRetiro.setBounds(115, 57, 148, 25);
+		JpAdmStock.add(fechaRetiro);
 		
 		lblOT = new JLabel("Para OT Nro");
 		lblOT.setFont(new Font("Arial", Font.PLAIN, 12));

@@ -229,12 +229,6 @@ public class Egreso_Stock {
 				while (resultado.next())
 				{
 					id_SC = resultado.getInt("id_Solicitud_Compra");
-//					calidades = Calidad.getCalidadDeRetiro(id_SC);
-//					formatos = Formato_Papel.getFormatoDeRetiro(id_SC);
-//					variantes = Variante.getVarianteDeRetiro(id_SC);
-//					gramajes = Detalle.getGramajeDeRetiro(id_SC);
-//					marcas = Detalle.getMarcaDeRetiro(id_SC);
-					
 					FilaRetiros fr = new FilaRetiros(Metodos.EnteroAFactura(id_SC), resultado.getInt("gramaje"), resultado.getString("calidad"),resultado.getString("formato"), resultado.getString("variante"), resultado.getString("marca"), 	Metodos.dateFormatConHora(resultado.getString("fecha")),
 							new Integer(resultado.getInt("cant_hojas_retiradas")),resultado.getString("Empleado"));
 					retiros.add(fr);
