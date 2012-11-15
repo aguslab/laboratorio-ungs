@@ -366,14 +366,43 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		
 		cboMes2 = new JComboBox (Meses);
+		cboMes2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				setDiasMes(Metodos.getDiasMes(getCboMes2().getSelectedItem().toString(), Integer.parseInt(getCboAnio2().getSelectedItem().toString())));
+			}
+		});
 		cboMes2.setBounds(133, 54, 97, 25);
-		
 		cboDia2 = new JComboBox ();
+		cboDia2.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				String mes = getCboMes2().getSelectedItem().toString();
+				String anio = (String) getCboAnio2().getSelectedItem();
+				try
+				{
+					if (anio != null && mes != null)
+						setDiasMes(Metodos.getDiasMes(mes,Integer.parseInt(anio)));
+				}
+			
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+				}
+			}
+		});
 		cboDia2.setBounds(85, 54, 48, 25);
 		
 		cboAnio2 = new JComboBox ();
+		cboAnio2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				setDiasMes(Metodos.getDiasMes(getCboMes2().getSelectedItem().toString(), Integer.parseInt(getCboAnio2().getSelectedItem().toString())));
+			}
+		});
 		cboAnio2.setBounds(230, 54, 65, 25);
-		for (int i = 1; i <= 31; i++) 
+		/*for (int i = 1; i <= 31; i++) 
 		{
 			if(i<10){
 				dias = "0" + i;
@@ -381,7 +410,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				dias = "" + i;	
 			}
 			cboDia2.addItem (dias);
-		}
+		}*/
 		
 		for (int i = 2012; i <= 2042; i++) 
 		{
@@ -1705,6 +1734,25 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return this.tablaElementos;
 	}
 
+	void setDiasMes(Integer cantDias)
+	{
+		if(cantDias != null)
+		{
+			String dias = "";
+			for (int i = 1; i <= cantDias; i++) 
+			{
+				if(i<10)
+				{
+					dias = "05" + i;
+				}
+				else
+				{
+					dias = "" + i;	
+				}
+				getCboDia2().addItem (dias);
+			}
+		}
+	}
 	
 	public JComboBox<String> getCliente() 
 	{
@@ -1780,6 +1828,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	}
 
 
+
+	
 
 
 
