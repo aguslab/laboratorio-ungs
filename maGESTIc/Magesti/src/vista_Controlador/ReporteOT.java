@@ -8,7 +8,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class ReporteOT 
 {
 	private String nroOT, nombreOT, cliente, descripcion, tipoProducto, preimpresion, estado;
-	private String fechaProm, fechaConfec,apasiado,cantEntregar;
+	private String fechaProm, fechaConfec,fechaCierre,apasiado,cantEntregar;
 	private Double ancho, alto;
 	private ArrayList<FilaElementos> elementos;
 	private ArrayList<FilaMateriales> materiales;
@@ -17,10 +17,9 @@ public class ReporteOT
 	public ReporteOT(String nroOT, String nombreOT, String cliente,
 			String descripcion, String tipoProducto, String preimpresion,
 			String estado, String fechaProm, String fechaConfec, Double ancho, Double alto,
-			String cantEntregar, String apasiado, ArrayList<FilaElementos> elementos,
+			String cantEntregar, String apasiado, String fcierre, ArrayList<FilaElementos> elementos,
 			ArrayList<FilaMateriales> materiales,ArrayList<FilaOEjecucion> ordenEjecucion) 
 	{
-		super();
 		this.nroOT = nroOT;
 		this.nombreOT = nombreOT;
 		this.cliente = cliente;
@@ -200,5 +199,16 @@ public class ReporteOT
 	{
 		this.ordenEjecucion = ordenEjecucion;
 	}
+
+	public String getFechaCierre() 
+	{
+		return fechaCierre;
+	}
+
+	public void setFechaCierre(String fechaCierre)
+	{
+		this.fechaCierre = fechaCierre;
+	}
+	
 	
 }

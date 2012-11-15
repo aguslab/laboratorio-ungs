@@ -49,7 +49,7 @@ public class TablaDeBusqueda extends JInternalFrame
 					dispose();
 				}
 			});
-			btnCerrar.setBounds(d.width-145, d.height-210, 120, 35);
+			btnCerrar.setBounds(1215, 556, 120, 35);
 			getContentPane().add(btnCerrar);
 			
 			jspTabla= new JScrollPane();

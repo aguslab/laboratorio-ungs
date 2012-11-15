@@ -428,15 +428,18 @@ public class Orden_Trabajo implements Config
 		String status = getEstado();
 		Integer hojas_utiliz = this.getHojas_utilizadas();
 		String f_cierre=this.getF_cierre();
-		if(f_cierre != null){
+		if(f_cierre != null)
+		{
 			f_cierre="'"+f_cierre+"'";			
 		}
 		String f_entrega=getF_entrega();
-		if(f_entrega!=null){
+		if(f_entrega!=null)
+		{
 			f_entrega="'"+f_entrega+"'";			
 		}
 	
-
+		System.out.println("ancho" + ancho);
+		System.out.println("alto" + alto);
 		
 		if (ConexionDB.getbaseDatos().ejecutar(
 				"INSERT INTO orden_trabajo VALUES(default," + "'" + nombre_prod
