@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteOEjecucion" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7aa1d48e-82f1-4d98-9ca1-e290d7b9795b">
 	<property name="ireport.zoom" value="1.4641000000000044"/>
-	<property name="ireport.x" value="49"/>
+	<property name="ireport.x" value="72"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
 		<![CDATA[]]>
@@ -94,9 +94,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<textField>
-				<reportElement uuid="adce0018-54b7-40c8-a3de-ee29cf32fe88" x="22" y="0" width="199" height="20"/>
+				<reportElement uuid="adce0018-54b7-40c8-a3de-ee29cf32fe88" x="22" y="0" width="199" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -109,7 +109,7 @@
 				<textFieldExpression><![CDATA[$F{proceso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="90a727a6-2807-4688-af20-225228b50feb" x="221" y="0" width="66" height="20"/>
+				<reportElement uuid="90a727a6-2807-4688-af20-225228b50feb" x="221" y="0" width="66" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -122,7 +122,7 @@
 				<textFieldExpression><![CDATA[$F{tercerizada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="99cdb1d3-4cc5-4cfd-b696-fe92ce595997" x="495" y="0" width="201" height="20"/>
+				<reportElement uuid="99cdb1d3-4cc5-4cfd-b696-fe92ce595997" x="495" y="0" width="201" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -135,7 +135,7 @@
 				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b5049a5c-24c8-4d1c-8c00-ab3fe322d5f0" x="287" y="0" width="208" height="20"/>
+				<reportElement uuid="b5049a5c-24c8-4d1c-8c00-ab3fe322d5f0" x="287" y="0" width="208" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -148,7 +148,7 @@
 				<textFieldExpression><![CDATA[$F{proveedor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c311051c-c352-4d7b-94fb-53d10a2fc7ec" x="696" y="0" width="60" height="20"/>
+				<reportElement uuid="c311051c-c352-4d7b-94fb-53d10a2fc7ec" x="696" y="0" width="60" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

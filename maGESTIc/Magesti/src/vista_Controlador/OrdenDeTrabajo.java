@@ -1556,7 +1556,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			Integer id_var = Variante.getId_Variante(tablaMateriales.getValueAt(i, 5).toString());
 			
 			//Obtengo los demas datos para la tabla de materiales
-			
 			Integer gramaje = Integer.parseInt(tablaMateriales.getValueAt(i, 2).toString());
 			Integer pliegosEnDemasia = Integer.parseInt(tablaMateriales.getValueAt(i, 6).toString());
 			Integer posesXpliego = Integer.parseInt(tablaMateriales.getValueAt(i, 7).toString());

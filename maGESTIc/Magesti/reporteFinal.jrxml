@@ -165,12 +165,16 @@
 			</textField>
 			<textField>
 				<reportElement uuid="0e1e76f8-a336-4a0b-8d5e-520d8e96a3aa" x="758" y="13" width="24" height="20"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement uuid="7c023260-5bd3-4fd3-b356-b49f86d4da1c" x="782" y="13" width="40" height="20"/>
-				<textElement/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>

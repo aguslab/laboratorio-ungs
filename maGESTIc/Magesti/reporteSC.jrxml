@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteSC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2122c608-da0b-43a2-a77e-e85e65bd8721">
-	<property name="ireport.zoom" value="1.6105100000000068"/>
-	<property name="ireport.x" value="154"/>
-	<property name="ireport.y" value="439"/>
+	<property name="ireport.zoom" value="1.2100000000000055"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="177"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Magesti\\maGESTIc\\Magesti\\"]]></defaultValueExpression>
 	</parameter>
@@ -66,13 +66,16 @@
 	<field name="vendedor" class="java.lang.String">
 		<fieldDescription><![CDATA[vendedor]]></fieldDescription>
 	</field>
+	<variable name="IVA_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{IVA}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="52" splitType="Stretch">
+		<band height="46" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="a626a6da-dd9b-47d6-9d2e-9810f3582e98" x="145" y="10" width="285" height="31"/>
+				<reportElement uuid="a626a6da-dd9b-47d6-9d2e-9810f3582e98" x="142" y="6" width="285" height="31"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="20"/>
 				</textElement>
@@ -279,7 +282,7 @@
 				<reportElement uuid="b67a9282-2057-4c99-ac9e-7631f6485833" x="3" y="116" width="19" height="1"/>
 			</line>
 		</band>
-		<band height="92">
+		<band height="112">
 			<staticText>
 				<reportElement uuid="032eeb85-90aa-46dd-8f4c-aa0644dd80ca" x="43" y="1" width="45" height="20"/>
 				<textElement>
@@ -294,7 +297,7 @@
 				<reportElement uuid="b67a9282-2057-4c99-ac9e-7631f6485833" x="1" y="11" width="38" height="1"/>
 			</line>
 			<subreport>
-				<reportElement uuid="e5139f79-f3d8-4f50-954e-f7fc72a7f850" x="0" y="21" width="554" height="60"/>
+				<reportElement uuid="e5139f79-f3d8-4f50-954e-f7fc72a7f850" x="0" y="35" width="554" height="60"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detalles})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteDetalles.jasper"]]></subreportExpression>
 			</subreport>
@@ -321,13 +324,6 @@
 				</textElement>
 				<text><![CDATA[% IVA:]]></text>
 			</staticText>
-			<textField>
-				<reportElement uuid="74e06698-91a5-477e-a079-53744a05234d" x="67" y="20" width="109" height="20"/>
-				<textElement textAlignment="Left">
-					<font fontName="Calibri" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{IVA}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement uuid="d6545b01-fa32-481c-b26a-a9bf7cac9ebd" x="0" y="40" width="68" height="20"/>
 				<textElement textAlignment="Left">
@@ -377,16 +373,37 @@
 				</textElement>
 				<text><![CDATA[$]]></text>
 			</staticText>
+			<textField>
+				<reportElement uuid="4d90b18b-7721-42e6-a04a-f90b83c02a0e" x="68" y="20" width="108" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IVA} + " %"]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="21">
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement uuid="f60b70d6-5201-4e28-adc8-5121d4a42bb0" x="442" y="0" width="112" height="20"/>
+				<reportElement uuid="f60b70d6-5201-4e28-adc8-5121d4a42bb0" x="226" y="1" width="112" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8e5a7bda-28f6-49b2-bf4f-0d297418bb98" x="435" y="1" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="0fade454-a586-4b7b-9a1c-10f992e27eee" x="515" y="1" width="40" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

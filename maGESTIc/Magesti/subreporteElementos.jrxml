@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="supreporteElementos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e5bfb02e-f0df-4444-bb50-73588cc62670">
-	<property name="ireport.zoom" value="1.3310000000000033"/>
-	<property name="ireport.x" value="128"/>
+	<property name="ireport.zoom" value="1.6105100000000043"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -80,9 +80,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="22" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="d9ea7cb2-8b57-4619-bd54-8c18de21fd2f" mode="Opaque" x="303" y="0" width="129" height="22" backcolor="#A8BDCF"/>
+				<reportElement uuid="d9ea7cb2-8b57-4619-bd54-8c18de21fd2f" mode="Opaque" x="303" y="0" width="129" height="23" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -95,7 +95,7 @@
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="34fabcc9-140f-41d5-a6ef-4489990d34c3" mode="Opaque" x="104" y="0" width="199" height="22" backcolor="#A8BDCF"/>
+				<reportElement uuid="34fabcc9-140f-41d5-a6ef-4489990d34c3" mode="Opaque" x="104" y="0" width="199" height="23" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -108,7 +108,7 @@
 				<text><![CDATA[Elemento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b446e2c9-ee9a-4a5b-a6f9-4f662d87e5c0" mode="Opaque" x="432" y="0" width="112" height="22" backcolor="#A8BDCF"/>
+				<reportElement uuid="b446e2c9-ee9a-4a5b-a6f9-4f662d87e5c0" mode="Opaque" x="432" y="0" width="112" height="23" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -121,7 +121,7 @@
 				<text><![CDATA[Hojas Previstas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="50be5584-9193-47d6-9894-fad3646040cd" mode="Opaque" x="544" y="0" width="106" height="22" backcolor="#A8BDCF"/>
+				<reportElement uuid="50be5584-9193-47d6-9894-fad3646040cd" mode="Opaque" x="544" y="0" width="106" height="23" backcolor="#A8BDCF"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -136,9 +136,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="33">
 			<textField>
-				<reportElement uuid="5d4f1329-69a6-4b69-a5c1-fe302a851ad9" x="303" y="0" width="129" height="20"/>
+				<reportElement uuid="5d4f1329-69a6-4b69-a5c1-fe302a851ad9" x="303" y="0" width="129" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -151,7 +151,7 @@
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="506f558d-4021-4ee0-92e6-71f1638c78a5" x="104" y="0" width="199" height="20"/>
+				<reportElement uuid="506f558d-4021-4ee0-92e6-71f1638c78a5" x="104" y="0" width="199" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -164,7 +164,7 @@
 				<textFieldExpression><![CDATA[$F{elemento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b291259e-9020-4cbc-b42d-082700cb8e3f" x="432" y="0" width="112" height="20"/>
+				<reportElement uuid="b291259e-9020-4cbc-b42d-082700cb8e3f" x="432" y="0" width="112" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -177,7 +177,7 @@
 				<textFieldExpression><![CDATA[$F{hojasEstimada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="a82281c7-38ea-4fb5-8503-f3975b4cb42c" x="544" y="0" width="106" height="20"/>
+				<reportElement uuid="a82281c7-38ea-4fb5-8503-f3975b4cb42c" x="544" y="0" width="106" height="33"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
