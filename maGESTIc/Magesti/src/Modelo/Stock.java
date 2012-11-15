@@ -434,7 +434,7 @@ public class Stock {
 		
 		ArrayList<Integer> idsStock= new ArrayList<Integer>();
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT id_stock FROM stock WHERE id_solicitud_compra="+id_SC+" ORDER BY id_stock" );
+				"SELECT id_stock FROM stock WHERE id_solicitud_compra="+id_SC+" AND activo=true ORDER BY id_stock" );
 
 		if (resultado != null) {
 			try {
@@ -473,7 +473,7 @@ public class Stock {
 
 	public static Stock getStock(Integer id_stock) {
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-				"SELECT * FROM Stock WHERE id_stock="+id_stock);
+				"SELECT * FROM Stock WHERE id_stock="+id_stock+ " AND activo=true");
 		Stock stock=null;
 		if (resultado != null) {
 

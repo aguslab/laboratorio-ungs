@@ -548,9 +548,11 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 							break;
 						}
 					}
-					conNegativos=valoresMenorACero();
+					if (celdas_ok) {
+						conNegativos = valoresMenorACero();
+					}
 					
-					if(celdas_ok && !conNegativos){
+					if(celdas_ok && conNegativos == false){
 					
 						String unidad_medida_precio=tablaDetalles.getValueAt(i, 7).toString();
 						if(unidad_medida_precio.toUpperCase().equals("RESMA")){

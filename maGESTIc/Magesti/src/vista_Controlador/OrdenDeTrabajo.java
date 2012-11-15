@@ -66,8 +66,6 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtNro, 
 		txtNombreOT,
 		txtDescripcion,
-		//txtAncho,
-		//txtAlto,
 		txtCantidadAEntregar,
 		txtPreimpresion;
 	
@@ -1228,7 +1226,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"El alto no puede ser 0",
-						qTITULO + " - Ancho nulo", 
+						qTITULO + " - Alto nulo", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					txtAlto.requestFocus();
@@ -1240,7 +1238,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"El ancho no puede ser 0",
-						qTITULO + " - Alto nulo", 
+						qTITULO + " - Ancho nulo", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					txtAncho.requestFocus();
@@ -1675,12 +1673,12 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 	JTextField getTxtAncho()
 	{
-		return this.txtAlto;
+		return this.txtAncho;
 	}
 	
 	JTextField getTxtAlto()
 	{
-		return this.txtAncho;
+		return this.txtAlto;
 	}
 	
 	JCheckBox getChbApaisado()

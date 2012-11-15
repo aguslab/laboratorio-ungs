@@ -111,7 +111,6 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				getToolkit().beep ();
 				e.consume();
 			}
-				
 		}
 		
 		@Override
@@ -208,6 +207,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				Adm_Stock.Actualizar();
 				dispose();
 			}
 		});
@@ -402,7 +402,21 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtEmpleado.requestFocus();
-			}else if(!CeldasRetirarOK()){
+			}else if(OTCerrada()){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"No se puede retirar hojas para una OT cerrada, estas hojas quedarán como remanente",
+					qTITULO + " - Agregue hojas a Retirar", 
+					JOptionPane.WARNING_MESSAGE
+				);
+				ArrayList<Integer> fmodif=dameFilasModificadas();
+				for (int i = 0; i < fmodif.size(); i++) {
+					Integer id_Stock = Metodos.FacturaAEntero(tablaStock.getValueAt(fmodif.get(i),0).toString());
+					Stock.setStockComoRemanente(id_Stock);
+				}
+			}
+			else if(!CeldasRetirarOK()){
 				JOptionPane.showMessageDialog 
 				(
 					this, 
@@ -441,6 +455,13 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 	}
 	
 
+
+	private boolean OTCerrada() {
+
+		Integer id_OT=Metodos.getIdEnCombo(cboOT);
+		
+		return Orden_Trabajo.getEstadoOT(id_OT).equalsIgnoreCase("Cerrada");
+	}
 
 	private boolean hojasRetirarOK() {
 
