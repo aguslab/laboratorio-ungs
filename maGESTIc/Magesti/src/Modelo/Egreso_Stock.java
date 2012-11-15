@@ -198,20 +198,25 @@ public class Egreso_Stock {
 	public static ArrayList<FilaRetiros> getRetirosStock(Integer id_OT) 
 	{
 		ResultSet resultado = ConexionDB.getbaseDatos().consultar(
-		"SELECT s.id_solicitud_compra, es.fecha,es.cant_hojas_retiradas,es.empleado " +
-		"FROM egreso_stock es INNER JOIN stock s ON es.id_stock = s.id_stock " +
-		"INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra " +
-		"INNER JOIN materiales m ON es.id_materiales=m.id_materiales " +
-		"INNER JOIN elemento e ON e.id_elemento=m.id_materiales WHERE e.id_orden_trabajo =" + id_OT);
+		"SELECT s.id_solicitud_compra,d.gramaje, c.nombre AS calidad, f.tamanio AS formato, v.nombre AS variante, d.marca,"+
+		" es.fecha, es.cant_hojas_retiradas,es.empleado"+
+		" FROM egreso_stock es INNER JOIN stock s ON es.id_stock = s.id_stock"+
+		" INNER JOIN solicitud_compra sc ON s.id_solicitud_compra = sc.id_solicitud_compra"+
+		" INNER JOIN detalle d ON d.id_detalle=s.id_detalle"+
+		" INNER JOIN calidad c ON c.id_calidad=d.id_calidad"+
+		" INNER JOIN formato_papel f ON f.id_formato_papel=d.id_formato_papel"+
+		" INNER JOIN variante v ON v.id_variante=d.id_variante"+
+		" INNER JOIN materiales m ON es.id_materiales=m.id_materiales"+
+		" INNER JOIN elemento e ON e.id_elemento=m.id_materiales WHERE e.id_orden_trabajo =" + id_OT);
 		
-		Integer i = 0;
+//		Integer i = 0;
 		Integer id_SC;
 		ArrayList<FilaRetiros> retiros = new ArrayList<FilaRetiros>();
-		ArrayList<String> calidades = new ArrayList<String>();
-		ArrayList<String> formatos = new ArrayList<String>();
-		ArrayList<String> variantes = new ArrayList<String>();
-		ArrayList<String> marcas = new ArrayList<String>();
-		ArrayList<Integer> gramajes = new ArrayList<Integer>();
+//		ArrayList<String> calidades = new ArrayList<String>();
+//		ArrayList<String> formatos = new ArrayList<String>();
+//		ArrayList<String> variantes = new ArrayList<String>();
+//		ArrayList<String> marcas = new ArrayList<String>();
+//		ArrayList<Integer> gramajes = new ArrayList<Integer>();
 		if (resultado != null)
 		{
 			try 
@@ -219,16 +224,15 @@ public class Egreso_Stock {
 				while (resultado.next())
 				{
 					id_SC = resultado.getInt("id_Solicitud_Compra");
-					calidades = Calidad.getCalidadDeRetiro(id_SC);
-					formatos = Formato_Papel.getFormatoDeRetiro(id_SC);
-					variantes = Variante.getVarianteDeRetiro(id_SC);
-					gramajes = Detalle.getGramajeDeRetiro(id_SC);
-					marcas = Detalle.getMarcaDeRetiro(id_SC);
+//					calidades = Calidad.getCalidadDeRetiro(id_SC);
+//					formatos = Formato_Papel.getFormatoDeRetiro(id_SC);
+//					variantes = Variante.getVarianteDeRetiro(id_SC);
+//					gramajes = Detalle.getGramajeDeRetiro(id_SC);
+//					marcas = Detalle.getMarcaDeRetiro(id_SC);
 					
-					FilaRetiros fr = new FilaRetiros(Metodos.EnteroAFactura(id_SC), gramajes.get(i), calidades.get(i),formatos.get(i), variantes.get(i), marcas.get(i), 	Metodos.dateFormatConHora(resultado.getString("fecha")),
+					FilaRetiros fr = new FilaRetiros(Metodos.EnteroAFactura(id_SC), resultado.getInt("gramaje"), resultado.getString("calidad"),resultado.getString("formato"), resultado.getString("variante"), resultado.getString("marca"), 	Metodos.dateFormatConHora(resultado.getString("fecha")),
 							new Integer(resultado.getInt("cant_hojas_retiradas")),resultado.getString("Empleado"));
 					retiros.add(fr);
-					i++;
 				}
 			} 
 			catch (Exception e) 
