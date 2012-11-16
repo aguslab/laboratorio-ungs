@@ -31,7 +31,7 @@ public class AdministradorAlquileres {
 	
 	
 
-
+	// se toma como dia de cobro la fecha de firma
 	public Double calcularAlquileres(ArrayList<Alquiler> alquileres, String F_inicio, String F_fin){
 	Double acumulador=0.0;
 		
