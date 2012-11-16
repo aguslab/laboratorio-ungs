@@ -18,6 +18,7 @@ public class AdministradorAlquileresTest {
 	private String f_5_2="10/04/1999";
 	private String f_6="01/01/2011";
 	private String f_7="16/09/2015";
+	
 	//provincias de prueba
 	private Provincia p1= new Provincia(1, "Bs. As.", "Buenos Aires");
 	private Provincia p2= new Provincia(1, "Neuquen", "Neuquen");
@@ -39,8 +40,9 @@ public class AdministradorAlquileresTest {
 	
 	//alquileres de prueba
 	private Alquiler alquiler1= new Alquiler(inmueble1, locatario1, 1, f_5, f_5, f_5, 1024.0, "Finalizado");
-	private Alquiler alquiler2= new Alquiler(inmueble2, locatario2, 2, f_2, f_3, f_4, 1000.0, "Finalizado");
-	private Alquiler alquiler3= new Alquiler(inmueble1, locatario3, 3, f_2, f_3, f_6, 1000.0, "Finalizado");
+	private Alquiler alquiler2= new Alquiler(inmueble2, locatario2, 2, f_2, f_3, f_4, 1000.0, "Pagado");
+	private Alquiler alquiler3= new Alquiler(inmueble1, locatario3, 3, f_2, f_3, f_6, 1000.0, "Señado");
+	private Alquiler alquiler4= new Alquiler(inmueble2, locatario2, 3, "01/02/2010", "01/05/2010", "01/05/2013", 2000.0, "Finalizado");
 
 	
 	@Test
@@ -126,9 +128,9 @@ public class AdministradorAlquileresTest {
 		//ffirma=02/12/2000
 		//finicio=03/03/2010
 		//ffin=01/01/2011
-		//10 meses de 1000
+		//8 meses de 1000
 		Double actual=aa.calcularAlquileres(alquileres, "01/05/2010", "01/01/2011");
-		Double esperado=10000.0;
+		Double esperado=8000.0;
 		assertEquals(esperado, actual);
 	}
 	
@@ -165,5 +167,23 @@ public class AdministradorAlquileresTest {
 		assertEquals(esperado, actual);
 	}
 	
+	@Test
+	public void calcularAlquileresTest10() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler4);
+		//ffirma: "01/02/2010"
+		//finicio: "01/05/2010"
+		//ffin: "01/05/2013"
+		//11 meses * 2000
+		alquileres.add(alquiler3);
+		//ffirma=02/12/2000
+		//finicio=03/03/2010
+		//ffin=01/01/2011
+		//8 meses * 1000
+		Double actual=aa.calcularAlquileres(alquileres, "01/05/2010","02/03/2011" );
+		Double esperado=(11 * 2000)+ (1000.0 * 8);
+		assertEquals(esperado, actual);
+	}
 
 }
