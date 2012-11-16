@@ -10,7 +10,7 @@ public class AdministradorAlquileres {
 		
 		for(int i=0;i<inmuebles.size();i++){
 			Boolean noTieneAlquileresPautados=false;
-			for(int j=0; j < alquileres.size(); i++){
+			for(int j=0; j < alquileres.size(); j++){
 				if(alquileres.get(j).getInmueble().getId_Inmueble().equals(inmuebles.get(i).getId_Inmueble())){					
 					if( EsFechaPrimeraMenorQueSegunda(fecha, alquileres.get(j).getFechaFinalizacion()) == false  ){
 						noTieneAlquileresPautados=true;

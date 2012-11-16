@@ -18,21 +18,21 @@ import java.awt.event.ActionEvent;
 public class Inmueble extends JInternalFrame {
 	private JTable tablaInmuebles;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Inmueble frame = new Inmueble();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Inmueble frame = new Inmueble();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -52,7 +52,7 @@ public class Inmueble extends JInternalFrame {
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 440, 184);
+		scrollPane.setBounds(0, 0, 440, 173);
 		panel.add(scrollPane);
 		
 		tablaInmuebles = new JTable();
@@ -78,7 +78,8 @@ public class Inmueble extends JInternalFrame {
 		tablaInmuebles.getColumnModel().getColumn(16).setPreferredWidth(83);
 		tablaInmuebles.getColumnModel().getColumn(18).setPreferredWidth(79);
 		scrollPane.setViewportView(tablaInmuebles);
-		
+		tablaInmuebles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 236, 440, 29);
 		getContentPane().add(panel_1);
