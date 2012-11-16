@@ -334,9 +334,9 @@ public class AdministradorAlquileresTest {
 		
 		ArrayList<Inmueble> actual = aa.inmueblesSinAlquileres(inmueble, alquileres, "24/05/2012");
 		
-		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////
+		//ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////
 		
-		assertEquals(esperado, actual);
+		assertEquals(0, actual.size());
 	}
 	
 	@Test
