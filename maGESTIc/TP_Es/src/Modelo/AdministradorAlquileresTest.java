@@ -16,7 +16,7 @@ public class AdministradorAlquileresTest {
 	private String f_5="05/01/1999";
 	private String f_5_1="05/02/1999";
 	private String f_5_2="10/04/1999";
-	private String f_6="10/04/2010";
+	private String f_6="01/01/2011";
 	private String f_7="16/09/2015";
 	//provincias de prueba
 	private Provincia p1= new Provincia(1, "Bs. As.", "Buenos Aires");
@@ -34,31 +34,45 @@ public class AdministradorAlquileresTest {
 	private Locador locador3= new Locador(1, "Jimenez", "57294738274", "02320465323");
 	//Inmuebles de prueba
 	private Inmueble inmueble1= new Inmueble(locador1, 1, p1, "San Miguel", "San Miguel", 1663, "Gutierrez", 1032, 3, 329.34, 200.12, 5, true, true, 6, "BUENO", "44556654", true);
+	private Inmueble inmueble2= new Inmueble(locador2, 2, p2, "San mARTIN", "Santa Maria", 1668, "Defensa", 1919, 4, 600.34, 890.12, 8, false, true, 7, "Regular", "44872345", true);
 
 	
 	//alquileres de prueba
 	private Alquiler alquiler1= new Alquiler(inmueble1, locatario1, 1, f_5, f_5, f_5, 1024.0, "Finalizado");
-	private Alquiler alquiler2= new Alquiler(inmueble1, locatario2, 2, f_5, f_5_1, f_5_2, 1024.0, "Finalizado");
+	private Alquiler alquiler2= new Alquiler(inmueble2, locatario2, 2, f_2, f_3, f_4, 1000.0, "Finalizado");
+	private Alquiler alquiler3= new Alquiler(inmueble1, locatario3, 3, f_2, f_3, f_6, 1000.0, "Finalizado");
 
+	
 	@Test
 	public void calcularAlquileresTestListaVacia() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
 		
 		
-		Double actual=aa.calcularAlquileres(alquileres, f_6, f_7);
+		Double actual=aa.calcularAlquileres(alquileres, "01/01/2000", "01/01/3000");
 		Double esperado=0.0;
 		assertEquals(esperado, actual);
 	}
 	
 	
 	@Test
-	public void calcularAlquileresTestFechasIguales() {
+	public void calcularAlquileresTestFechasIgualesEnParametro() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
 		alquileres.add(alquiler1);
-		
-		Double actual=aa.calcularAlquileres(alquileres, f_5, f_5);
+		//si no hay rango de tiempo, debe devolver 0
+		Double actual=aa.calcularAlquileres(alquileres, "01/01/1990", "01/01/1990");
+		Double esperado=0.0;
+		assertEquals(esperado, actual);
+	}
+	
+	@Test
+	public void calcularAlquileresTestFechasIgualesAlquiler() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler1);
+		//fecha de firma, inicio y fin son iguales, debe devolver nada(0)
+		Double actual=aa.calcularAlquileres(alquileres, "01/01/1990", "01/01/2000");
 		Double esperado=0.0;
 		assertEquals(esperado, actual);
 	}
@@ -68,9 +82,9 @@ public class AdministradorAlquileresTest {
 	public void calcularAlquileresTestFechaFinMEnorFechaInicio() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
-		alquileres.add(alquiler1);
-		
-		Double actual=aa.calcularAlquileres(alquileres, f_6, f_5);
+		alquileres.add(alquiler2);
+		//fecha finalizacion de alquiler menor a fecha firma.Cero meses cobrados
+		Double actual=aa.calcularAlquileres(alquileres, "12/12/2012", "01/01/3000");
 		Double esperado=0.0;
 		assertEquals(esperado, actual);
 	}
@@ -81,11 +95,75 @@ public class AdministradorAlquileresTest {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
 		alquileres.add(alquiler2);
-		
+		alquileres.add(alquiler1);
+		//lista con 2 alquileres que deben devolver 0 y 0 
 		Double actual=aa.calcularAlquileres(alquileres, "01/01/1990", "01/10/1999");
-		Double esperado=2048.0;/////////////////////////////////////////////////////
+		Double esperado=0.0;
 		assertEquals(esperado, actual);
 	}
-
+	
+	
+	@Test
+	public void calcularAlquileresTest6() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler3);
+		//ffirma=02/12/2000
+		//finicio=03/03/2010
+		//ffin=01/01/2011
+		//10 meses de 1000
+		Double actual=aa.calcularAlquileres(alquileres, "01/01/1900", "16/11/2012");
+		Double esperado=10000.0;
+		assertEquals(esperado, actual);
+	}
+	
+	
+	@Test
+	public void calcularAlquileresTest7() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler3);
+		//ffirma=02/12/2000
+		//finicio=03/03/2010
+		//ffin=01/01/2011
+		//10 meses de 1000
+		Double actual=aa.calcularAlquileres(alquileres, "01/05/2010", "01/01/2011");
+		Double esperado=10000.0;
+		assertEquals(esperado, actual);
+	}
+	
+	
+	@Test
+	public void calcularAlquileresTest8() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler3);
+		//ffirma=02/12/2000
+		//finicio=03/03/2010
+		//ffin=01/01/2011
+		//0 meses de 1000
+		Double actual=aa.calcularAlquileres(alquileres, "02/12/2000","02/03/2001" );
+		Double esperado=0.0;
+		assertEquals(esperado, actual);
+	}
+	
+	
+	@Test
+	public void calcularAlquileresTest9() {
+		AdministradorAlquileres aa= new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
+		alquileres.add(alquiler1);
+		alquileres.add(alquiler2);
+		alquileres.add(alquiler3);
+		alquileres.add(alquiler3);
+		alquileres.add(alquiler3);
+		//alquiler 1 y no no devuelven nada
+		//alquiler3 devuelve sus 10 mese a 1000
+		
+		Double actual=aa.calcularAlquileres(alquileres, "02/12/2000","02/03/2011" );
+		Double esperado=10000.0 * 3;
+		assertEquals(esperado, actual);
+	}
+	
 
 }

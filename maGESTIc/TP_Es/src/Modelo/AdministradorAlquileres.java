@@ -23,8 +23,6 @@ public class AdministradorAlquileres {
 				}		
 			}
 		}
-		
-		
 		return inmueblesSinAlquileres;
 	}
 	
@@ -32,25 +30,32 @@ public class AdministradorAlquileres {
 	
 
 	// se toma como dia de cobro la fecha de firma
-	public Double calcularAlquileres(ArrayList<Alquiler> alquileres, String F_inicio, String F_fin){
+	public Double calcularAlquileres(ArrayList<Alquiler> alquileres, String F_Rango_inicio, String F_Rango_fin){
 	Double acumulador=0.0;
 		
-		if(EsFechaPrimeraMenorQueSegunda(F_fin, F_inicio) || F_fin.equals(F_inicio)){
+		if(EsFechaPrimeraMenorQueSegunda(F_Rango_fin, F_Rango_inicio)){
 			return acumulador;
 		}
 	
 		for (int i = 0; i < alquileres.size(); i++) {
-			String FechaFirma=alquileres.get(i).getFechaFirma();
-			String FechaFinalizacion=alquileres.get(i).getFechaFinalizacion();
-			//si la fecha de firma es menor que la fecha de fin del rango pasado como parametro y
+			String FechaFirmaAlq=alquileres.get(i).getFechaFirma();
+			String FechaInicioAlq=alquileres.get(i).getFechaInicio();
+			String FechaFinalizacionAlq=alquileres.get(i).getFechaFinalizacion();
+			//si la fecha de inicio es menor que la fecha de fin del rango pasado como parametro y
 			//la fecha de firma es menor que la fecha de finalizacion
-			//nota:la fecha de firma se va incrementando de a "un mes"
-				while(EsFechaPrimeraMenorQueSegunda(FechaFirma, F_fin) && EsFechaPrimeraMenorQueSegunda(FechaFirma, FechaFinalizacion)){
-					if(EsFechaPrimeraMenorQueSegunda(F_inicio, FechaFirma)){
+			//nota:la fecha de inicio del alquiler se va incrementando de a "un mes"
+			if((EsFechaPrimeraMenorQueSegunda(FechaFirmaAlq,FechaInicioAlq) || FechaFirmaAlq.equals(FechaInicioAlq)) && (EsFechaPrimeraMenorQueSegunda(FechaInicioAlq, FechaFinalizacionAlq) || FechaInicioAlq.equals(FechaFinalizacionAlq))){
+				
+				while( EsFechaPrimeraMenorQueSegunda(FechaInicioAlq, F_Rango_fin) && EsFechaPrimeraMenorQueSegunda(FechaInicioAlq, FechaFinalizacionAlq)){
+					if(EsFechaPrimeraMenorQueSegunda(FechaInicioAlq, F_Rango_inicio)){
+						FechaInicioAlq=mesProximo(FechaInicioAlq);
+					}else if(EsFechaPrimeraMenorQueSegunda(F_Rango_inicio, FechaInicioAlq) || F_Rango_inicio.equals(FechaInicioAlq)){
 						acumulador+=alquileres.get(i).getMontoMensual();
 					}
-					FechaFirma=mesProximo(FechaFirma);
+					FechaInicioAlq=mesProximo(FechaInicioAlq);
 				}
+				
+			}
 		}
 		
 		return acumulador;
@@ -104,7 +109,7 @@ public class AdministradorAlquileres {
 			} 
 			else if (mesFinalizacion.equals(mesFecha)) 
 			{
-				if (diaFinalizacion < diaFecha) 
+				if (diaFinalizacion <= diaFecha) 
 				{
 					return false;
 				} 
