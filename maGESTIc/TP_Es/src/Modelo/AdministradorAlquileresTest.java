@@ -76,7 +76,6 @@ public class AdministradorAlquileresTest {
 	}
 	
 	
-	//ver a partir de cuando se cobra, si a partir de fechaFirma o FechaInicio
 	@Test
 	public void calcularAlquileresTest4() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
