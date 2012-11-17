@@ -2,6 +2,10 @@ package Modelo;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
+import vista_Controlador.Config;
+
 public class MySQLBD 
 {
 
@@ -22,10 +26,10 @@ public class MySQLBD
         try 
         {
             Class.forName("com.mysql.jdbc.Driver");
-            String  ip="localhost",
-            		baseDatos="Magesti",
-            		usuario="tp_labo",
-            		pass="laboratorio";
+            String  ip=Config.qSERVIDOR,
+            		baseDatos=Config.qBASE,
+            		usuario=Config.qUSUARIO,
+            		pass=Config.qPASSWORD;
 
             
             String BaseDeDatos = "jdbc:mysql://"+ip+"/"+baseDatos+"?user="+usuario+"&password="+pass;
@@ -42,7 +46,16 @@ public class MySQLBD
         catch (Exception e) 
         {
             e.printStackTrace();
+            JOptionPane.showMessageDialog 
+			(
+				null, 
+				"No se ha podido conectar a la base de datos, consulte a un profesional de Magesti para su solución",
+				Config.qTITULO + " - ERROR CON LA BASE DE DATOS", 
+				JOptionPane.WARNING_MESSAGE
+			);
+			System.exit (0);
         }
+        
         return this;
     }
     
