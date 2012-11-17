@@ -18,7 +18,7 @@ public class AdministradorAlquileres {
 						j=alquileres.size()-1;
 					}
 					if( j == alquileres.size()-1 && noTieneAlquileresPautados){
-						inmueblesSinAlquileres.add(inmuebles.get(j));
+						inmueblesSinAlquileres.add(inmuebles.get(i));
 					}
 				}		
 			}
