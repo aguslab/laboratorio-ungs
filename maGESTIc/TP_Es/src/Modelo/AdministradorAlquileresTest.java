@@ -71,8 +71,8 @@ public class AdministradorAlquileresTest {
 	private Alquiler alquiler4 = new Alquiler(inmueble4, locatario3, 4, f_12, f_12_1, f_13, 3500.0, "Finalizado");
 	private Alquiler alquiler5 = new Alquiler(inmueble1, locatario1, 5, f_14, f_14_1, f_15, 4000.0, "En Proceso");
 	private Alquiler alquiler6 = new Alquiler(inmueble2, locatario2, 6, f_10, f_10_1, f_11, 1050.0, "Finalizado");
-	private Alquiler alquiler7= new Alquiler(inmueble1, locatario3, 7, f_2, f_3, f_6, 1000.0, "Señado");
-	private Alquiler alquiler8= new Alquiler(inmueble5, locatario2, 8, "01/02/2010", "01/05/2010", "01/05/2013", 2000.0, "Finalizado");
+	private Alquiler alquiler9= new Alquiler(inmueble1, locatario3, 7, f_2, f_3, f_6, 1000.0, "Señado");
+	private Alquiler alquiler10= new Alquiler(inmueble5, locatario2, 8, "01/02/2010", "01/05/2010", "01/05/2013", 2000.0, "Finalizado");
 	
 	
 	@Test
@@ -139,7 +139,7 @@ public class AdministradorAlquileresTest {
 	public void calcularAlquileresTest6() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
-		alquileres.add(alquiler7);
+		alquileres.add(alquiler9);
 		//ffirma=02/12/2000
 		//finicio=03/03/2010
 		//ffin=01/01/2011
@@ -154,7 +154,7 @@ public class AdministradorAlquileresTest {
 	public void calcularAlquileresTest7() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
-		alquileres.add(alquiler7);
+		alquileres.add(alquiler9);
 		//ffirma=02/12/2000
 		//finicio=03/03/2010
 		//ffin=01/01/2011
@@ -169,7 +169,7 @@ public class AdministradorAlquileresTest {
 	public void calcularAlquileresTest8() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
-		alquileres.add(alquiler7);
+		alquileres.add(alquiler9);
 		//ffirma=02/12/2000
 		//finicio=03/03/2010
 		//ffin=01/01/2011
@@ -186,11 +186,11 @@ public class AdministradorAlquileresTest {
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
 		alquileres.add(alquiler1);
 		alquileres.add(alquiler2);
-		alquileres.add(alquiler7);
-		alquileres.add(alquiler7);
-		alquileres.add(alquiler7);
+		alquileres.add(alquiler9);
+		alquileres.add(alquiler9);
+		alquileres.add(alquiler9);
 		//alquiler 1 y no no devuelven nada
-		//alquiler7 devuelve sus 10 mese a 1000
+		//alquiler9 devuelve sus 10 mese a 1000
 		
 		Double actual=aa.calcularAlquileres(alquileres, "02/12/2000","02/03/2011" );
 		Double esperado=10000.0 * 3;
@@ -201,12 +201,12 @@ public class AdministradorAlquileresTest {
 	public void calcularAlquileresTest10() {
 		AdministradorAlquileres aa= new AdministradorAlquileres();
 		ArrayList<Alquiler> alquileres= new ArrayList<Alquiler>();
-		alquileres.add(alquiler8);
+		alquileres.add(alquiler10);
 		//ffirma: "01/02/2010"
 		//finicio: "01/05/2010"
 		//ffin: "01/05/2013"
 		//11 meses * 2000
-		alquileres.add(alquiler7);
+		alquileres.add(alquiler9);
 		//ffirma=02/12/2000
 		//finicio=03/03/2010
 		//ffin=01/01/2011
@@ -316,7 +316,7 @@ public class AdministradorAlquileresTest {
 		
 		ArrayList<Inmueble> actual = aa.inmueblesSinAlquileres(inmueble, alquileres, "24/05/2012");
 		
-		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////
+		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();
 		esperado.add(inmueble1);
 		esperado.add(inmueble2);
 		esperado.add(inmueble3);
@@ -334,9 +334,9 @@ public class AdministradorAlquileresTest {
 		
 		ArrayList<Inmueble> actual = aa.inmueblesSinAlquileres(inmueble, alquileres, "24/05/2012");
 		
-		//ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////
+		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////
 		
-		assertEquals(0, actual.size());
+		assertEquals(esperado, actual);
 	}
 	
 	@Test
@@ -386,7 +386,49 @@ public class AdministradorAlquileresTest {
 	}	
 	
 	
+	private String f_16 = "24/05/2012";
+	private String f_17 = "25/08/2012";
+	private String f_18 = "26/08/2012";
+	private String f_19 = "26/09/2012";
+	private Alquiler alquiler7 = new Alquiler(inmueble4, locatario3, 7, f_16, f_13, f_17, 3500.0, "Finalizado");
+	private Alquiler alquiler8 = new Alquiler(inmueble4, locatario3, 7, f_17, f_18, f_19, 3500.0, "Finalizado");
 	
+	@Test
+	public void mismoInmuebleAlquiladoEnDistintasFechasPeroContiguas() //La fecha de finalizacion del alquiler4 es la misma que la fecha de inicio de alquiler 7, por lo que el metodo NO debe devolver el inmueble4 
+	{
+		AdministradorAlquileres aa = new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres = new ArrayList<Alquiler>();
+		alquileres.add(alquiler4);
+		alquileres.add(alquiler7);
+		
+		ArrayList<Inmueble> inmueble = new ArrayList<Inmueble>();
+		inmueble.add(inmueble4);
+		
+		ArrayList<Inmueble> actual = aa.inmueblesSinAlquileres(inmueble, alquileres, "24/08/2012");
+		
+		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();
+		
+		assertEquals(esperado, actual);
+	}
+	
+	@Test
+	public void mismoInmuebleAlquiladoEnDistintasFechasCon1DiaDeDiferencia() //La fecha de inicio de alquiler8 es un dia despues de la fecha de finalizacion del alquiler7, por lo que el metodo mostrara el inmueble4 
+	{
+		AdministradorAlquileres aa = new AdministradorAlquileres();
+		ArrayList<Alquiler> alquileres = new ArrayList<Alquiler>();
+		alquileres.add(alquiler7);
+		alquileres.add(alquiler8);
+		
+		ArrayList<Inmueble> inmueble = new ArrayList<Inmueble>();
+		inmueble.add(inmueble4);
+		
+		ArrayList<Inmueble> actual = aa.inmueblesSinAlquileres(inmueble, alquileres, "25/08/2012");
+		
+		ArrayList<Inmueble> esperado = new ArrayList<Inmueble>();////////////////////////////////	
+		esperado.add(inmueble4);
+		
+		assertEquals(esperado, actual);
+	}
 	
 
 }
