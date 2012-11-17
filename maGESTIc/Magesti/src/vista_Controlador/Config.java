@@ -2,11 +2,16 @@ package vista_Controlador;
 
 public interface Config 
 {
-	static final String qVERSION = "v12.00.00";
+	CargaConfig cc = new CargaConfig();
+	static final String qVERSION = cc.qVERSION;
 	static final String qTITULO = "MAGESTI® " + qVERSION ;
-	static final String qCLIENTE = "CMYK S.A.";
-	static final String qSUCURSAL = "0001-"; //Si cambia la sucursal, cambia este número
-	static final Double IVA= 21.0;
-	static final Integer Resma= 500;
-	static final Integer limiteNumerico=999999;
+	static final String qCLIENTE = cc.qCLIENTE;
+	static final String qSUCURSAL = cc.qSUCURSAL; //Si cambia la sucursal, cambia este número
+	static final Double IVA= cc.IVA;
+	static final Integer Resma= cc.Resma;
+	static final Integer limiteNumerico=cc.limiteNumerico;
+	static final String qSERVIDOR = cc.qSERVIDOR;
+	static final String qBASE = cc.qBASE;
+	static final String qUSUARIO = cc.qUSUARIO;
+	static final String qPASSWORD = cc.qPASSWORD;
 }
