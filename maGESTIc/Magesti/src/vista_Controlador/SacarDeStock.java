@@ -401,12 +401,21 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtEmpleado.requestFocus();
-			}else if(OTCerrada()){
+			}else if(cboOT.getSelectedItem() == null){
+				JOptionPane.showMessageDialog 
+				(
+					this, 
+					"Seleccione la Orden de Trabajo para cual desea retirar hojas de Stock",
+					qTITULO + " - Orden de Trabajo no seleccionada", 
+					JOptionPane.WARNING_MESSAGE
+				);
+			}
+			else if(OTCerrada()){
 				JOptionPane.showMessageDialog 
 				(
 					this, 
 					"No se puede retirar hojas para una OT cerrada, estas hojas quedarán como remanente",
-					qTITULO + " - Agregue hojas a Retirar", 
+					qTITULO + " - Orden de Trabajo Cerrada", 
 					JOptionPane.WARNING_MESSAGE
 				);
 				ArrayList<Integer> fmodif=dameFilasModificadas();

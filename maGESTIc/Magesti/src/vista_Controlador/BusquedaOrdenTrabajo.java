@@ -73,7 +73,7 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 				
 				nuevaOT.getEstado().getModel().setSelectedItem(OT.getEstado());
 				
-				nuevaOT.getCliente().setSelectedItem(Cliente.getRazonSocial(OT.getId_cliente()));
+				nuevaOT.getCliente().getModel().setSelectedItem(Cliente.getRazonSocial(OT.getId_cliente()));
 				nuevaOT.getCliente().setEnabled(false);
 				nuevaOT.getBtnLimpiarCampos().setEnabled(false);
 				
