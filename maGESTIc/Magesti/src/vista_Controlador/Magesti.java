@@ -364,34 +364,23 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				OT.toFront();
 			}
 		}
-		else if (obj == consultarOrdenDeTrabajo)
-		{
-			if (TablaTop5 == null || TablaTop5.isClosed() || (!TablaTop5.isShowing() && !TablaTop5.isIcon())) 
-			{
-				TablaTop5 = new TablaDeBusqueda_Top5();
-				escritorio.add (TablaTop5);
-				TablaTop5.show ();
-				try {
-					TablaTop5.setMaximum(true);
-				} catch (PropertyVetoException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}
-		/*else if (obj == btnBuscarSolicitudDeCompra) 
-		{
-
-				boolean b = openChildWindow ("Buscador");
-				if (b == false) 
-				{
-					TablaDeBusqueda tablaB = new TablaDeBusqueda("Buscar Solicitud de Compra",false);
-					escritorio.add (tablaB);
-					tablaB.show ();
-				}
-
-		}*/
+//		else if (obj == consultarOrdenDeTrabajo)
+//		{
+//			if (TablaTop5 == null || TablaTop5.isClosed() || (!TablaTop5.isShowing() && !TablaTop5.isIcon())) 
+//			{
+//				TablaTop5 = new TablaDeBusqueda_Top5();
+//				escritorio.add (TablaTop5);
+//				TablaTop5.show ();
+//				try {
+//					TablaTop5.setMaximum(true);
+//				} catch (PropertyVetoException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//
+//		}
+		
 		else if (obj == cerrarAplicacion || obj== btnSalir) 
 		{
 			salirDelPrograma();
@@ -409,7 +398,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				SC.toFront();
 			}
 		}
-		else if (obj == btnBuscarOrdenDeTrabajo) 
+		else if (obj == btnBuscarOrdenDeTrabajo || obj==consultarOrdenDeTrabajo) 
 		{
 			if (BuscarOT == null || BuscarOT.isClosed() || (!BuscarOT.isShowing() && !BuscarOT.isIcon())) 
 			{

@@ -154,7 +154,7 @@ public class Adm_Stock extends JInternalFrame
 			
 			String[] gramajes= Stock.getGramajesEnStock();
 			cbGramaje = new JComboBox(gramajes);
-			cbGramaje.setBounds(83, 6, 70, 23);
+			cbGramaje.setBounds(83, 6, 80, 23);
 			panStock.add(cbGramaje);
 			cbGramaje.addActionListener(new ActionListener() {
 				
@@ -175,7 +175,7 @@ public class Adm_Stock extends JInternalFrame
 				formatos[i]=Formato_Papel.getTamanio(Integer.parseInt(id_form));
 			}
 			cbFormato = new JComboBox(formatos);
-			cbFormato.setBounds(243, 6, 70, 23);
+			cbFormato.setBounds(243, 6, 80, 23);
 			panStock.add(cbFormato);
 			cbFormato.addActionListener(new ActionListener() {
 				
@@ -231,9 +231,10 @@ public class Adm_Stock extends JInternalFrame
 			btnVerTodo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					String select="0";
-					int columOT=0;
-					filtro(select, columOT);
+					Actualizar();
+//					String select="0";
+//					int columOT=0;
+//					filtro(select, columOT);
 				}
 			});
 			btnVerTodo.setBounds(1023, 6, 89, 23);
