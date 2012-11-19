@@ -49,7 +49,7 @@ public class MySQLBD
             JOptionPane.showMessageDialog 
 			(
 				null, 
-				"No se ha podido conectar a la base de datos, consulte a un profesional de Magesti para su solución",
+				"No se ha podido conectar a la base de datos, verifique que el servidor se está ejecutando",
 				Config.qTITULO + " - ERROR CON LA BASE DE DATOS", 
 				JOptionPane.WARNING_MESSAGE
 			);
