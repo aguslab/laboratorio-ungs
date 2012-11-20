@@ -28,6 +28,7 @@ import java.awt.BorderLayout;
 @SuppressWarnings("serial")
 public class TablaDeBusqueda_SC extends JInternalFrame 
 {
+	private SolicitudDeCompra nuevaSC;
 	private JPanel jpMostrar = new JPanel ();
 	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
@@ -60,10 +61,16 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 			{
 
 				int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
-				final SolicitudDeCompra nuevaSC = new SolicitudDeCompra(true);
-				
-				getDesktopPane().add(nuevaSC);
-				nuevaSC.show ();
+				if (nuevaSC == null || nuevaSC.isClosed() || (!nuevaSC.isShowing() && !nuevaSC.isIcon())) 
+				{
+					nuevaSC = new SolicitudDeCompra(true);
+					getDesktopPane().add(nuevaSC);
+					nuevaSC.show ();
+				}
+				else
+				{
+					nuevaSC.toFront();
+				}
 				nuevaSC.getBtnAgregar().setEnabled(false);
 				nuevaSC.getBtnAlmacenar().setEnabled(false);
 				nuevaSC.getBtnBorrar().setEnabled(false);

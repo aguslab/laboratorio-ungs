@@ -69,7 +69,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar,
 		txtPreimpresion;
 	
-	private JComboBox<String> 
+	private JComboBox 
 		cboCliente,
 		cboMes, 
 		cboDia, 
@@ -77,7 +77,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		cboMes2, 
 		cboDia2, 
 		cboAnio2;
-	private JComboBox<String> cboEstado_1;
+	private JComboBox cboEstado_1;
 	
 	public JButton
 		btnLimpiarOT,

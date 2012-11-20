@@ -29,6 +29,8 @@ import javax.swing.JComboBox;
 @SuppressWarnings("serial")
 public class Adm_Stock extends JInternalFrame 
 {
+	private SolicitudDeCompra nuevaSC;
+	private SacarDeStock ss;
 	private static JTable tablaStock;
 	private JScrollPane spStock;
 	private JPanel panStock;
@@ -59,11 +61,19 @@ public class Adm_Stock extends JInternalFrame
 			JButton button = new JButton("Solicitud de compra", new ImageIcon ("Imagenes/clientes.png"));
 			button.addActionListener(new ActionListener() 
 			{
+				
 				public void actionPerformed(ActionEvent arg0) 
 				{
-					final SolicitudDeCompra nuevaSC = new SolicitudDeCompra(false);
-					getDesktopPane().add(nuevaSC);
-					nuevaSC.show ();
+					if (nuevaSC == null || nuevaSC.isClosed() || (!nuevaSC.isShowing() && !nuevaSC.isIcon())) 
+					{
+						nuevaSC = new SolicitudDeCompra(true);
+						getDesktopPane().add(nuevaSC);
+						nuevaSC.show ();
+					}
+					else
+					{
+						nuevaSC.toFront();
+					}
 				}
 			});
 			button.setBounds(d.width-317, d.height-210, 160, 35);
@@ -127,9 +137,16 @@ public class Adm_Stock extends JInternalFrame
 				public void mouseClicked(MouseEvent arg0) 
 				{
 					int filaElegida = tablaStock.rowAtPoint(arg0.getPoint());
-					final SacarDeStock ss = new SacarDeStock(tablaStock,filaElegida);
-					getDesktopPane().add(ss);
-					ss.show ();
+					if (ss == null || ss.isClosed() || (!ss.isShowing() && !ss.isIcon())) 
+					{
+						ss = new SacarDeStock(tablaStock,filaElegida);
+						getDesktopPane().add(ss);
+						ss.show ();
+					}
+					else
+					{
+						ss.toFront();
+					}
 				}
 			});
 			

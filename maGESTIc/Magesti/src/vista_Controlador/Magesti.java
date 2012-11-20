@@ -590,7 +590,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		else if (obj == acercaDe) 
 		{
 			String msg = qTITULO + "\n\n" + "Creado y diseñado por:\n" + 
-					"©2012 - De Napoli, Godoy, Jiménez y asociados.";
+					"©2012 - De Napoli, Godoy, Jiménez y asociados.\n\n"+
+					"  -dn.agus@gmail.com\n"+
+					"  -j.godoy277@gmail.com\n"+
+					"  -carlos.nelson.jimenez@googlemail.com\n";
 				JOptionPane.showMessageDialog (this, msg, "Acerca de...", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
