@@ -16,7 +16,7 @@ public class MagestiHelp extends JInternalFrame
 	{
 
 		super (title, false, true, false, true);
-		setSize (500, 350);
+		setSize (700, 400);
 
 		HtmlPane html = new HtmlPane (filename);
 		setContentPane (html);

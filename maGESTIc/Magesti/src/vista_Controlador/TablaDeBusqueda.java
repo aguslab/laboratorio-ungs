@@ -24,7 +24,7 @@ import Modelo.ConexionDB;
 @SuppressWarnings("serial")
 public class TablaDeBusqueda extends JInternalFrame 
 {
-	
+	private OrdenDeTrabajo nuevaOT;
 	private JPanel jpMostrar = new JPanel ();
 	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
@@ -122,13 +122,17 @@ public class TablaDeBusqueda extends JInternalFrame
 				public void mouseClicked(MouseEvent arg0) 
 				{
 					int filaElegida = tablaBusqueda.rowAtPoint(arg0.getPoint());
-					final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-					
-					getDesktopPane().add(nuevaOT);
-					nuevaOT.show ();
-					
-					Integer id_OT=Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
-					
+					if (nuevaOT == null || nuevaOT.isClosed() || (!nuevaOT.isShowing() && !nuevaOT.isIcon())) 
+					{
+						nuevaOT = new OrdenDeTrabajo ();
+						getDesktopPane().add(nuevaOT);
+						nuevaOT.show ();
+					}
+					else
+					{
+						nuevaOT.toFront();
+					}
+					Integer id_OT = Metodos.FacturaAEntero(tablaBusqueda.getValueAt(filaElegida, 0).toString());
 					new BusquedaOrdenTrabajo(nuevaOT, id_OT);
 				}
 			});

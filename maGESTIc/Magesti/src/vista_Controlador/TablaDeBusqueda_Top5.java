@@ -22,7 +22,7 @@ import Modelo.Proveedor;
 
 public class TablaDeBusqueda_Top5 extends JInternalFrame 
 {
-
+	private OrdenDeTrabajo nuevaOT;
 	private JPanel jpMostrar = new JPanel ();
 	private static DefaultTableModel dtmMagesti;
 	private JScrollPane jspTabla;
@@ -52,10 +52,16 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 			public void mouseClicked(MouseEvent arg0) 
 			{
 				int filaElegida = tablaBusquedaTop5.rowAtPoint(arg0.getPoint());
-				final OrdenDeTrabajo nuevaOT = new OrdenDeTrabajo ();
-				getDesktopPane().add(nuevaOT);
-				nuevaOT.show ();
-				
+				if (nuevaOT == null || nuevaOT.isClosed() || (!nuevaOT.isShowing() && !nuevaOT.isIcon())) 
+				{
+					nuevaOT = new OrdenDeTrabajo ();
+					getDesktopPane().add(nuevaOT);
+					nuevaOT.show ();
+				}
+				else
+				{
+					nuevaOT.toFront();
+				}
 				Integer id_OT=Metodos.FacturaAEntero(tablaBusquedaTop5.getValueAt(filaElegida, 0).toString());
 				
 				new BusquedaOrdenTrabajo(nuevaOT, id_OT);
