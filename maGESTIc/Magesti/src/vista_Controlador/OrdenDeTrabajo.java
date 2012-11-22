@@ -510,7 +510,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				DefaultTableModel temp = (DefaultTableModel) tablaElementos.getModel();
-				Object nuevo[]= {"","",""};
+				Object nuevo[]= {"",null,""};
 				temp.addRow(nuevo);
 			}
 		});
@@ -549,7 +549,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				Metodos.borrarFilas((DefaultTableModel) tablaMateriales
 						.getModel());
 
-				if (ExcedeLargoElemento()) {
+				if(hayNullos()){
+					JOptionPane.showMessageDialog(null,
+							"Debe ingresar un elemento y una cantidad.");
+				}
+				else if (ExcedeLargoElemento()) {
 
 					JOptionPane
 							.showMessageDialog(
@@ -671,6 +675,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 							.setCellEditor(new MyComboBoxEditor(formatos));
 				}
 			}
+
+			
 
 		});
 		
@@ -1301,7 +1307,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
-				else if(!materialesOk()){
+				else if(materialesVacio()){
 					JOptionPane.showMessageDialog 
 					(
 						this, 
@@ -1332,7 +1338,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Debe seleccionar al menos un proceso en la seccion Orden de Ejecucuión",
+						"Debe seleccionar al menos un proceso en la seccion Orden de Ejecución",
 						qTITULO + " - Campo vacío", 
 						JOptionPane.WARNING_MESSAGE
 					);
@@ -1453,7 +1459,11 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 
 		for (int i = 0; i < cantFilas; i++) {
 			// solo si las columnas tiene valores
-			if (!tablaMateriales.getValueAt(i, 1).toString().equals("")
+			if (tablaMateriales.getValueAt(i, 1)!=null
+					&& tablaMateriales.getValueAt(i, 7)!=null
+					&& tablaMateriales.getValueAt(i, 6)!=null
+					&& tablaMateriales.getValueAt(i, 8)!=null
+					&&!tablaMateriales.getValueAt(i, 1).toString().equals("")
 					&& !tablaMateriales.getValueAt(i, 7).toString().equals("")
 					&& !tablaMateriales.getValueAt(i, 6).toString().equals("")
 					&& !tablaMateriales.getValueAt(i, 8).toString().equals("")) {
@@ -1663,18 +1673,18 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return cantFilas>0;
 	}
 	
-	public boolean materialesOk(){
+	public boolean materialesVacio(){
 		
 		Integer cantFilas=tablaMateriales.getRowCount();
 		Integer cantCol=tablaMateriales.getColumnCount();
-		boolean ok=cantFilas>0;
+		boolean vacio=cantFilas==0;
 		for(int i=0;i<cantFilas;i++){
 			for(int j=0;j<cantCol;j++){
-				ok=tablaMateriales.getValueAt(i, j) != null;
-				ok=ok && !tablaMateriales.getValueAt(i, j).toString().equals("");	
+				vacio=vacio || tablaMateriales.getValueAt(i, j) == null;
+				vacio=vacio || tablaMateriales.getValueAt(i, j).toString().equals("");	
 			}
 		}
-		return ok;
+		return vacio;
 	}
 	
 	private boolean materialesSinNegativos() {
@@ -1927,6 +1937,14 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		return true;
 	}
 	
+	private boolean hayNullos() {
+		for (int i = 0; i < tablaElementos.getRowCount(); i++) {
+			if (tablaElementos.getValueAt(i, 0) == null || tablaElementos.getValueAt(i, 1) == null ) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private boolean ExcedeLargoObservacion() {
 
