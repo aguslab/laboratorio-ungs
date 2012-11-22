@@ -473,7 +473,6 @@ implements ItemListener,ActionListener, Config
 		String tulTip = "";
 		for(int i=0; i<totalDiasDelMes; i++)
 		{
-			System.out.println(i);
 			btnMatriz[i]=new JButton(" "+btn_tag);
 			btn_tag++;
 			btnMatriz[i].addActionListener(this);

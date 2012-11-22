@@ -66,7 +66,7 @@ public class Adm_Stock extends JInternalFrame
 				{
 					if (nuevaSC == null || nuevaSC.isClosed() || (!nuevaSC.isShowing() && !nuevaSC.isIcon())) 
 					{
-						nuevaSC = new SolicitudDeCompra(true);
+						nuevaSC = new SolicitudDeCompra(false);
 						getDesktopPane().add(nuevaSC);
 						nuevaSC.show ();
 					}

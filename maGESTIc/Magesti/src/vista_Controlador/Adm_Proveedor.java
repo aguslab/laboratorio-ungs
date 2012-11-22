@@ -29,7 +29,8 @@ public class Adm_Proveedor extends JInternalFrame
 {
 	private JTable tablaDatos;
 	private JTable tablaContacto;
-	
+	private JTabbedPane tabSecciones; 
+	private boolean permitir=true;
 	public Adm_Proveedor() 
 	{
 		super ("Administracion de Proveedores", false, true, false, true);
@@ -145,11 +146,13 @@ public class Adm_Proveedor extends JInternalFrame
 							if (!todoOK) {
 								JOptionPane.showMessageDialog(null,
 										"Falta completar datos del Proveedor");
+								tabSecciones.setSelectedIndex(0);
 								break;
 							} else {
 								JOptionPane
 										.showMessageDialog(null,
 												"Falta completar datos del contacto de Proveedor");
+								tabSecciones.setSelectedIndex(1);
 								break;
 							}
 						} else if (cuit.length() == 11
@@ -180,6 +183,7 @@ public class Adm_Proveedor extends JInternalFrame
 				if (result) {
 					JOptionPane.showMessageDialog(null,
 							"Se guardaron los cambios que realizo");
+					permitir=true;
 					Actualizar();
 				} else {
 					// JOptionPane.showMessageDialog(null,"No se han guardado todos los cambios. Verifique");
@@ -188,6 +192,7 @@ public class Adm_Proveedor extends JInternalFrame
 					JOptionPane
 							.showMessageDialog(null,
 									"ERROR! El CUIT deben ser 11 digitos numéricos seguidos");
+					tabSecciones.setSelectedIndex(0);
 				}
 
 			}
@@ -202,7 +207,8 @@ public class Adm_Proveedor extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+				if(permitir){
+					permitir=false;
 					DefaultTableModel tablaTempDatos = (DefaultTableModel) tablaDatos.getModel();
 					Object nuevaFilaDatos[]= {"","","","","","","",true};
 					tablaTempDatos.addRow(nuevaFilaDatos);
@@ -210,14 +216,20 @@ public class Adm_Proveedor extends JInternalFrame
 					DefaultTableModel tablaTempContacto = (DefaultTableModel) tablaContacto.getModel();
 					Object nuevaFilaContacto[]= {"","","","",""};
 					tablaTempContacto.addRow(nuevaFilaContacto);
+				}else{
+					JOptionPane
+					.showMessageDialog(null,
+							"Sólo puede agregar de a una fila por vez.\nAlmacene la fila anterior y luego agregue una nueva");
+				}
+					
 			}
 		}
 		);
 		getContentPane().add(btnAgregar);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-		tabbedPane.setBounds(10, 11, d.width-30, d.height-190);
-		getContentPane().add(tabbedPane);
+		tabSecciones = new JTabbedPane(JTabbedPane.LEFT);
+		tabSecciones.setBounds(10, 11, d.width-30, d.height-190);
+		getContentPane().add(tabSecciones);
 		
 		JPanel panDatos = new JPanel();
 		panDatos.setBorder
@@ -228,7 +240,7 @@ public class Adm_Proveedor extends JInternalFrame
 				(0, 0, 0)
 			)
 		);
-		tabbedPane.addTab("Datos                         ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
+		tabSecciones.addTab("Datos                         ",  new ImageIcon ("Imagenes/datos.png"), panDatos, null);
 		panDatos.setLayout(null);
 		
 		JScrollPane spDatos = new JScrollPane();
@@ -278,7 +290,7 @@ public class Adm_Proveedor extends JInternalFrame
 				new Color(0, 0, 0)
 			)
 		);
-		tabbedPane.addTab("Contacto                   ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
+		tabSecciones.addTab("Contacto                   ", new ImageIcon ("Imagenes/contacto.png"), panContacto, null);
 		panContacto.setLayout(null);
 		
 		JScrollPane spContacto = new JScrollPane();
