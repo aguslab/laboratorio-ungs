@@ -328,7 +328,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		);
 		
 		
-		cboMes = new JComboBox(); //Comentar esta línea si quieren utilizar el WB
+		cboMes = new JComboBox();
 		cboMes.getModel().setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
 		cboMes.setBounds(435, 54, 97, 25);
 		cboMes.setEnabled(false);
@@ -2174,5 +2174,9 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		{
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		}
+	}
+
+	public JTabbedPane getTabSecciones() {
+		return tabSecciones;
 	}
 }		

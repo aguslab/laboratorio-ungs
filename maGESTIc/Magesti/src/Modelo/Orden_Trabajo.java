@@ -501,7 +501,7 @@ public class Orden_Trabajo implements Config
 		fechaprom="'"+fechaprom+"'";
 		ArrayList<String> id_nomOT=new ArrayList<String>();
 		
-		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE f_prometida="+fechaprom + " AND id_orden_trabajo != 1");
+		ResultSet resultado=ConexionDB.getbaseDatos().consultar("SELECT id_orden_trabajo FROM orden_trabajo WHERE f_prometida="+fechaprom + " AND id_orden_trabajo != 1 AND estado != 'Cerrada' ");
 
 		if(resultado != null){
 			

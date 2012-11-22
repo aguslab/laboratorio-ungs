@@ -89,6 +89,10 @@ public class BusquedaOrdenTrabajo extends JInternalFrame
 					nuevaOT.getFechaHoraCerrada().setVisible(true);
 					nuevaOT.getLblFechaCierre().setVisible(true);
 				}
+				if(OT.getEstado().equalsIgnoreCase("En Proceso"))
+				{
+					nuevaOT.getTabSecciones().setSelectedIndex(2);
+				}
 				nuevaOT.getTablaElementos().setModel(new DefaultTableModel(new Object[][] {},
 
 						new String[] {"Elemento del producto", "Cantidad", "Hojas Previstas" ,"Hojas Utilizadas"}) 

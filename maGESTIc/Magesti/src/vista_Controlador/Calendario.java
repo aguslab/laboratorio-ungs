@@ -473,35 +473,36 @@ implements ItemListener,ActionListener, Config
 		String tulTip = "";
 		for(int i=0; i<totalDiasDelMes; i++)
 		{
+			System.out.println(i);
 			btnMatriz[i]=new JButton(" "+btn_tag);
 			btn_tag++;
 			btnMatriz[i].addActionListener(this);
-			if (i == Integer.valueOf(diaHoy))
+			if (i+1 == Integer.valueOf(diaHoy))
 			{
 				if (chMes.getSelectedItem().toLowerCase().equals(mesNHoy.toLowerCase()) && chAnio.getSelectedItem().trim().equals(anio4Hoy.toString()))
 				{
-					btnMatriz[i-1].setForeground(Color.BLUE);
-					btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/hoy.png"));
+					btnMatriz[i].setForeground(Color.BLUE);
+					btnMatriz[i].setIcon(new ImageIcon ("Imagenes/hoy.png"));
 				}
 			}
-			else if (Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + i).size()>0)
+			else if (Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + (i+1)).size()>0)
 			{
-				Integer tamanio = Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + i).size();
+				Integer tamanio = Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + (i+1)).size();
 				tulTip = Integer.valueOf(tamanio).toString();
-				btnMatriz[i-1].setForeground(Color.RED);
-				btnMatriz[i-1].setIcon(new ImageIcon ("Imagenes/tarea.png"));
-				btnMatriz[i-1].setText(i + " (" + tulTip + ") " );
+				btnMatriz[i].setForeground(Color.RED);
+				btnMatriz[i].setIcon(new ImageIcon ("Imagenes/tarea.png"));
+				btnMatriz[i].setText(i+1 + " (" + tulTip + ") " );
 				String numFact = "";
 				String texto = "<html>";
 				for (int j=0;j<tamanio;j++)
 				{
-					numFact = Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + i).get(j);
+					numFact = Orden_Trabajo.getId_OTSegunFecha(anio+"-"+ mm + "-" + (i+1)).get(j);
 					numFact = Metodos.EnteroAFactura(Integer.valueOf(numFact));
 					texto = texto + numFact + "<br>";
 					
 				}	
 				
-				btnMatriz[i-1].setToolTipText(texto + "</html>");
+				btnMatriz[i].setToolTipText(texto + "</html>");
 			}
 		}
 		sketch();

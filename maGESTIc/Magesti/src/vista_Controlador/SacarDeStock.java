@@ -248,24 +248,18 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, true, true, true, true, true, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
 		});
 		tablaElementos.getColumnModel().getColumn(0).setResizable(false);
 		tablaElementos.getColumnModel().getColumn(0).setPreferredWidth(0);
 		tablaElementos.getColumnModel().getColumn(0).setMinWidth(0);
 		tablaElementos.getColumnModel().getColumn(0).setMaxWidth(0);
-		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tablaElementos.getColumnModel().getColumn(2).setPreferredWidth(110);
-		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(90);
-		tablaElementos.getColumnModel().getColumn(4).setPreferredWidth(110);
-		tablaElementos.getColumnModel().getColumn(5).setPreferredWidth(90);
-		tablaElementos.getColumnModel().getColumn(6).setPreferredWidth(110);
-		tablaElementos.getColumnModel().getColumn(7).setPreferredWidth(100);
+		tablaElementos.getColumnModel().getColumn(1).setPreferredWidth(138);
+		tablaElementos.getColumnModel().getColumn(2).setPreferredWidth(165);
+		tablaElementos.getColumnModel().getColumn(3).setPreferredWidth(96);
+		tablaElementos.getColumnModel().getColumn(4).setPreferredWidth(162);
+		tablaElementos.getColumnModel().getColumn(5).setPreferredWidth(140);
+		tablaElementos.getColumnModel().getColumn(6).setPreferredWidth(151);
+		tablaElementos.getColumnModel().getColumn(7).setPreferredWidth(105);
 		tablaElementos.setPreferredScrollableViewportSize(new Dimension(1100, 500));
 		tablaElementos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		tablaElementos.setBorder(new LineBorder(new Color(0, 0, 0)));
