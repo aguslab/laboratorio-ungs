@@ -248,9 +248,8 @@ public class Adm_Stock extends JInternalFrame
 			btnVerTodo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					Actualizar();
 					trsfiltro = new TableRowSorter<DefaultTableModel>(modelo);
-					trsfiltro.setRowFilter(RowFilter.regexFilter("0", 0));
-					tablaStock.setModel(modelo);
 					tablaStock.setRowSorter(trsfiltro);
 				}
 			});

@@ -111,8 +111,6 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				"Diciembre"
 			};
 		
-		
-		
 		JpSolicitudDeCompra = new JPanel();
 		JpSolicitudDeCompra.setBounds(0, 0, 915, 549);
 		getContentPane().add(JpSolicitudDeCompra);
@@ -298,6 +296,18 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		panCondicionEntrega.add(lbFechaEntrega);
 		
 		cbMes = new JComboBox(Meses);
+		cbMes.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(cbDia != null)
+				{
+					cbDia.removeAllItems();
+					setDiasMes(Metodos.getDiasMes(getCbMes().getSelectedItem().toString(), Integer.parseInt(getCbAnio().getSelectedItem().toString())));
+				}
+				
+			}
+		});
 		cbMes.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbMes.setBounds(165, 19, 97, 25);
 		panCondicionEntrega.add(cbMes);
@@ -307,12 +317,16 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		cbDia.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbDia.setBounds(117, 19, 48, 25);
 		panCondicionEntrega.add(cbDia);
-		String dias;
+		String dias = "";
+		
 		for (int i = 1; i <= 31; i++) 
 		{
-			if(i<10){
+			if(i<10)
+			{
 				dias = "0" + i;
-			}else{
+			}
+			else
+			{
 				dias = "" + i;	
 			}
 			cbDia.addItem (dias);
@@ -320,6 +334,14 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		cbDia.setSelectedItem(Metodos.getDiaDeHoy());
 		
 		cbAnio = new JComboBox();
+		cbAnio.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				cbDia.removeAllItems();
+				setDiasMes(Metodos.getDiasMes(getCbMes().getSelectedItem().toString(), Integer.parseInt(getCbAnio().getSelectedItem().toString())));
+			}
+		});
 		cbAnio.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbAnio.setBounds(262, 19, 65, 25);
 		panCondicionEntrega.add(cbAnio);
@@ -329,7 +351,9 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 			cbAnio.addItem (anios);
 		}
 		
-		cbDia.setSelectedItem(Metodos.getAnioActual());
+		cbMes.setSelectedItem(Metodos.dameMes(Metodos.getMesActual()));
+		cbAnio.setSelectedItem(Metodos.getAnioActual());
+		cbDia.setSelectedItem(Metodos.getDiaDeHoy());
 
 		
 		
@@ -1267,15 +1291,18 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		return grupoHorario;
 	}
 
-	public ButtonGroup getGrupoCondicionEntrega() {
+	public ButtonGroup getGrupoCondicionEntrega() 
+	{
 		return grupoCondicionEntrega;
 	}
 
-	public JComboBox getCbNroOT() {
+	public JComboBox getCbNroOT() 
+	{
 		return cbNroOT;
 	}
 
-	public TextArea getTxtDescripcionIncidencia() {
+	public TextArea getTxtDescripcionIncidencia() 
+	{
 		return txtDescripcionIncidencia;
 	}
 	
@@ -1289,7 +1316,29 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 		return this.btnImprimirReporte;
 	}
 	
-	public JButton getBtnEditarValores() {
+	public JButton getBtnEditarValores()
+	{
 		return btnEditarValores;
+	}
+	
+	void setDiasMes(Integer cantDias)
+	{
+		if(cantDias != null)
+		{
+			String dias= "";
+			for (int i = 1; i <= cantDias; i++) 
+			{
+				if(i<10)
+				{
+					dias = "0" + i;
+				}
+				else
+				{
+					dias = "" + i;	
+				}
+				getCbDia().addItem (dias);
+			}
+			
+		}
 	}
 };

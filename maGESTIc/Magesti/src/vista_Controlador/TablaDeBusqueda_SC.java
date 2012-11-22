@@ -120,7 +120,6 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 				nuevaSC.getCbAnio().setEnabled(false);
 				
 				
-				nuevaSC.getLbFechaEntrega().setVisible(false);
 				String estado=Recepcion_pedido.dameEstado(id_SC);
 				if(estado.toUpperCase().equals("RECIBIDO") || estado.toUpperCase().equals("RECHAZADO"))
 				{
