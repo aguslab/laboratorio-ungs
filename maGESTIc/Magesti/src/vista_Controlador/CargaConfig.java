@@ -16,10 +16,10 @@ public class CargaConfig
 	private String qCLIENTE = "";
 	private String qSUCURSAL = "";
 	private Double IVA= 21.0;
-	private Integer Resma;
+	private Integer Resma=500;
 	private Integer limiteNumerico= 999;
 	private String qSERVIDOR = "";
-	private String qBASE= "";
+	private String qBASE= "Magesti";
 	private String qUSUARIO = "";
 	private String qPASSWORD= "";
 	    CargaConfig()
@@ -36,10 +36,7 @@ public class CargaConfig
 		        qCLIENTE = prop.getProperty("qCLIENTE");
 		        qSUCURSAL = prop.getProperty("qSUCURSAL");
 		        IVA = Double.valueOf(prop.getProperty("IVA"));
-		        Resma = Integer.valueOf(prop.getProperty("Resma"));
-		        //limiteNumerico = Integer.valueOf(prop.getProperty("limiteNumerico"));
 		        qSERVIDOR = prop.getProperty("qSERVIDOR");
-		        qBASE = prop.getProperty("qBASE");
 		        qUSUARIO = prop.getProperty("qUSUARIO");
 		        qPASSWORD = prop.getProperty("qPASSWORD");
 	        } 
