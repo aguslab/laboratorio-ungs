@@ -30,7 +30,7 @@ implements ItemListener,ActionListener, Config
 	private JPanel pan3 = new JPanel();
 	private Choice chAnio  = new Choice();
 	private Choice chMes = new Choice();
-	private JLabel lblAnio  = new JLabel("   Seleccione el AÒo: ");
+	private JLabel lblAnio  = new JLabel("   Seleccione el A√±o: ");
 	private JLabel lblMes = new JLabel("   Seleccione el Mes: ");
 	ArrayList<String> ot2 = new ArrayList<String>();
 	private JButton btnMatriz[]= new JButton[31];
@@ -41,10 +41,10 @@ implements ItemListener,ActionListener, Config
 		"    DOMINGO", 
 		"       LUNES", 
 		"      MARTES", 
-		"   MI…RCOLES",
+		"   MI√âRCOLES",
 		"      JUEVES",
 		"     VIERNES", 
-		"     S¡BADO"
+		"     S√ÅBADO"
   	};
 
   	String meses[]=

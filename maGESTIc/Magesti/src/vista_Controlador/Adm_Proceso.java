@@ -29,7 +29,7 @@ public class Adm_Proceso extends JInternalFrame
 	public Adm_Proceso() 
 	{
 		
-		super ("Administracion de Procesos", false, true, false, true);
+		super ("Administración de Procesos", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		getContentPane().setLayout(null);
 		

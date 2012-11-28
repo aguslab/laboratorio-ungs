@@ -33,7 +33,7 @@ public class Adm_Proveedor extends JInternalFrame
 	private boolean permitir=true;
 	public Adm_Proveedor() 
 	{
-		super ("Administracion de Proveedores", false, true, false, true);
+		super ("Administraci√≥n de Proveedores", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		getContentPane().setLayout(null);
@@ -78,30 +78,30 @@ public class Adm_Proveedor extends JInternalFrame
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima del nombre de un proveedor o su contacto no puede exceder los 100 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima del nombre de un proveedor o su contacto no puede exceder los 100 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoCondIVA()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la condicion de IVA no puede exceder los 50 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la condicion de IVA no puede exceder los 50 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoDireccion()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la direccion de un proveedor o su contacto no puede exceder los 100 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la direccion de un proveedor o su contacto no puede exceder los 100 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoTelefono()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(null,
-									"El n˙mero de TelÈfono de un proveedor o su contacto no puede ser tan extenso");
+									"El n√∫mero de Tel√©fono de un proveedor o su contacto no puede ser tan extenso");
 				} else if (ExcedeLargoMail()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la direccion de mail de un proveedor o su contacto no puede exceder los 50 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la direccion de mail de un proveedor o su contacto no puede exceder los 50 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else {
 
 					// Agregar proveedores nuevos
@@ -191,7 +191,7 @@ public class Adm_Proveedor extends JInternalFrame
 				if (!cuitOK) {
 					JOptionPane
 							.showMessageDialog(null,
-									"ERROR! El CUIT deben ser 11 digitos numÈricos seguidos");
+									"ERROR! El CUIT deben ser 11 digitos num√©ricos seguidos");
 					tabSecciones.setSelectedIndex(0);
 				}
 
@@ -219,7 +219,7 @@ public class Adm_Proveedor extends JInternalFrame
 				}else{
 					JOptionPane
 					.showMessageDialog(null,
-							"SÛlo puede agregar de a una fila por vez.\nAlmacene la fila anterior y luego agregue una nueva");
+							"S√≥lo puede agregar de a una fila por vez.\nAlmacene la fila anterior y luego agregue una nueva");
 				}
 					
 			}

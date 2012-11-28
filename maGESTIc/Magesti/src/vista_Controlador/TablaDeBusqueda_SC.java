@@ -232,7 +232,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 								JOptionPane
 										.showMessageDialog(
 												null,
-												"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
+												"La descripcion no puede exceder los 500 Caracteres\nNo exceda el lÃ­mite, por favor");
 							}
 							else
 							{
@@ -255,7 +255,7 @@ public class TablaDeBusqueda_SC extends JInternalFrame
 										JOptionPane
 												.showMessageDialog(
 														null,
-														"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
+														"La descripcion no puede exceder los 500 Caracteres\nNo exceda el lÃ­mite, por favor");
 									} else {
 
 										Detalle.setAllAsRecibidos(id_SC);

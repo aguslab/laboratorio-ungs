@@ -35,7 +35,7 @@ public class Adm_Cliente extends JInternalFrame
 	private boolean permitir=true;
 	public Adm_Cliente() 
 	{
-		super ("Administracion de Clientes", false, true, false, true);
+		super ("Administraci√≥n de Clientes", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		getContentPane().setLayout(null);
 		
@@ -76,30 +76,30 @@ public class Adm_Cliente extends JInternalFrame
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima del nombre de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima del nombre de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoCondIVA()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la condicion de IVA no puede exceder los 50 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la condicion de IVA no puede exceder los 50 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoDireccion()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la direccion de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la direccion de un cliente o su contacto no puede exceder los 100 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else if (ExcedeLargoTelefono()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(null,
-									"El n˙mero de TelÈfono de un cliente o su contacto no puede ser tan extenso");
+									"El n√∫mero de Tel√©fono de un cliente o su contacto no puede ser tan extenso");
 				} else if (ExcedeLargoMail()) {
 					result = false;
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de la direccion de mail de un cliente o su contacto no puede exceder los 50 Caracteres\nNo exceda el lÌmite, por favor");
+									"La longitud m√°xima de la direccion de mail de un cliente o su contacto no puede exceder los 50 Caracteres\nNo exceda el l√≠mite, por favor");
 				} else {
 					// Agregar clientes nuevos
 					Integer cantFilasDatos = tablaDatosCliente.getRowCount();
@@ -194,7 +194,7 @@ public class Adm_Cliente extends JInternalFrame
 				if (!cuitOK) {
 					JOptionPane
 							.showMessageDialog(null,
-									"ERROR! El CUIT deben ser 11 digitos numÈricos seguidos");
+									"ERROR! El CUIT deben ser 11 digitos num√©ricos seguidos");
 					tabSecciones.setSelectedIndex(0);
 				}
 			}
@@ -220,7 +220,7 @@ public class Adm_Cliente extends JInternalFrame
 				}else{
 					JOptionPane
 					.showMessageDialog(null,
-							"SÛlo puede agregar de a una fila por vez.\nAlmacene la fila anterior y luego agregue una nueva");
+							"S√≥lo puede agregar de a una fila por vez.\nAlmacene la fila anterior y luego agregue una nueva");
 				}
 				
 				

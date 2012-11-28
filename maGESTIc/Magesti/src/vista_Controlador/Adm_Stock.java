@@ -40,7 +40,7 @@ public class Adm_Stock extends JInternalFrame
 	
 	public Adm_Stock() 
 		{
-			super ("Administracion de Stock", false, true, false, true);
+			super ("Administración de Stock", false, true, false, true);
 			Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		
 			getContentPane().setLayout(null);

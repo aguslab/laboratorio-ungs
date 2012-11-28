@@ -135,7 +135,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	private JButton btnUp, btnDown;
 	private JTextField fechaHoraCierreOT;
 	private JLabel lblFechaCierre;
-
+	private Calendario cal= (Calendario) Magesti.getCalendario();
 	OrdenDeTrabajo()
 	{	
 		super ("Orden de Trabajo (OT)", false, true, false, true);
@@ -144,7 +144,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		jpOrdenDeTrabajo.setBounds (0, 0, 500, 115);
 
-		lbNro = new JLabel ("N˙mero:");
+		lbNro = new JLabel ("N√∫mero:");
 		lbNro.setBounds(10, 11, 75, 25);
 		lbNro.setForeground (Color.black);
 		
@@ -152,7 +152,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 	    lbCliente.setBounds(620, 54, 55, 25);
 		lbCliente.setForeground (Color.black);
 	    
-		lbFechaC = new JLabel ("<html>Fecha de<br>confecci\u00F3n:</html>");
+		lbFechaC = new JLabel ("<html>Fecha de<br>confecci√≥n:</html>");
 		lbFechaC.setHorizontalAlignment(SwingConstants.LEFT);
 		lbFechaC.setBounds(312, 52, 75, 30);
 		lbFechaC.setForeground (Color.black);
@@ -169,7 +169,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		lbEstado.setBounds(620, 11, 55, 25);
 		lbEstado.setForeground (Color.black);
 		
-		lbDescripcion = new JLabel ("Descripci\u00F3n:");
+		lbDescripcion = new JLabel ("Descripci√≥n:");
 		lbDescripcion.setBounds(10, 97, 75, 25);
 		lbDescripcion.setForeground (Color.black);
 
@@ -285,7 +285,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		txtCantidadAEntregar.setBounds(681, 137, 224, 25);
 		txtCantidadAEntregar.setHorizontalAlignment (JTextField.LEFT);
 		
-		lbPreimpresion = new JLabel ("Preimpresi\u00F3n (Cantidad de planchas): ");
+		lbPreimpresion = new JLabel ("Preimpresi√≥n (Cantidad de planchas): ");
 		lbPreimpresion.setBounds(317, 180, 215, 30);
 		lbPreimpresion.setForeground (Color.black);
 		
@@ -453,7 +453,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		/*
 		 * 
-		 * Para la pestaÒa de la Seccion Elementos
+		 * Para la pesta√±a de la Seccion Elementos
 		 * 
 		 */
 		
@@ -558,8 +558,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La longitud m·xima de un elemento son 50 caracteres.\nNo exceda el lÌmite, Por favor",
-									qTITULO + " - Campo vacÌo",
+									"La longitud m√°xima de un elemento son 50 caracteres.\nNo exceda el l√≠mite, Por favor",
+									qTITULO + " - Campo vac√≠o",
 									JOptionPane.WARNING_MESSAGE);
 
 				}else if (cantidadElementoConNegativos()) {
@@ -586,7 +586,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 						.showMessageDialog(
 								null,
 								"Debe ingresar la cantidad a entregar",
-								qTITULO + " - Campo vacÌo",
+								qTITULO + " - Campo vac√≠o",
 								JOptionPane.WARNING_MESSAGE);
 					}
 					txtCantidadAEntregar.requestFocus();
@@ -596,7 +596,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La cantidad m·xima por elemento es 30000 unidades.\nNo exceda el lÌmite, Por favor",
+									"La cantidad m√°xima por elemento es 30000 unidades.\nNo exceda el l√≠mite, Por favor",
 									qTITULO + " - Valor demasiado grande",
 									JOptionPane.WARNING_MESSAGE);
 
@@ -690,7 +690,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		
 		/*
 		 * 
-		 * Para la pestaÒa Materiales
+		 * Para la pesta√±a Materiales
 		 * 
 		 */
 		
@@ -807,7 +807,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
         
 		tabSecciones.addTab
 		(
-			"Orden de ejecuciÛn",
+			"Orden de ejecuci√≥n",
 			new ImageIcon ("Imagenes/registrar.png"), 
 			panOrdenEjecucion,
 	        "Listado de tareas o procesos"
@@ -836,7 +836,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				return values[index];
 			}
 		});
-		listaProcesos.setToolTipText("Para seleccionar m·s de un proceso, mantenga presionado Ctrl mientras elige los procesos");
+		listaProcesos.setToolTipText("Para seleccionar m√°s de un proceso, mantenga presionado Ctrl mientras elige los procesos");
 		String proveedores[] = Proceso.getProcesos();
 		DefaultListModel modeloList = new DefaultListModel();
 		for(int i = 0; i < proveedores.length; i ++)
@@ -1145,7 +1145,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Esta orden ya est· 'Pendiente'\nSÛlo puede cambiar su estado",
+						"Esta orden ya est√° 'Pendiente'\nS√≥lo puede cambiar su estado",
 						qTITULO + " - Error#01", 
 						JOptionPane.ERROR_MESSAGE
 						
@@ -1167,7 +1167,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Esta orden est· cerrada\nNo puede realizar cambios",
+						"Esta orden est√° cerrada\nNo puede realizar cambios",
 						qTITULO + " - Error#02", 
 						JOptionPane.ERROR_MESSAGE
 					);
@@ -1185,7 +1185,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"Esta orden no tiene nombre asignado",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					
@@ -1214,8 +1214,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"No hay descripciÛn de este trabajo",
-						qTITULO + " - Campo vacÌo", 
+						"No hay descripci√≥n de este trabajo",
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					
@@ -1229,7 +1229,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"Ingrese el Tipo de producto",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					
@@ -1244,7 +1244,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"Ingrese cantidad de planchas",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					
@@ -1258,7 +1258,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"Ingrese cantidad a entregar",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 					txtCantidadAEntregar.requestFocus();
@@ -1292,7 +1292,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"No puede haber 2 elementos iguales, si necesita m·s, aumente la cantidad de ese elemento",
+						"No puede haber 2 elementos iguales, si necesita m√°s, aumente la cantidad de ese elemento",
 						qTITULO + " - Elementos repetidos",
 						JOptionPane.WARNING_MESSAGE
 					);					
@@ -1312,7 +1312,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"No puede dejar celdas vacias en la seccion Materiales. Verifique!",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
@@ -1329,7 +1329,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"El valor mÌnimo de pleigos en demasia es 0.",
+						"El valor m√≠nimo de pleigos en demasia es 0.",
 						qTITULO + " - Valor en Pliegos en demasia no permitido.", 
 						JOptionPane.WARNING_MESSAGE
 					);
@@ -1338,8 +1338,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"Debe seleccionar al menos un proceso en la seccion Orden de EjecuciÛn",
-						qTITULO + " - Campo vacÌo", 
+						"Debe seleccionar al menos un proceso en la seccion Orden de Ejecuci√≥n",
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
@@ -1348,8 +1348,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					JOptionPane.showMessageDialog 
 					(
 						this, 
-						"La longitud m·xima de una observaciÛn son 100 caracteres.\nNo exceda el lÌmite, Por favor",
-						qTITULO + " - Campo vacÌo", 
+						"La longitud m√°xima de una observaci√≥n son 100 caracteres.\nNo exceda el l√≠mite, Por favor",
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
@@ -1360,7 +1360,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 					(
 						this, 
 						"Debe seleccionar un proveedor",
-						qTITULO + " - Campo vacÌo", 
+						qTITULO + " - Campo vac√≠o", 
 						JOptionPane.WARNING_MESSAGE
 					);
 				}
@@ -1403,7 +1403,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 								int opcion = JOptionPane
 										.showConfirmDialog(
 												this,
-												"AtenciÛn! Est· a punto de cerrar una Orden De Trabajo para la cual no ha utilizado hojas de stock,\ndesea cerrarla de todas formas?",
+												"Atenci√≥n! Est√° a punto de cerrar una Orden De Trabajo para la cual no ha utilizado hojas de stock,\ndesea cerrarla de todas formas?",
 												qTITULO
 														+ " - Cerrando Orden de Trabajo",
 												JOptionPane.YES_NO_OPTION,
@@ -1429,7 +1429,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				}
 				else 
 				{
-					cargarTablas(); // CargarÌa la tabla en memoria
+					cargarTablas(); 
 					obj = btnCancelar;
 	
 				}
@@ -1550,6 +1550,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 		}
 		Remanente_sc_ot.llenarTablaRemanente_De_OT(clave);
 		Adm_Stock.Actualizar();
+		cal.itemStateChanged(null);
 	}
 
 
@@ -1653,6 +1654,8 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 			m.Alta();
 		}
 		
+		
+		cal.itemStateChanged(null);
 	}
 
 	void txtClear () 
@@ -2182,7 +2185,7 @@ public class OrdenDeTrabajo extends JInternalFrame implements ActionListener, Co
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"La orden de trabajo no est· cerrada.","Error al generar reporte", 
+					"La orden de trabajo no est√° cerrada.","Error al generar reporte", 
 					JOptionPane.ERROR_MESSAGE
 					
 				);

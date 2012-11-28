@@ -16,7 +16,7 @@ public class Splash extends JWindow implements Config
 
 		JLabel lbImage    = new JLabel (new ImageIcon ("Imagenes/Splash.PNG"));
 		JLabel lblVersion = new JLabel (qVERSION);
-		JLabel lblDerechos = new JLabel("<html>Copyright ©2012 De Napoli, Godoy, Jiménez y asociados. Todos los derechos reservados. MAGESTI es propiedad intelectual de los autores mencionados. MySQL y Java son marcas registradas\n de Oracle Corporation.</html>");
+		JLabel lblDerechos = new JLabel("<html>Copyright Â®2012 De Napoli, Godoy, JimÃ©nez y asociados. Todos los derechos reservados. MAGESTI es propiedad intelectual de los autores mencionados. MySQL y Java son marcas registradas\n de Oracle Corporation.</html>");
 		Color cl = new Color (0, 0, 0);
 		lbImage.setBorder (new LineBorder (cl, 0));
 		lblDerechos.setFont(new Font("Arial", Font.PLAIN, 10));
