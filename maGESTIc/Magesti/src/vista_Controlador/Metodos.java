@@ -531,7 +531,7 @@ public class Metodos implements Config
 		(
 			null, 
 			"Los precios no pueden superar los $999.999.Si es necesario, haga 2 SC diferentes.\nContactese con la empresa para obtener una version PRO",
-			qTITULO + " - Exceso dígitos", 
+			qTITULO + " - Exceso dÃ­gitos", 
 			JOptionPane.WARNING_MESSAGE
 		);
 	}

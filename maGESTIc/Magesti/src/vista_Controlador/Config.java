@@ -4,9 +4,9 @@ public interface Config
 {
 	CargaConfig cc = new CargaConfig();
 	static final String qVERSION = cc.getqVERSION();
-	static final String qTITULO = "MAGESTI® " + qVERSION ;
+	static final String qTITULO = "MAGESTIÂ® " + qVERSION ;
 	static final String qCLIENTE = cc.getqCLIENTE();
-	static final String qSUCURSAL = cc.getqSUCURSAL(); //Si cambia la sucursal, cambia este número
+	static final String qSUCURSAL = cc.getqSUCURSAL(); //Si cambia la sucursal, cambia este nÃºmero
 	static final Double IVA= cc.getIVA();
 	static final Integer Resma= cc.getResma();;
 	static final String qSERVIDOR = cc.getqSERVIDOR();

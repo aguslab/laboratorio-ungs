@@ -39,7 +39,7 @@ public class Adm_Atributos extends JInternalFrame
 	public Adm_Atributos() 
 	{
 		
-		super ("Administracion de Atributos del Papel", false, true, false, true);
+		super ("Administración de Atributos del Papel", false, true, false, true);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		getContentPane().setLayout(null);
@@ -76,19 +76,19 @@ public class Adm_Atributos extends JInternalFrame
 				
 				if(ExcedeLargoCalidad()){
 					result = false;
-					JOptionPane.showMessageDialog(null, "La longitud m�xima del nombre de una Calidad es 30 Caracteres\nNo exceda el l�mite, por favor");
+					JOptionPane.showMessageDialog(null, "La longitud máxima del nombre de una Calidad es 30 Caracteres\nNo exceda el límite, por favor");
 				}
 				else if(ExcedeLargoFormato()){
 					result = false;
-					JOptionPane.showMessageDialog(null, "La longitud m�xima de un Formato es 10 Caracteres\nNo exceda el l�mite, por favor");
+					JOptionPane.showMessageDialog(null, "La longitud máxima de un Formato es 10 Caracteres\nNo exceda el límite, por favor");
 				}
 				else if(ErrorFormatoPapel()){
 					result = false;
-					JOptionPane.showMessageDialog(null, "El formato del tama�o de papel debe ser nxn\nPor favor, respete el formato");
+					JOptionPane.showMessageDialog(null, "El formato del tamaño de papel debe ser nxn\nPor favor, respete el formato");
 				}
 				else if(ExcedeLargoVariante()){
 					result = false;
-					JOptionPane.showMessageDialog(null, "La longitud m�xima del nombre de una Variante es 30 Caracteres\nNo exceda el l�mite, por favor");
+					JOptionPane.showMessageDialog(null, "La longitud máxima del nombre de una Variante es 30 Caracteres\nNo exceda el límite, por favor");
 				}
 				else {
 					// Agregar calidades nuevas
@@ -331,7 +331,7 @@ public class Adm_Atributos extends JInternalFrame
 			new Object[][] {
 			},
 			new String[] {
-				"Nro", "Tama\u00F1o", "Activo"
+				"Nro", "Tamaño", "Activo"
 			}
 		) {
 			Class[] columnTypes = new Class[] {

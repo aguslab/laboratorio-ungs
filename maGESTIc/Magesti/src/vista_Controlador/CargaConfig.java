@@ -12,7 +12,7 @@ import Modelo.ConexionDB;
 public class CargaConfig 
 {
 	private String qVERSION = "v12.11.22";
-	private String qTITULO = "MAGESTI® " + qVERSION ;
+	private String qTITULO = "MAGESTIÂ® " + qVERSION ;
 	private String qCLIENTE = "";
 	private String qSUCURSAL = "";
 	private Double IVA= 21.0;

@@ -33,7 +33,7 @@ public class TablaDeBusqueda_Top5 extends JInternalFrame
 	
 	public TablaDeBusqueda_Top5()
 	{
-		super ("5 Ordenes de Trabajo m�s Proximas", false, false, false, false);
+		super ("5 Ordenes de Trabajo más Próximas", false, false, false, false);
 		setSize (475, 280);
 		jpMostrar.setLayout (new GridLayout (1,1));
 		jspTabla = new JScrollPane (tablaBusquedaTop5);

@@ -204,7 +204,7 @@ public class Recepcion_Pedido extends JInternalFrame implements ActionListener, 
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"La descripcion no puede exceder los 500 Caracteres\nNo exceda el límite, por favor");
+									"La descripcion no puede exceder los 500 Caracteres\nNo exceda el lÃ­mite, por favor");
 				} else {
 					int cantTrue = Recepcion_pedido
 							.getCantidadFilasRecibidas(id_SC);

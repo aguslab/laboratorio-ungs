@@ -653,7 +653,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					JOptionPane.showMessageDialog 
 					(
 						null, 
-						"Si la unidad de medida de precio es Resma, la cantidad de hojas debe ser múltiplo de "+Config.Resma,
+						"Si la unidad de medida de precio es Resma, la cantidad de hojas debe ser mÃºltiplo de "+Config.Resma,
 						qTITULO + " - Cantidad de hojas incorrecto", 
 						JOptionPane.WARNING_MESSAGE
 					);
@@ -905,7 +905,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				(
 					this, 
 					"Debe especificar el nombre del vendedor",
-					qTITULO + " - Campo vacío", 
+					qTITULO + " - Campo vacÃ­o", 
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtVendedor.requestFocus();
@@ -938,7 +938,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				(
 					this, 
 					"Debe selecionar un horario de entrega",
-					qTITULO + " - Campo vacío", 
+					qTITULO + " - Campo vacÃ­o", 
 					JOptionPane.WARNING_MESSAGE
 				);
 				rbManiana.requestFocusInWindow();
@@ -948,19 +948,19 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				(
 					this, 
 					"Debe selecionar el modo de entrega",
-					qTITULO + " - Campo vacío", 
+					qTITULO + " - Campo vacÃ­o", 
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
 			else if(ExcedeLargoMarca()){
-				JOptionPane.showMessageDialog(null, "La longitud máxima de una marca es 50 Caracteres\nNo exceda el límite, por favor");
+				JOptionPane.showMessageDialog(null, "La longitud mÃ¡xima de una marca es 50 Caracteres\nNo exceda el lÃ­mite, por favor");
 			}
 			else if(txtSubtotal.getText()==null || txtSubtotal.getText().equals("")){
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"Debe completar la seccion detalles y luego presionar el botón 'Calcular Totales'",
-					qTITULO + " - Campo vacío", 
+					"Debe completar la seccion detalles y luego presionar el botÃ³n 'Calcular Totales'",
+					qTITULO + " - Campo vacÃ­o", 
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
@@ -971,7 +971,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"La cantidad de Hojas en la "+fila_CantHojas.get(0)+"° fila deben ser al menos "+fila_CantHojas.get(1)+" Hojas",
+					"La cantidad de Hojas en la "+fila_CantHojas.get(0)+"Â° fila deben ser al menos "+fila_CantHojas.get(1)+" Hojas",
 					qTITULO + " - Cantidad de Hojas debe ser mayor", 
 					JOptionPane.WARNING_MESSAGE
 				);
@@ -983,7 +983,7 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 				(
 					this, 
 					"El valor total debe ser mayor a $ 0,00",
-					qTITULO + " - Campo vacío", 
+					qTITULO + " - Valor incorrecto", 
 					JOptionPane.WARNING_MESSAGE
 				);
 			}
@@ -992,8 +992,8 @@ public class SolicitudDeCompra extends JInternalFrame implements ActionListener,
 					if (txtDireccionRetiro.getText() == null
 							|| txtDireccionRetiro.getText().equals("") || sDirRetiro.length() == 0) {
 						JOptionPane.showMessageDialog(this,
-								"Debe especificar la dirección de retiro",
-								qTITULO + " - Campo vacío",
+								"Debe especificar la direcciÃ³n de retiro",
+								qTITULO + " - Campo vacÃ­o",
 								JOptionPane.WARNING_MESSAGE);
 						txtDireccionRetiro.requestFocus();
 					}else{

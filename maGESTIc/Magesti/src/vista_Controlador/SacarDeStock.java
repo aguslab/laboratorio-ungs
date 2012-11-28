@@ -391,7 +391,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				(
 					this, 
 					"Debe ingresar el Nombre del Empleado",
-					qTITULO + " - Campo vacÌo", 
+					qTITULO + " - Campo vac√≠o", 
 					JOptionPane.WARNING_MESSAGE
 				);
 				txtEmpleado.requestFocus();
@@ -408,7 +408,7 @@ public class SacarDeStock extends JInternalFrame implements ActionListener, Conf
 				JOptionPane.showMessageDialog 
 				(
 					this, 
-					"No se puede retirar hojas para una OT cerrada, estas hojas quedar·n como remanente",
+					"No se puede retirar hojas para una OT cerrada, estas hojas quedar√°n como remanente",
 					qTITULO + " - Orden de Trabajo Cerrada", 
 					JOptionPane.WARNING_MESSAGE
 				);

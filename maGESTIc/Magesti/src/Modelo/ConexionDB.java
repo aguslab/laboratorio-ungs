@@ -13,6 +13,8 @@ public final class ConexionDB {
 	private synchronized static void createInstance() {
         if (baseDatos == null) { 
             baseDatos= new MySQLBD().conectar();
+            baseDatos.ejecutar("SET NAMES 'utf8'");
+            baseDatos.ejecutar("SET CHARACTER SET utf8");
         }
     }
 	

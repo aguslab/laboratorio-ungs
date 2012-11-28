@@ -15,7 +15,31 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		Config {
 	private static JDesktopPane escritorio = new JDesktopPane ();
 	
-	private JInternalFrame Calendario, OT, BuscarOT, SC, BuscarSC, TablaTop5, Clientes, Proveedores, AtributosPapel, ProcesosOT, Stocks,Ayuda,Atajos;
+	private static Calendario Calendario;
+
+	private JInternalFrame OT;
+
+	private JInternalFrame BuscarOT;
+
+	private JInternalFrame SC;
+
+	private JInternalFrame BuscarSC;
+
+	private JInternalFrame TablaTop5;
+
+	private JInternalFrame Clientes;
+
+	private JInternalFrame Proveedores;
+
+	private JInternalFrame AtributosPapel;
+
+	private JInternalFrame ProcesosOT;
+
+	private JInternalFrame Stocks;
+
+	private JInternalFrame Ayuda;
+
+	private JInternalFrame Atajos;
 	private JMenuBar barra;
 	private int numeroAureo;
 	private JMenu 
@@ -83,7 +107,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	public Magesti() 
 	{
 		
-		super (qTITULO +"  -  Mantenimiento y Gestión de Imprentas");
+		super (qTITULO +"  -  Mantenimiento y GestiÃ³n de Imprentas");
 		
 		escritorio.setBackground(new Color(83, 130, 161));
 		UIManager.addPropertyChangeListener (new UISwitchListener ((JComponent)getRootPane()));
@@ -146,10 +170,10 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		mnuSolicitudDeCompra = new JMenu ("Solicitud de Compra  ");
 		mnuSolicitudDeCompra.setMnemonic ((int)'S');
 		
-		mnuRecepcionDePedido = new JMenu ("Recepción de Pedido  ");
+		mnuRecepcionDePedido = new JMenu ("RecepciÃ³n de Pedido  ");
 		mnuRecepcionDePedido.setMnemonic ((int)'R');
 		
-		mnuAdministracion = new JMenu ("Administración  ");
+		mnuAdministracion = new JMenu ("AdministraciÃ³n  ");
 		mnuAdministracion.setMnemonic ((int)'A');
 		
 		mnuCalendario = new JMenu ("Calendario  ");
@@ -288,7 +312,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		btnBuscarSolicitudDeCompra.addActionListener (this);
 		
 		btnNuevoRegistroDePedido = new JButton (new ImageIcon ("Imagenes/nuevaRP.png"));
-		btnNuevoRegistroDePedido.setToolTipText ("Registrar Recepción de Pedido");
+		btnNuevoRegistroDePedido.setToolTipText ("Registrar RecepciÃ³n de Pedido");
 		btnNuevoRegistroDePedido.addActionListener (this);
 		
 		btnCalendario = new JButton (new ImageIcon ("Imagenes/calendario.png"));
@@ -296,7 +320,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		btnCalendario.addActionListener (this);
 		
 		btnAdministracion = new JButton (new ImageIcon ("Imagenes/administracion.png"));
-		btnAdministracion.setToolTipText ("Administración de Stock");
+		btnAdministracion.setToolTipText ("AdministraciÃ³n de Stock");
 		btnAdministracion.addActionListener (this);
 		
 		btnAyuda = new JButton (new ImageIcon ("Imagenes/ayuda.png"));
@@ -304,7 +328,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		btnAyuda.addActionListener (this);
 		
 		btnSalir = new JButton (new ImageIcon ("Imagenes/salir.png"));
-		btnSalir.setToolTipText ("Salir de la aplicación");
+		btnSalir.setToolTipText ("Salir de la aplicaciÃ³n");
 		btnSalir.addActionListener (this);
 
 		barraHerramientas = new JToolBar ();
@@ -326,7 +350,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		barraHerramientas.add (btnSalir);
 		barraHerramientas.addSeparator ();
 		
-		propiedadIntelectual = new JLabel (" " + "para CMYK S.A. por ©2012 - De Napoli, Godoy, Jiménez y asociados.", Label.LEFT);
+		propiedadIntelectual = new JLabel (" " + "para CMYK S.A. por Â®2012 - De Napoli, Godoy, JimÃ©nez y asociados.", Label.LEFT);
 		propiedadIntelectual.setForeground (Color.black);
 		propiedadIntelectual.setToolTipText ("Todos los derechos reservados");
 		
@@ -589,8 +613,8 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		}
 		else if (obj == acercaDe) 
 		{
-			String msg = qTITULO + "\n\n" + "Creado y diseñado por:\n" + 
-					"©2012 - De Napoli, Godoy, Jiménez y asociados.\n\n"+
+			String msg = qTITULO + "\n\n" + "Creado y diseÃ±ado por:\n" + 
+					"Â®2012 - De Napoli, Godoy, JimÃ©nez y asociados.\n\n"+
 					"  -dn.agus@gmail.com\n"+
 					"  -j.godoy277@gmail.com\n"+
 					"  -carlos.nelson.jimenez@googlemail.com\n";
@@ -605,7 +629,7 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 		    int reply = JOptionPane.showConfirmDialog 
 		    (
 		    	this,
-		    	"¿Está seguro que desea cerrar\nesta aplicación?",
+		    	"Â¿EstÃ¡ seguro que desea cerrar\nesta aplicaciÃ³n?",
 		    	qTITULO + " - Salir", 
 		    	JOptionPane.YES_NO_OPTION, 
 		    	JOptionPane.WARNING_MESSAGE
@@ -616,7 +640,6 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 				setVisible (false);
 				ConexionDB.getbaseDatos().cerrar();
 				dispose();
-				System.out.println ("Gracias por utilizar MAGESTI\n©2012 - De Napoli, Godoy, Jiménez y asociados.");
 				System.exit (0);
 			}
 			else if (reply == JOptionPane.NO_OPTION) 
@@ -639,4 +662,11 @@ public class Magesti extends JFrame implements ActionListener, ItemListener,
 	{
 		// TODO Auto-generated method stub
 	}
+
+	public static JInternalFrame getCalendario() {
+		return Calendario;
+	}
+	
+	
+	
 }
